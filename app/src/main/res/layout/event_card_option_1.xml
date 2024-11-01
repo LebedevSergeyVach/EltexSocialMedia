@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="8dp"
+
+        tools:context=".MainActivity">
+
+        <ImageView
+            android:id="@+id/avatar"
+
+            android:layout_width="@dimen/avatar_dp_size"
+            android:layout_height="@dimen/avatar_dp_size"
+
+            android:importantForAccessibility="no"
+            android:src="@drawable/avatar_background"
+
+            app:layout_constraintBottom_toBottomOf="@id/dataPlacement"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/author" />
+
+        <TextView
+            android:id="@+id/authorInitials"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:textColor="?colorOnPrimary"
+
+            app:layout_constraintBottom_toBottomOf="@id/avatar"
+            app:layout_constraintEnd_toEndOf="@id/avatar"
+            app:layout_constraintStart_toStartOf="@id/avatar"
+            app:layout_constraintTop_toTopOf="@id/avatar"
+
+            tools:text="@string/testAvatar" />
+
+        <TextView
+            android:id="@+id/author"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+
+            android:textSize="@dimen/size_title_sp"
+
+            app:layout_constraintBottom_toTopOf="@id/dataPlacement"
+            app:layout_constraintEnd_toStartOf="@id/menu"
+            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintTop_toTopOf="parent"
+
+            tools:text="@tools:sample/lorem[20]" />
+
+        <TextView
+            android:id="@+id/dataPlacement"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="4dp"
+            android:ellipsize="end"
+
+            android:maxLines="1"
+            android:textSize="@dimen/size_text_sp"
+
+            app:layout_constraintBottom_toBottomOf="@id/avatar"
+            app:layout_constraintEnd_toStartOf="@id/menu"
+            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintTop_toBottomOf="@id/author"
+
+            tools:text="@string/testDataPlacement" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/menu"
+
+            style="@style/Widget.Material3.Button.IconButton"
+
+            android:layout_width="@dimen/menu_dp_size"
+            android:layout_height="@dimen/menu_dp_size"
+
+            android:layout_marginEnd="4dp"
+
+            android:importantForAccessibility="no"
+            app:icon="@drawable/ic_more"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.Barrier
+            android:id="@+id/headerBarrier"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:barrierDirection="bottom"
+            app:constraint_referenced_ids="avatar, author, dataPlacement, menu" />
+
+        <TextView
+            android:id="@+id/optionConducting"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="@dimen/indent_end"
+
+            android:textSize="@dimen/size_title_sp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/headerBarrier"
+
+            tools:text="@string/testOptionConducting" />
+
+        <TextView
+            android:id="@+id/dataEvent"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:textSize="@dimen/size_text_sp"
+
+            app:layout_constraintEnd_toEndOf="@id/optionConducting"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/optionConducting"
+
+            tools:text="@string/testDataEvent" />
+
+        <TextView
+            android:id="@+id/content"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="@dimen/indentation_between_main_objects"
+
+            android:textSize="@dimen/size_text_sp"
+
+            app:layout_constraintEnd_toEndOf="@id/optionConducting"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dataEvent"
+
+            tools:text="@string/testContent" />
+
+        <TextView
+            android:id="@+id/link"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="@dimen/indentation_between_main_objects"
+
+            android:autoLink="web"
+            android:textSize="@dimen/size_text_sp"
+
+            app:layout_constraintEnd_toEndOf="@id/optionConducting"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/content"
+
+            tools:text="@string/testLink" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/like"
+
+            style="@style/Widget.Material3.Button.TextButton"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="@dimen/indentation_between_main_objects"
+
+            app:icon="@drawable/ic_favorite_24"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/link"
+
+            tools:text="@string/testLike" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/share"
+
+            style="@style/Widget.Material3.Button.IconButton"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="8dp"
+
+            app:icon="@drawable/ic_share_24"
+
+            app:layout_constraintStart_toEndOf="@id/like"
+            app:layout_constraintTop_toTopOf="@id/like" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/peoples"
+
+            style="@style/Widget.Material3.Button.TextButton"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginEnd="@dimen/indent_end"
+
+            app:icon="@drawable/ic_peoples"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/like"
+
+            tools:text="@string/testPeoples" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

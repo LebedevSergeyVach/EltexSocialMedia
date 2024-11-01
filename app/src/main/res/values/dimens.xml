@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="avatar_dp_size">40dp</dimen>
+    <dimen name="menu_dp_size">48dp</dimen>
+    <dimen name="indentation_between_main_objects">32dp</dimen>
+    <dimen name="indent_end">16dp</dimen>
+    <dimen name="size_title_sp">16sp</dimen>
+    <dimen name="size_text_sp">14sp</dimen>
+</resources>
