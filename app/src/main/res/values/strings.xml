@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name">Android School</string>
 
+    <string name="not_implemented">Not implemented</string>
+
+    <!-- Data for test -->
     <string name="testAuthor" translatable="false">Lydia Westervelt</string>
     <string name="testAvatar" translatable="false">L</string>
-    <string name="testDataPlacement" translatable="false">11.05.22 11:21</string>
+    <string name="testPublished" translatable="false">11.05.22 11:21</string>
     <string name="testOptionConducting" translatable="false">Offline</string>
     <string name="testDataEvent" translatable="false">16.05.22 12:00</string>
     <string name="testContent" translatable="false">
@@ -13,4 +16,6 @@
     <string name="testLink" translatable="false">https://m2.material.io/components/cards</string>
     <string name="testLike" translatable="false">1024</string>
     <string name="testPeoples" translatable="false">2048</string>
+    <!-- Data for test -->
+
 </resources>

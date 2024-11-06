@@ -2,14 +2,13 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/main"
-
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
 
         android:layout_marginStart="16dp"
         android:layout_marginTop="12dp"
@@ -27,12 +26,12 @@
             android:importantForAccessibility="no"
             android:src="@drawable/avatar_background"
 
-            app:layout_constraintBottom_toBottomOf="@id/dataPlacement"
+            app:layout_constraintBottom_toBottomOf="@id/published"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/author" />
 
         <TextView
-            android:id="@+id/authorInitials"
+            android:id="@+id/initial"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -58,7 +57,7 @@
 
             android:textSize="@dimen/size_title_sp"
 
-            app:layout_constraintBottom_toTopOf="@id/dataPlacement"
+            app:layout_constraintBottom_toTopOf="@id/published"
             app:layout_constraintEnd_toStartOf="@id/menu"
             app:layout_constraintStart_toEndOf="@id/avatar"
             app:layout_constraintTop_toTopOf="parent"
@@ -66,7 +65,7 @@
             tools:text="@tools:sample/lorem[20]" />
 
         <TextView
-            android:id="@+id/dataPlacement"
+            android:id="@+id/published"
 
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -83,7 +82,7 @@
             app:layout_constraintStart_toEndOf="@id/avatar"
             app:layout_constraintTop_toBottomOf="@id/author"
 
-            tools:text="@string/testDataPlacement" />
+            tools:text="@string/testPublished" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/menu"
@@ -106,7 +105,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="avatar, author, dataPlacement, menu" />
+            app:constraint_referenced_ids="avatar, author, published, menu" />
 
         <TextView
             android:id="@+id/optionConducting"
