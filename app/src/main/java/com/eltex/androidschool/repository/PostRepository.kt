@@ -5,22 +5,26 @@ import kotlinx.coroutines.flow.Flow
 
 
 /**
- * Интерфейс для репозитория постов
+ * Интерфейс [PostRepository] предоставляет методы для управления постами
+ * Получить Пост, поставить лайк
  */
 interface PostRepository {
     /**
-     * Получить Пост, c использованием интерфейса Flow<T> (Flow<Post>)
-     * @param InMemoryPostRepository class instance of PostRepository
-     * @sample PostRepository
-     * @sample InMemoryPostRepository
+     * Получить пост в виде потока данных [Flow]
+     *
+     * @return [Flow] с данными о посте
+     *
+     * @sample [PostRepository]
+     * @sample [InMemoryPostRepository]
      */
     fun getPost(): Flow<Post>
 
     /**
-     * Поставить лайк посту
-     * @param InMemoryPostRepository class instance of PostRepository
-     * @sample PostRepository
-     * @sample InMemoryPostRepository
+     * Поставить лайк Посту пользователем
+     * true & false
+     *
+     * @sample [PostRepository]
+     * @sample [InMemoryPostRepository]
      */
     fun like()
 }

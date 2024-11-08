@@ -10,12 +10,13 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 
-import com.eltex.androidschool.databinding.PostCardOption1Binding
+import com.eltex.androidschool.databinding.EventCardOption1Binding
 
-import com.eltex.androidschool.data.Post
-import com.eltex.androidschool.repository.InMemoryPostRepository
+import com.eltex.androidschool.data.Event
+import com.eltex.androidschool.repository.InMemoryEventRepository
+import com.eltex.androidschool.viewmodel.EventViewModel
 import com.eltex.androidschool.utils.toast
-import com.eltex.androidschool.viewmodel.PostViewModel
+
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -24,21 +25,21 @@ class MainEventActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        val viewModel by viewModels<PostViewModel> {
+        val viewModel by viewModels<EventViewModel> {
             viewModelFactory {
-                addInitializer(PostViewModel::class) {
-                    PostViewModel(InMemoryPostRepository())
+                addInitializer(EventViewModel::class) {
+                    EventViewModel(InMemoryEventRepository())
                 }
             }
         }
 
-        val binding = PostCardOption1Binding.inflate(layoutInflater)
+        val binding = EventCardOption1Binding.inflate(layoutInflater)
 
         setContentView(binding.root)
 
         viewModel.state
-            .onEach { postState ->
-                bindingPost(binding, postState.post)
+            .onEach { eventState ->
+                bindingEvent(binding, eventState.event)
             }
             .launchIn(lifecycleScope)
 
@@ -47,17 +48,24 @@ class MainEventActivity : AppCompatActivity() {
             viewModel.like()
         }
 
+        binding.participate.setOnClickListener {
+            viewModel.participate()
+        }
+
         applyInsets()
     }
 
     @SuppressLint("SetTextI18n")
-    private fun bindingPost(
-        binding: PostCardOption1Binding, post: Post
+    private fun bindingEvent(
+        binding: EventCardOption1Binding, event: Event
     ) {
-        binding.author.text = post.author
-        binding.content.text = post.content
-        binding.published.text = post.published
-        binding.initial.text = post.author.take(1)
+        binding.author.text = event.author
+        binding.initial.text = event.author.take(1)
+        binding.published.text = event.published
+        binding.optionConducting.text = event.optionConducting
+        binding.dataEvent.text = event.dataEvent
+        binding.content.text = event.content
+        binding.link.text = event.link
 
         binding.menu.setOnClickListener {
             toast(R.string.not_implemented)
@@ -68,13 +76,28 @@ class MainEventActivity : AppCompatActivity() {
         }
 
         binding.like.setIconResource(
-            if (post.likeByMe) {
+            if (event.likeByMe) {
                 R.drawable.ic_favorite_24
             } else {
                 R.drawable.ic_favorite_border_24
             }
         )
-        binding.like.text = if (post.likeByMe) {
+
+        binding.like.text = if (event.likeByMe) {
+            1
+        } else {
+            0
+        }.toString()
+
+        binding.participate.setIconResource(
+            if (event.participateByMe) {
+                R.drawable.ic_participate_24
+            } else {
+                R.drawable.ic_participate_border_24
+            }
+        )
+
+        binding.participate.text = if (event.participateByMe) {
             1
         } else {
             0

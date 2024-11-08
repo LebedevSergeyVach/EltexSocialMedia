@@ -14,8 +14,9 @@ import com.eltex.androidschool.databinding.PostCardOption1Binding
 
 import com.eltex.androidschool.data.Post
 import com.eltex.androidschool.repository.InMemoryPostRepository
-import com.eltex.androidschool.utils.toast
 import com.eltex.androidschool.viewmodel.PostViewModel
+import com.eltex.androidschool.utils.toast
+
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -55,9 +56,9 @@ class MainPostActivity : AppCompatActivity() {
         binding: PostCardOption1Binding, post: Post
     ) {
         binding.author.text = post.author
-        binding.content.text = post.content
-        binding.published.text = post.published
         binding.initial.text = post.author.take(1)
+        binding.published.text = post.published
+        binding.content.text = post.content
 
         binding.menu.setOnClickListener {
             toast(R.string.not_implemented)

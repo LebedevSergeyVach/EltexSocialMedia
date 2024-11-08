@@ -204,7 +204,7 @@
             app:layout_constraintTop_toTopOf="@id/like" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/peoples"
+            android:id="@+id/participate"
 
             style="@style/Widget.Material3.Button.TextButton"
 
@@ -213,7 +213,7 @@
 
             android:layout_marginEnd="@dimen/indent_end"
 
-            app:icon="@drawable/ic_peoples"
+            app:icon="@drawable/ic_participate_border_24"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/like"

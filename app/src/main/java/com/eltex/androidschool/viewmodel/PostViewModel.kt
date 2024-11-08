@@ -2,8 +2,6 @@ package com.eltex.androidschool.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.eltex.androidschool.repository.InMemoryPostRepository
-import com.eltex.androidschool.repository.PostRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,17 +9,22 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 
-class PostViewModel(private val repository: PostRepository) : ViewModel() {
+import com.eltex.androidschool.repository.PostRepository
 
+/**
+ * ViewModel для управления состоянием Поста
+ * Взаимодейтвует с [PostRepository] для получения и обновления данных о Посте
+ *
+ * @property repository Репозиторий Постов
+ * @property state [StateFlow] с текущим состоянием Поста
+ */
+class PostViewModel(private val repository: PostRepository) : ViewModel() {
     private val _state = MutableStateFlow(PostState())
     val state: StateFlow<PostState> = _state.asStateFlow()
 
     /**
-     * Получить Пост, c использованием интерфейса Flow<T> (Flow<Post>)
-     * @param PostViewModel class PostViewModel(private val repository: PostRepository) : ViewModel()
-     *
-     * @sample PostRepository
-     * @sample InMemoryPostRepository
+     * Инициализация ViewModel
+     * Подписывается на изменения данных о Посте из репозитория и обновляет состояние
      */
     init {
         repository.getPost()
@@ -34,11 +37,8 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
     }
 
     /**
-     * Поставить лайк посту
-     * @param PostViewModel class PostViewModel(private val repository: PostRepository) : ViewModel()
-     *
-     * @sample PostViewModel
-     * @sample InMemoryPostRepository
+     * Поставить лайк Посту
+     * Вызывает метод [PostRepository.like] для обновления состояния Пота
      */
     fun like() {
         repository.like()
