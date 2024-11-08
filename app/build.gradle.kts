@@ -59,4 +59,6 @@ dependencies {
          https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout
     */
     implementation(libs.androidx.constraintlayout.v220)
+
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
 }

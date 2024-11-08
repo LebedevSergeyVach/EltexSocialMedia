@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.HelloEltex"
         tools:targetApi="31">
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -20,6 +21,16 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".MainPostActivity"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".MainEventActivity"
+            android:exported="false">
         </activity>
     </application>
 
