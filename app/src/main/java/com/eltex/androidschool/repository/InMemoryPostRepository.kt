@@ -8,40 +8,55 @@ import kotlinx.coroutines.flow.update
 import com.eltex.androidschool.data.Post
 
 /**
- * Реализация интерфейса [PostRepository], который хранит данные о Посте в памяти
- * Получить Пост, поставить лайк
+ * Реализация интерфейса [PostRepository], хранящая данные о постах в памяти.
+ * Предоставляет методы для получения списка постов и лайков постов.
  *
- * @property _state [MutableStateFlow] с данными о событии
+ * @see PostRepository Интерфейс, который реализует этот класс.
  */
 class InMemoryPostRepository : PostRepository {
+    /**
+     * Flow, хранящий текущее состояние списка постов.
+     * Инициализируется списком из 20 постов с фиктивными данными.
+     *
+     * @sample [PostRepository.getPost] Пример использования Flow для получения списка постов.
+     */
     private val _state = MutableStateFlow(
-        Post(
-            author = "Lydia Westervelt",
-            published = "11.05.22 11:21",
-            content = "Слушайте, а как вы относитесь к тому, чтобы собраться большой компанией и поиграть в настолки? У меня есть несколько клевых игр, можем устроить вечер настолок! Пишите в лс или звоните",
-        )
+        List(20) { int ->
+            Post(
+                id = int.toLong(),
+                author = "Lydia Westervelt",
+                published = "11.05.22 11:21",
+                content = "№ ${int + 1} Слушайте, а как вы относитесь к тому, чтобы собраться большой компанией и поиграть в настолки? У меня есть несколько клевых игр, можем устроить вечер настолок! Пишите в лс или звоните",
+            )
+        }
+            .reversed()
     )
 
     /**
-     * Получить пост в виде потока данных [Flow]
+     * Возвращает Flow, который излучает список постов.
      *
-     * @return [Flow] с данными о посте
+     * @return Flow<List<Post>> Flow, излучающий список постов.
      *
-     * @sample [PostRepository]
-     * @sample [InMemoryPostRepository]
+     * @sample [PostRepository.getPost] Пример использования метода для получения списка постов.
      */
-    override fun getPost(): Flow<Post> = _state.asStateFlow()
+    override fun getPost(): Flow<List<Post>> = _state.asStateFlow()
 
     /**
-     * Поставить лайк Событию пользователем
-     * true & false
+     * Помечает пост с указанным идентификатором как "лайкнутый" или "нелайкнутый".
      *
-     * @sample [PostRepository]
-     * @sample [InMemoryPostRepository]
+     * @param postId Идентификатор поста, который нужно лайкнуть.
+     *
+     * @sample [PostRepository.likeById] Пример использования метода для лайка поста.
      */
-    override fun like() {
-        _state.update { post ->
-            post.copy(likeByMe = !post.likeByMe)
+    override fun likeById(postId: Long) {
+        _state.update { posts ->
+            posts.map { post ->
+                if (post.id == postId) {
+                    post.copy(likeByMe = !post.likeByMe)
+                } else {
+                    post
+                }
+            }
         }
     }
 }
