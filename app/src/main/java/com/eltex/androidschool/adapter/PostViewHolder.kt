@@ -12,6 +12,7 @@ import com.github.jinatonic.confetti.CommonConfetti
 import com.eltex.androidschool.databinding.CardPostBinding
 import com.eltex.androidschool.data.Post
 import com.eltex.androidschool.utils.toast
+import java.time.format.DateTimeFormatter
 
 /**
  * ViewHolder для отображения элемента списка постов.
@@ -33,7 +34,7 @@ class PostViewHolder(
     fun bindPost(post: Post) {
         binding.author.text = post.author
         binding.initial.text = post.author.take(1)
-        binding.published.text = post.published
+        binding.published.text = post.getFormattedPublished()
         binding.content.text = post.content
 
         updateLike(post.likeByMe)

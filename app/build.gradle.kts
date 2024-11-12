@@ -9,7 +9,7 @@ android {
 
     defaultConfig {
         applicationId = "com.eltex.androidschool"
-        minSdk = 24
+        minSdk = 26 // For LocalDateTime = LocalDateTime.now(),
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"

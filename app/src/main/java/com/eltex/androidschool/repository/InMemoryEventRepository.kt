@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 import com.eltex.androidschool.data.Event
-
+import java.time.LocalDateTime
 
 class InMemoryEventRepository : EventRepository {
     private val _state = MutableStateFlow(
@@ -14,7 +14,7 @@ class InMemoryEventRepository : EventRepository {
             Event(
                 id = int.toLong(),
                 author = "Lydia Westervelt",
-                published = "11.05.22 11:21",
+                published = LocalDateTime.now(),
                 optionConducting = "Offline",
                 dataEvent = "16.05.22 12:00",
                 content = "№ ${int + 1} Слушайте, а как вы относитесь к тому, чтобы собраться большой компанией и поиграть в настолки? У меня есть несколько клевых игр, можем устроить вечер настолок! Пишите в лс или звоните",

@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.ListAdapter
 import com.eltex.androidschool.databinding.CardPostBinding
 import com.eltex.androidschool.data.Post
 
-
 /**
  * Адаптер для отображения списка постов в RecyclerView.
  *

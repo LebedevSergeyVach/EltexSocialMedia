@@ -1,6 +1,7 @@
 package com.eltex.androidschool.adapter
 
 import androidx.recyclerview.widget.DiffUtil
+
 import com.eltex.androidschool.data.Post
 
 /**

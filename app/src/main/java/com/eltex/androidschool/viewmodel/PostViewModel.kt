@@ -2,6 +2,7 @@ package com.eltex.androidschool.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -11,7 +12,6 @@ import kotlinx.coroutines.flow.update
 
 import com.eltex.androidschool.repository.PostRepository
 import com.eltex.androidschool.data.Post
-
 
 /**
  * ViewModel для управления состоянием постов и взаимодействия с репозиторием.

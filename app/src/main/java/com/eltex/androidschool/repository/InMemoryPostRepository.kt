@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 import com.eltex.androidschool.data.Post
+import java.time.LocalDateTime
 
 /**
  * Реализация интерфейса [PostRepository], хранящая данные о постах в памяти.
@@ -25,7 +26,7 @@ class InMemoryPostRepository : PostRepository {
             Post(
                 id = int.toLong(),
                 author = "Lydia Westervelt",
-                published = "11.05.22 11:21",
+                published = LocalDateTime.now(),
                 content = "№ ${int + 1} Слушайте, а как вы относитесь к тому, чтобы собраться большой компанией и поиграть в настолки? У меня есть несколько клевых игр, можем устроить вечер настолок! Пишите в лс или звоните",
             )
         }

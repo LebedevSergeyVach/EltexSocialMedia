@@ -2,7 +2,6 @@ package com.eltex.androidschool.viewmodel
 
 import com.eltex.androidschool.data.Post
 
-
 /**
  * Состояние ViewModel для постов.
  * Содержит список постов, которые будут отображаться в UI.

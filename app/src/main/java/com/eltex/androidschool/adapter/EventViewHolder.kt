@@ -3,13 +3,16 @@ package com.eltex.androidschool.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.view.View
-import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.eltex.androidschool.R
-import com.eltex.androidschool.data.Event
-import com.eltex.androidschool.databinding.CardEventBinding
-import com.eltex.androidschool.utils.toast
+
+import android.view.animation.AnimationUtils
 import com.github.jinatonic.confetti.CommonConfetti
+
+import com.eltex.androidschool.data.Event
+import com.eltex.androidschool.utils.toast
+
+import com.eltex.androidschool.databinding.CardEventBinding
 
 class EventViewHolder(
     private val binding: CardEventBinding, private val context: Context
@@ -17,7 +20,7 @@ class EventViewHolder(
     fun bindEvent(event: Event) {
         binding.author.text = event.author
         binding.initial.text = event.author.take(1)
-        binding.published.text = event.published
+        binding.published.text = event.getFormattedPublished()
         binding.optionConducting.text = event.optionConducting
         binding.dataEvent.text = event.dataEvent
         binding.content.text = event.content

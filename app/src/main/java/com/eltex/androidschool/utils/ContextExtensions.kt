@@ -4,7 +4,6 @@ import android.content.Context
 import android.widget.Toast
 import androidx.annotation.StringRes
 
-
 /**
  * Создаёт и показывает Toast
  * @param res – ссылка на строковый ресурс, который показываем
