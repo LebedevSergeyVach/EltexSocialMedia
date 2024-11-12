@@ -4,11 +4,13 @@ import com.eltex.androidschool.data.Post
 
 
 /**
- * Класс [PostState] представляет состояние Поста
- * Информация о Посте, которая используется в ViewModel для обновления UI
+ * Состояние ViewModel для постов.
+ * Содержит список постов, которые будут отображаться в UI.
  *
- * @property post Данные о Посте
+ * @property posts Список постов, которые будут отображаться в UI. По умолчанию пустой список.
+ *
+ * @sample [PostViewModel] Пример использования состояния в PostViewModel.
  */
 data class PostState(
-    val post: Post = Post(),
+    val posts: List<Post> = emptyList(),
 )

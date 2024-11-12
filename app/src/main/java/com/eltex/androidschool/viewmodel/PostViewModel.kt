@@ -10,37 +10,56 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 
 import com.eltex.androidschool.repository.PostRepository
+import com.eltex.androidschool.data.Post
+
 
 /**
- * ViewModel для управления состоянием Поста
- * Взаимодейтвует с [PostRepository] для получения и обновления данных о Посте
+ * ViewModel для управления состоянием постов и взаимодействия с репозиторием.
  *
- * @property repository Репозиторий Постов
- * @property state [StateFlow] с текущим состоянием Поста
+ * @param repository Репозиторий, который предоставляет данные о постах.
+ *
+ * @see PostRepository Интерфейс репозитория, который используется в этом ViewModel.
+ * @see PostState Состояние, которое управляется этим ViewModel.
  */
 class PostViewModel(private val repository: PostRepository) : ViewModel() {
+    /**
+     * Flow, хранящий текущее состояние постов.
+     *
+     * @see PostState Состояние, которое хранится в этом Flow.
+     */
     private val _state = MutableStateFlow(PostState())
+
+    /**
+     * Публичный Flow, который предоставляет доступ к текущему состоянию постов.
+     *
+     * @see PostState Состояние, которое предоставляется этим Flow.
+     */
     val state: StateFlow<PostState> = _state.asStateFlow()
 
     /**
-     * Инициализация ViewModel
-     * Подписывается на изменения данных о Посте из репозитория и обновляет состояние
+     * Инициализатор ViewModel.
+     * Подписывается на изменения в Flow репозитория и обновляет состояние постов.
+     *
+     * @sample [PostRepository.getPost] Пример использования метода репозитория для получения постов.
      */
     init {
         repository.getPost()
-            .onEach { post ->
-                _state.update { statePost ->
-                    statePost.copy(post = post)
+            .onEach { posts: List<Post> ->
+                _state.update { statePost: PostState ->
+                    statePost.copy(posts = posts)
                 }
             }
             .launchIn(viewModelScope)
     }
 
     /**
-     * Поставить лайк Посту
-     * Вызывает метод [PostRepository.like] для обновления состояния Пота
+     * Помечает пост с указанным идентификатором как "лайкнутый" или "нелайкнутый".
+     *
+     * @param postId Идентификатор поста, который нужно лайкнуть.
+     *
+     * @sample [PostRepository.likeById] Пример использования метода репозитория для лайка поста.
      */
-    fun like() {
-        repository.like()
+    fun likeById(postId: Long) {
+        repository.likeById(postId)
     }
 }
