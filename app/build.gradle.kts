@@ -61,4 +61,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout.v220)
 
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    // ViewParticleEmitter ANIM
+    implementation(libs.confetti)
 }

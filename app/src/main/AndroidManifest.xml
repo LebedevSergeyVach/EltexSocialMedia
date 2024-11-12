@@ -24,12 +24,12 @@
         </activity>
 
         <activity
-            android:name=".MainPostActivity"
+            android:name=".PostActivity"
             android:exported="false">
         </activity>
 
         <activity
-            android:name=".MainEventActivity"
+            android:name=".EventActivity"
             android:exported="false">
         </activity>
     </application>
