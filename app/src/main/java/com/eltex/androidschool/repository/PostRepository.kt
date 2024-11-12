@@ -5,26 +5,27 @@ import kotlinx.coroutines.flow.Flow
 
 
 /**
- * Интерфейс [PostRepository] предоставляет методы для управления постами
- * Получить Пост, поставить лайк
+ * Интерфейс репозитория для работы с постами.
+ * Предоставляет методы для получения списка постов и лайков постов.
+ *
+ * @see InMemoryPostRepository Реализация интерфейса в памяти.
  */
 interface PostRepository {
     /**
-     * Получить пост в виде потока данных [Flow]
+     * Возвращает Flow, который излучает список постов.
      *
-     * @return [Flow] с данными о посте
+     * @return Flow<List<Post>> Flow, излучающий список постов.
      *
-     * @sample [PostRepository]
-     * @sample [InMemoryPostRepository]
+     * @sample [InMemoryPostRepository.getPost] Пример использования метода в реализации репозитория.
      */
-    fun getPost(): Flow<Post>
+    fun getPost(): Flow<List<Post>>
 
     /**
-     * Поставить лайк Посту пользователем
-     * true & false
+     * Помечает пост с указанным идентификатором как "лайкнутый" или "нелайкнутый".
      *
-     * @sample [PostRepository]
-     * @sample [InMemoryPostRepository]
+     * @param postId Идентификатор поста, который нужно лайкнуть.
+     *
+     * @sample [InMemoryPostRepository.likeById] Пример использования метода в реализации репозитория.
      */
-    fun like()
+    fun likeById(postId: Long)
 }
