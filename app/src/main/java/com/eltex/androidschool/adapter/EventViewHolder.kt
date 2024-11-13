@@ -117,6 +117,11 @@ class EventViewHolder(
                 binding.root,
                 intArrayOf(R.color.red)
             ).oneShot()
+
+            CommonConfetti.rainingConfetti(
+                binding.root,
+                intArrayOf(R.color.purple)
+            ).oneShot()
         }
     }
 }

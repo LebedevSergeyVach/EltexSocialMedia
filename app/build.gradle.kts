@@ -64,4 +64,7 @@ dependencies {
 
     // ViewParticleEmitter ANIM
     implementation(libs.confetti)
+
+    // Lottie  ANIM
+    implementation(libs.lottie)
 }
