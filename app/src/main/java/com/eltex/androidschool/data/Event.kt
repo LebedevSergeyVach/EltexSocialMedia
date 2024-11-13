@@ -3,7 +3,20 @@ package com.eltex.androidschool.data
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-data class Event (
+/**
+ * Класс, представляющий событие в приложении.
+ *
+ * @property id Уникальный идентификатор события. По умолчанию 0L.
+ * @property author Автор события. По умолчанию пустая строка.
+ * @property published Дата и время публикации события. По умолчанию текущая дата и время.
+ * @property optionConducting Вариант проведения события. По умолчанию пустая строка.
+ * @property dataEvent Дата события. По умолчанию пустая строка.
+ * @property content Содержание события. По умолчанию пустая строка.
+ * @property link Ссылка на событие. По умолчанию пустая строка.
+ * @property likeByMe Флаг, указывающий, лайкнул ли текущий пользователь это событие. По умолчанию false.
+ * @property participateByMe Флаг, указывающий, участвует ли текущий пользователь в этом событии. По умолчанию false.
+ */
+data class Event(
     val id: Long = 0L,
     val author: String = "",
     val published: LocalDateTime = LocalDateTime.now(),
@@ -15,7 +28,7 @@ data class Event (
     val participateByMe: Boolean = false,
 ) {
     /**
-     * Возвращает отформатированную строку даты и времени публикации поста.
+     * Возвращает отформатированную строку даты и времени публикации события.
      *
      * @return String Отформатированная строка даты и времени.
      */

@@ -8,25 +8,42 @@ import kotlinx.coroutines.flow.update
 import com.eltex.androidschool.data.Event
 import java.time.LocalDateTime
 
+/**
+ * Реализация интерфейса [EventRepository], хранящая данные о событиях в памяти.
+ * Предоставляет методы для получения списка событий, лайков и участия в событиях.
+ *
+ * @see EventRepository Интерфейс, который реализует этот класс.
+ */
 class InMemoryEventRepository : EventRepository {
-    private val _state = MutableStateFlow(
-        List(20) { int ->
-            Event(
-                id = int.toLong(),
-                author = "Lydia Westervelt",
-                published = LocalDateTime.now(),
-                optionConducting = "Offline",
-                dataEvent = "16.05.22 12:00",
-                content = "№ ${int + 1} Слушайте, а как вы относитесь к тому, чтобы собраться большой компанией и поиграть в настолки? У меня есть несколько клевых игр, можем устроить вечер настолок! Пишите в лс или звоните",
-                link = "https://github.com/LebedevSergeyVach",
-            )
-        }
-            .reversed()
-    )
 
+    /**
+     * Flow, хранящий текущее состояние списка событий.
+     * Инициализируется списком из 20 событий с фиктивными данными.
+     */
+    private val _state = MutableStateFlow(List(20) { int ->
+        Event(
+            id = int.toLong(),
+            author = "Sergey Lebedev",
+            published = LocalDateTime.now(),
+            optionConducting = "Offline",
+            dataEvent = "16.05.22 12:00",
+            content = "№ ${int + 1} ❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F\n" + "Last Christmas, I gave you my heart\n" + "But the very next day, you gave it away\n" + "This year, to save me from tears\n" + "I'll give it to someone special\n" + "Last Christmas, I gave you my heart\n" + "But the very next day, you gave it away (You gave it away)\n" + "This year, to save me from tears\n" + "I'll give it to someone special (Special)",
+            link = "https://github.com/LebedevSergeyVach",
+        )
+    }.reversed())
+
+    /**
+     * Возвращает Flow, который излучает список событий.
+     *
+     * @return Flow<List<Event>> Flow, излучающий список событий.
+     */
     override fun getEvent(): Flow<List<Event>> = _state.asStateFlow()
 
-
+    /**
+     * Помечает событие с указанным идентификатором как "лайкнутое" или "нелайкнутое".
+     *
+     * @param eventId Идентификатор события, которое нужно лайкнуть.
+     */
     override fun likeById(eventId: Long) {
         _state.update { events: List<Event> ->
             events.map { event: Event ->
@@ -39,6 +56,11 @@ class InMemoryEventRepository : EventRepository {
         }
     }
 
+    /**
+     * Помечает событие с указанным идентификатором как "участие" или "отказ от участия".
+     *
+     * @param eventId Идентификатор события, в котором нужно участвовать.
+     */
     override fun participateById(eventId: Long) {
         _state.update { events: List<Event> ->
             events.map { event: Event ->

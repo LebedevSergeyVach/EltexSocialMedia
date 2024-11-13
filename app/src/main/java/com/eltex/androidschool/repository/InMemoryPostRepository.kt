@@ -18,16 +18,14 @@ class InMemoryPostRepository : PostRepository {
     /**
      * Flow, хранящий текущее состояние списка постов.
      * Инициализируется списком из 20 постов с фиктивными данными.
-     *
-     * @sample [PostRepository.getPost] Пример использования Flow для получения списка постов.
      */
     private val _state = MutableStateFlow(
         List(20) { int ->
             Post(
                 id = int.toLong(),
-                author = "Lydia Westervelt",
+                author = "Sergey Lebedev",
                 published = LocalDateTime.now(),
-                content = "№ ${int + 1} Слушайте, а как вы относитесь к тому, чтобы собраться большой компанией и поиграть в настолки? У меня есть несколько клевых игр, можем устроить вечер настолок! Пишите в лс или звоните",
+                content = "№ ${int + 1} ❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F\n" + "Last Christmas, I gave you my heart\n" + "But the very next day, you gave it away\n" + "This year, to save me from tears\n" + "I'll give it to someone special\n" + "Last Christmas, I gave you my heart\n" + "But the very next day, you gave it away (You gave it away)\n" + "This year, to save me from tears\n" + "I'll give it to someone special (Special)",
             )
         }
             .reversed()
@@ -37,8 +35,6 @@ class InMemoryPostRepository : PostRepository {
      * Возвращает Flow, который излучает список постов.
      *
      * @return Flow<List<Post>> Flow, излучающий список постов.
-     *
-     * @sample [PostRepository.getPost] Пример использования метода для получения списка постов.
      */
     override fun getPost(): Flow<List<Post>> = _state.asStateFlow()
 
@@ -46,8 +42,6 @@ class InMemoryPostRepository : PostRepository {
      * Помечает пост с указанным идентификатором как "лайкнутый" или "нелайкнутый".
      *
      * @param postId Идентификатор поста, который нужно лайкнуть.
-     *
-     * @sample [PostRepository.likeById] Пример использования метода для лайка поста.
      */
     override fun likeById(postId: Long) {
         _state.update { posts ->

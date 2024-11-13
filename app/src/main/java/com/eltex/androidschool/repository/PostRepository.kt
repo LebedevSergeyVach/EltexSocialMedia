@@ -1,6 +1,7 @@
 package com.eltex.androidschool.repository
 
 import com.eltex.androidschool.data.Post
+
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -14,8 +15,6 @@ interface PostRepository {
      * Возвращает Flow, который излучает список постов.
      *
      * @return Flow<List<Post>> Flow, излучающий список постов.
-     *
-     * @sample [InMemoryPostRepository.getPost] Пример использования метода в реализации репозитория.
      */
     fun getPost(): Flow<List<Post>>
 
@@ -23,8 +22,6 @@ interface PostRepository {
      * Помечает пост с указанным идентификатором как "лайкнутый" или "нелайкнутый".
      *
      * @param postId Идентификатор поста, который нужно лайкнуть.
-     *
-     * @sample [InMemoryPostRepository.likeById] Пример использования метода в реализации репозитория.
      */
     fun likeById(postId: Long)
 }

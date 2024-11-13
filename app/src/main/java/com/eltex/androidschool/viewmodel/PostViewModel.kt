@@ -39,8 +39,6 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
     /**
      * Инициализатор ViewModel.
      * Подписывается на изменения в Flow репозитория и обновляет состояние постов.
-     *
-     * @sample [PostRepository.getPost] Пример использования метода репозитория для получения постов.
      */
     init {
         repository.getPost()
@@ -56,8 +54,6 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
      * Помечает пост с указанным идентификатором как "лайкнутый" или "нелайкнутый".
      *
      * @param postId Идентификатор поста, который нужно лайкнуть.
-     *
-     * @sample [PostRepository.likeById] Пример использования метода репозитория для лайка поста.
      */
     fun likeById(postId: Long) {
         repository.likeById(postId)
