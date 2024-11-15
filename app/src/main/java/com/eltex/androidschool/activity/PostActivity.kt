@@ -1,5 +1,6 @@
 package com.eltex.androidschool
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
@@ -56,9 +57,13 @@ class PostActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         // Создаем и настраиваем адаптер для списка постов.
-        val adapter = PostAdapter { post: Post ->
-            viewModel.likeById(post.id)
-        }
+        val adapter = PostAdapter(
+            likeClickListener = { post: Post ->
+                viewModel.likeById(post.id)
+            },
+            shareClickListener = {}
+        )
+
         binding.root.adapter = adapter
 
         // Добавляем декорацию для отступов между элементами списка.

@@ -10,18 +10,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="16dp"
 
-        tools:context=".MainActivity">
+        tools:context=".activity.MainActivity">
 
         <ImageView
             android:id="@+id/avatar"
 
             android:layout_width="@dimen/avatar_dp_size"
             android:layout_height="@dimen/avatar_dp_size"
+
+            android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
 
             android:importantForAccessibility="no"
             android:src="@drawable/avatar_background"
@@ -116,6 +118,7 @@
 
             android:layout_marginTop="16dp"
             android:layout_marginEnd="@dimen/indent_end"
+            android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
 
             android:textSize="@dimen/size_text_sp"
 
@@ -134,6 +137,7 @@
             android:layout_height="wrap_content"
 
             android:layout_marginTop="@dimen/indentation_between_main_objects"
+            android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
 
             app:icon="@drawable/like_button"
 
