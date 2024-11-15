@@ -1,8 +1,12 @@
 package com.eltex.androidschool.adapter
 
 import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.ListAdapter
+import com.eltex.androidschool.R
 
 import com.eltex.androidschool.databinding.CardPostBinding
 import com.eltex.androidschool.data.Post
@@ -10,14 +14,21 @@ import com.eltex.androidschool.data.Post
 /**
  * Адаптер для отображения списка постов в RecyclerView.
  *
- * @param clickListener Функция, которая будет вызываться при клике на пост.
+ * @param likeClickListener Функция, которая будет вызываться при клике на лайк.
+ * @param shareClickListener Функция, которая будет вызываться при клике на поделиться.
  *
  * @see PostViewHolder ViewHolder, используемый для отображения элементов списка.
  * @see PostItemCallback Callback для сравнения элементов списка.
  */
 class PostAdapter(
-    private val clickListener: (post: Post) -> Unit,
+    private val listener: PostListener,
 ) : ListAdapter<Post, PostViewHolder>(PostItemCallback()) {
+
+    interface PostListener {
+        fun onLikeClicled(post: Post)
+        fun onShareClicked(post: Post)
+        fun onDeleteClicked(post: Post)
+    }
 
     /**
      * Создает новый ViewHolder для отображения элемента списка.
@@ -34,7 +45,28 @@ class PostAdapter(
         val viewHolder = PostViewHolder(binding, parent.context)
 
         binding.like.setOnClickListener {
-            clickListener(getItem(viewHolder.adapterPosition))
+            listener.onLikeClicled(getItem(viewHolder.adapterPosition))
+        }
+
+        binding.share.setOnClickListener {
+            listener.onShareClicked(getItem(viewHolder.adapterPosition))
+        }
+
+        binding.menu.setOnClickListener { view: View ->
+            PopupMenu(view.context, view).apply {
+                inflate(R.menu.post_menu)
+
+                setOnMenuItemClickListener { menuItem: MenuItem ->
+                    if (menuItem.itemId == R.id.delete_post) {
+                        listener.onDeleteClicked(getItem(viewHolder.adapterPosition))
+                        true
+                    } else {
+                        false
+                    }
+                }
+
+                show()
+            }
         }
 
         return viewHolder

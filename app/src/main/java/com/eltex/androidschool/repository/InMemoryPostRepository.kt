@@ -15,17 +15,19 @@ import java.time.LocalDateTime
  * @see PostRepository Интерфейс, который реализует этот класс.
  */
 class InMemoryPostRepository : PostRepository {
+    private var nextId: Long = 20L
+
     /**
      * Flow, хранящий текущее состояние списка постов.
      * Инициализируется списком из 20 постов с фиктивными данными.
      */
     private val _state = MutableStateFlow(
-        List(20) { int ->
+        List(nextId.toInt()) { int ->
             Post(
                 id = int.toLong(),
                 author = "Sergey Lebedev",
                 published = LocalDateTime.now(),
-                content = "№ ${int + 1} ❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F\n" + "Last Christmas, I gave you my heart\n" + "But the very next day, you gave it away\n" + "This year, to save me from tears\n" + "I'll give it to someone special\n" + "Last Christmas, I gave you my heart\n" + "But the very next day, you gave it away (You gave it away)\n" + "This year, to save me from tears\n" + "I'll give it to someone special (Special)",
+                content = "\n№ ${int + 1} ❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F\n" + "Last Christmas, I gave you my heart\n" + "But the very next day, you gave it away\n" + "This year, to save me from tears\n" + "I'll give it to someone special\n" + "Last Christmas, I gave you my heart\n" + "But the very next day, you gave it away (You gave it away)\n" + "This year, to save me from tears\n" + "I'll give it to someone special (Special)",
             )
         }
             .reversed()
@@ -51,6 +53,35 @@ class InMemoryPostRepository : PostRepository {
                 } else {
                     post
                 }
+            }
+        }
+    }
+
+    /**
+     * Удаления поста по его id.
+     *
+     * @param postId Идентификатор поста, который нужно удалить.
+     */
+    override fun deleteById(postId: Long) {
+        _state.update { posts: List<Post> ->
+            posts.filter { post: Post ->
+                post.id != postId
+            }
+        }
+    }
+
+    override fun addPost(content: String) {
+        _state.update { posts: List<Post> ->
+            buildList(posts.size + 1) {
+                add(
+                    Post(
+                        id = nextId++,
+                        content = content,
+                        author = "Student",
+                        published = LocalDateTime.now()
+                    )
+                )
+                addAll(posts)
             }
         }
     }

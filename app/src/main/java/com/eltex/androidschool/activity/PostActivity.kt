@@ -1,14 +1,15 @@
-package com.eltex.androidschool
+package com.eltex.androidschool.activity
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.lifecycle.lifecycleScope
 import androidx.activity.viewModels
+import com.eltex.androidschool.R
 
 import com.eltex.androidschool.databinding.MainActivityBinding
 
@@ -16,6 +17,7 @@ import com.eltex.androidschool.adapter.OffsetDecoration
 import com.eltex.androidschool.adapter.PostAdapter
 import com.eltex.androidschool.data.Post
 import com.eltex.androidschool.repository.InMemoryPostRepository
+import com.eltex.androidschool.ui.EdgeToEdgeHelper
 import com.eltex.androidschool.viewmodel.PostState
 import com.eltex.androidschool.viewmodel.PostViewModel
 
@@ -58,16 +60,34 @@ class PostActivity : AppCompatActivity() {
 
         // Создаем и настраиваем адаптер для списка постов.
         val adapter = PostAdapter(
-            likeClickListener = { post: Post ->
-                viewModel.likeById(post.id)
-            },
-            shareClickListener = {}
+            object : PostAdapter.PostListener {
+                override fun onLikeClicled(post: Post) {
+                    viewModel.likeById(post.id)
+                }
+
+                override fun onShareClicked(post: Post) {}
+
+                override fun onDeleteClicked(post: Post) {
+                    viewModel.deleteById(post.id)
+                }
+            }
         )
 
-        binding.root.adapter = adapter
+        binding.list.adapter = adapter
+
+        val newPostContracts =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult: ActivityResult ->
+                activityResult.data?.getStringExtra(Intent.EXTRA_TEXT)?.let { content: String ->
+                    viewModel.addPost(content)
+                }
+            }
+
+        binding.newPost.setOnClickListener {
+            newPostContracts.launch(Intent(this, NewPostActivity::class.java))
+        }
 
         // Добавляем декорацию для отступов между элементами списка.
-        binding.root.addItemDecoration(
+        binding.list.addItemDecoration(
             OffsetDecoration(resources.getDimensionPixelSize(R.dimen.list_offset))
         )
 
@@ -79,19 +99,6 @@ class PostActivity : AppCompatActivity() {
             .launchIn(lifecycleScope)
 
         // Применяем отступы для системных панелей.
-        applyInsets()
-    }
-
-    /**
-     * Применяет отступы для системных панелей (навигации, статуса).
-     *
-     * @see ViewCompat.setOnApplyWindowInsetsListener Устанавливает слушатель для применения отступов.
-     */
-    private fun applyInsets() {
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            WindowInsetsCompat.CONSUMED
-        }
+        EdgeToEdgeHelper.applyingIndentationOfSystemFields(findViewById(android.R.id.content))
     }
 }

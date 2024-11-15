@@ -24,4 +24,13 @@ interface PostRepository {
      * @param postId Идентификатор поста, который нужно лайкнуть.
      */
     fun likeById(postId: Long)
+
+    /**
+     * Удаления поста по его id.
+     *
+     * @param postId Идентификатор поста, который нужно удалить.
+     */
+    fun deleteById(postId: Long)
+
+    fun addPost(content: String)
 }

@@ -2,8 +2,10 @@ package com.eltex.androidschool.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.eltex.androidschool.R
 
@@ -12,7 +14,6 @@ import com.github.jinatonic.confetti.CommonConfetti
 import com.eltex.androidschool.databinding.CardPostBinding
 import com.eltex.androidschool.data.Post
 import com.eltex.androidschool.utils.toast
-import java.time.format.DateTimeFormatter
 
 /**
  * ViewHolder для отображения элемента списка постов.
@@ -39,12 +40,26 @@ class PostViewHolder(
 
         updateLike(post.likeByMe)
 
-        binding.menu.setOnClickListener {
-            context.toast(R.string.not_implemented)
-        }
-
         binding.share.setOnClickListener {
-            context.toast(R.string.not_implemented, false)
+            context.toast(R.string.shared)
+
+            val intent = Intent.createChooser(
+                Intent(Intent.ACTION_SEND)
+                    .putExtra(
+                        Intent.EXTRA_TEXT,
+                        post.author + "\n\n" + post.getFormattedPublished() + "\n\n" + post.content
+                    )
+                    .setType("text/plain"),
+                null
+            )
+
+            runCatching {
+                context.startActivity(intent)
+            }.onFailure {
+                context.toast(R.string.app_not_found, false)
+            }
+
+            buttonClickAnimation(binding.share, condition = true, confetti = true)
         }
     }
 
@@ -57,7 +72,7 @@ class PostViewHolder(
         payload.likeByMe?.let { likeByMe: Boolean ->
             updateLike(likeByMe)
 
-            buttonClickAnimation(binding.like, likeByMe)
+            buttonClickAnimation(binding.like, likeByMe, true)
         }
     }
 
@@ -81,18 +96,22 @@ class PostViewHolder(
      * Выполняет анимацию при клике на кнопку.
      *
      * @param button Кнопка, на которую был клик.
-     * @param condition Условие для выполнения анимации.
+     * @param condition Условие для выполнения анимации увеличения.
+     * @param confetti Условие для выполнения анимации конфетти.
      */
-    private fun buttonClickAnimation(button: View, condition: Boolean){
+    private fun buttonClickAnimation(button: View, condition: Boolean, confetti: Boolean) {
         if (condition) {
-            val animation = AnimationUtils.loadAnimation(binding.root.context, R.anim.scale_animation)
+            val animation =
+                AnimationUtils.loadAnimation(binding.root.context, R.anim.scale_animation)
 
             button.startAnimation(animation)
 
-            CommonConfetti.rainingConfetti(
-                binding.root,
-                intArrayOf(R.color.red)
-            ).oneShot()
+            if (confetti) {
+                CommonConfetti.rainingConfetti(
+                    binding.root,
+                    intArrayOf(R.color.red)
+                ).oneShot()
+            }
         }
     }
 }

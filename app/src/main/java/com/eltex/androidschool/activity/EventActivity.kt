@@ -1,4 +1,4 @@
-package com.eltex.androidschool
+package com.eltex.androidschool.activity
 
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
@@ -8,6 +8,7 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.eltex.androidschool.R
 
 import com.eltex.androidschool.databinding.MainActivityBinding
 
@@ -65,10 +66,10 @@ class EventActivity : AppCompatActivity() {
             }
         )
 
-        binding.root.adapter = adapter
+        binding.list.adapter = adapter
 
         // Добавляем декорацию для отступов между элементами списка.
-        binding.root.addItemDecoration(
+        binding.list.addItemDecoration(
             OffsetDecoration(resources.getDimensionPixelSize(R.dimen.list_offset))
         )
 

@@ -1,9 +1,8 @@
-package com.eltex.androidschool
+package com.eltex.androidschool.activity
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.eltex.androidschool.activity.PostActivity
 
 class MainActivity : AppCompatActivity() {
 

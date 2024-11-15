@@ -58,4 +58,12 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
     fun likeById(postId: Long) {
         repository.likeById(postId)
     }
+
+    fun deleteById(postId: Long) {
+        repository.deleteById(postId)
+    }
+
+    fun addPost(content: String) {
+        repository.addPost(content)
+    }
 }
