@@ -80,7 +80,7 @@ class InMemoryPostRepository : PostRepository {
         _state.update { posts: List<Post> ->
             posts.map { post ->
                 if (post.id == postId) {
-                    post.copy(content = content, published = LocalDateTime.now())
+                    post.copy(content = content, lastModified = LocalDateTime.now())
                 } else {
                     post
                 }

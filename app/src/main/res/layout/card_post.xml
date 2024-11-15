@@ -116,9 +116,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
 
+            android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="@dimen/indent_end"
-            android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
 
             android:textSize="@dimen/size_text_sp"
 
@@ -128,6 +128,22 @@
 
             tools:text="@string/testContent" />
 
+        <TextView
+            android:id="@+id/last_modified"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
+            android:layout_marginTop="16dp"
+
+            android:textSize="12sp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/content"
+
+            tools:text="Изменено: 2023-10-05 12:34" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/like"
 
@@ -136,8 +152,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_marginTop="@dimen/indentation_between_main_objects"
             android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
+            android:layout_marginTop="@dimen/indentation_between_main_objects"
 
             app:icon="@drawable/like_button"
 

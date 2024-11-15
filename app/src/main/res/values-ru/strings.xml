@@ -14,5 +14,7 @@
     <string name="delete_post">Удалить пост</string>
     <string name="update_post">Обновить пост</string>
 
+    <string name="changed">Изменено</string>
+
     <string name="error_text_post_is_empty">Текст поста не написан</string>
 </resources>

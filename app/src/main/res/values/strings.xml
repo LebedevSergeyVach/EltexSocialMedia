@@ -27,6 +27,8 @@
     <string name="new_post_content_hint">Write content for your new post!</string>
     <string name="delete_post">Delete post</string>
     <string name="update_post">Update post</string>
+    
+    <string name="changed">Changed</string>
 
     <string name="error_text_post_is_empty">The text of the post is not written</string>
 </resources>

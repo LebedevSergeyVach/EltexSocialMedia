@@ -24,7 +24,7 @@ import com.eltex.androidschool.utils.toast
  * @param context Контекст приложения.
  *
  * @see PostAdapter Адаптер, использующий этот ViewHolder.
-*/
+ */
 class PostViewHolder(
     private val binding: CardPostBinding, private val context: Context
 ) : ViewHolder(binding.root) {
@@ -39,6 +39,16 @@ class PostViewHolder(
         binding.initial.text = post.author.take(1)
         binding.published.text = post.getFormattedPublished()
         binding.content.text = post.content
+
+        if (post.lastModified != null) {
+            binding.lastModified.visibility = View.VISIBLE
+            binding.lastModified.text =
+                post.getFormattedLastModified()?.let { lastModified: String? ->
+                    context.getString(R.string.changed) + ": $lastModified"
+                }
+        } else {
+            binding.lastModified.visibility = View.GONE
+        }
 
         updateLike(post.likeByMe)
 
