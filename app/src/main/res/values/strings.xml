@@ -1,8 +1,4 @@
 <resources>
-    <string name="app_name">Android School</string>
-
-    <string name="not_implemented">Not implemented</string>
-
     <!-- Data for test -->
     <string name="testAuthor" translatable="false">Lydia Westervelt</string>
     <string name="testAvatar" translatable="false">L</string>
@@ -18,4 +14,17 @@
     <string name="testPeoples" translatable="false">2048</string>
     <!-- Data for test -->
 
+    <string name="app_name">Android School</string>
+
+    <string name="app_not_found">Application not found</string>
+    <string name="not_implemented">Not implemented</string>
+
+    <string name="shared">Shared</string>
+
+    <string name="new_post_title">New Post</string>
+    <string name="save_post">Save post</string>
+    <string name="new_post_content_hint">Write content for your new post!</string>
+    <string name="delete_post">Delete post</string>
+
+    <string name="error_text_post_is_empty">The text of the post is not written</string>
 </resources>

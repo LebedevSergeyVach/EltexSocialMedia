@@ -1,5 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Android Школа</string>
+
+    <string name="app_not_found">Приложение не найдено</string>
     <string name="not_implemented">Не реализовано</string>
+
+    <string name="shared">Поделиться</string>
+
+    <string name="new_post_title">Новый пост</string>
+    <string name="save_post">Сохранить пость</string>
+    <string name="new_post_content_hint">Напишите контент для Вашего нового поста!</string>
+    <string name="delete_post">Удалить пост</string>
+
+    <string name="error_text_post_is_empty">Текст поста не написан</string>
 </resources>
