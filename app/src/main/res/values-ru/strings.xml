@@ -7,6 +7,7 @@
 
     <string name="shared">Поделиться</string>
 
+    <string name="create_post">Создать пост</string>
     <string name="new_post_title">Новый пост</string>
     <string name="save_post">Сохранить пост</string>
     <string name="update_post_title">Обновление поста</string>

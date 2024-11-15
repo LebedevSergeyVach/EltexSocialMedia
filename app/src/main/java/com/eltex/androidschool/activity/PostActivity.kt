@@ -36,37 +36,48 @@ import kotlinx.coroutines.flow.onEach
  * @see OffsetDecoration Декорация для добавления отступов между элементами RecyclerView.
  */
 class PostActivity : AppCompatActivity() {
+    private val viewModel by viewModels<PostViewModel> {
+        viewModelFactory {
+            addInitializer(PostViewModel::class) {
+                PostViewModel(InMemoryPostRepository())
+            }
+        }
+    }
+
+    private val newPostContracts =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult: ActivityResult ->
+            activityResult.data?.getStringExtra(Intent.EXTRA_TEXT)?.let { content: String ->
+                viewModel.addPost(content)
+            }
+        }
+
+    private val editPostContracts =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult: ActivityResult ->
+            activityResult.data?.getStringExtra(Intent.EXTRA_TEXT)?.let { content: String ->
+                val postId = activityResult.data?.getLongExtra("postId", -1L) ?: -1L
+                if (postId != -1L) {
+                    viewModel.updateById(postId, content)
+                }
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        val viewModel by viewModels<PostViewModel> {
-            viewModelFactory {
-                addInitializer(PostViewModel::class) {
-                    PostViewModel(InMemoryPostRepository())
+        if (intent.action == Intent.ACTION_SEND) {
+            val text = intent.getStringExtra(Intent.EXTRA_TEXT)
+            intent.removeExtra(Intent.EXTRA_TEXT)
+            if (text != null) {
+                val newPostIntent = Intent(this, NewOrUpdatePostActivity::class.java).apply {
+                    putExtra(Intent.EXTRA_TEXT, text)
                 }
+                newPostContracts.launch(newPostIntent)
             }
         }
 
         val binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        val newPostContracts =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult: ActivityResult ->
-                activityResult.data?.getStringExtra(Intent.EXTRA_TEXT)?.let { content: String ->
-                    viewModel.addPost(content)
-                }
-            }
-
-        val editPostContracts =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult: ActivityResult ->
-                activityResult.data?.getStringExtra(Intent.EXTRA_TEXT)?.let { content: String ->
-                    val postId = activityResult.data?.getLongExtra("postId", -1L) ?: -1L
-                    if (postId != -1L) {
-                        viewModel.updateById(postId, content)
-                    }
-                }
-            }
 
         val adapter = PostAdapter(
             object : PostAdapter.PostListener {
