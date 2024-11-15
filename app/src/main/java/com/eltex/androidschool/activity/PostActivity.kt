@@ -27,25 +27,19 @@ import kotlinx.coroutines.flow.onEach
 /**
  * Основная активность приложения, отображающая список постов.
  *
+ * Эта активность отвечает за отображение списка постов, а также за обработку событий, связанных с постами,
+ * таких как создание, редактирование и удаление постов.
+ *
  * @see AppCompatActivity Базовый класс для активностей, использующих функции библиотеки поддержки.
  * @see PostViewModel ViewModel для управления состоянием постов.
  * @see PostAdapter Адаптер для отображения списка постов.
  * @see OffsetDecoration Декорация для добавления отступов между элементами RecyclerView.
  */
 class PostActivity : AppCompatActivity() {
-
-    /**
-     * Вызывается при создании активности.
-     *
-     * @param savedInstanceState Сохраненное состояние активности.
-     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        // Включаем режим "от края до края" для активности.
         enableEdgeToEdge()
 
-        // Создаем ViewModel с использованием фабрики.
         val viewModel by viewModels<PostViewModel> {
             viewModelFactory {
                 addInitializer(PostViewModel::class) {
@@ -54,26 +48,8 @@ class PostActivity : AppCompatActivity() {
             }
         }
 
-        // Создаем и настраиваем binding для макета активности.
         val binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-        // Создаем и настраиваем адаптер для списка постов.
-        val adapter = PostAdapter(
-            object : PostAdapter.PostListener {
-                override fun onLikeClicled(post: Post) {
-                    viewModel.likeById(post.id)
-                }
-
-                override fun onShareClicked(post: Post) {}
-
-                override fun onDeleteClicked(post: Post) {
-                    viewModel.deleteById(post.id)
-                }
-            }
-        )
-
-        binding.list.adapter = adapter
 
         val newPostContracts =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult: ActivityResult ->
@@ -82,23 +58,56 @@ class PostActivity : AppCompatActivity() {
                 }
             }
 
+        val editPostContracts =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult: ActivityResult ->
+                activityResult.data?.getStringExtra(Intent.EXTRA_TEXT)?.let { content: String ->
+                    val postId = activityResult.data?.getLongExtra("postId", -1L) ?: -1L
+                    if (postId != -1L) {
+                        viewModel.updateById(postId, content)
+                    }
+                }
+            }
+
+        val adapter = PostAdapter(
+            object : PostAdapter.PostListener {
+                override fun onLikeClicked(post: Post) {
+                    viewModel.likeById(post.id)
+                }
+
+                override fun onShareClicked(post: Post) {}
+
+                override fun onDeleteClicked(post: Post) {
+                    viewModel.deleteById(post.id)
+                }
+
+                override fun onUpdateClicked(post: Post) {
+                    val intent =
+                        Intent(this@PostActivity, NewOrUpdatePostActivity::class.java).apply {
+                            putExtra(Intent.EXTRA_TEXT, post.content)
+                            putExtra("postId", post.id)
+                        }
+
+                    editPostContracts.launch(intent)
+                }
+            }
+        )
+
+        binding.list.adapter = adapter
+
         binding.newPost.setOnClickListener {
-            newPostContracts.launch(Intent(this, NewPostActivity::class.java))
+            newPostContracts.launch(Intent(this, NewOrUpdatePostActivity::class.java))
         }
 
-        // Добавляем декорацию для отступов между элементами списка.
         binding.list.addItemDecoration(
             OffsetDecoration(resources.getDimensionPixelSize(R.dimen.list_offset))
         )
 
-        // Подписываемся на изменения состояния постов и обновляем адаптер.
         viewModel.state
             .onEach { postState: PostState ->
                 adapter.submitList(postState.posts)
             }
             .launchIn(lifecycleScope)
 
-        // Применяем отступы для системных панелей.
         EdgeToEdgeHelper.applyingIndentationOfSystemFields(findViewById(android.R.id.content))
     }
 }

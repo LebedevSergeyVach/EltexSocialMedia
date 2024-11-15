@@ -15,7 +15,7 @@ import java.time.LocalDateTime
  * @see PostRepository Интерфейс, который реализует этот класс.
  */
 class InMemoryPostRepository : PostRepository {
-    private var nextId: Long = 20L
+    private var nextId: Long = 10L
 
     /**
      * Flow, хранящий текущее состояние списка постов.
@@ -27,7 +27,7 @@ class InMemoryPostRepository : PostRepository {
                 id = int.toLong(),
                 author = "Sergey Lebedev",
                 published = LocalDateTime.now(),
-                content = "\n№ ${int + 1} ❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F\n" + "Last Christmas, I gave you my heart\n" + "But the very next day, you gave it away\n" + "This year, to save me from tears\n" + "I'll give it to someone special\n" + "Last Christmas, I gave you my heart\n" + "But the very next day, you gave it away (You gave it away)\n" + "This year, to save me from tears\n" + "I'll give it to someone special (Special)",
+                content = "№ ${int + 1} ❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F\n" + "\nLast Christmas, I gave you my heart\n" + "But the very next day, you gave it away\n" + "This year, to save me from tears\n" + "I'll give it to someone special\n" + "Last Christmas, I gave you my heart\n" + "But the very next day, you gave it away (You gave it away)\n" + "This year, to save me from tears\n" + "I'll give it to someone special (Special)",
             )
         }
             .reversed()
@@ -70,6 +70,29 @@ class InMemoryPostRepository : PostRepository {
         }
     }
 
+    /**
+     * Обновляет пост по его id.
+     *
+     * @param postId Идентификатор поста, который нужно обновить.
+     * @param content Новое содержание поста.
+     */
+    override fun updateById(postId: Long, content: String) {
+        _state.update { posts: List<Post> ->
+            posts.map { post ->
+                if (post.id == postId) {
+                    post.copy(content = content, published = LocalDateTime.now())
+                } else {
+                    post
+                }
+            }
+        }
+    }
+
+    /**
+     * Добавляет новый пост.
+     *
+     * @param content Содержание нового поста.
+     */
     override fun addPost(content: String) {
         _state.update { posts: List<Post> ->
             buildList(posts.size + 1) {

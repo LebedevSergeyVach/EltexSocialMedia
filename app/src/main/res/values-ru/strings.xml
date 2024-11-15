@@ -8,9 +8,11 @@
     <string name="shared">Поделиться</string>
 
     <string name="new_post_title">Новый пост</string>
-    <string name="save_post">Сохранить пость</string>
+    <string name="save_post">Сохранить пост</string>
+    <string name="update_post_title">Обновление поста</string>
     <string name="new_post_content_hint">Напишите контент для Вашего нового поста!</string>
     <string name="delete_post">Удалить пост</string>
+    <string name="update_post">Обновить пост</string>
 
     <string name="error_text_post_is_empty">Текст поста не написан</string>
 </resources>

@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.view.View
 import android.view.animation.AnimationUtils
-import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.eltex.androidschool.R
 
@@ -18,17 +17,20 @@ import com.eltex.androidschool.utils.toast
 /**
  * ViewHolder для отображения элемента списка постов.
  *
+ * Этот класс отвечает за привязку данных поста к соответствующим элементам пользовательского интерфейса,
+ * а также за обработку событий, таких как клики на кнопки "лайк" и "поделиться".
+ *
  * @param binding Binding для макета элемента списка.
  * @param context Контекст приложения.
  *
  * @see PostAdapter Адаптер, использующий этот ViewHolder.
- */
+*/
 class PostViewHolder(
     private val binding: CardPostBinding, private val context: Context
 ) : ViewHolder(binding.root) {
 
     /**
-     * Привязывает данные поста к элементу списка.
+     * Привязывает данные поста к элементам пользовательского интерфейса.
      *
      * @param post Пост, данные которого нужно отобразить.
      */
@@ -64,7 +66,7 @@ class PostViewHolder(
     }
 
     /**
-     * Привязывает данные поста к элементу списка с учетом изменений.
+     * Привязывает данные поста к элементам пользовательского интерфейса с учетом изменений.
      *
      * @param payload Изменения в посте.
      */

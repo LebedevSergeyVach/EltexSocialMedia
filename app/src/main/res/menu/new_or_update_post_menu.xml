@@ -3,8 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/save_post"
-        android:background="?colorOnPrimary"
         android:icon="@drawable/ic_check_24"
+        android:background="?attr/colorOnPrimary"
         android:title="@string/save_post"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="ifRoom"
+        android:iconTint="?attr/colorOnPrimary"/>
 </menu>

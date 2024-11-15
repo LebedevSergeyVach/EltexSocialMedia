@@ -10,5 +10,5 @@
     <color name="yellow">#FFFFE500</color>
     <color name="purple">#FFF700FF</color>
 
-    <color name="check_ok">#FF000000</color>
+    <color name="check_ok">#FFFFFFFF</color>
 </resources>

@@ -59,10 +59,30 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
         repository.likeById(postId)
     }
 
+    /**
+     * Удаляет пост по его id.
+     *
+     * @param postId Идентификатор поста, который нужно удалить.
+     */
     fun deleteById(postId: Long) {
         repository.deleteById(postId)
     }
 
+    /**
+     * Обновляет пост по его id.
+     *
+     * @param postId Идентификатор поста, который нужно обновить.
+     * @param content Новое содержание поста.
+     */
+    fun updateById(postId: Long, content: String) {
+        repository.updateById(postId, content)
+    }
+
+    /**
+     * Добавляет новый пост.
+     *
+     * @param content Содержание нового поста.
+     */
     fun addPost(content: String) {
         repository.addPost(content)
     }

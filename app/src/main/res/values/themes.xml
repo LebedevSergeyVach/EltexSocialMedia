@@ -5,5 +5,9 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
+    <style name="Widget.App.PopupMenu" parent="Widget.MaterialComponents.PopupMenu">
+        <item name="android:popupBackground">@drawable/rounded_popup_background</item>
+    </style>
+
     <style name="Theme.HelloEltex" parent="Base.Theme.HelloEltex" />
 </resources>

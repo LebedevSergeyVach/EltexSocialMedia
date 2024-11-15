@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/delete_post"
-        android:title="@string/delete_post" />
+        android:title="@string/delete_post"
+        app:popupTheme="@style/Widget.App.PopupMenu" />
+
+    <item
+        android:id="@+id/update_post"
+        android:title="@string/update_post"
+        app:popupTheme="@style/Widget.App.PopupMenu" />
 </menu>
