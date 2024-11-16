@@ -15,7 +15,18 @@
     <string name="delete_post">Удалить пост</string>
     <string name="update_post">Обновить пост</string>
 
+    <string name="new_event_title">Новое событие</string>
+    <string name="save_event">Сохранить событие</string>
+    <string name="create_event">Создать событие</string>
+    <string name="update_event_title">Обновление события</string>
+    <string name="new_event_content_hint">Напишите описание для Вашего нового события!</string>
+    <string name="new_event_link_hint">Вставте ссылку для Вашего нового события!</string>
+    <string name="delete_event">Удалить событие</string>
+    <string name="update_event">Обновить событие</string>
+
     <string name="changed">Изменено</string>
 
     <string name="error_text_post_is_empty">Текст поста не написан</string>
+    <string name="error_text_event_is_empty">Текст события не написан</string>
+    <string name="error_link_event_is_empty">Ссылка события не написан</string>
 </resources>

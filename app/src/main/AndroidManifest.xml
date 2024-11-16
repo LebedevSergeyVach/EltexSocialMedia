@@ -34,7 +34,7 @@
             <intent-filter android:label="@string/create_post">
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
-                
+
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>

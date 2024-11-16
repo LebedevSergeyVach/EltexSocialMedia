@@ -4,8 +4,6 @@
     <item
         android:id="@+id/save_post"
         android:icon="@drawable/ic_check_24"
-        android:background="?attr/colorOnPrimary"
         android:title="@string/save_post"
-        app:showAsAction="ifRoom"
-        android:iconTint="?attr/colorOnPrimary"/>
+        app:showAsAction="ifRoom" />
 </menu>

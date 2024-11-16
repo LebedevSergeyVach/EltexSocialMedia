@@ -60,7 +60,7 @@ class PostAdapter(
 
         binding.menu.setOnClickListener { view: View ->
             PopupMenu(view.context, view).apply {
-                inflate(R.menu.post_menu)
+                inflate(R.menu.menu_post)
 
                 setOnMenuItemClickListener { menuItem: MenuItem ->
                     when (menuItem.itemId) {

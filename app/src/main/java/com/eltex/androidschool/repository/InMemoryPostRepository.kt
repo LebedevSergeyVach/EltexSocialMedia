@@ -78,7 +78,7 @@ class InMemoryPostRepository : PostRepository {
      */
     override fun updateById(postId: Long, content: String) {
         _state.update { posts: List<Post> ->
-            posts.map { post ->
+            posts.map { post: Post ->
                 if (post.id == postId) {
                     post.copy(content = content, lastModified = LocalDateTime.now())
                 } else {

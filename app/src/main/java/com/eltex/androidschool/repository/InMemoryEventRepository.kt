@@ -15,6 +15,7 @@ import java.time.LocalDateTime
  * @see EventRepository Интерфейс, который реализует этот класс.
  */
 class InMemoryEventRepository : EventRepository {
+    private var nextId: Long = 10L
 
     /**
      * Flow, хранящий текущее состояние списка событий.
@@ -69,6 +70,61 @@ class InMemoryEventRepository : EventRepository {
                 } else {
                     event
                 }
+            }
+        }
+    }
+
+    /**
+     * Удаления события по его id.
+     *
+     * @param eventId Идентификатор события, который нужно удалить.
+     */
+    override fun deleteById(eventId: Long) {
+        _state.update { events: List<Event> ->
+            events.filter { event: Event ->
+                event.id != eventId
+            }
+        }
+    }
+
+    /**
+     * Обновляет событие по его id.
+     *
+     * @param postId Идентификатор поста, который нужно обновить.
+     * @param content Новое содержание события.
+     * @param link Новая ссылка события.
+     */
+    override fun updateById(eventId: Long, content: String, link: String) {
+        _state.update { events: List<Event> ->
+            events.map { event: Event ->
+                if (event.id == eventId) {
+                    event.copy(content = content, link = link, lastModified = LocalDateTime.now())
+                } else {
+                    event
+                }
+            }
+        }
+    }
+
+    /**
+     * Добавляет новое событие.
+     *
+     * @param content Содержание нового события.
+     * @param content Ссылка нового события.
+     */
+    override fun addEvent(content: String, link: String) {
+        _state.update { events: List<Event> ->
+            buildList(events.size + 1) {
+                add(
+                    Event(
+                        id = nextId++,
+                        content = content,
+                        link = link,
+                        author = "Student",
+                        published = LocalDateTime.now()
+                    )
+                )
+                addAll(events)
             }
         }
     }

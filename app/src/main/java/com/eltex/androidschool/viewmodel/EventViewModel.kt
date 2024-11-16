@@ -2,12 +2,14 @@ package com.eltex.androidschool.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
+
 import com.eltex.androidschool.repository.EventRepository
 import com.eltex.androidschool.data.Event
 
@@ -20,7 +22,6 @@ import com.eltex.androidschool.data.Event
  * @see EventState Состояние, которое управляется этим ViewModel.
  */
 class EventViewModel(private val repository: EventRepository) : ViewModel() {
-
     /**
      * Flow, хранящий текущее состояние событий.
      *
@@ -65,5 +66,35 @@ class EventViewModel(private val repository: EventRepository) : ViewModel() {
      */
     fun participateById(eventId: Long) {
         repository.participateById(eventId)
+    }
+
+    /**
+     * Удаления события по его id.
+     *
+     * @param eventId Идентификатор события, который нужно удалить.
+     */
+    fun deleteById(eventId: Long) {
+        repository.deleteById(eventId)
+    }
+
+    /**
+     * Обновляет событие по его id.
+     *
+     * @param postId Идентификатор поста, который нужно обновить.
+     * @param content Новое содержание события.
+     * @param link Новая ссылка события.
+     */
+    fun updateById(eventId: Long, content: String, link: String) {
+        repository.updateById(eventId, content, link)
+    }
+
+    /**
+     * Добавляет новое событие.
+     *
+     * @param content Содержание нового события.
+     * @param content Ссылка нового события.
+     */
+    fun addEvent(content: String, link: String) {
+        repository.addEvent(content, link)
     }
 }

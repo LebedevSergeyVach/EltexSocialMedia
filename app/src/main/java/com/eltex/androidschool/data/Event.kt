@@ -20,6 +20,7 @@ data class Event(
     val id: Long = 0L,
     val author: String = "",
     val published: LocalDateTime = LocalDateTime.now(),
+    val lastModified: LocalDateTime? = null,
     val optionConducting: String = "",
     val dataEvent: String = "",
     val content: String = "",
@@ -35,5 +36,14 @@ data class Event(
     fun getFormattedPublished(): String {
         val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
         return published.format(formatter)
+    }
+
+    /**
+     * Возвращает дату и время последнего изменения поста в формате "yyyy-MM-dd HH:mm:ss".
+     *
+     * @return Строка с датой и временем последнего изменения в формате "yyyy-MM-dd HH:mm:ss" или `null`, если дата отсутствует.
+     */
+    fun getFormattedLastModified(): String? {
+        return lastModified?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
     }
 }

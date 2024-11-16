@@ -1,19 +1,4 @@
 <resources>
-    <!-- Data for test -->
-    <string name="testAuthor" translatable="false">Lydia Westervelt</string>
-    <string name="testAvatar" translatable="false">L</string>
-    <string name="testPublished" translatable="false">11.05.22 11:21</string>
-    <string name="testOptionConducting" translatable="false">Offline</string>
-    <string name="testDataEvent" translatable="false">16.05.22 12:00</string>
-    <string name="testContent" translatable="false">
-        Слушайте, а как вы относитесь к тому, чтобы собраться большой компанией и поиграть в настолки?
-        У меня есть несколько клевых игр, можем устроить вечер настолок! Пишите в лс или звоните
-    </string>
-    <string name="testLink" translatable="false">https://m2.material.io/components/cards</string>
-    <string name="testLike" translatable="false">1024</string>
-    <string name="testPeoples" translatable="false">2048</string>
-    <!-- Data for test -->
-
     <string name="app_name">Android School</string>
 
     <string name="app_not_found">Application not found</string>
@@ -29,8 +14,35 @@
     <string name="new_post_content_hint">Write content for your new post!</string>
     <string name="delete_post">Delete post</string>
     <string name="update_post">Update post</string>
+
+    <string name="new_event_title">New event</string>
+    <string name="save_event">Save event</string>
+    <string name="create_event">Create event</string>
+    <string name="update_event_title">Updating the event</string>
+    <string name="new_event_content_hint">Write a description for your new event!</string>
+    <string name="new_event_link_hint">Insert a link for your new event!</string>
+    <string name="delete_event">Delete event</string>
+    <string name="update_event">Update event</string>
     
     <string name="changed">Changed</string>
 
     <string name="error_text_post_is_empty">The text of the post is not written</string>
+    <string name="error_text_event_is_empty">The text of the event is not written</string>
+    <string name="error_link_event_is_empty">The link of the event is not written</string>
+
+    <!-- Data for test -->
+    <string name="testAuthor" translatable="false">Lydia Westervelt</string>
+    <string name="testAvatar" translatable="false">L</string>
+    <string name="testPublished" translatable="false">11.05.22 11:21</string>
+    <string name="testOptionConducting" translatable="false">Offline</string>
+    <string name="testDataEvent" translatable="false">16.05.22 12:00</string>
+    <string name="testContent" translatable="false">
+        Слушайте, а как вы относитесь к тому, чтобы собраться большой компанией и поиграть в настолки?
+        У меня есть несколько клевых игр, можем устроить вечер настолок! Пишите в лс или звоните
+    </string>
+    <string name="testLink" translatable="false">https://m2.material.io/components/cards</string>
+    <string name="testLike" translatable="false">1024</string>
+    <string name="testPeoples" translatable="false">2048</string>
+    <!-- Data for test -->
+
 </resources>
