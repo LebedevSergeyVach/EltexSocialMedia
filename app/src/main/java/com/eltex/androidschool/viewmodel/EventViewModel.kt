@@ -80,7 +80,7 @@ class EventViewModel(private val repository: EventRepository) : ViewModel() {
     /**
      * Обновляет событие по его id.
      *
-     * @param postId Идентификатор поста, который нужно обновить.
+     * @param eventId Идентификатор поста, который нужно обновить.
      * @param content Новое содержание события.
      * @param link Новая ссылка события.
      */

@@ -3,6 +3,7 @@ package com.eltex.androidschool.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -22,9 +23,28 @@ import com.eltex.androidschool.utils.toast
  *
  * @see EventAdapter Адаптер, использующий этот ViewHolder.
  */
+@SuppressLint("ClickableViewAccessibility")
 class EventViewHolder(
     private val binding: CardEventBinding, private val context: Context
 ) : ViewHolder(binding.root) {
+    private var lastClickTime: Long = 0
+
+    init {
+        binding.cardEvent.setOnTouchListener { _, event: MotionEvent ->
+            if (event.action == MotionEvent.ACTION_DOWN) {
+                val clickTime = System.currentTimeMillis()
+                if (clickTime - lastClickTime < 300) {
+                    onDoubleClick()
+                }
+                lastClickTime = clickTime
+            }
+            false
+        }
+    }
+
+    private fun onDoubleClick() {
+        binding.like.performClick()
+    }
 
     /**
      * Привязывает данные события к элементу списка.

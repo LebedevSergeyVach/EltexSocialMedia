@@ -3,6 +3,7 @@ package com.eltex.androidschool.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.view.MotionEvent
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -22,9 +23,28 @@ import com.eltex.androidschool.utils.toast
  *
  * @see PostAdapter Адаптер, использующий этот ViewHolder.
  */
+@SuppressLint("ClickableViewAccessibility")
 class PostViewHolder(
     private val binding: CardPostBinding, private val context: Context
 ) : ViewHolder(binding.root) {
+    private var lastClickTime: Long = 0
+
+    init {
+        binding.cardPost.setOnTouchListener { _, post: MotionEvent ->
+            if (post.action == MotionEvent.ACTION_DOWN) {
+                val clickTime = System.currentTimeMillis()
+                if (clickTime - lastClickTime < 300) {
+                    onDoubleClick()
+                }
+                lastClickTime = clickTime
+            }
+            false
+        }
+    }
+
+    private fun onDoubleClick() {
+        binding.like.performClick()
+    }
 
     /**
      * Привязывает данные поста к элементам пользовательского интерфейса.
