@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="8dp"
@@ -22,6 +22,8 @@
 
             android:layout_width="@dimen/avatar_dp_size"
             android:layout_height="@dimen/avatar_dp_size"
+
+            android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
 
             android:importantForAccessibility="no"
             android:src="@drawable/avatar_background"
@@ -113,6 +115,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
 
+            android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="@dimen/indent_end"
 
@@ -130,6 +133,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
 
+            android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
+
             android:textSize="@dimen/size_text_sp"
 
             app:layout_constraintEnd_toEndOf="@id/optionConducting"
@@ -144,6 +149,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
 
+            android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
             android:layout_marginTop="@dimen/indentation_between_main_objects"
 
             android:textSize="@dimen/size_text_sp"
@@ -160,6 +166,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
 
+            android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
             android:layout_marginTop="@dimen/indentation_between_main_objects"
 
             android:autoLink="web"
@@ -171,6 +178,22 @@
 
             tools:text="@string/testLink" />
 
+        <TextView
+            android:id="@+id/last_modified"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
+            android:layout_marginTop="16dp"
+
+            android:textSize="12sp"
+
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/link"
+
+            tools:text="Изменено: 2023-10-05 12:34" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/like"
 
@@ -179,6 +202,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
+            android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
             android:layout_marginTop="@dimen/indentation_between_main_objects"
 
             app:icon="@drawable/like_button"

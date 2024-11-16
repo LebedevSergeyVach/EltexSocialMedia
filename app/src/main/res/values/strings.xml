@@ -21,14 +21,15 @@
     <string name="update_event_title">Updating the event</string>
     <string name="new_event_content_hint">Write a description for your new event!</string>
     <string name="new_event_link_hint">Insert a link for your new event!</string>
+    <string name="new_event_data_hint">When will your event take place?</string>
+    <string name="new_event_options_hint">How will your event go? Online or Offline?</string>
     <string name="delete_event">Delete event</string>
     <string name="update_event">Update event</string>
-    
+
     <string name="changed">Changed</string>
 
     <string name="error_text_post_is_empty">The text of the post is not written</string>
-    <string name="error_text_event_is_empty">The text of the event is not written</string>
-    <string name="error_link_event_is_empty">The link of the event is not written</string>
+    <string name="error_text_event_is_empty">Not all fields have been entered!</string>
 
     <!-- Data for test -->
     <string name="testAuthor" translatable="false">Lydia Westervelt</string>

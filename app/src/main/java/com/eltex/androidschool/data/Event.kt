@@ -29,17 +29,17 @@ data class Event(
     val participateByMe: Boolean = false,
 ) {
     /**
-     * Возвращает отформатированную строку даты и времени публикации события.
+     * Возвращает отформатированную строку даты и времени публикации события формате "yyyy-MM-dd HH:mm:ss".
      *
      * @return String Отформатированная строка даты и времени.
      */
     fun getFormattedPublished(): String {
-        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm")
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         return published.format(formatter)
     }
 
     /**
-     * Возвращает дату и время последнего изменения поста в формате "yyyy-MM-dd HH:mm:ss".
+     * Возвращает дату и время последнего изменения события в формате "yyyy-MM-dd HH:mm:ss".
      *
      * @return Строка с датой и временем последнего изменения в формате "yyyy-MM-dd HH:mm:ss" или `null`, если дата отсутствует.
      */

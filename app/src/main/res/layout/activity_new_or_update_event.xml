@@ -32,7 +32,7 @@
         app:title="@string/new_event_title" />
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_link"
+        android:id="@+id/card_option"
 
         android:layout_width="0dp"
         android:layout_height="50dp"
@@ -48,7 +48,137 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar">
 
         <EditText
+            android:id="@+id/option"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_margin="@dimen/common_spacing"
+            android:background="@android:color/transparent"
+
+            android:ellipsize="end"
+
+            android:gravity="top"
+
+            android:hint="@string/new_event_options_hint"
+
+            android:importantForAutofill="no"
+
+            android:inputType="textMultiLine"
+            android:maxLines="1"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_data"
+
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+
+        android:layout_margin="@dimen/common_spacing"
+
+
+        app:cardCornerRadius="20dp"
+        app:cardElevation="2dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_option">
+
+        <EditText
+            android:id="@+id/data"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_margin="@dimen/common_spacing"
+
+            android:background="@android:color/transparent"
+
+            android:ellipsize="end"
+
+            android:gravity="top"
+
+            android:hint="@string/new_event_data_hint"
+            android:importantForAutofill="no"
+
+            android:inputType="textMultiLine"
+            android:maxLines="1"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_link"
+
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+
+        android:layout_margin="@dimen/common_spacing"
+
+
+        app:cardCornerRadius="20dp"
+        app:cardElevation="2dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_data">
+
+        <EditText
             android:id="@+id/link"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_margin="@dimen/common_spacing"
+
+            android:background="@android:color/transparent"
+
+            android:ellipsize="end"
+
+            android:gravity="top"
+
+            android:hint="@string/new_event_link_hint"
+            android:importantForAutofill="no"
+
+            android:inputType="textMultiLine"
+            android:maxLines="1"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="parent" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_content"
+
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        android:layout_margin="@dimen/common_spacing"
+
+
+        app:cardCornerRadius="20dp"
+        app:cardElevation="2dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_link">
+
+        <EditText
+            android:id="@+id/content"
 
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -59,7 +189,7 @@
 
             android:gravity="top"
 
-            android:hint="@string/new_event_link_hint"
+            android:hint="@string/new_event_content_hint"
 
             android:importantForAutofill="no"
             android:inputType="textMultiLine"
@@ -70,47 +200,6 @@
             app:layout_constraintTop_toBottomOf="parent" />
 
     </com.google.android.material.card.MaterialCardView>
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_content"
-
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-
-            android:layout_margin="@dimen/common_spacing"
-
-
-            app:cardCornerRadius="20dp"
-            app:cardElevation="2dp"
-
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_link">
-
-            <EditText
-                android:id="@+id/content"
-
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-
-                android:layout_margin="@dimen/common_spacing"
-
-                android:background="@android:color/transparent"
-
-                android:gravity="top"
-
-                android:hint="@string/new_event_content_hint"
-
-                android:importantForAutofill="no"
-                android:inputType="textMultiLine"
-
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="parent" />
-
-        </com.google.android.material.card.MaterialCardView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

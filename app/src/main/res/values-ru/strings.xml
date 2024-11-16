@@ -21,12 +21,13 @@
     <string name="update_event_title">Обновление события</string>
     <string name="new_event_content_hint">Напишите описание для Вашего нового события!</string>
     <string name="new_event_link_hint">Вставте ссылку для Вашего нового события!</string>
+    <string name="new_event_data_hint">Когда пройдет Ваше событие?</string>
+    <string name="new_event_options_hint">Как пройдешь Ваше событие? Online или Offline?</string>
     <string name="delete_event">Удалить событие</string>
     <string name="update_event">Обновить событие</string>
 
     <string name="changed">Изменено</string>
 
     <string name="error_text_post_is_empty">Текст поста не написан</string>
-    <string name="error_text_event_is_empty">Текст события не написан</string>
-    <string name="error_link_event_is_empty">Ссылка события не написан</string>
+    <string name="error_text_event_is_empty">Не все поля были введены!</string>
 </resources>

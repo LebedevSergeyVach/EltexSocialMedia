@@ -46,7 +46,7 @@ interface EventRepository {
      * @param content Новое содержание события.
      * @param link Новая ссылка события.
      */
-    fun updateById(eventId: Long, content: String, link: String)
+    fun updateById(eventId: Long, content: String, link: String, option: String, data: String)
 
     /**
      * Добавляет новое событие.
@@ -54,5 +54,5 @@ interface EventRepository {
      * @param content Содержание нового события.
      * @param content Ссылка нового события.
      */
-    fun addEvent(content: String, link: String)
+    fun addEvent(content: String, link: String, option: String, data: String)
 }

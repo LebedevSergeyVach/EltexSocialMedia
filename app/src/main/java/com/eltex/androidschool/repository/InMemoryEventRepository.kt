@@ -28,7 +28,15 @@ class InMemoryEventRepository : EventRepository {
             published = LocalDateTime.now(),
             optionConducting = "Offline",
             dataEvent = "16.05.22 12:00",
-            content = "№ ${int + 1} ❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F\n" + "\nLast Christmas, I gave you my heart\n" + "But the very next day, you gave it away\n" + "This year, to save me from tears\n" + "I'll give it to someone special\n" + "Last Christmas, I gave you my heart\n" + "But the very next day, you gave it away (You gave it away)\n" + "This year, to save me from tears\n" + "I'll give it to someone special (Special)",
+            content = "№ ${int + 1} ❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F\n"
+                    + "\nLast Christmas, I gave you my heart\n"
+                    + "But the very next day, you gave it away\n"
+                    + "This year, to save me from tears\n"
+                    + "I'll give it to someone special\n"
+                    + "Last Christmas, I gave you my heart\n"
+                    + "But the very next day, you gave it away (You gave it away)\n"
+                    + "This year, to save me from tears\n"
+                    + "I'll give it to someone special (Special)",
             link = "https://github.com/LebedevSergeyVach",
         )
     }.reversed())
@@ -94,11 +102,23 @@ class InMemoryEventRepository : EventRepository {
      * @param content Новое содержание события.
      * @param link Новая ссылка события.
      */
-    override fun updateById(eventId: Long, content: String, link: String) {
+    override fun updateById(
+        eventId: Long,
+        content: String,
+        link: String,
+        option: String,
+        data: String
+    ) {
         _state.update { events: List<Event> ->
             events.map { event: Event ->
                 if (event.id == eventId) {
-                    event.copy(content = content, link = link, lastModified = LocalDateTime.now())
+                    event.copy(
+                        content = content,
+                        link = link,
+                        lastModified = LocalDateTime.now(),
+                        optionConducting = option,
+                        dataEvent = data,
+                    )
                 } else {
                     event
                 }
@@ -112,7 +132,7 @@ class InMemoryEventRepository : EventRepository {
      * @param content Содержание нового события.
      * @param content Ссылка нового события.
      */
-    override fun addEvent(content: String, link: String) {
+    override fun addEvent(content: String, link: String, option: String, data: String) {
         _state.update { events: List<Event> ->
             buildList(events.size + 1) {
                 add(
@@ -121,7 +141,9 @@ class InMemoryEventRepository : EventRepository {
                         content = content,
                         link = link,
                         author = "Student",
-                        published = LocalDateTime.now()
+                        published = LocalDateTime.now(),
+                        optionConducting = option,
+                        dataEvent = data,
                     )
                 )
                 addAll(events)

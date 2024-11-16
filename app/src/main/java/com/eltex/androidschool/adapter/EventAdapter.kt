@@ -1,8 +1,12 @@
 package com.eltex.androidschool.adapter
 
 import android.view.LayoutInflater
+import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.ListAdapter
+import com.eltex.androidschool.R
 
 import com.eltex.androidschool.data.Event
 import com.eltex.androidschool.databinding.CardEventBinding
@@ -10,16 +14,28 @@ import com.eltex.androidschool.databinding.CardEventBinding
 /**
  * Адаптер для отображения списка событий в RecyclerView.
  *
- * @param likeClickListener Функция, которая будет вызываться при клике на кнопку "лайк".
- * @param participateClickListener Функция, которая будет вызываться при клике на кнопку "участвовать".
+ * Этот класс отвечает за управление списком событий и их отображение в RecyclerView.
+ * Он также обрабатывает события, такие как клики на кнопки "лайк", "поделиться" и "удалить".
+ *
+ * @param listener Слушатель событий, который будет вызываться при кликах на элементы списка.
  *
  * @see EventViewHolder ViewHolder, используемый для отображения элементов списка.
  * @see EventItemCallback Callback для сравнения элементов списка.
  */
 class EventAdapter(
-    private val likeClickListener: (event: Event) -> Unit,
-    private val participateClickListener: (event: Event) -> Unit,
+    private val listener: EventListener
 ) : ListAdapter<Event, EventViewHolder>(EventItemCallback()) {
+
+    /**
+     * Интерфейс для обработки событий, связанных с Событиями.
+     */
+    interface EventListener {
+        fun onLikeClicked(event: Event)
+        fun onShareClicked(event: Event)
+        fun onParticipateClicked(event: Event)
+        fun onDeleteClicked(event: Event)
+        fun onUpdateClicked(event: Event)
+    }
 
     /**
      * Создает новый ViewHolder для отображения элемента списка.
@@ -35,13 +51,42 @@ class EventAdapter(
 
         val viewHolder = EventViewHolder(binding, parent.context)
 
-        // Обработчики кликов для кнопок like и participate
         binding.like.setOnClickListener {
-            likeClickListener(getItem(viewHolder.adapterPosition))
+            listener.onLikeClicked(getItem(viewHolder.adapterPosition))
         }
 
         binding.participate.setOnClickListener {
-            participateClickListener(getItem(viewHolder.adapterPosition))
+            listener.onParticipateClicked(getItem(viewHolder.adapterPosition))
+        }
+
+        binding.share.setOnClickListener {
+            listener.onShareClicked(getItem(viewHolder.adapterPosition))
+        }
+
+        binding.menu.setOnClickListener { view: View ->
+            PopupMenu(view.context, view).apply {
+                inflate(R.menu.menu_event)
+
+                setOnMenuItemClickListener { menuItem: MenuItem ->
+                    when (menuItem.itemId) {
+                        R.id.delete_event -> {
+                            listener.onDeleteClicked(getItem(viewHolder.adapterPosition))
+                            true
+                        }
+
+                        R.id.update_event -> {
+                            listener.onUpdateClicked(getItem(viewHolder.adapterPosition))
+                            true
+                        }
+
+                        else -> {
+                            false
+                        }
+                    }
+                }
+
+                show()
+            }
         }
 
         return viewHolder

@@ -2,6 +2,7 @@ package com.eltex.androidschool.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.view.View
 import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
@@ -9,9 +10,9 @@ import com.eltex.androidschool.R
 
 import com.github.jinatonic.confetti.CommonConfetti
 
+import com.eltex.androidschool.databinding.CardEventBinding
 import com.eltex.androidschool.data.Event
 import com.eltex.androidschool.utils.toast
-import com.eltex.androidschool.databinding.CardEventBinding
 
 /**
  * ViewHolder для отображения элемента списка событий.
@@ -39,15 +40,40 @@ class EventViewHolder(
         binding.content.text = event.content
         binding.link.text = event.link
 
+        if (event.lastModified != null) {
+            binding.lastModified.visibility = View.VISIBLE
+            binding.lastModified.text =
+                event.getFormattedLastModified()?.let { lastModified: String? ->
+                    context.getString(R.string.changed) + ": $lastModified"
+                }
+        } else {
+            binding.lastModified.visibility = View.GONE
+        }
+
         updateLike(event.likeByMe)
         updateParticipate(event.participateByMe)
 
-        binding.menu.setOnClickListener {
-            context.toast(R.string.not_implemented)
-        }
-
         binding.share.setOnClickListener {
-            context.toast(R.string.not_implemented, false)
+            context.toast(R.string.shared)
+
+            val intent = Intent.createChooser(
+                Intent(Intent.ACTION_SEND)
+                    .putExtra(
+                        Intent.EXTRA_TEXT,
+                        event.author + "\n\n" + event.getFormattedPublished() + "\n\n" + event.optionConducting + "\n\n" + event.dataEvent + "\n\n" + event.content + "\n\n" + event.link
+                    )
+                    .setType("text/plain"),
+                null
+            )
+
+
+            runCatching {
+                context.startActivity(intent)
+            }.onFailure {
+                context.toast(R.string.app_not_found, false)
+            }
+
+            buttonClickAnimation(binding.share, condition = true, confetti = true)
         }
     }
 
@@ -60,12 +86,12 @@ class EventViewHolder(
         payload.likeByMe?.let { likeByMe: Boolean ->
             updateLike(likeByMe)
 
-            buttonClickAnimation(binding.like, likeByMe)
+            buttonClickAnimation(binding.like, likeByMe, true)
         }
         payload.participateByMe?.let { participateByMe: Boolean ->
             updateParticipate(participateByMe)
 
-            buttonClickAnimation(binding.participate, participateByMe)
+            buttonClickAnimation(binding.participate, participateByMe, true)
         }
     }
 
@@ -105,23 +131,22 @@ class EventViewHolder(
      * Выполняет анимацию при клике на кнопку.
      *
      * @param button Кнопка, на которую был клик.
-     * @param condition Условие для выполнения анимации.
+     * @param condition Условие для выполнения анимации увеличения.
+     * @param confetti Условие для выполнения анимации конфетти.
      */
-    private fun buttonClickAnimation(button: View, condition: Boolean){
+    private fun buttonClickAnimation(button: View, condition: Boolean, confetti: Boolean) {
         if (condition) {
-            val animation = AnimationUtils.loadAnimation(binding.root.context, R.anim.scale_animation)
+            val animation =
+                AnimationUtils.loadAnimation(binding.root.context, R.anim.scale_animation)
 
             button.startAnimation(animation)
 
-            CommonConfetti.rainingConfetti(
-                binding.root,
-                intArrayOf(R.color.red)
-            ).oneShot()
-
-            CommonConfetti.rainingConfetti(
-                binding.root,
-                intArrayOf(R.color.purple)
-            ).oneShot()
+            if (confetti) {
+                CommonConfetti.rainingConfetti(
+                    binding.root,
+                    intArrayOf(R.color.red)
+                ).oneShot()
+            }
         }
     }
 }

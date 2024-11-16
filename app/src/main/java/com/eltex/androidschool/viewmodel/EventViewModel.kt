@@ -84,8 +84,14 @@ class EventViewModel(private val repository: EventRepository) : ViewModel() {
      * @param content Новое содержание события.
      * @param link Новая ссылка события.
      */
-    fun updateById(eventId: Long, content: String, link: String) {
-        repository.updateById(eventId, content, link)
+    fun updateById(eventId: Long, content: String, link: String, option: String, data: String) {
+        repository.updateById(
+            eventId = eventId,
+            content = content,
+            link = link,
+            option = option,
+            data = data
+        )
     }
 
     /**
@@ -94,7 +100,12 @@ class EventViewModel(private val repository: EventRepository) : ViewModel() {
      * @param content Содержание нового события.
      * @param content Ссылка нового события.
      */
-    fun addEvent(content: String, link: String) {
-        repository.addEvent(content, link)
+    fun addEvent(content: String, link: String, option: String, data: String) {
+        repository.addEvent(
+            content = content,
+            link = link,
+            option = option,
+            data = data
+        )
     }
 }

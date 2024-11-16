@@ -1,10 +1,11 @@
 package com.eltex.androidschool.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +17,7 @@ import com.eltex.androidschool.adapter.EventAdapter
 import com.eltex.androidschool.adapter.OffsetDecoration
 import com.eltex.androidschool.data.Event
 import com.eltex.androidschool.repository.InMemoryEventRepository
+import com.eltex.androidschool.ui.EdgeToEdgeHelper
 import com.eltex.androidschool.viewmodel.EventViewModel
 import com.eltex.androidschool.viewmodel.EventState
 
@@ -31,69 +33,108 @@ import kotlinx.coroutines.flow.onEach
  * @see OffsetDecoration Декорация для добавления отступов между элементами RecyclerView.
  */
 class EventActivity : AppCompatActivity() {
+    private val viewModel by viewModels<EventViewModel> {
+        viewModelFactory {
+            addInitializer(EventViewModel::class) {
+                EventViewModel(InMemoryEventRepository())
+            }
+        }
+    }
 
-    /**
-     * Вызывается при создании активности.
-     *
-     * @param savedInstanceState Сохраненное состояние активности.
-     */
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    private val newEventContracts =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult: ActivityResult ->
+            activityResult.data?.let { data ->
+                val content = data.getStringExtra(Intent.EXTRA_TEXT)
+                val date = data.getStringExtra("date")
+                val option = data.getStringExtra("option")
+                val link = data.getStringExtra("link")
 
-        // Включаем режим "от края до края" для активности.
-        enableEdgeToEdge()
-
-        // Создаем ViewModel с использованием фабрики.
-        val viewModel by viewModels<EventViewModel> {
-            viewModelFactory {
-                addInitializer(EventViewModel::class) {
-                    EventViewModel(InMemoryEventRepository())
+                if (content != null && date != null && option != null && link != null) {
+                    viewModel.addEvent(content, link, option, date)
                 }
             }
         }
 
-        // Создаем и настраиваем binding для макета активности.
+    private val editEventContracts =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult: ActivityResult ->
+            activityResult.data?.let { data ->
+                val content = data.getStringExtra(Intent.EXTRA_TEXT)
+                val date = data.getStringExtra("date")
+                val option = data.getStringExtra("option")
+                val link = data.getStringExtra("link")
+                val eventId = data.getLongExtra("eventId", -1L)
+
+                if (content != null && date != null && option != null && link != null && eventId != -1L) {
+                    viewModel.updateById(eventId, content, link, option, date)
+                }
+            }
+        }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+
+        if (intent.action == Intent.ACTION_SEND) {
+            val text = intent.getStringExtra(Intent.EXTRA_TEXT)
+            intent.removeExtra(Intent.EXTRA_TEXT)
+            if (text != null) {
+                val newEventIntent = Intent(this, NewOrUpdateEventActivity::class.java).apply {
+                    putExtra(Intent.EXTRA_TEXT, text)
+                }
+                newEventContracts.launch(newEventIntent)
+            }
+        }
+
         val binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Создаем и настраиваем адаптер для списка событий.
         val adapter = EventAdapter(
-            likeClickListener = { event: Event ->
-                viewModel.likeById(event.id)
-            },
-            participateClickListener = { event: Event ->
-                viewModel.participateById(event.id)
+            object : EventAdapter.EventListener {
+                override fun onLikeClicked(event: Event) {
+                    viewModel.likeById(event.id)
+                }
+
+                override fun onShareClicked(event: Event) {}
+
+                override fun onParticipateClicked(event: Event) {
+                    viewModel.participateById(event.id)
+                }
+
+                override fun onDeleteClicked(event: Event) {
+                    viewModel.deleteById(event.id)
+                }
+
+                override fun onUpdateClicked(event: Event) {
+                    val intent =
+                        Intent(this@EventActivity, NewOrUpdateEventActivity::class.java).apply {
+                            putExtra(Intent.EXTRA_TEXT, event.content)
+                            putExtra("date", event.dataEvent)
+                            putExtra("option", event.optionConducting)
+                            putExtra("link", event.link)
+                            putExtra("eventId", event.id)
+                        }
+
+                    editEventContracts.launch(intent)
+                }
             }
         )
 
         binding.list.adapter = adapter
 
-        // Добавляем декорацию для отступов между элементами списка.
+        binding.newPost.setOnClickListener {
+            newEventContracts.launch(Intent(this, NewOrUpdateEventActivity::class.java))
+        }
+
         binding.list.addItemDecoration(
             OffsetDecoration(resources.getDimensionPixelSize(R.dimen.list_offset))
         )
 
-        // Подписываемся на изменения состояния событий и обновляем адаптер.
         viewModel.state
             .onEach { eventState: EventState ->
                 adapter.submitList(eventState.events)
             }
             .launchIn(lifecycleScope)
 
-        // Применяем отступы для системных панелей.
-        applyInsets()
-    }
-
-    /**
-     * Применяет отступы для системных панелей (навигации, статуса).
-     *
-     * @see ViewCompat.setOnApplyWindowInsetsListener Устанавливает слушатель для применения отступов.
-     */
-    private fun applyInsets() {
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(android.R.id.content)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            WindowInsetsCompat.CONSUMED
-        }
+        EdgeToEdgeHelper.applyingIndentationOfSystemFields(findViewById(android.R.id.content))
     }
 }
