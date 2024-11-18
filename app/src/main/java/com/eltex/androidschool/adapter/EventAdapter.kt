@@ -1,5 +1,8 @@
 package com.eltex.androidschool.adapter
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.os.Vibrator
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -22,8 +25,10 @@ import com.eltex.androidschool.databinding.CardEventBinding
  * @see EventViewHolder ViewHolder, используемый для отображения элементов списка.
  * @see EventItemCallback Callback для сравнения элементов списка.
  */
+@Suppress("DEPRECATION")
 class EventAdapter(
-    private val listener: EventListener
+    private val listener: EventListener,
+    private val context: Context
 ) : ListAdapter<Event, EventViewHolder>(EventItemCallback()) {
 
     /**
@@ -71,6 +76,7 @@ class EventAdapter(
                     when (menuItem.itemId) {
                         R.id.delete_event -> {
                             listener.onDeleteClicked(getItem(viewHolder.adapterPosition))
+                            vibrate()
                             true
                         }
 
@@ -123,5 +129,19 @@ class EventAdapter(
         } else {
             onBindViewHolder(holder, position)
         }
+    }
+
+    /**
+     * Метод для вызова вибрации.
+     */
+    @SuppressLint("MissingPermission")
+    private fun vibrate() {
+        val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (vibrator.hasVibrator()) {
+            vibrator.vibrate(50)
+        }
+
+//        val pattern = longArrayOf(0, 100, 200, 300) // Пауза 0 мс, вибрация 100 мс, пауза 200 мс, вибрация 300 мс
+//        vibrator.vibrate(pattern, -1) // Повторение последовательности (-1 означает отсутствие повторений)
     }
 }

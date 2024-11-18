@@ -7,13 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.eltex.androidschool.R
 
 import com.eltex.androidschool.databinding.ActivityNewOrUpdateEventBinding
+
+import com.eltex.androidschool.data.EventData
 import com.eltex.androidschool.ui.EdgeToEdgeHelper
 import com.eltex.androidschool.utils.toast
 
+@Suppress("DEPRECATION")
 class NewOrUpdateEventActivity : AppCompatActivity() {
-    private var eventId: Long = -1L
-    private lateinit var titleToolbar: String
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -23,23 +23,17 @@ class NewOrUpdateEventActivity : AppCompatActivity() {
         val binding = ActivityNewOrUpdateEventBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        titleToolbar = getString(R.string.new_event_title)
+        val eventData = intent.getParcelableExtra<EventData>("eventData")
 
-        val content = intent.getStringExtra(Intent.EXTRA_TEXT)
-        val date = intent.getStringExtra("date")
-        val option = intent.getStringExtra("option")
-        val link = intent.getStringExtra("link")
-        eventId = intent.getLongExtra("eventId", -1L)
-
-        if (content != null) {
-            titleToolbar = getString(R.string.update_event_title)
-            binding.content.setText(content)
-            binding.data.setText(date)
-            binding.option.setText(option)
-            binding.link.setText(link)
+        if (eventData != null) {
+            binding.content.setText(eventData.content)
+            binding.data.setText(eventData.date)
+            binding.option.setText(eventData.option)
+            binding.link.setText(eventData.link)
+            binding.toolbar.title = getString(R.string.update_event_title)
+        } else {
+            binding.toolbar.title = getString(R.string.new_event_title)
         }
-
-        binding.toolbar.title = titleToolbar
 
         binding.toolbar.menu.findItem(R.id.save_post).setOnMenuItemClickListener {
             val newContent = binding.content.text?.toString().orEmpty()
@@ -51,11 +45,16 @@ class NewOrUpdateEventActivity : AppCompatActivity() {
                 newContent.isNotEmpty() && newDate.isNotEmpty() && newOption.isNotEmpty() && newLink.isNotEmpty()
             ) {
                 val resultIntent = Intent().apply {
-                    putExtra(Intent.EXTRA_TEXT, newContent)
-                    putExtra("date", newDate)
-                    putExtra("option", newOption)
-                    putExtra("link", newLink)
-                    putExtra("eventId", eventId)
+                    putExtra(
+                        "eventData",
+                        EventData(
+                            newContent,
+                            newDate,
+                            newOption,
+                            newLink,
+                            eventData?.eventId ?: -1L
+                        )
+                    )
                 }
                 setResult(RESULT_OK, resultIntent)
                 finish()

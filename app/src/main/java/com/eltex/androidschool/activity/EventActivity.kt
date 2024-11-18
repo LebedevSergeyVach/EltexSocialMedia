@@ -16,6 +16,7 @@ import com.eltex.androidschool.databinding.MainActivityBinding
 import com.eltex.androidschool.adapter.EventAdapter
 import com.eltex.androidschool.adapter.OffsetDecoration
 import com.eltex.androidschool.data.Event
+import com.eltex.androidschool.data.EventData
 import com.eltex.androidschool.repository.InMemoryEventRepository
 import com.eltex.androidschool.ui.EdgeToEdgeHelper
 import com.eltex.androidschool.viewmodel.EventViewModel
@@ -32,6 +33,7 @@ import kotlinx.coroutines.flow.onEach
  * @see EventAdapter Адаптер для отображения списка событий.
  * @see OffsetDecoration Декорация для добавления отступов между элементами RecyclerView.
  */
+@Suppress("DEPRECATION")
 class EventActivity : AppCompatActivity() {
     private val viewModel by viewModels<EventViewModel> {
         viewModelFactory {
@@ -43,31 +45,29 @@ class EventActivity : AppCompatActivity() {
 
     private val newEventContracts =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult: ActivityResult ->
-            activityResult.data?.let { data ->
-                val content = data.getStringExtra(Intent.EXTRA_TEXT)
-                val date = data.getStringExtra("date")
-                val option = data.getStringExtra("option")
-                val link = data.getStringExtra("link")
-
-                if (content != null && date != null && option != null && link != null) {
-                    viewModel.addEvent(content, link, option, date)
+            activityResult.data?.getParcelableExtra<EventData>("eventData")
+                ?.let { eventData: EventData ->
+                    viewModel.addEvent(
+                        eventData.content,
+                        eventData.link,
+                        eventData.option,
+                        eventData.date
+                    )
                 }
-            }
         }
 
     private val editEventContracts =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult: ActivityResult ->
-            activityResult.data?.let { data ->
-                val content = data.getStringExtra(Intent.EXTRA_TEXT)
-                val date = data.getStringExtra("date")
-                val option = data.getStringExtra("option")
-                val link = data.getStringExtra("link")
-                val eventId = data.getLongExtra("eventId", -1L)
-
-                if (content != null && date != null && option != null && link != null && eventId != -1L) {
-                    viewModel.updateById(eventId, content, link, option, date)
+            activityResult.data?.getParcelableExtra<EventData>("eventData")
+                ?.let { eventData: EventData ->
+                    viewModel.updateById(
+                        eventData.eventId,
+                        eventData.content,
+                        eventData.link,
+                        eventData.option,
+                        eventData.date
+                    )
                 }
-            }
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -79,7 +79,7 @@ class EventActivity : AppCompatActivity() {
             intent.removeExtra(Intent.EXTRA_TEXT)
             if (text != null) {
                 val newEventIntent = Intent(this, NewOrUpdateEventActivity::class.java).apply {
-                    putExtra(Intent.EXTRA_TEXT, text)
+                    putExtra("eventData", EventData(text, "", "", "", -1L))
                 }
                 newEventContracts.launch(newEventIntent)
             }
@@ -107,16 +107,23 @@ class EventActivity : AppCompatActivity() {
                 override fun onUpdateClicked(event: Event) {
                     val intent =
                         Intent(this@EventActivity, NewOrUpdateEventActivity::class.java).apply {
-                            putExtra(Intent.EXTRA_TEXT, event.content)
-                            putExtra("date", event.dataEvent)
-                            putExtra("option", event.optionConducting)
-                            putExtra("link", event.link)
-                            putExtra("eventId", event.id)
+                            putExtra(
+                                "eventData",
+                                EventData(
+                                    event.content,
+                                    event.dataEvent,
+                                    event.optionConducting,
+                                    event.link,
+                                    event.id,
+                                ),
+                            )
                         }
 
                     editEventContracts.launch(intent)
                 }
-            }
+            },
+
+            context = this
         )
 
         binding.list.adapter = adapter

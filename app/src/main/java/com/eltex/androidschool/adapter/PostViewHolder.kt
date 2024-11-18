@@ -1,11 +1,11 @@
 package com.eltex.androidschool.adapter
 
+import android.animation.AnimatorInflater
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.view.MotionEvent
 import android.view.View
-import android.view.animation.AnimationUtils
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.eltex.androidschool.R
 
@@ -127,18 +127,27 @@ class PostViewHolder(
      * @param button Кнопка, на которую был клик.
      * @param condition Условие для выполнения анимации увеличения.
      * @param confetti Условие для выполнения анимации конфетти.
+     *
+     * @sample PostViewHolder.buttonClickAnimation
      */
+    @SuppressLint("ResourceType")
     private fun buttonClickAnimation(button: View, condition: Boolean, confetti: Boolean) {
         if (condition) {
-            val animation =
-                AnimationUtils.loadAnimation(binding.root.context, R.anim.scale_animation)
+            val animator =
+                AnimatorInflater.loadAnimator(binding.root.context, R.anim.scale_animation)
 
-            button.startAnimation(animation)
+            animator.setTarget(button)
+            animator.start()
 
             if (confetti) {
                 CommonConfetti.rainingConfetti(
                     binding.root,
                     intArrayOf(R.color.red)
+                ).oneShot()
+
+                CommonConfetti.rainingConfetti(
+                    binding.root,
+                    intArrayOf(R.color.blue)
                 ).oneShot()
             }
         }
