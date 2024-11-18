@@ -7,13 +7,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.eltex.androidschool.R
 
 import com.eltex.androidschool.databinding.ActivityNewOrUpdatePostBinding
+
+import com.eltex.androidschool.data.PostDataParcelable
 import com.eltex.androidschool.ui.EdgeToEdgeHelper
 import com.eltex.androidschool.utils.toast
 
+@Suppress("DEPRECATION")
 class NewOrUpdatePostActivity : AppCompatActivity() {
-    private var postId: Long = -1L
-    private lateinit var titleToolbar: String
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -23,25 +23,28 @@ class NewOrUpdatePostActivity : AppCompatActivity() {
         val binding = ActivityNewOrUpdatePostBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        titleToolbar = getString(R.string.new_post_title)
+        val postDataParcelable =
+            intent.getParcelableExtra<PostDataParcelable>("PostDataParcelable")
 
-        val content = intent.getStringExtra(Intent.EXTRA_TEXT)
-        postId = intent.getLongExtra("postId", -1L)
-
-        if (content != null) {
-            titleToolbar = getString(R.string.update_post_title)
-            binding.content.setText(content)
+        if (postDataParcelable != null) {
+            binding.content.setText(postDataParcelable.content)
+            binding.toolbar.title = getString(R.string.update_post_title)
+        } else {
+            binding.toolbar.title = getString(R.string.new_post_title)
         }
-
-        binding.toolbar.title = titleToolbar
 
         binding.toolbar.menu.findItem(R.id.save_post).setOnMenuItemClickListener {
             val newContent = binding.content.text?.toString().orEmpty()
 
             if (newContent.isNotEmpty()) {
                 val resultIntent = Intent().apply {
-                    putExtra(Intent.EXTRA_TEXT, newContent)
-                    putExtra("postId", postId)
+                    putExtra(
+                        "PostDataParcelable",
+                        PostDataParcelable(
+                            newContent,
+                            postDataParcelable?.postId ?: -1L
+                        )
+                    )
                 }
                 setResult(RESULT_OK, resultIntent)
                 finish()

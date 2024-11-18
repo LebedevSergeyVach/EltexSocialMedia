@@ -23,7 +23,8 @@ class NewOrUpdateEventActivity : AppCompatActivity() {
         val binding = ActivityNewOrUpdateEventBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val eventDataParcelable = intent.getParcelableExtra<EventDataParcelable>("eventData")
+        val eventDataParcelable =
+            intent.getParcelableExtra<EventDataParcelable>("EventDataParcelable")
 
         if (eventDataParcelable != null) {
             binding.content.setText(eventDataParcelable.content)
@@ -46,7 +47,7 @@ class NewOrUpdateEventActivity : AppCompatActivity() {
             ) {
                 val resultIntent = Intent().apply {
                     putExtra(
-                        "eventData",
+                        "EventDataParcelable",
                         EventDataParcelable(
                             newContent,
                             newDate,

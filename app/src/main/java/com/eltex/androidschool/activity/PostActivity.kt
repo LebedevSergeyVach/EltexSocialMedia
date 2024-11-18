@@ -16,6 +16,7 @@ import com.eltex.androidschool.databinding.MainActivityBinding
 import com.eltex.androidschool.adapter.OffsetDecoration
 import com.eltex.androidschool.adapter.PostAdapter
 import com.eltex.androidschool.data.Post
+import com.eltex.androidschool.data.PostDataParcelable
 import com.eltex.androidschool.repository.InMemoryPostRepository
 import com.eltex.androidschool.ui.EdgeToEdgeHelper
 import com.eltex.androidschool.viewmodel.PostState
@@ -35,6 +36,7 @@ import kotlinx.coroutines.flow.onEach
  * @see PostAdapter Адаптер для отображения списка постов.
  * @see OffsetDecoration Декорация для добавления отступов между элементами RecyclerView.
  */
+@Suppress("DEPRECATION")
 class PostActivity : AppCompatActivity() {
     private val viewModel by viewModels<PostViewModel> {
         viewModelFactory {
@@ -46,19 +48,23 @@ class PostActivity : AppCompatActivity() {
 
     private val newPostContracts =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult: ActivityResult ->
-            activityResult.data?.getStringExtra(Intent.EXTRA_TEXT)?.let { content: String ->
-                viewModel.addPost(content)
-            }
+            activityResult.data?.getParcelableExtra<PostDataParcelable>("PostDataParcelable")
+                ?.let { postDataParcelable: PostDataParcelable ->
+                    viewModel.addPost(
+                        content = postDataParcelable.content,
+                    )
+                }
         }
 
     private val editPostContracts =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult: ActivityResult ->
-            activityResult.data?.getStringExtra(Intent.EXTRA_TEXT)?.let { content: String ->
-                val postId = activityResult.data?.getLongExtra("postId", -1L) ?: -1L
-                if (postId != -1L) {
-                    viewModel.updateById(postId, content)
+            activityResult.data?.getParcelableExtra<PostDataParcelable>("PostDataParcelable")
+                ?.let { postDataParcelable: PostDataParcelable ->
+                    viewModel.updateById(
+                        postId = postDataParcelable.postId,
+                        content = postDataParcelable.content
+                    )
                 }
-            }
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +76,13 @@ class PostActivity : AppCompatActivity() {
             intent.removeExtra(Intent.EXTRA_TEXT)
             if (text != null) {
                 val newPostIntent = Intent(this, NewOrUpdatePostActivity::class.java).apply {
-                    putExtra(Intent.EXTRA_TEXT, text)
+                    putExtra(
+                        "PostDataParcelable",
+                        PostDataParcelable(
+                            content = text,
+                            postId = -1L
+                        )
+                    )
                 }
                 newPostContracts.launch(newPostIntent)
             }
@@ -94,8 +106,13 @@ class PostActivity : AppCompatActivity() {
                 override fun onUpdateClicked(post: Post) {
                     val intent =
                         Intent(this@PostActivity, NewOrUpdatePostActivity::class.java).apply {
-                            putExtra(Intent.EXTRA_TEXT, post.content)
-                            putExtra("postId", post.id)
+                            putExtra(
+                                "PostDataParcelable",
+                                PostDataParcelable(
+                                    content = post.content,
+                                    postId = post.id
+                                )
+                            )
                         }
 
                     editPostContracts.launch(intent)
