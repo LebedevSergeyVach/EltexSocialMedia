@@ -11,4 +11,5 @@
     <color name="purple">#FFF700FF</color>
 
     <color name="check_ok">#FFFFFFFF</color>
+    <color name="toast_custom">#2e3133</color>
 </resources>
