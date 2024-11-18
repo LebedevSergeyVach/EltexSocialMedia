@@ -1,5 +1,6 @@
 package com.eltex.androidschool.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
@@ -9,7 +10,9 @@ import androidx.recyclerview.widget.ListAdapter
 import com.eltex.androidschool.R
 
 import com.eltex.androidschool.databinding.CardPostBinding
+
 import com.eltex.androidschool.data.Post
+import com.eltex.androidschool.utils.singleVibration
 
 /**
  * Адаптер для отображения списка постов в RecyclerView.
@@ -24,6 +27,7 @@ import com.eltex.androidschool.data.Post
  */
 class PostAdapter(
     private val listener: PostListener,
+    private val context: Context
 ) : ListAdapter<Post, PostViewHolder>(PostItemCallback()) {
 
     /**
@@ -66,12 +70,15 @@ class PostAdapter(
                     when (menuItem.itemId) {
                         R.id.delete_post -> {
                             listener.onDeleteClicked(getItem(viewHolder.adapterPosition))
+                            context.singleVibration(50L)
                             true
                         }
+
                         R.id.update_post -> {
                             listener.onUpdateClicked(getItem(viewHolder.adapterPosition))
                             true
                         }
+
                         else -> {
                             false
                         }

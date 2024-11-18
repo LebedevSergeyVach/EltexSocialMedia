@@ -117,7 +117,9 @@ class PostActivity : AppCompatActivity() {
 
                     editPostContracts.launch(intent)
                 }
-            }
+            },
+
+            context = this
         )
 
         binding.list.adapter = adapter
