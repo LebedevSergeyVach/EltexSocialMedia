@@ -14,4 +14,5 @@
     <dimen name="margin_start_4dp_contents_card">8dp</dimen>
 
     <dimen name="common_spacing">12dp</dimen>
+    <dimen name="splash_icon_app">300dp</dimen>
 </resources>

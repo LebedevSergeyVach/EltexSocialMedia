@@ -39,7 +39,6 @@
 
         android:layout_margin="@dimen/common_spacing"
 
-
         app:cardCornerRadius="20dp"
         app:cardElevation="2dp"
 

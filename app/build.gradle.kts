@@ -40,7 +40,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -68,4 +67,7 @@ dependencies {
 
     // Lottie  ANIM
     implementation(libs.lottie)
+
+    // SplashScreen
+    implementation(libs.androidx.core.splashscreen)
 }

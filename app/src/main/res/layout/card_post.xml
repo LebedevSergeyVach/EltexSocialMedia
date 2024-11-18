@@ -17,7 +17,7 @@
         android:layout_marginEnd="0dp"
         android:layout_marginBottom="16dp"
 
-        tools:context=".activity.MainActivity">
+        tools:context=".activity.SplashActivity">
 
         <ImageView
             android:id="@+id/avatar"
