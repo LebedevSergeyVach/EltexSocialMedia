@@ -4,7 +4,7 @@ import android.os.Parcel
 import android.os.Parcelable
 
 /**
- * Класс [EventData], реализующий интерфейс [Parcelable].
+ * Класс [EventDataParcelable], реализующий интерфейс [Parcelable].
  * Используется для передачи данных о событии через [Intent].
  *
  * @property content Содержание события.
@@ -13,9 +13,9 @@ import android.os.Parcelable
  * @property link Ссылка на событие.
  * @property eventId Уникальный идентификатор события.
  *
- * @sample EventData
+ * @sample EventDataParcelable
  */
-data class EventData(
+data class EventDataParcelable(
     val content: String,
     val date: String,
     val option: String,
@@ -27,14 +27,14 @@ data class EventData(
      *
      * @param parcel [Parcel], из которого будут прочитаны данные.
      *
-     * @sample EventData
+     * @sample EventDataParcelable
      */
     constructor(parcel: Parcel) : this(
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readString() ?: "",
-        parcel.readLong()
+        content = parcel.readString() ?: "",
+        date = parcel.readString() ?: "",
+        option = parcel.readString() ?: "",
+        link = parcel.readString() ?: "",
+        eventId = parcel.readLong()
     )
 
     /**
@@ -43,7 +43,7 @@ data class EventData(
      * @param parcel [Parcel], в который будут записаны данные.
      * @param flags Дополнительные флаги, указывающие, как должны быть записаны данные.
      *
-     * @sample EventData.writeToParcel
+     * @sample EventDataParcelable.writeToParcel
      */
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(content)
@@ -59,39 +59,39 @@ data class EventData(
      *
      * @return 0, так как нет специальных флагов.
      *
-     * @sample EventData.describeContents
+     * @sample EventDataParcelable.describeContents
      */
     override fun describeContents(): Int = 0
 
     /**
      * Статический объект [CREATOR], реализующий интерфейс [Parcelable.Creator].
-     * Используется для создания объектов [EventData] из [Parcel].
+     * Используется для создания объектов [EventDataParcelable] из [Parcel].
      *
-     * @sample EventData.CREATOR
+     * @sample EventDataParcelable.CREATOR
      */
-    companion object CREATOR : Parcelable.Creator<EventData> {
+    companion object CREATOR : Parcelable.Creator<EventDataParcelable> {
 
         /**
-         * Метод для создания объекта [EventData] из [Parcel].
+         * Метод для создания объекта [EventDataParcelable] из [Parcel].
          *
          * @param parcel Parcel, из которого будут прочитаны данные.
          * @return Созданный объект EventData.
          *
-         * @sample [EventData.createFromParcel]
+         * @sample [EventDataParcelable.createFromParcel]
          */
-        override fun createFromParcel(parcel: Parcel): EventData {
-            return EventData(parcel)
+        override fun createFromParcel(parcel: Parcel): EventDataParcelable {
+            return EventDataParcelable(parcel)
         }
 
         /**
-         * Метод для создания массива объектов [EventData].
+         * Метод для создания массива объектов [EventDataParcelable].
          *
          * @param size Размер массива.
-         * @return Массив объектов [EventData].
+         * @return Массив объектов [EventDataParcelable].
          *
-         * @sample EventData.newArray
+         * @sample EventDataParcelable.newArray
          */
-        override fun newArray(size: Int): Array<EventData?> {
+        override fun newArray(size: Int): Array<EventDataParcelable?> {
             return arrayOfNulls(size)
         }
     }

@@ -8,7 +8,7 @@ import com.eltex.androidschool.R
 
 import com.eltex.androidschool.databinding.ActivityNewOrUpdateEventBinding
 
-import com.eltex.androidschool.data.EventData
+import com.eltex.androidschool.data.EventDataParcelable
 import com.eltex.androidschool.ui.EdgeToEdgeHelper
 import com.eltex.androidschool.utils.toast
 
@@ -23,13 +23,13 @@ class NewOrUpdateEventActivity : AppCompatActivity() {
         val binding = ActivityNewOrUpdateEventBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val eventData = intent.getParcelableExtra<EventData>("eventData")
+        val eventDataParcelable = intent.getParcelableExtra<EventDataParcelable>("eventData")
 
-        if (eventData != null) {
-            binding.content.setText(eventData.content)
-            binding.data.setText(eventData.date)
-            binding.option.setText(eventData.option)
-            binding.link.setText(eventData.link)
+        if (eventDataParcelable != null) {
+            binding.content.setText(eventDataParcelable.content)
+            binding.data.setText(eventDataParcelable.date)
+            binding.option.setText(eventDataParcelable.option)
+            binding.link.setText(eventDataParcelable.link)
             binding.toolbar.title = getString(R.string.update_event_title)
         } else {
             binding.toolbar.title = getString(R.string.new_event_title)
@@ -47,12 +47,12 @@ class NewOrUpdateEventActivity : AppCompatActivity() {
                 val resultIntent = Intent().apply {
                     putExtra(
                         "eventData",
-                        EventData(
+                        EventDataParcelable(
                             newContent,
                             newDate,
                             newOption,
                             newLink,
-                            eventData?.eventId ?: -1L
+                            eventDataParcelable?.eventId ?: -1L
                         )
                     )
                 }

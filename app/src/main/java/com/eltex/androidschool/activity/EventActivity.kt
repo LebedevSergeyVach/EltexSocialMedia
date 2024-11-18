@@ -16,7 +16,7 @@ import com.eltex.androidschool.databinding.MainActivityBinding
 import com.eltex.androidschool.adapter.EventAdapter
 import com.eltex.androidschool.adapter.OffsetDecoration
 import com.eltex.androidschool.data.Event
-import com.eltex.androidschool.data.EventData
+import com.eltex.androidschool.data.EventDataParcelable
 import com.eltex.androidschool.repository.InMemoryEventRepository
 import com.eltex.androidschool.ui.EdgeToEdgeHelper
 import com.eltex.androidschool.viewmodel.EventViewModel
@@ -45,27 +45,27 @@ class EventActivity : AppCompatActivity() {
 
     private val newEventContracts =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult: ActivityResult ->
-            activityResult.data?.getParcelableExtra<EventData>("eventData")
-                ?.let { eventData: EventData ->
+            activityResult.data?.getParcelableExtra<EventDataParcelable>("eventData")
+                ?.let { eventDataParcelable: EventDataParcelable ->
                     viewModel.addEvent(
-                        eventData.content,
-                        eventData.link,
-                        eventData.option,
-                        eventData.date
+                        eventDataParcelable.content,
+                        eventDataParcelable.link,
+                        eventDataParcelable.option,
+                        eventDataParcelable.date
                     )
                 }
         }
 
     private val editEventContracts =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { activityResult: ActivityResult ->
-            activityResult.data?.getParcelableExtra<EventData>("eventData")
-                ?.let { eventData: EventData ->
+            activityResult.data?.getParcelableExtra<EventDataParcelable>("eventData")
+                ?.let { eventDataParcelable: EventDataParcelable ->
                     viewModel.updateById(
-                        eventData.eventId,
-                        eventData.content,
-                        eventData.link,
-                        eventData.option,
-                        eventData.date
+                        eventDataParcelable.eventId,
+                        eventDataParcelable.content,
+                        eventDataParcelable.link,
+                        eventDataParcelable.option,
+                        eventDataParcelable.date
                     )
                 }
         }
@@ -79,7 +79,7 @@ class EventActivity : AppCompatActivity() {
             intent.removeExtra(Intent.EXTRA_TEXT)
             if (text != null) {
                 val newEventIntent = Intent(this, NewOrUpdateEventActivity::class.java).apply {
-                    putExtra("eventData", EventData(text, "", "", "", -1L))
+                    putExtra("eventData", EventDataParcelable(text, "", "", "", -1L))
                 }
                 newEventContracts.launch(newEventIntent)
             }
@@ -109,7 +109,7 @@ class EventActivity : AppCompatActivity() {
                         Intent(this@EventActivity, NewOrUpdateEventActivity::class.java).apply {
                             putExtra(
                                 "eventData",
-                                EventData(
+                                EventDataParcelable(
                                     event.content,
                                     event.dataEvent,
                                     event.optionConducting,
