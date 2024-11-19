@@ -26,7 +26,7 @@ Using [Jetpack Preferences DataStore](developer.android.com/topic/libraries/arch
 ---
 
 ### [Anatoly Spitchenko](https://gitflic.ru/user/onotole) - Android developer and Course Teacher
-### [Lebedev Sergey Vyacheslav](https://github.com/LebedevSergeyVach) – Kotlin-Developer.
+### [Lebedev Sergey Vyacheslav](https://github.com/LebedevSergeyVach) – Kotlin-Developer
 
 ---
 
