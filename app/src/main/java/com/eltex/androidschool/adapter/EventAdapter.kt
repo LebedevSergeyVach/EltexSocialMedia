@@ -11,7 +11,7 @@ import com.eltex.androidschool.R
 
 import com.eltex.androidschool.databinding.CardEventBinding
 
-import com.eltex.androidschool.data.Event
+import com.eltex.androidschool.data.EventData
 import com.eltex.androidschool.utils.singleVibration
 
 /**
@@ -28,17 +28,17 @@ import com.eltex.androidschool.utils.singleVibration
 class EventAdapter(
     private val listener: EventListener,
     private val context: Context
-) : ListAdapter<Event, EventViewHolder>(EventItemCallback()) {
+) : ListAdapter<EventData, EventViewHolder>(EventItemCallback()) {
 
     /**
      * Интерфейс для обработки событий, связанных с Событиями.
      */
     interface EventListener {
-        fun onLikeClicked(event: Event)
-        fun onShareClicked(event: Event)
-        fun onParticipateClicked(event: Event)
-        fun onDeleteClicked(event: Event)
-        fun onUpdateClicked(event: Event)
+        fun onLikeClicked(event: EventData)
+        fun onShareClicked(event: EventData)
+        fun onParticipateClicked(event: EventData)
+        fun onDeleteClicked(event: EventData)
+        fun onUpdateClicked(event: EventData)
     }
 
     /**

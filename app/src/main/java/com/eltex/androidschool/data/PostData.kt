@@ -37,8 +37,8 @@ data class PostData(
      * @return String Отформатированная строка даты и времени.
      */
     fun getFormattedPublished(): String {
-        return published.let {
-            val dateTime = LocalDateTime.parse(it, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        return published.let { textData: String ->
+            val dateTime = LocalDateTime.parse(textData, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
             dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
         }
     }
@@ -49,8 +49,8 @@ data class PostData(
      * @return Строка с датой и временем последнего изменения в формате "yyyy-MM-dd HH:mm:ss" или `null`, если дата отсутствует.
      */
     fun getFormattedLastModified(): String? {
-        return lastModified?.let {
-            val dateTime = LocalDateTime.parse(it, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        return lastModified?.let { textData: String ->
+            val dateTime = LocalDateTime.parse(textData, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
             dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
         }
     }

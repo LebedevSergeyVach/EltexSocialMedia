@@ -2,14 +2,14 @@ package com.eltex.androidschool.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 
-import com.eltex.androidschool.data.Event
+import com.eltex.androidschool.data.EventData
 
 /**
  * Callback для сравнения элементов списка событий.
  *
  * @see DiffUtil.ItemCallback Базовый класс для сравнения элементов списка.
  */
-class EventItemCallback : DiffUtil.ItemCallback<Event>() {
+class EventItemCallback : DiffUtil.ItemCallback<EventData>() {
 
     /**
      * Проверяет, являются ли элементы одним и тем же объектом.
@@ -19,7 +19,7 @@ class EventItemCallback : DiffUtil.ItemCallback<Event>() {
      *
      * @return Boolean true, если элементы одинаковы, иначе false.
      */
-    override fun areItemsTheSame(oldItem: Event, newItem: Event): Boolean = oldItem.id == newItem.id
+    override fun areItemsTheSame(oldItem: EventData, newItem: EventData): Boolean = oldItem.id == newItem.id
 
     /**
      * Проверяет, содержат ли элементы одинаковые данные.
@@ -29,7 +29,7 @@ class EventItemCallback : DiffUtil.ItemCallback<Event>() {
      *
      * @return Boolean true, если данные элементов одинаковы, иначе false.
      */
-    override fun areContentsTheSame(oldItem: Event, newItem: Event): Boolean = oldItem == newItem
+    override fun areContentsTheSame(oldItem: EventData, newItem: EventData): Boolean = oldItem == newItem
 
     /**
      * Возвращает объект, содержащий изменения в элементе.
@@ -39,7 +39,7 @@ class EventItemCallback : DiffUtil.ItemCallback<Event>() {
      *
      * @return Any? Объект, содержащий изменения, или null, если изменений нет.
      */
-    override fun getChangePayload(oldItem: Event, newItem: Event): Any? =
+    override fun getChangePayload(oldItem: EventData, newItem: EventData): Any? =
         EventPayload(
             likeByMe = newItem.likeByMe.takeIf { likeByMe: Boolean ->
                 likeByMe != oldItem.likeByMe

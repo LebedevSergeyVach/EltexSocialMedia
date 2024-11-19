@@ -1,5 +1,8 @@
 package com.eltex.androidschool.data
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -9,6 +12,7 @@ import java.time.format.DateTimeFormatter
  * @property id Уникальный идентификатор события. По умолчанию 0L.
  * @property author Автор события. По умолчанию пустая строка.
  * @property published Дата и время публикации события. По умолчанию текущая дата и время.
+ * @property lastModified Дата и время последнего изменения поста. По умолчанию null.
  * @property optionConducting Вариант проведения события. По умолчанию пустая строка.
  * @property dataEvent Дата события. По умолчанию пустая строка.
  * @property content Содержание события. По умолчанию пустая строка.
@@ -16,16 +20,27 @@ import java.time.format.DateTimeFormatter
  * @property likeByMe Флаг, указывающий, лайкнул ли текущий пользователь это событие. По умолчанию false.
  * @property participateByMe Флаг, указывающий, участвует ли текущий пользователь в этом событии. По умолчанию false.
  */
-data class Event(
+@Serializable
+data class EventData(
+    @SerialName("id")
     val id: Long = 0L,
+    @SerialName("author")
     val author: String = "",
-    val published: LocalDateTime = LocalDateTime.now(),
-    val lastModified: LocalDateTime? = null,
+    @SerialName("published")
+    val published: String = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+    @SerialName("lastModified")
+    val lastModified: String? = null,
+    @SerialName("optionConducting")
     val optionConducting: String = "",
+    @SerialName("dataEvent")
     val dataEvent: String = "",
+    @SerialName("content")
     val content: String = "",
+    @SerialName("link")
     val link: String = "",
+    @SerialName("likeByMe")
     val likeByMe: Boolean = false,
+    @SerialName("participateByMe")
     val participateByMe: Boolean = false,
 ) {
     /**
@@ -34,8 +49,10 @@ data class Event(
      * @return String Отформатированная строка даты и времени.
      */
     fun getFormattedPublished(): String {
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-        return published.format(formatter)
+        return published.let { textData: String ->
+            val dateTime = LocalDateTime.parse(textData, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        }
     }
 
     /**
@@ -44,6 +61,9 @@ data class Event(
      * @return Строка с датой и временем последнего изменения в формате "yyyy-MM-dd HH:mm:ss" или `null`, если дата отсутствует.
      */
     fun getFormattedLastModified(): String? {
-        return lastModified?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        return lastModified?.let { textData: String ->
+            val dateTime = LocalDateTime.parse(textData, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        }
     }
 }

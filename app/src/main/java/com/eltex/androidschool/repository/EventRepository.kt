@@ -1,6 +1,6 @@
 package com.eltex.androidschool.repository
 
-import com.eltex.androidschool.data.Event
+import com.eltex.androidschool.data.EventData
 
 import kotlinx.coroutines.flow.Flow
 
@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
  * Интерфейс репозитория для работы с событиями.
  * Предоставляет методы для получения списка событий, лайков и участия в событиях.
  *
- * @see InMemoryEventRepository Реализация интерфейса в памяти.
+ * @see LocalPreferencesDataStoreJsonEventRepository Реализация интерфейса в памяти.
  */
 interface EventRepository {
 
@@ -16,7 +16,7 @@ interface EventRepository {
      * Возвращает Flow, который излучает список событий.
      *
      */
-    fun getEvent(): Flow<List<Event>>
+    fun getEvent(): Flow<List<EventData>>
 
     /**
      * Помечает событие с указанным идентификатором как "лайкнутое" или "нелайкнутое".

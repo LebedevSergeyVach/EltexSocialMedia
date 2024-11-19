@@ -1,12 +1,32 @@
 package com.eltex.androidschool.repository
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+
+import android.content.Context
+
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-import com.eltex.androidschool.data.Event
+import kotlinx.serialization.json.Json
+
 import java.time.LocalDateTime
+import java.io.BufferedReader
+import java.io.BufferedWriter
+import java.io.File
+
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+
+import kotlinx.serialization.encodeToString
+
+import com.eltex.androidschool.data.EventData
+import java.time.format.DateTimeFormatter
 
 /**
  * Реализация интерфейса [EventRepository], хранящая данные о событиях в памяти.
@@ -14,39 +34,34 @@ import java.time.LocalDateTime
  *
  * @see EventRepository Интерфейс, который реализует этот класс.
  */
-class InMemoryEventRepository : EventRepository {
-    private var nextId: Long = 10L
+class LocalPreferencesDataStoreJsonEventRepository(
+    context: Context,
+) : EventRepository {
+    private companion object {
+        const val NEXT_ID_KEY = "NEXT_ID_KEY"
+        const val EVENT_FILE = "events.json"
+        const val EVENT_DATA_STORE = "events"
+    }
 
-    /**
-     * Flow, хранящий текущее состояние списка событий.
-     * Инициализируется списком из 20 событий с фиктивными данными.
-     */
-    private val _state = MutableStateFlow(List(20) { int ->
-        Event(
-            id = int.toLong(),
-            author = "Sergey Lebedev",
-            published = LocalDateTime.now(),
-            optionConducting = "Offline",
-            dataEvent = "16.05.22 12:00",
-            content = "№ ${int + 1} ❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F☃\uFE0F❄\uFE0F\n"
-                    + "\nLast Christmas, I gave you my heart\n"
-                    + "But the very next day, you gave it away\n"
-                    + "This year, to save me from tears\n"
-                    + "I'll give it to someone special\n"
-                    + "Last Christmas, I gave you my heart\n"
-                    + "But the very next day, you gave it away (You gave it away)\n"
-                    + "This year, to save me from tears\n"
-                    + "I'll give it to someone special (Special)",
-            link = "https://github.com/LebedevSergeyVach",
-        )
-    }.reversed())
+    private val applicationContext: Context = context.applicationContext
+
+    private val eventsFileDir: File = applicationContext.filesDir.resolve(EVENT_FILE)
+
+    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = EVENT_DATA_STORE)
+    private val dataStore = applicationContext.dataStore
+
+    private var nextId: Long = runBlocking {
+        dataStore.data.first()[longPreferencesKey(NEXT_ID_KEY)] ?: 0L
+    }
+
+    private val _state: MutableStateFlow<List<EventData>> = MutableStateFlow(readPosts())
 
     /**
      * Возвращает Flow, который излучает список событий.
      *
      * @return Flow<List<Event>> Flow, излучающий список событий.
      */
-    override fun getEvent(): Flow<List<Event>> = _state.asStateFlow()
+    override fun getEvent(): Flow<List<EventData>> = _state.asStateFlow()
 
     /**
      * Помечает событие с указанным идентификатором как "лайкнутое" или "нелайкнутое".
@@ -54,8 +69,8 @@ class InMemoryEventRepository : EventRepository {
      * @param eventId Идентификатор события, которое нужно лайкнуть.
      */
     override fun likeById(eventId: Long) {
-        _state.update { events: List<Event> ->
-            events.map { event: Event ->
+        _state.update { events: List<EventData> ->
+            events.map { event: EventData ->
                 if (event.id == eventId) {
                     event.copy(likeByMe = !event.likeByMe)
                 } else {
@@ -63,6 +78,8 @@ class InMemoryEventRepository : EventRepository {
                 }
             }
         }
+
+        sync()
     }
 
     /**
@@ -71,8 +88,8 @@ class InMemoryEventRepository : EventRepository {
      * @param eventId Идентификатор события, в котором нужно участвовать.
      */
     override fun participateById(eventId: Long) {
-        _state.update { events: List<Event> ->
-            events.map { event: Event ->
+        _state.update { events: List<EventData> ->
+            events.map { event: EventData ->
                 if (event.id == eventId) {
                     event.copy(participateByMe = !event.participateByMe)
                 } else {
@@ -80,6 +97,8 @@ class InMemoryEventRepository : EventRepository {
                 }
             }
         }
+
+        sync()
     }
 
     /**
@@ -88,17 +107,19 @@ class InMemoryEventRepository : EventRepository {
      * @param eventId Идентификатор события, который нужно удалить.
      */
     override fun deleteById(eventId: Long) {
-        _state.update { events: List<Event> ->
-            events.filter { event: Event ->
+        _state.update { events: List<EventData> ->
+            events.filter { event: EventData ->
                 event.id != eventId
             }
         }
+
+        sync()
     }
 
     /**
      * Обновляет событие по его id.
      *
-     * @param postId Идентификатор поста, который нужно обновить.
+     * @param eventId Идентификатор поста, который нужно обновить.
      * @param content Новое содержание события.
      * @param link Новая ссылка события.
      */
@@ -109,13 +130,14 @@ class InMemoryEventRepository : EventRepository {
         option: String,
         data: String
     ) {
-        _state.update { events: List<Event> ->
-            events.map { event: Event ->
+        _state.update { events: List<EventData> ->
+            events.map { event: EventData ->
                 if (event.id == eventId) {
                     event.copy(
                         content = content,
                         link = link,
-                        lastModified = LocalDateTime.now(),
+                        lastModified = LocalDateTime.now()
+                            .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
                         optionConducting = option,
                         dataEvent = data,
                     )
@@ -124,6 +146,8 @@ class InMemoryEventRepository : EventRepository {
                 }
             }
         }
+
+        sync()
     }
 
     /**
@@ -133,21 +157,55 @@ class InMemoryEventRepository : EventRepository {
      * @param content Ссылка нового события.
      */
     override fun addEvent(content: String, link: String, option: String, data: String) {
-        _state.update { events: List<Event> ->
+        _state.update { events: List<EventData> ->
             buildList(events.size + 1) {
                 add(
-                    Event(
+                    EventData(
                         id = nextId++,
                         content = content,
                         link = link,
                         author = "Student",
-                        published = LocalDateTime.now(),
+                        published = LocalDateTime.now()
+                            .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
                         optionConducting = option,
                         dataEvent = data,
                     )
                 )
                 addAll(events)
             }
+        }
+
+        sync()
+    }
+
+    /**
+     * Синхронизирует данные с DataStore и файлом.
+     */
+    private fun sync() {
+        runBlocking {
+            dataStore.edit { preferences ->
+                preferences[longPreferencesKey(NEXT_ID_KEY)] =
+                    nextId
+            }
+        }
+
+        eventsFileDir.bufferedWriter().use { bufferedWriter: BufferedWriter ->
+            bufferedWriter.write(Json.encodeToString(_state.value))
+        }
+    }
+
+    /**
+     * Читает посты из файла.
+     *
+     * @return Список постов, прочитанных из файла.
+     */
+    private fun readPosts(): List<EventData> {
+        return if (eventsFileDir.exists()) {
+            eventsFileDir.bufferedReader().use { bufferedReader: BufferedReader ->
+                Json.decodeFromString(bufferedReader.readText())
+            }
+        } else {
+            emptyList()
         }
     }
 }

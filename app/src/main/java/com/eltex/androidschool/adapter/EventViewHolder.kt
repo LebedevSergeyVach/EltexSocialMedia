@@ -12,7 +12,7 @@ import com.eltex.androidschool.R
 import com.github.jinatonic.confetti.CommonConfetti
 
 import com.eltex.androidschool.databinding.CardEventBinding
-import com.eltex.androidschool.data.Event
+import com.eltex.androidschool.data.EventData
 import com.eltex.androidschool.utils.toast
 
 /**
@@ -51,7 +51,7 @@ class EventViewHolder(
      *
      * @param event Событие, данные которого нужно отобразить.
      */
-    fun bindEvent(event: Event) {
+    fun bindEvent(event: EventData) {
         binding.author.text = event.author
         binding.initial.text = event.author.take(1)
         binding.published.text = event.getFormattedPublished()

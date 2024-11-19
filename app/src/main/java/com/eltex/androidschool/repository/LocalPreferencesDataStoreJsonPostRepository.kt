@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 
 import android.content.Context
+
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -37,20 +38,15 @@ import java.time.format.DateTimeFormatter
 class LocalPreferencesDataStoreJsonPostRepository(
     context: Context,
 ) : PostRepository {
-    private val applicationContext: Context = context.applicationContext
-
-    private val postsFileDir: File = applicationContext.filesDir.resolve(POSTS_FILE)
-
-    /**
-     * Computes the post count for the given post repository
-     *
-     * @constructor Create empty Companion
-     */
     private companion object {
         const val NEXT_ID_KEY = "NEXT_ID_KEY"
         const val POSTS_FILE = "posts.json"
         const val POST_DATA_STORE = "posts"
     }
+
+    private val applicationContext: Context = context.applicationContext
+
+    private val postsFileDir: File = applicationContext.filesDir.resolve(POSTS_FILE)
 
 //    private val prefs: SharedPreferences =
 //        applicationContext.getSharedPreferences("posts", Context.MODE_PRIVATE)

@@ -15,9 +15,9 @@ import com.eltex.androidschool.databinding.MainActivityBinding
 
 import com.eltex.androidschool.adapter.EventAdapter
 import com.eltex.androidschool.adapter.OffsetDecoration
-import com.eltex.androidschool.data.Event
+import com.eltex.androidschool.data.EventData
 import com.eltex.androidschool.data.EventDataParcelable
-import com.eltex.androidschool.repository.InMemoryEventRepository
+import com.eltex.androidschool.repository.LocalPreferencesDataStoreJsonEventRepository
 import com.eltex.androidschool.ui.EdgeToEdgeHelper
 import com.eltex.androidschool.viewmodel.EventViewModel
 import com.eltex.androidschool.viewmodel.EventState
@@ -38,7 +38,7 @@ class EventActivity : AppCompatActivity() {
     private val viewModel by viewModels<EventViewModel> {
         viewModelFactory {
             addInitializer(EventViewModel::class) {
-                EventViewModel(InMemoryEventRepository())
+                EventViewModel(LocalPreferencesDataStoreJsonEventRepository(applicationContext))
             }
         }
     }
@@ -99,21 +99,21 @@ class EventActivity : AppCompatActivity() {
 
         val adapter = EventAdapter(
             object : EventAdapter.EventListener {
-                override fun onLikeClicked(event: Event) {
+                override fun onLikeClicked(event: EventData) {
                     viewModel.likeById(event.id)
                 }
 
-                override fun onShareClicked(event: Event) {}
+                override fun onShareClicked(event: EventData) {}
 
-                override fun onParticipateClicked(event: Event) {
+                override fun onParticipateClicked(event: EventData) {
                     viewModel.participateById(event.id)
                 }
 
-                override fun onDeleteClicked(event: Event) {
+                override fun onDeleteClicked(event: EventData) {
                     viewModel.deleteById(event.id)
                 }
 
-                override fun onUpdateClicked(event: Event) {
+                override fun onUpdateClicked(event: EventData) {
                     val intent =
                         Intent(this@EventActivity, NewOrUpdateEventActivity::class.java).apply {
                             putExtra(

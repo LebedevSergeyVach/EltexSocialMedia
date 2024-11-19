@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 
 import com.eltex.androidschool.repository.EventRepository
-import com.eltex.androidschool.data.Event
+import com.eltex.androidschool.data.EventData
 
 /**
  * ViewModel для управления состоянием событий и взаимодействия с репозиторием.
@@ -42,7 +42,7 @@ class EventViewModel(private val repository: EventRepository) : ViewModel() {
      */
     init {
         repository.getEvent()
-            .onEach { events: List<Event> ->
+            .onEach { events: List<EventData> ->
                 _state.update { stateEvent: EventState ->
                     stateEvent.copy(events = events)
                 }

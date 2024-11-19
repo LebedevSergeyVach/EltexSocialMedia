@@ -1,6 +1,6 @@
 package com.eltex.androidschool.viewmodel
 
-import com.eltex.androidschool.data.Event
+import com.eltex.androidschool.data.EventData
 
 /**
  * Состояние ViewModel для событий.
@@ -11,5 +11,5 @@ import com.eltex.androidschool.data.Event
  * @sample [EventViewModel] Пример использования состояния в EventViewModel.
  */
 data class EventState(
-    val events: List<Event> = emptyList(),
+    val events: List<EventData> = emptyList(),
 )
