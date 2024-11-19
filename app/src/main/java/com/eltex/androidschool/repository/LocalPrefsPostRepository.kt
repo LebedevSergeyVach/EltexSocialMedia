@@ -1,8 +1,12 @@
 package com.eltex.androidschool.repository
 
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.longPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
+
 import android.content.Context
-import android.content.SharedPreferences
-import androidx.core.content.edit
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,11 +16,15 @@ import kotlinx.serialization.json.Json
 
 import java.time.LocalDateTime
 import java.io.BufferedReader
+import java.io.BufferedWriter
 import java.io.File
 
-import com.eltex.androidschool.data.Post
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
+
 import kotlinx.serialization.encodeToString
-import java.io.BufferedWriter
+
+import com.eltex.androidschool.data.Post
 
 /**
  * Реализация интерфейса [PostRepository], хранящая данные о постах в памяти.
@@ -42,10 +50,17 @@ class LocalPrefsPostRepository(
         const val POSTS_FILE = "posts.json"
     }
 
-    private val prefs: SharedPreferences =
-        applicationContext.getSharedPreferences("posts", Context.MODE_PRIVATE)
+//    private val prefs: SharedPreferences =
+//        applicationContext.getSharedPreferences("posts", Context.MODE_PRIVATE)
 
-    private var nextId: Long = 0L
+    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "posts")
+    private val dataStore = applicationContext.dataStore
+
+//    private var nextId: Long = 0L
+
+    private var nextId: Long = runBlocking {
+        dataStore.data.first()[longPreferencesKey(NEXT_ID_KEY)] ?: 0L
+    }
 
     /**
      * Flow, хранящий текущее состояние списка постов.
@@ -159,13 +174,23 @@ class LocalPrefsPostRepository(
     }
 
     private fun sync() {
-        prefs.edit {
-            putLong(NEXT_ID_KEY, nextId)
+        runBlocking {
+            dataStore.edit { preferences ->
+                preferences[longPreferencesKey(NEXT_ID_KEY)] = nextId
+            }
         }
 
-        postsFileDir.bufferedWriter().use {bufferedWriter: BufferedWriter ->
+        postsFileDir.bufferedWriter().use { bufferedWriter: BufferedWriter ->
             bufferedWriter.write(Json.encodeToString(_state.value))
         }
+
+//        prefs.edit {
+//            putLong(NEXT_ID_KEY, nextId)
+//        }
+//
+//        postsFileDir.bufferedWriter().use { bufferedWriter: BufferedWriter ->
+//            bufferedWriter.write(Json.encodeToString(_state.value))
+//        }
 
         /*
         val editor: SharedPreferences.Editor = prefs.edit()

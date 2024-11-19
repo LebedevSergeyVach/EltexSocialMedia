@@ -8,6 +8,7 @@ confetti = "1.1.2"
 constraintlayoutVersion = "2.2.0"
 coreKtxVersion = "1.15.0"
 coreSplashscreen = "1.0.1"
+datastorePreferences = "1.1.1"
 espressoCoreVersion = "3.6.1"
 googleMaterial = "1.12.0"
 googleMaterialVersion = "1.12.0"
@@ -42,6 +43,7 @@ androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = 
 androidx-core-ktx-v160 = { module = "androidx.core:core-ktx", version.ref = "coreKtxVersion" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 #noinspection SimilarGradleDependency
+androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 androidx-espresso-core-v340 = { module = "androidx.test.espresso:espresso-core", version.ref = "espressoCoreVersion" }
 #noinspection SimilarGradleDependency
 androidx-junit-v113 = { module = "androidx.test.ext:junit", version.ref = "androidxJunit" }

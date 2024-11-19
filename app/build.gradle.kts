@@ -74,4 +74,7 @@ dependencies {
 
     // Serialization
     implementation(libs.kotlinx.serialization.json)
+
+    // Preferences DataStore and Proto DataStore
+    implementation(libs.androidx.datastore.preferences)
 }
