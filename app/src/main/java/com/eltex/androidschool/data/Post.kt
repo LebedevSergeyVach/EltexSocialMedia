@@ -1,5 +1,7 @@
 package com.eltex.androidschool.data
 
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -12,12 +14,19 @@ import java.time.format.DateTimeFormatter
  * @property content Содержание поста. По умолчанию пустая строка.
  * @property likeByMe Флаг, указывающий, лайкнул ли текущий пользователь этот пост. По умолчанию false.
  */
+@Serializable
 data class Post(
+    @SerialName("id")
     val id: Long = 0L,
+    @SerialName("author")
     val author: String = "",
-    val published: LocalDateTime = LocalDateTime.now(),
-    val lastModified: LocalDateTime? = null,
+    @SerialName("published")
+    val published: String = LocalDateTime.now().toString(),
+    @SerialName("last_modified")
+    val lastModified: String? = null,
+    @SerialName("content")
     val content: String = "",
+    @SerialName("like_by_me")
     val likeByMe: Boolean = false,
 ) {
     /**
