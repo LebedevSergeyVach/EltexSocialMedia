@@ -12,7 +12,7 @@ import com.eltex.androidschool.R
 import com.github.jinatonic.confetti.CommonConfetti
 
 import com.eltex.androidschool.databinding.CardPostBinding
-import com.eltex.androidschool.data.Post
+import com.eltex.androidschool.data.PostData
 import com.eltex.androidschool.utils.toast
 
 /**
@@ -51,7 +51,7 @@ class PostViewHolder(
      *
      * @param post Пост, данные которого нужно отобразить.
      */
-    fun bindPost(post: Post) {
+    fun bindPost(post: PostData) {
         binding.author.text = post.author
         binding.initial.text = post.author.take(1)
         binding.published.text = post.getFormattedPublished()
@@ -76,7 +76,9 @@ class PostViewHolder(
                 Intent(Intent.ACTION_SEND)
                     .putExtra(
                         Intent.EXTRA_TEXT,
-                        post.author + "\n\n" + post.getFormattedPublished() + "\n\n" + post.content
+                        post.author
+                                + "\n\n" + post.getFormattedPublished()
+                                + "\n\n" + post.content
                     )
                     .setType("text/plain"),
                 null

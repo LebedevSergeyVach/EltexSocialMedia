@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option java_package = "com.eltex.androidschool.data";
+option java_multiple_files = true;
+
+message Post {
+  int64 id = 1;
+  string author = 2;
+  string published = 3;
+  string last_modified = 4;
+  string content = 5;
+  bool like_by_me = 6;
+}
+
+message PostList {
+  repeated Post posts = 1;
+}

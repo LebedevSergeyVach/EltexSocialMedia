@@ -1,7 +1,10 @@
+import com.google.protobuf.gradle.id
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.serialization)
+    alias(libs.plugins.protobuf)
 }
 
 android {
@@ -31,13 +34,41 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
+
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
     // Для ViewBinding вместо findViewById
     buildFeatures {
         viewBinding = true
     }
+
+    // Proto DataStore
+    sourceSets {
+        getByName("main") {
+            java.srcDir("src/main/proto/")
+        }
+    }
+}
+
+protobuf {
+    protoc {
+        artifact = "com.google.protobuf:protoc:3.18.0"
+    }
+    generateProtoTasks {
+        all().forEach { task ->
+            task.builtins {
+                id("java") {
+                    option("lite")
+                }
+            }
+        }
+    }
+}
+
+tasks.register("generateProto") {
+    dependsOn("generateReleaseProto")
 }
 
 dependencies {
@@ -75,6 +106,12 @@ dependencies {
     // Serialization
     implementation(libs.kotlinx.serialization.json)
 
-    // Preferences DataStore and Proto DataStore
+    // Preferences DataStore
     implementation(libs.androidx.datastore.preferences)
+
+    // Proto DataStore
+    implementation(libs.androidx.datastore)
+    implementation(libs.androidx.datastore.core)
+    implementation(libs.protobuf.javalite)
+    implementation(libs.androidx.datastore.rxjava2)
 }

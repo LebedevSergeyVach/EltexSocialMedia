@@ -15,9 +15,9 @@ import com.eltex.androidschool.databinding.MainActivityBinding
 
 import com.eltex.androidschool.adapter.OffsetDecoration
 import com.eltex.androidschool.adapter.PostAdapter
-import com.eltex.androidschool.data.Post
+import com.eltex.androidschool.data.PostData
 import com.eltex.androidschool.data.PostDataParcelable
-import com.eltex.androidschool.repository.LocalPrefsPostRepository
+import com.eltex.androidschool.repository.LocalPreferencesDataStoreJsonPostRepository
 import com.eltex.androidschool.ui.EdgeToEdgeHelper
 import com.eltex.androidschool.viewmodel.PostState
 import com.eltex.androidschool.viewmodel.PostViewModel
@@ -41,7 +41,7 @@ class PostActivity : AppCompatActivity() {
     private val viewModel by viewModels<PostViewModel> {
         viewModelFactory {
             addInitializer(PostViewModel::class) {
-                PostViewModel(LocalPrefsPostRepository(applicationContext)) // не this !!!
+                PostViewModel(LocalPreferencesDataStoreJsonPostRepository(applicationContext)) // не this !!!
             }
         }
     }
@@ -93,17 +93,17 @@ class PostActivity : AppCompatActivity() {
 
         val adapter = PostAdapter(
             object : PostAdapter.PostListener {
-                override fun onLikeClicked(post: Post) {
+                override fun onLikeClicked(post: PostData) {
                     viewModel.likeById(post.id)
                 }
 
-                override fun onShareClicked(post: Post) {}
+                override fun onShareClicked(post: PostData) {}
 
-                override fun onDeleteClicked(post: Post) {
+                override fun onDeleteClicked(post: PostData) {
                     viewModel.deleteById(post.id)
                 }
 
-                override fun onUpdateClicked(post: Post) {
+                override fun onUpdateClicked(post: PostData) {
                     val intent =
                         Intent(this@PostActivity, NewOrUpdatePostActivity::class.java).apply {
                             putExtra(

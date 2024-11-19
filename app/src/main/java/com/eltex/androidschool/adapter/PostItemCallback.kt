@@ -2,14 +2,14 @@ package com.eltex.androidschool.adapter
 
 import androidx.recyclerview.widget.DiffUtil
 
-import com.eltex.androidschool.data.Post
+import com.eltex.androidschool.data.PostData
 
 /**
  * Callback для сравнения элементов списка постов.
  *
  * @see DiffUtil.ItemCallback Базовый класс для сравнения элементов списка.
  */
-class PostItemCallback : DiffUtil.ItemCallback<Post>() {
+class PostItemCallback : DiffUtil.ItemCallback<PostData>() {
 
     /**
      * Проверяет, являются ли элементы одним и тем же объектом.
@@ -19,7 +19,7 @@ class PostItemCallback : DiffUtil.ItemCallback<Post>() {
      *
      * @return Boolean true, если элементы одинаковы, иначе false.
      */
-    override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean = oldItem.id == newItem.id
+    override fun areItemsTheSame(oldItem: PostData, newItem: PostData): Boolean = oldItem.id == newItem.id
 
     /**
      * Проверяет, содержат ли элементы одинаковые данные.
@@ -29,7 +29,7 @@ class PostItemCallback : DiffUtil.ItemCallback<Post>() {
      *
      * @return Boolean true, если данные элементов одинаковы, иначе false.
      */
-    override fun areContentsTheSame(oldItem: Post, newItem: Post): Boolean = oldItem == newItem
+    override fun areContentsTheSame(oldItem: PostData, newItem: PostData): Boolean = oldItem == newItem
 
     /**
      * Возвращает объект, содержащий изменения в элементе.
@@ -39,7 +39,7 @@ class PostItemCallback : DiffUtil.ItemCallback<Post>() {
      *
      * @return Any? Объект, содержащий изменения, или null, если изменений нет.
      */
-    override fun getChangePayload(oldItem: Post, newItem: Post): Any? =
+    override fun getChangePayload(oldItem: PostData, newItem: PostData): Any? =
         PostPayload(
             likeByMe = newItem.likeByMe.takeIf { likeByMe: Boolean ->
                 likeByMe != oldItem.likeByMe

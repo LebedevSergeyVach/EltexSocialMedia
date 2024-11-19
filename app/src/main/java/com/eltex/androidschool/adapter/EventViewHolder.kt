@@ -80,7 +80,12 @@ class EventViewHolder(
                 Intent(Intent.ACTION_SEND)
                     .putExtra(
                         Intent.EXTRA_TEXT,
-                        event.author + "\n\n" + event.getFormattedPublished() + "\n\n" + event.optionConducting + "\n\n" + event.dataEvent + "\n\n" + event.content + "\n\n" + event.link
+                        event.author
+                                + "\n\n" + event.getFormattedPublished()
+                                + "\n\n" + event.optionConducting
+                                + "\n\n" + event.dataEvent
+                                + "\n\n" + event.content
+                                + "\n\n" + event.link
                     )
                     .setType("text/plain"),
                 null

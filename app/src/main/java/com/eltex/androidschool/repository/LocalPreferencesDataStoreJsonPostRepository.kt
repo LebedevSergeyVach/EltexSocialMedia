@@ -24,7 +24,8 @@ import kotlinx.coroutines.runBlocking
 
 import kotlinx.serialization.encodeToString
 
-import com.eltex.androidschool.data.Post
+import com.eltex.androidschool.data.PostData
+import java.time.format.DateTimeFormatter
 
 /**
  * Реализация интерфейса [PostRepository], хранящая данные о постах в памяти.
@@ -33,7 +34,7 @@ import com.eltex.androidschool.data.Post
  * @see PostRepository Интерфейс, который реализует этот класс.
  */
 // InMemoryPostRepository -> PrefsPostRepository
-class LocalPrefsPostRepository(
+class LocalPreferencesDataStoreJsonPostRepository(
     context: Context,
 ) : PostRepository {
     private val applicationContext: Context = context.applicationContext
@@ -48,12 +49,13 @@ class LocalPrefsPostRepository(
     private companion object {
         const val NEXT_ID_KEY = "NEXT_ID_KEY"
         const val POSTS_FILE = "posts.json"
+        const val POST_DATA_STORE = "posts"
     }
 
 //    private val prefs: SharedPreferences =
 //        applicationContext.getSharedPreferences("posts", Context.MODE_PRIVATE)
 
-    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "posts")
+    private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = POST_DATA_STORE)
     private val dataStore = applicationContext.dataStore
 
 //    private var nextId: Long = 0L
@@ -87,14 +89,14 @@ class LocalPrefsPostRepository(
 //            .reversed()
 //    )
 
-    private val _state: MutableStateFlow<List<Post>> = MutableStateFlow(readPosts())
+    private val _state: MutableStateFlow<List<PostData>> = MutableStateFlow(readPosts())
 
     /**
      * Возвращает Flow, который излучает список постов.
      *
      * @return Flow<List<Post>> Flow, излучающий список постов.
      */
-    override fun getPost(): Flow<List<Post>> = _state.asStateFlow()
+    override fun getPost(): Flow<List<PostData>> = _state.asStateFlow()
 
     /**
      * Помечает пост с указанным идентификатором как "лайкнутый" или "нелайкнутый".
@@ -121,8 +123,8 @@ class LocalPrefsPostRepository(
      * @param postId Идентификатор поста, который нужно удалить.
      */
     override fun deleteById(postId: Long) {
-        _state.update { posts: List<Post> ->
-            posts.filter { post: Post ->
+        _state.update { posts: List<PostData> ->
+            posts.filter { post: PostData ->
                 post.id != postId
             }
         }
@@ -137,10 +139,14 @@ class LocalPrefsPostRepository(
      * @param content Новое содержание поста.
      */
     override fun updateById(postId: Long, content: String) {
-        _state.update { posts: List<Post> ->
-            posts.map { post: Post ->
+        _state.update { posts: List<PostData> ->
+            posts.map { post: PostData ->
                 if (post.id == postId) {
-                    post.copy(content = content, lastModified = LocalDateTime.now().toString())
+                    post.copy(
+                        content = content,
+                        lastModified = LocalDateTime.now()
+                            .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+                    )
                 } else {
                     post
                 }
@@ -156,14 +162,15 @@ class LocalPrefsPostRepository(
      * @param content Содержание нового поста.
      */
     override fun addPost(content: String) {
-        _state.update { posts: List<Post> ->
+        _state.update { posts: List<PostData> ->
             buildList(posts.size + 1) {
                 add(
-                    Post(
+                    PostData(
                         id = nextId++,
                         content = content,
                         author = "Student",
-                        published = LocalDateTime.now().toString()
+                        published = LocalDateTime.now()
+                            .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
                     )
                 )
                 addAll(posts)
@@ -173,6 +180,9 @@ class LocalPrefsPostRepository(
         sync()
     }
 
+    /**
+     * Синхронизирует данные с DataStore и файлом.
+     */
     private fun sync() {
         runBlocking {
             dataStore.edit { preferences ->
@@ -203,7 +213,12 @@ class LocalPrefsPostRepository(
         */
     }
 
-    private fun readPosts(): List<Post> {
+    /**
+     * Читает посты из файла.
+     *
+     * @return Список постов, прочитанных из файла.
+     */
+    private fun readPosts(): List<PostData> {
         return if (postsFileDir.exists()) {
             postsFileDir.bufferedReader().use { bufferedReader: BufferedReader ->
                 Json.decodeFromString(bufferedReader.readText())

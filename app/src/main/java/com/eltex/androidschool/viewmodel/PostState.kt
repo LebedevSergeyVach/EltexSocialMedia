@@ -1,6 +1,6 @@
 package com.eltex.androidschool.viewmodel
 
-import com.eltex.androidschool.data.Post
+import com.eltex.androidschool.data.PostData
 
 /**
  * Состояние ViewModel для постов.
@@ -11,5 +11,5 @@ import com.eltex.androidschool.data.Post
  * @sample [PostViewModel] Пример использования состояния в PostViewModel.
  */
 data class PostState(
-    val posts: List<Post> = emptyList(),
+    val posts: List<PostData> = emptyList(),
 )

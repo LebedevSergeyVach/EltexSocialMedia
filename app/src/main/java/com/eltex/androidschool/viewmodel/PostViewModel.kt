@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 
 import com.eltex.androidschool.repository.PostRepository
-import com.eltex.androidschool.data.Post
+import com.eltex.androidschool.data.PostData
 
 /**
  * ViewModel для управления состоянием постов и взаимодействия с репозиторием.
@@ -42,7 +42,7 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
      */
     init {
         repository.getPost()
-            .onEach { posts: List<Post> ->
+            .onEach { posts: List<PostData> ->
                 _state.update { statePost: PostState ->
                     statePost.copy(posts = posts)
                 }

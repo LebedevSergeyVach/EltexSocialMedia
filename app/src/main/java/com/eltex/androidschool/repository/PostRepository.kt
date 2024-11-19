@@ -1,6 +1,6 @@
 package com.eltex.androidschool.repository
 
-import com.eltex.androidschool.data.Post
+import com.eltex.androidschool.data.PostData
 
 import kotlinx.coroutines.flow.Flow
 
@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
  * Интерфейс репозитория для работы с постами.
  * Предоставляет методы для получения списка постов и лайков постов.
  *
- * @see LocalPrefsPostRepository Реализация интерфейса в памяти.
+ * @see LocalPreferencesDataStoreJsonPostRepository Реализация интерфейса в памяти.
  */
 interface PostRepository {
     /**
@@ -16,7 +16,7 @@ interface PostRepository {
      *
      * @return Flow<List<Post>> Flow, излучающий список постов.
      */
-    fun getPost(): Flow<List<Post>>
+    fun getPost(): Flow<List<PostData>>
 
     /**
      * Помечает пост с указанным идентификатором как "лайкнутый" или "нелайкнутый".

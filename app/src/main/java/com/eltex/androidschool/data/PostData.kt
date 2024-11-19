@@ -2,6 +2,7 @@ package com.eltex.androidschool.data
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -11,17 +12,18 @@ import java.time.format.DateTimeFormatter
  * @property id Уникальный идентификатор поста. По умолчанию 0L.
  * @property author Автор поста. По умолчанию пустая строка.
  * @property published Дата и время публикации поста. По умолчанию текущая дата и время.
+ * @property lastModified Дата и время последнего изменения поста. По умолчанию null.
  * @property content Содержание поста. По умолчанию пустая строка.
  * @property likeByMe Флаг, указывающий, лайкнул ли текущий пользователь этот пост. По умолчанию false.
  */
 @Serializable
-data class Post(
+data class PostData(
     @SerialName("id")
     val id: Long = 0L,
     @SerialName("author")
     val author: String = "",
     @SerialName("published")
-    val published: String = LocalDateTime.now().toString(),
+    val published: String = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
     @SerialName("last_modified")
     val lastModified: String? = null,
     @SerialName("content")
@@ -35,8 +37,10 @@ data class Post(
      * @return String Отформатированная строка даты и времени.
      */
     fun getFormattedPublished(): String {
-        val formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm:ss")
-        return published.format(formatter)
+        return published.let {
+            val dateTime = LocalDateTime.parse(it, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        }
     }
 
     /**
@@ -45,6 +49,9 @@ data class Post(
      * @return Строка с датой и временем последнего изменения в формате "yyyy-MM-dd HH:mm:ss" или `null`, если дата отсутствует.
      */
     fun getFormattedLastModified(): String? {
-        return lastModified?.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        return lastModified?.let {
+            val dateTime = LocalDateTime.parse(it, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        }
     }
 }
