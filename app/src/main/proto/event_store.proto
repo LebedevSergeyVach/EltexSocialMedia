@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option java_package = "com.eltex.androidschool.data";
+option java_multiple_files = true;
+
+message Event {
+  int64 id = 1;
+  string author = 2;
+  string published = 3;
+  string last_modified = 4;
+  string option_conducting =5;
+  string data_event = 6;
+  string content = 7;
+  string link = 8;
+  bool like_by_me = 9;
+  string participate_by_me = 10;
+}
+
+message EventList {
+  repeated Event events = 1;
+}

@@ -47,14 +47,14 @@ android {
     // Proto DataStore
     sourceSets {
         getByName("main") {
-            java.srcDir("src/main/proto/")
+            java.srcDir("src/main/proto")
         }
     }
 }
 
 protobuf {
     protoc {
-        artifact = "com.google.protobuf:protoc:3.18.0"
+        artifact = "com.google.protobuf:protoc:3.25.1"
     }
     generateProtoTasks {
         all().forEach { task ->
