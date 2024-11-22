@@ -9,6 +9,7 @@ Educational project Development of Android applications in Java and Kotlin from 
 This project is based on the MVC architecture (Model-View-ViewModel).
 The acronym CRUD has been implemented to work with posts and events in the android application.
 Using [Jetpack Preferences DataStore](developer.android.com/topic/libraries/architecture/datastore) to work with local files on the device.
+At the moment, the local SQLite database on the device is used to work with the acronym CRUD.
 
 <details open="open">
     <summary><h2>🚀 The stack of technologies used</h2></summary>
