@@ -115,7 +115,7 @@ class EventActivity : AppCompatActivity() {
                 }
             },
 
-            context = this
+            context = applicationContext
         )
 
         binding.list.adapter = adapter

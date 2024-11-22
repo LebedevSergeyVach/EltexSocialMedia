@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
  * Интерфейс репозитория для работы с постами.
  * Предоставляет методы для получения списка постов и лайков постов.
  *
- * @see LocalPreferencesDataStoreJsonPostRepository Реализация интерфейса в памяти.
+ * @see SQLitePostRepository Реализация интерфейса в памяти.
  */
 interface PostRepository {
     /**

@@ -17,7 +17,8 @@ import com.eltex.androidschool.adapter.OffsetDecoration
 import com.eltex.androidschool.adapter.PostAdapter
 import com.eltex.androidschool.data.PostData
 import com.eltex.androidschool.data.PostDataParcelable
-import com.eltex.androidschool.repository.LocalPreferencesDataStoreJsonPostRepository
+import com.eltex.androidschool.db.AppDbPost
+import com.eltex.androidschool.repository.SQLitePostRepository
 import com.eltex.androidschool.ui.EdgeToEdgeHelper
 import com.eltex.androidschool.viewmodel.PostState
 import com.eltex.androidschool.viewmodel.PostViewModel
@@ -41,7 +42,11 @@ class PostActivity : AppCompatActivity() {
     private val viewModel by viewModels<PostViewModel> {
         viewModelFactory {
             addInitializer(PostViewModel::class) {
-                PostViewModel(LocalPreferencesDataStoreJsonPostRepository(applicationContext)) // не this !!!
+                PostViewModel(
+                    SQLitePostRepository(
+                        AppDbPost.getInstance(applicationContext).postDao
+                    )
+                )
             }
         }
     }
@@ -119,7 +124,7 @@ class PostActivity : AppCompatActivity() {
                 }
             },
 
-            context = this
+            context = applicationContext
         )
 
         binding.list.adapter = adapter
