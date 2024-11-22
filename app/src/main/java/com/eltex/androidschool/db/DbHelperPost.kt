@@ -41,10 +41,8 @@ class DbHelperPost(
      * @param newVersion Новая версия базы данных.
      */
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        // Удаляем старую таблицу
         db.execSQL("DROP TABLE IF EXISTS ${PostTable.TABLE_NAME}")
 
-        // Создаем новую таблицу
         onCreate(db)
     }
 }

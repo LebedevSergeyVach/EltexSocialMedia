@@ -30,4 +30,11 @@
 
     <string name="error_text_post_is_empty">Текст поста не написан</string>
     <string name="error_text_event_is_empty">Не все поля были введены!</string>
+
+    <string name="published">Опубликованно</string>
+    <string name="author">Автор</string>
+    <string name="data_event">Дата проведения события</string>
+    <string name="event">Событие</string>
+    <string name="link">Ссылка</string>
+    <string name="post">Пост</string>
 </resources>

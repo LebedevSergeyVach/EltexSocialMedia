@@ -52,5 +52,12 @@ object PostTable {
     /**
      * Массив имен всех столбцов таблицы постов.
      */
-    val allColumns = arrayOf(ID, AUTHOR, PUBLISHED, LAST_MODIFIED, CONTENT, LIKE_BY_ME)
+    val allColumns = arrayOf(
+        ID,
+        AUTHOR,
+        PUBLISHED,
+        LAST_MODIFIED,
+        CONTENT,
+        LIKE_BY_ME
+    )
 }

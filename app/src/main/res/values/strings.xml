@@ -31,19 +31,10 @@
     <string name="error_text_post_is_empty">The text of the post is not written</string>
     <string name="error_text_event_is_empty">Not all fields have been entered!</string>
 
-    <!-- Data for test -->
-    <string name="testAuthor" translatable="false">Lydia Westervelt</string>
-    <string name="testAvatar" translatable="false">L</string>
-    <string name="testPublished" translatable="false">11.05.22 11:21</string>
-    <string name="testOptionConducting" translatable="false">Offline</string>
-    <string name="testDataEvent" translatable="false">16.05.22 12:00</string>
-    <string name="testContent" translatable="false">
-        Слушайте, а как вы относитесь к тому, чтобы собраться большой компанией и поиграть в настолки?
-        У меня есть несколько клевых игр, можем устроить вечер настолок! Пишите в лс или звоните
-    </string>
-    <string name="testLink" translatable="false">https://m2.material.io/components/cards</string>
-    <string name="testLike" translatable="false">1024</string>
-    <string name="testPeoples" translatable="false">2048</string>
-    <!-- Data for test -->
-
+    <string name="published">Published</string>
+    <string name="author">Author</string>
+    <string name="data_event">Date of the event</string>
+    <string name="event">Event</string>
+    <string name="link">Link</string>
+    <string name="post">Post</string>
 </resources>

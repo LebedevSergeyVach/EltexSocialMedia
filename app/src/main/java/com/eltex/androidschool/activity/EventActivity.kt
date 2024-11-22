@@ -18,7 +18,8 @@ import com.eltex.androidschool.adapter.EventAdapter
 import com.eltex.androidschool.adapter.OffsetDecoration
 import com.eltex.androidschool.data.EventData
 import com.eltex.androidschool.data.EventDataParcelable
-import com.eltex.androidschool.repository.LocalPreferencesDataStoreJsonEventRepository
+import com.eltex.androidschool.db.AppDbEvent
+import com.eltex.androidschool.repository.SQLiteEventRepository
 import com.eltex.androidschool.ui.EdgeToEdgeHelper
 import com.eltex.androidschool.viewmodel.EventViewModel
 import com.eltex.androidschool.viewmodel.EventState
@@ -39,7 +40,11 @@ class EventActivity : AppCompatActivity() {
     private val viewModel by viewModels<EventViewModel> {
         viewModelFactory {
             addInitializer(EventViewModel::class) {
-                EventViewModel(LocalPreferencesDataStoreJsonEventRepository(applicationContext))
+                EventViewModel(
+                    SQLiteEventRepository(
+                        AppDbEvent.getInstance(applicationContext).eventDao
+                    )
+                )
             }
         }
     }

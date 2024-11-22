@@ -63,9 +63,9 @@ class PostDaoImpl(
             contentValues.put(PostTable.ID, post.id)
         }
 
-        val id: Long = db.insert(PostTable.TABLE_NAME, null, contentValues)
+        val postId: Long = db.insert(PostTable.TABLE_NAME, null, contentValues)
 
-        return getPostById(id)
+        return getPostById(postId)
     }
 
     /**

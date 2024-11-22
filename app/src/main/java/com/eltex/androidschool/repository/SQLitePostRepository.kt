@@ -57,7 +57,10 @@ class SQLitePostRepository(
      * @param content Новое содержимое поста.
      */
     override fun updateById(postId: Long, content: String) {
-        postDao.updateById(postId, content)
+        postDao.updateById(
+            postId = postId,
+            content = content
+        )
 
         sync()
     }
@@ -68,7 +71,12 @@ class SQLitePostRepository(
      * @param content Содержимое нового поста.
      */
     override fun addPost(content: String) {
-        postDao.save(PostData(content = content, author = "Student"))
+        postDao.save(
+            PostData(
+                content = content,
+                author = "Student"
+            )
+        )
 
         sync()
     }

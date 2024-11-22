@@ -72,13 +72,21 @@ class PostViewHolder(
         binding.share.setOnClickListener {
             context.toast(R.string.shared)
 
+            var modification = ""
+
+            if (post.lastModified != null) {
+                modification =
+                    "\n\n" + context.getString(R.string.changed) + ": " + post.getFormattedLastModified()
+            }
+
             val intent = Intent.createChooser(
                 Intent(Intent.ACTION_SEND)
                     .putExtra(
                         Intent.EXTRA_TEXT,
-                        post.author
-                                + "\n\n" + post.getFormattedPublished()
-                                + "\n\n" + post.content
+                        context.getString(R.string.author) + ":\n" + post.author
+                                + "\n\n" + context.getString(R.string.published) + ":\n" + post.getFormattedPublished()
+                                + "\n\n" + context.getString(R.string.post) + ":\n" + post.content
+                                + modification
                     )
                     .setType("text/plain"),
                 null

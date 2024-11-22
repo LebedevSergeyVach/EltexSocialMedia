@@ -76,16 +76,24 @@ class EventViewHolder(
         binding.share.setOnClickListener {
             context.toast(R.string.shared)
 
+            var modification = ""
+
+            if (event.lastModified != null) {
+                modification =
+                    "\n\n" + context.getString(R.string.changed) + ": " + event.getFormattedLastModified()
+            }
+
             val intent = Intent.createChooser(
                 Intent(Intent.ACTION_SEND)
                     .putExtra(
                         Intent.EXTRA_TEXT,
-                        event.author
-                                + "\n\n" + event.getFormattedPublished()
+                        context.getString(R.string.author) + ":\n" + event.author
+                                + "\n\n" + context.getString(R.string.published) + ":\n" + event.getFormattedPublished()
+                                + "\n\n" + context.getString(R.string.data_event) + ":\n" + event.dataEvent
                                 + "\n\n" + event.optionConducting
-                                + "\n\n" + event.dataEvent
-                                + "\n\n" + event.content
-                                + "\n\n" + event.link
+                                + "\n\n" + context.getString(R.string.event) + ":\n" + event.content
+                                + "\n\n" + context.getString(R.string.link) + ":\n" + event.link
+                                + modification
                     )
                     .setType("text/plain"),
                 null
