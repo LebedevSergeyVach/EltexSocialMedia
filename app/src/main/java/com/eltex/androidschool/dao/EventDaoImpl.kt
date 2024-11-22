@@ -5,15 +5,25 @@ import android.database.sqlite.SQLiteDatabase
 
 import androidx.core.content.contentValuesOf
 
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
-
 import com.eltex.androidschool.db.EventTable
 import com.eltex.androidschool.data.EventData
 
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
+/**
+ * Реализация интерфейса [EventDao] для работы с данными событий в базе данных SQLite.
+ *
+ * @property db База данных SQLite.
+ */
 class EventDaoImpl(
     private val db: SQLiteDatabase
 ) : EventDao {
+    /**
+     * Получает все события из базы данных.
+     *
+     * @return Список всех событий.
+     */
     override fun getAll(): List<EventData> {
         db.query(
             EventTable.TABLE_NAME,
@@ -34,6 +44,12 @@ class EventDaoImpl(
         }
     }
 
+    /**
+     * Сохраняет новое событие в базу данных.
+     *
+     * @param event Событие для сохранения.
+     * @return Сохраненное событие с обновленным идентификатором.
+     */
     override fun save(event: EventData): EventData {
         val contentValues = contentValuesOf(
             EventTable.AUTHOR to event.author,
@@ -56,6 +72,12 @@ class EventDaoImpl(
         return getEventById(eventId)
     }
 
+    /**
+     * Поставить или убрать лайк у события по его идентификатору.
+     *
+     * @param eventId Идентификатор события.
+     * @return Обновленное событие.
+     */
     override fun likeById(eventId: Long): EventData {
         db.execSQL(
             """
@@ -69,6 +91,12 @@ class EventDaoImpl(
         return getEventById(eventId)
     }
 
+    /**
+     * Участвовать или отказаться от участия в событии по его идентификатору.
+     *
+     * @param eventId Идентификатор события.
+     * @return Обновленное событие.
+     */
     override fun participateById(eventId: Long): EventData {
         db.execSQL(
             """
@@ -82,6 +110,11 @@ class EventDaoImpl(
         return getEventById(eventId)
     }
 
+    /**
+     * Удаляет событие по его идентификатору.
+     *
+     * @param eventId Идентификатор события.
+     */
     override fun deleteById(eventId: Long) {
         db.delete(
             EventTable.TABLE_NAME,
@@ -90,6 +123,15 @@ class EventDaoImpl(
         )
     }
 
+    /**
+     * Обновляет содержимое события по его идентификатору.
+     *
+     * @param eventId Идентификатор события.
+     * @param content Новое содержимое события.
+     * @param link Новый URL-адрес события.
+     * @param option Новая опция проведения события.
+     * @param data Новая дата события.
+     */
     override fun updateById(
         eventId: Long,
         content: String,
@@ -114,6 +156,13 @@ class EventDaoImpl(
         )
     }
 
+    /**
+     * Получает событие по его идентификатору.
+     *
+     * @param eventId Идентификатор события.
+     * @return Событие с указанным идентификатором.
+     * @throws IllegalArgumentException Если событие с указанным идентификатором не найдено.
+     */
     private fun getEventById(eventId: Long): EventData =
         db.query(
             EventTable.TABLE_NAME,
@@ -130,6 +179,11 @@ class EventDaoImpl(
         }
 }
 
+/**
+ * Расширение для [Cursor], которое преобразует данные из курсора в объект [EventData].
+ *
+ * @return Объект [EventData], созданный из данных курсора.
+ */
 private fun Cursor.readEvent(): EventData =
     EventData(
         id = getLong(getColumnIndexOrThrow(EventTable.ID)),

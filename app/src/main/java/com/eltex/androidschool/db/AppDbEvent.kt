@@ -6,15 +6,32 @@ import android.database.sqlite.SQLiteDatabase
 
 import com.eltex.androidschool.dao.EventDaoImpl
 
+/**
+ * Класс для управления базой данных приложения.
+ *
+ * @property db База данных SQLite.
+ */
 class AppDbEvent private constructor(
-    db: SQLiteDatabase
+    db: SQLiteDatabase,
 ) {
+    /**
+     * DAO для работы с данными событий.
+     */
     val eventDao = EventDaoImpl(db)
 
     companion object {
+        /**
+         * Единственный экземпляр класса [AppDbEvent].
+         */
         @Volatile
         private var INSTANCE: AppDbEvent? = null
 
+        /**
+         * Получает экземпляр класса [AppDbEvent].
+         *
+         * @param context Контекст приложения.
+         * @return Экземпляр класса [AppDbEvent].
+         */
         fun getInstance(context: Context): AppDbEvent {
             val application = context.applicationContext
 
