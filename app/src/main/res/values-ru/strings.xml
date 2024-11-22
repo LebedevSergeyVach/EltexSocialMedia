@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Android Школа</string>
+    <string name="app_name">Академия Eltex</string>
 
     <string name="app_not_found">Приложение не найдено</string>
     <string name="not_implemented">Не реализовано</string>

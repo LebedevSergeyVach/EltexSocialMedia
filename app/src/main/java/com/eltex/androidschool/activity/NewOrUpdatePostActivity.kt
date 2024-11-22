@@ -10,7 +10,9 @@ import com.eltex.androidschool.databinding.ActivityNewOrUpdatePostBinding
 
 import com.eltex.androidschool.data.PostDataParcelable
 import com.eltex.androidschool.ui.EdgeToEdgeHelper
+
 import com.eltex.androidschool.utils.toast
+import com.eltex.androidschool.utils.vibrateWithEffect
 
 @Suppress("DEPRECATION")
 class NewOrUpdatePostActivity : AppCompatActivity() {
@@ -49,6 +51,7 @@ class NewOrUpdatePostActivity : AppCompatActivity() {
                 setResult(RESULT_OK, resultIntent)
                 finish()
             } else {
+                applicationContext.vibrateWithEffect(100L)
                 toast(R.string.error_text_post_is_empty)
             }
 

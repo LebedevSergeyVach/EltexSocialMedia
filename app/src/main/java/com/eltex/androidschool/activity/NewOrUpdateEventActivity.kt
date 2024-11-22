@@ -10,7 +10,9 @@ import com.eltex.androidschool.databinding.ActivityNewOrUpdateEventBinding
 
 import com.eltex.androidschool.data.EventDataParcelable
 import com.eltex.androidschool.ui.EdgeToEdgeHelper
+
 import com.eltex.androidschool.utils.toast
+import com.eltex.androidschool.utils.vibrateWithEffect
 
 @Suppress("DEPRECATION")
 class NewOrUpdateEventActivity : AppCompatActivity() {
@@ -60,6 +62,7 @@ class NewOrUpdateEventActivity : AppCompatActivity() {
                 setResult(RESULT_OK, resultIntent)
                 finish()
             } else {
+                applicationContext.vibrateWithEffect(100L)
                 toast(R.string.error_text_event_is_empty)
             }
 

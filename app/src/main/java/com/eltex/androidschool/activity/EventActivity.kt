@@ -1,6 +1,7 @@
 package com.eltex.androidschool.activity
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.ActivityResult
@@ -74,25 +75,7 @@ class EventActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        if (intent.action == Intent.ACTION_SEND) {
-            val text = intent.getStringExtra(Intent.EXTRA_TEXT)
-            intent.removeExtra(Intent.EXTRA_TEXT)
-            if (text != null) {
-                val newEventIntent = Intent(this, NewOrUpdateEventActivity::class.java).apply {
-                    putExtra(
-                        "EventDataParcelable",
-                        EventDataParcelable(
-                            content = text,
-                            date = "",
-                            option = "",
-                            link = "",
-                            eventId = -1L
-                        )
-                    )
-                }
-                newEventContracts.launch(newEventIntent)
-            }
-        }
+        handleIntent(intent)
 
         val binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -152,5 +135,61 @@ class EventActivity : AppCompatActivity() {
             .launchIn(lifecycleScope)
 
         EdgeToEdgeHelper.applyingIndentationOfSystemFields(findViewById(android.R.id.content))
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        handleIntent(intent)
+    }
+
+    private fun handleIntent(intent: Intent?) {
+        if (intent?.action == Intent.ACTION_SEND) {
+            val text = intent.getStringExtra(Intent.EXTRA_TEXT)
+            val uri = intent.data
+            intent.removeExtra(Intent.EXTRA_TEXT)
+
+            if (text != null) {
+                createEventFromText(text)
+            } else if (uri != null) {
+                createEventFromUri(uri)
+            }
+        } else if (intent?.action == Intent.ACTION_VIEW) {
+            val uri = intent.data
+            if (uri != null) {
+                createEventFromUri(uri)
+            }
+        }
+    }
+
+    private fun createEventFromText(text: String) {
+        val newEventIntent = Intent(this, NewOrUpdateEventActivity::class.java).apply {
+            putExtra(
+                "EventDataParcelable",
+                EventDataParcelable(
+                    content = text,
+                    date = "",
+                    option = "",
+                    link = "",
+                    eventId = -1L
+                )
+            )
+        }
+        newEventContracts.launch(newEventIntent)
+    }
+
+    private fun createEventFromUri(uri: Uri) {
+        val newEventIntent = Intent(this, NewOrUpdateEventActivity::class.java).apply {
+            putExtra(
+                "EventDataParcelable",
+                EventDataParcelable(
+                    content = "",
+                    date = "",
+                    option = "",
+                    link = uri.toString(),
+                    eventId = -1L
+                )
+            )
+        }
+        newEventContracts.launch(newEventIntent)
     }
 }
