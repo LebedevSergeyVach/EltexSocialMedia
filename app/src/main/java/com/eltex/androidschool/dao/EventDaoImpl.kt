@@ -5,11 +5,16 @@ import android.database.sqlite.SQLiteDatabase
 
 import androidx.core.content.contentValuesOf
 
-import com.eltex.androidschool.db.EventTable
-import com.eltex.androidschool.data.EventData
-
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
+
+import com.eltex.androidschool.utils.getBooleanOrThrow
+import com.eltex.androidschool.utils.getLongOrThrow
+import com.eltex.androidschool.utils.getStringOrThrow
+import com.eltex.androidschool.utils.getStringOrNull
+
+import com.eltex.androidschool.db.EventTable
+import com.eltex.androidschool.data.EventData
 
 /**
  * Реализация интерфейса [EventDao] для работы с данными событий в базе данных SQLite.
@@ -186,14 +191,14 @@ class EventDaoImpl(
  */
 private fun Cursor.readEvent(): EventData =
     EventData(
-        id = getLong(getColumnIndexOrThrow(EventTable.ID)),
-        author = getString(getColumnIndexOrThrow(EventTable.AUTHOR)),
-        published = getString(getColumnIndexOrThrow(EventTable.PUBLISHED)),
-        lastModified = getString(getColumnIndexOrThrow(EventTable.LAST_MODIFIED)),
-        optionConducting = getString(getColumnIndexOrThrow(EventTable.OPTIONS_CONDUCTING)),
-        dataEvent = getString(getColumnIndexOrThrow(EventTable.DATA_EVENT)),
-        content = getString(getColumnIndexOrThrow(EventTable.CONTENT)),
-        link = getString(getColumnIndexOrThrow(EventTable.LINK)),
-        likeByMe = getInt(getColumnIndexOrThrow(EventTable.LIKE_BY_ME)) == 1,
-        participateByMe = getInt(getColumnIndexOrThrow(EventTable.PARTICIPATE_BY_ME)) == 1,
+        id = getLongOrThrow(EventTable.ID),
+        author = getStringOrThrow(EventTable.AUTHOR),
+        published = getStringOrThrow(EventTable.PUBLISHED),
+        lastModified = getStringOrNull(EventTable.LAST_MODIFIED),
+        optionConducting = getStringOrThrow(EventTable.OPTIONS_CONDUCTING),
+        dataEvent = getStringOrThrow(EventTable.DATA_EVENT),
+        content = getStringOrThrow(EventTable.CONTENT),
+        link = getStringOrThrow(EventTable.LINK),
+        likeByMe = getBooleanOrThrow(EventTable.LIKE_BY_ME),
+        participateByMe = getBooleanOrThrow(EventTable.PARTICIPATE_BY_ME),
     )

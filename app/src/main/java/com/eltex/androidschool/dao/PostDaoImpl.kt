@@ -8,6 +8,11 @@ import androidx.core.content.contentValuesOf
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
+import com.eltex.androidschool.utils.getBooleanOrThrow
+import com.eltex.androidschool.utils.getLongOrThrow
+import com.eltex.androidschool.utils.getStringOrThrow
+import com.eltex.androidschool.utils.getStringOrNull
+
 import com.eltex.androidschool.db.PostTable
 import com.eltex.androidschool.data.PostData
 
@@ -151,10 +156,10 @@ class PostDaoImpl(
  */
 private fun Cursor.readPost(): PostData =
     PostData(
-        id = getLong(getColumnIndexOrThrow(PostTable.ID)),
-        author = getString(getColumnIndexOrThrow(PostTable.AUTHOR)),
-        published = getString(getColumnIndexOrThrow(PostTable.PUBLISHED)),
-        lastModified = getString(getColumnIndexOrThrow(PostTable.LAST_MODIFIED)),
-        content = getString(getColumnIndexOrThrow(PostTable.CONTENT)),
-        likeByMe = getInt(getColumnIndexOrThrow(PostTable.LIKE_BY_ME)) == 1,
+        id = getLongOrThrow(PostTable.ID),
+        author = getStringOrThrow(PostTable.AUTHOR),
+        published = getStringOrThrow(PostTable.PUBLISHED),
+        lastModified = getStringOrNull(PostTable.LAST_MODIFIED),
+        content = getStringOrThrow(PostTable.CONTENT),
+        likeByMe = getBooleanOrThrow(PostTable.LIKE_BY_ME),
     )
