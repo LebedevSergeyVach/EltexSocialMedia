@@ -1,42 +1,42 @@
 package com.eltex.androidschool.repository
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.map
 
 import com.eltex.androidschool.dao.PostDao
 import com.eltex.androidschool.data.PostData
+import com.eltex.androidschool.entity.PostEntity
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 /**
  * Репозиторий для работы с данными постов, использующий SQLite и StateFlow.
  *
  * @property postDao DAO для работы с данными постов.
  */
-class SQLitePostRepository(
+class DaoSQLitePostRepository(
     private val postDao: PostDao
 ) : PostRepository {
-    /**
-     * Flow для хранения состояния списка постов.
-     */
-    private val _state: MutableStateFlow<List<PostData>> = MutableStateFlow(readPosts())
-
     /**
      * Получает Flow со списком постов.
      *
      * @return Flow со списком постов.
      */
-    override fun getPost(): Flow<List<PostData>> = _state.asStateFlow()
+    override fun getPost(): Flow<List<PostData>> =
+        postDao.getAll()
+            .map { posts: List<PostEntity> ->
+                posts.map(
+                    PostEntity::toPostData
+                )
+            }
 
     /**
-     * Поставить или убрать лайк у поста по его идентификатору.
+     * Переключает состояние лайка у поста по его идентификатору.
      *
      * @param postId Идентификатор поста.
      */
     override fun likeById(postId: Long) {
         postDao.likeById(postId)
-
-        sync()
     }
 
     /**
@@ -46,8 +46,6 @@ class SQLitePostRepository(
      */
     override fun deleteById(postId: Long) {
         postDao.deleteById(postId)
-
-        sync()
     }
 
     /**
@@ -57,12 +55,8 @@ class SQLitePostRepository(
      * @param content Новое содержимое поста.
      */
     override fun updateById(postId: Long, content: String) {
-        postDao.updateById(
-            postId = postId,
-            content = content
-        )
-
-        sync()
+        val lastModified = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+        postDao.updateById(postId, content, lastModified)
     }
 
     /**
@@ -72,28 +66,13 @@ class SQLitePostRepository(
      */
     override fun addPost(content: String) {
         postDao.save(
-            PostData(
-                content = content,
-                author = "Student"
+            PostEntity.fromPostData(
+                PostData(
+                    content = content,
+                    author = "Student"
+                )
             )
         )
 
-        sync()
     }
-
-    /**
-     * Синхронизирует состояние Flow с данными из базы данных.
-     */
-    private fun sync() {
-        _state.update {
-            readPosts()
-        }
-    }
-
-    /**
-     * Читает все посты из базы данных.
-     *
-     * @return Список всех постов.
-     */
-    private fun readPosts(): List<PostData> = postDao.getAll()
 }

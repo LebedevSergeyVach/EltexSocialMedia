@@ -18,7 +18,7 @@ import com.eltex.androidschool.adapter.PostAdapter
 import com.eltex.androidschool.data.PostData
 import com.eltex.androidschool.data.PostDataParcelable
 import com.eltex.androidschool.db.AppDbPost
-import com.eltex.androidschool.repository.SQLitePostRepository
+import com.eltex.androidschool.repository.DaoSQLitePostRepository
 import com.eltex.androidschool.ui.EdgeToEdgeHelper
 import com.eltex.androidschool.viewmodel.PostState
 import com.eltex.androidschool.viewmodel.PostViewModel
@@ -43,7 +43,7 @@ class PostActivity : AppCompatActivity() {
         viewModelFactory {
             addInitializer(PostViewModel::class) {
                 PostViewModel(
-                    SQLitePostRepository(
+                    DaoSQLitePostRepository(
                         AppDbPost.getInstance(applicationContext).postDao
                     )
                 )

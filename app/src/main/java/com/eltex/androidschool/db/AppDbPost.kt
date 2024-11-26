@@ -2,22 +2,24 @@ package com.eltex.androidschool.db
 
 import android.content.Context
 
-import android.database.sqlite.SQLiteDatabase
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 
-import com.eltex.androidschool.dao.PostDaoImpl
+import com.eltex.androidschool.dao.PostDao
+import com.eltex.androidschool.entity.PostEntity
 
 /**
  * Класс для управления базой данных приложения.
  *
- * @property db База данных SQLite.
+ * @property postDao DAO для работы с сущностями [PostEntity].
  */
-class AppDbPost private constructor(
-    db: SQLiteDatabase,
-) {
-    /**
-     * DAO для работы с данными постов.
-     */
-    val postDao = PostDaoImpl(db)
+@Database(
+    entities = [PostEntity::class],
+    version = PostTableInfo.DB_VERSION,
+)
+abstract class AppDbPost : RoomDatabase() {
+    abstract val postDao: PostDao
 
     companion object {
         /**
@@ -44,7 +46,11 @@ class AppDbPost private constructor(
                     return appDbPost
                 }
 
-                val appDbPost = AppDbPost(DbHelperPost(application).writableDatabase)
+                val appDbPost: AppDbPost =
+                    Room.databaseBuilder(application, AppDbPost::class.java, PostTableInfo.DB_NAME)
+                        .fallbackToDestructiveMigration() // разрешаем стереть данные при увеличении версии БД
+                        .allowMainThreadQueries() // разрешаем запросы с главного потока
+                        .build()
 
                 INSTANCE = appDbPost
 

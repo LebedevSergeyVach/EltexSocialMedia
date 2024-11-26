@@ -5,6 +5,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.serialization)
     alias(libs.plugins.protobuf)
+    alias(libs.plugins.room)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -30,6 +32,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -50,6 +53,14 @@ android {
             java.srcDir("src/main/proto")
         }
     }
+
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }
 
 protobuf {
@@ -84,21 +95,17 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    implementation(libs.material.v1120)
-
     /*
          Constraintlayout
          https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout
     */
     implementation(libs.androidx.constraintlayout.v220)
 
+    // ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     // ViewParticleEmitter ANIM
     implementation(libs.confetti)
-
-    // Lottie  ANIM
-    implementation(libs.lottie)
 
     // SplashScreen
     implementation(libs.androidx.core.splashscreen)
@@ -106,12 +113,21 @@ dependencies {
     // Serialization
     implementation(libs.kotlinx.serialization.json)
 
-    // Preferences DataStore
+    // Preferences DataStore Jetpack
     implementation(libs.androidx.datastore.preferences)
 
-    // Proto DataStore
+    // Proto DataStore Jetpack
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.datastore.core)
     implementation(libs.protobuf.javalite)
     implementation(libs.androidx.datastore.rxjava2)
+
+    /*
+        Room DataStore SQLite Jetpack
+        https://developer.android.com/training/data-storage/room
+        https://developer.android.com/jetpack/androidx/releases/room
+     */
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 }

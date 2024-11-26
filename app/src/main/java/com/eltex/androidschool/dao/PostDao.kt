@@ -1,41 +1,60 @@
 package com.eltex.androidschool.dao
 
-import com.eltex.androidschool.data.PostData
+import androidx.room.Dao
+import androidx.room.Query
+import androidx.room.Upsert
+import com.eltex.androidschool.db.PostTableInfo
+
+import kotlinx.coroutines.flow.Flow
+
+import com.eltex.androidschool.entity.PostEntity
 
 /**
- * Интерфейс для работы с данными постов в базе данных.
- *
- * @see PostData Класс, представляющий данные поста.
+ * Data Access Object (DAO) для работы с сущностями [PostEntity] в базе данных.
  */
+@Dao
 interface PostDao {
     /**
-     * Получает все посты из базы данных.
+     * Получает все посты из базы данных, отсортированные по идентификатору в порядке убывания.
      *
-     * @return Список всех постов.
+     * @return Flow со списком постов.
      */
-    fun getAll(): List<PostData>
+    @Query("SELECT * FROM ${PostTableInfo.TABLE_NAME} ORDER BY id DESC")
+    fun getAll(): Flow<List<PostEntity>>
 
     /**
-     * Сохраняет новый пост в базу данных.
+     * Сохраняет или обновляет пост в базе данных.
      *
-     * @param post Пост для сохранения.
-     * @return Сохраненный пост с обновленным идентификатором.
+     * @param post Пост для сохранения или обновления.
+     * @return Идентификатор сохраненного или обновленного поста.
      */
-    fun save(post: PostData): PostData
+    @Upsert
+    fun save(post: PostEntity): Long
 
     /**
-     * Поставить или убрать лайк у поста по его идентификатору.
+     * Переключает состояние лайка у поста по его идентификатору.
      *
      * @param postId Идентификатор поста.
-     * @return Обновленный пост.
      */
-    fun likeById(postId: Long): PostData
+    @Query(
+        """
+            UPDATE ${PostTableInfo.TABLE_NAME} SET
+                likeByMe =  CASE WHEN likeByMe THEN 0 ELSE 1 END
+            WHERE id = :postId
+        """
+    )
+    fun likeById(postId: Long)
 
     /**
      * Удаляет пост по его идентификатору.
      *
      * @param postId Идентификатор поста.
      */
+    @Query(
+        """
+            DELETE FROM ${PostTableInfo.TABLE_NAME} WHERE id = :postId
+        """
+    )
     fun deleteById(postId: Long)
 
     /**
@@ -43,6 +62,12 @@ interface PostDao {
      *
      * @param postId Идентификатор поста.
      * @param content Новое содержимое поста.
+     * @param lastModified Дата и время последнего изменения.
      */
-    fun updateById(postId: Long, content: String)
+    @Query(
+        """
+            UPDATE ${PostTableInfo.TABLE_NAME} SET content = :content, lastModified = :lastModified WHERE id = :postId
+        """
+    )
+    fun updateById(postId: Long, content: String, lastModified: String)
 }
