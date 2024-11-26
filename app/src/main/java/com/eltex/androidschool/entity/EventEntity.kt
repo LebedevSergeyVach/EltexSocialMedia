@@ -10,6 +10,9 @@ import java.time.format.DateTimeFormatter
 import com.eltex.androidschool.data.EventData
 import com.eltex.androidschool.db.EventTableInfo
 
+/**
+ * Сущность, представляющая событие в базе данных.
+ */
 @Entity(tableName = EventTableInfo.TABLE_NAME)
 class EventEntity(
     @PrimaryKey(autoGenerate = true)
@@ -35,6 +38,12 @@ class EventEntity(
     val participateByMe: Boolean = false,
 ) {
     companion object {
+        /**
+         * Создает экземпляр [EventEntity] из [EventData].
+         *
+         * @param event Данные события.
+         * @return Экземпляр [EventEntity].
+         */
         fun fromEventData(event: EventData): EventEntity =
             with(event) {
                 EventEntity(
@@ -52,6 +61,11 @@ class EventEntity(
             }
     }
 
+    /**
+     * Преобразует экземпляр [EventEntity] в [EventData].
+     *
+     * @return Экземпляр [EventData].
+     */
     fun toEventData(): EventData =
         EventData(
             id = id,

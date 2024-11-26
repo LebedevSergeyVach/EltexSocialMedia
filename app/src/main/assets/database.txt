@@ -1,0 +1,33 @@
+POST DATABASE:
+
+CREATE TABLE PostsTableName (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    author TEXT NOT NULL,
+    published TEXT NOT NULL,
+    lastModified TEXT,
+    content TEXT NOT NULL,
+    likeByMe INTEGER NOT NULL DEFAULT 0
+);
+
+INSERT INTO PostsTableName (author, published, lastModified, content, likeByMe)
+VALUES ('Author', '2023-10-01T12:00:00', '2023-10-01T12:00:00', 'Content', 0);
+
+
+
+EVENT DATABASE:
+
+CREATE TABLE EventsTableName (
+    id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+    author TEXT NOT NULL,
+    published TEXT NOT NULL,
+    lastModified TEXT,
+	optionConducting TEXT NOT NULL,
+	dataEvent TEXT NOT NULL,
+    content TEXT NOT NULL,
+	link TEXT NOT NULL,
+    likeByMe INTEGER NOT NULL DEFAULT 0,
+	participateByMe INTEGER NOT NULL DEFAULT 0
+);
+
+INSERT INTO EventsTableName (author, published, lastModified, optionConducting, dataEvent, content, link, likeByMe, participateByMe)
+VALUES ('Student Eltex', '2024-11-26T21:30:00', NULL, 'Online', '2025-01-01 00:00:00', '', '', 0, 0);
