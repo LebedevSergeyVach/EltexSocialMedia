@@ -123,7 +123,7 @@ dependencies {
     implementation(libs.androidx.datastore.rxjava2)
 
     /*
-        Room DataStore SQLite Jetpack
+        Room SQLite Jetpack
         https://developer.android.com/training/data-storage/room
         https://developer.android.com/jetpack/androidx/releases/room
      */

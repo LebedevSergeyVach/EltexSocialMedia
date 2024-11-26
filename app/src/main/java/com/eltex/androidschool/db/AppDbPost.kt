@@ -55,9 +55,7 @@ abstract class AppDbPost : RoomDatabase() {
 
                 val dbFile = application.getDatabasePath(PostTableInfo.DB_NAME)
 
-                // Проверка, существует ли база данных и пуста ли она
                 if (!dbFile.exists() || isDatabaseEmpty(dbFile)) {
-                    // Копирование базы данных из ассетов
                     copyDatabaseFromAssets(application, dbFile)
                 }
 

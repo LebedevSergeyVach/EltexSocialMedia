@@ -45,7 +45,6 @@ abstract class AppDbEvent : RoomDatabase() {
 
         private val MIGRATION_2_3 = object : Migration(2, 3) {
             override fun migrate(db: SupportSQLiteDatabase) {
-                // Создаем новую таблицу без нового свойства
                 db.execSQL(
                     """
                         CREATE TABLE new_${EventTableInfo.TABLE_NAME} (
@@ -63,7 +62,6 @@ abstract class AppDbEvent : RoomDatabase() {
                     """.trimIndent()
                 )
 
-                // Копируем данные из старой таблицы в новую
                 db.execSQL(
                     """
                             INSERT INTO new_${EventTableInfo.TABLE_NAME} 
@@ -73,14 +71,12 @@ abstract class AppDbEvent : RoomDatabase() {
                         """
                 )
 
-                // Удаляем старую таблицу
                 db.execSQL(
                     """
                         DROP TABLE ${EventTableInfo.TABLE_NAME}
                     """.trimIndent()
                 )
 
-                // Переименовываем новую таблицу в старое имя
                 db.execSQL(
                     """
                         ALTER TABLE new_${EventTableInfo.TABLE_NAME} RENAME TO ${EventTableInfo.TABLE_NAME}
@@ -109,9 +105,7 @@ abstract class AppDbEvent : RoomDatabase() {
 
                 val dbFile = application.getDatabasePath(EventTableInfo.DB_NAME)
 
-                // Проверка, существует ли база данных и пуста ли она
                 if (!dbFile.exists() || isDatabaseEmpty(dbFile)) {
-                    // Копирование базы данных из ассетов
                     copyDatabaseFromAssets(application, dbFile)
                 }
 
