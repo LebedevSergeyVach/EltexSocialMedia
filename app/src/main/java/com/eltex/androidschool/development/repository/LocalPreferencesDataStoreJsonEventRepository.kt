@@ -1,4 +1,4 @@
-package com.eltex.androidschool.repository
+package com.eltex.androidschool.development.repository
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -26,6 +26,7 @@ import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.encodeToString
 
 import com.eltex.androidschool.data.EventData
+import com.eltex.androidschool.repository.EventRepository
 import java.time.format.DateTimeFormatter
 
 /**
