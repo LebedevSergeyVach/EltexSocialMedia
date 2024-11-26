@@ -9,7 +9,7 @@ object EventTableInfo {
     /**
      * Версия базы данных.
      */
-    const val DB_VERSION = 2
+    const val DB_VERSION = 3
 
     /**
      * Имя таблицы постов.

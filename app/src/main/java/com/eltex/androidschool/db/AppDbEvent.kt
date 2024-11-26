@@ -43,6 +43,52 @@ abstract class AppDbEvent : RoomDatabase() {
             }
         }
 
+        private val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                // Создаем новую таблицу без нового свойства
+                db.execSQL(
+                    """
+                        CREATE TABLE new_${EventTableInfo.TABLE_NAME} (
+                            id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
+                            author TEXT NOT NULL,
+                            published TEXT NOT NULL,
+                            lastModified TEXT,
+                        	optionConducting TEXT NOT NULL,
+                        	dataEvent TEXT NOT NULL,
+                            content TEXT NOT NULL,
+                        	link TEXT NOT NULL,
+                            likeByMe INTEGER NOT NULL DEFAULT 0,
+                        	participateByMe INTEGER NOT NULL DEFAULT 0
+                        );
+                    """.trimIndent()
+                )
+
+                // Копируем данные из старой таблицы в новую
+                db.execSQL(
+                    """
+                            INSERT INTO new_${EventTableInfo.TABLE_NAME} 
+                            (id, author, published, lastModified, optionConducting, dataEvent, content, link, likeByMe, participateByMe) 
+                            SELECT id, author, published, lastModified, optionConducting, dataEvent, content, link, likeByMe, participateByMe 
+                            FROM ${EventTableInfo.TABLE_NAME}
+                        """
+                )
+
+                // Удаляем старую таблицу
+                db.execSQL(
+                    """
+                        DROP TABLE ${EventTableInfo.TABLE_NAME}
+                    """.trimIndent()
+                )
+
+                // Переименовываем новую таблицу в старое имя
+                db.execSQL(
+                    """
+                        ALTER TABLE new_${EventTableInfo.TABLE_NAME} RENAME TO ${EventTableInfo.TABLE_NAME}
+                    """.trimIndent()
+                )
+            }
+        }
+
         /**
          * Получает экземпляр класса [AppDbEvent].
          *
@@ -75,7 +121,7 @@ abstract class AppDbEvent : RoomDatabase() {
                         klass = AppDbEvent::class.java,
                         name = EventTableInfo.DB_NAME
                     )
-                        .addMigrations(MIGRATION_1_2)
+                        .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                         .fallbackToDestructiveMigration() // разрешаем стереть данные при увеличении версии БД
                         .allowMainThreadQueries() // разрешаем запросы с главного потока
                         .build()
