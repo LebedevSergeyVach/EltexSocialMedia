@@ -39,7 +39,7 @@ abstract class AppDbEvent : RoomDatabase() {
 
         private val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(db: SupportSQLiteDatabase) {
-                db.execSQL("ALTER TABLE ${EventTableInfo.TABLE_NAME} ADD COLUMN newProperty TEXT")
+                db.execSQL("ALTER TABLE ${EventTableInfo.TABLE_NAME} ADD COLUMN newProperty TEXT NOT NULL DEFAULT ''")
             }
         }
 
