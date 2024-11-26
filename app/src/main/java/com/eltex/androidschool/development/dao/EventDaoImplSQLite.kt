@@ -1,9 +1,15 @@
-package com.eltex.androidschool.dao
+/*
+    Не используется
+    Нужен для работы напрямую с запросами SQLite
+    На данный момент испоьлзуется EventDaoImpl ROOM ORM
+*/
+package com.eltex.androidschool.development.dao
 
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 
 import androidx.core.content.contentValuesOf
+import com.eltex.androidschool.dao.EventDao
 
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -13,17 +19,17 @@ import com.eltex.androidschool.utils.getLongOrThrow
 import com.eltex.androidschool.utils.getStringOrThrow
 import com.eltex.androidschool.utils.getStringOrNull
 
-import com.eltex.androidschool.db.EventTable
 import com.eltex.androidschool.data.EventData
+import com.eltex.androidschool.development.database.EventTableSQLite
 
 /**
  * Реализация интерфейса [EventDao] для работы с данными событий в базе данных SQLite.
  *
  * @property db База данных SQLite.
  */
-class EventDaoImpl(
+class EventDaoImplSQLite(
     private val db: SQLiteDatabase
-) : EventDao {
+) : EventDaoSQLite {
     /**
      * Получает все события из базы данных.
      *
@@ -31,13 +37,13 @@ class EventDaoImpl(
      */
     override fun getAll(): List<EventData> {
         db.query(
-            EventTable.TABLE_NAME,
-            EventTable.allColumns,
+            EventTableSQLite.TABLE_NAME,
+            EventTableSQLite.allColumns,
             null,
             null,
             null,
             null,
-            "${EventTable.ID} DESC",
+            "${EventTableSQLite.ID} DESC",
         ).use { cursor: Cursor ->
             val events = mutableListOf<EventData>()
 
@@ -57,22 +63,22 @@ class EventDaoImpl(
      */
     override fun save(event: EventData): EventData {
         val contentValues = contentValuesOf(
-            EventTable.AUTHOR to event.author,
-            EventTable.PUBLISHED to event.published,
-            EventTable.LAST_MODIFIED to event.lastModified,
-            EventTable.OPTIONS_CONDUCTING to event.optionConducting,
-            EventTable.DATA_EVENT to event.dataEvent,
-            EventTable.CONTENT to event.content,
-            EventTable.LINK to event.link,
-            EventTable.LIKE_BY_ME to event.likeByMe,
-            EventTable.PARTICIPATE_BY_ME to event.participateByMe,
+            EventTableSQLite.AUTHOR to event.author,
+            EventTableSQLite.PUBLISHED to event.published,
+            EventTableSQLite.LAST_MODIFIED to event.lastModified,
+            EventTableSQLite.OPTIONS_CONDUCTING to event.optionConducting,
+            EventTableSQLite.DATA_EVENT to event.dataEvent,
+            EventTableSQLite.CONTENT to event.content,
+            EventTableSQLite.LINK to event.link,
+            EventTableSQLite.LIKE_BY_ME to event.likeByMe,
+            EventTableSQLite.PARTICIPATE_BY_ME to event.participateByMe,
         )
 
         if (event.id != 0L) {
-            contentValues.put(EventTable.ID, event.id)
+            contentValues.put(EventTableSQLite.ID, event.id)
         }
 
-        val eventId: Long = db.insert(EventTable.TABLE_NAME, null, contentValues)
+        val eventId: Long = db.insert(EventTableSQLite.TABLE_NAME, null, contentValues)
 
         return getEventById(eventId)
     }
@@ -86,9 +92,9 @@ class EventDaoImpl(
     override fun likeById(eventId: Long): EventData {
         db.execSQL(
             """
-                UPDATE ${EventTable.TABLE_NAME} SET
-                    ${EventTable.LIKE_BY_ME} = CASE WHEN ${EventTable.LIKE_BY_ME} THEN 0 ELSE 1 END
-                WHERE ${EventTable.ID} =?;
+                UPDATE ${EventTableSQLite.TABLE_NAME} SET
+                    ${EventTableSQLite.LIKE_BY_ME} = CASE WHEN ${EventTableSQLite.LIKE_BY_ME} THEN 0 ELSE 1 END
+                WHERE ${EventTableSQLite.ID} =?;
             """.trimIndent(),
             arrayOf(eventId.toString())
         )
@@ -105,9 +111,9 @@ class EventDaoImpl(
     override fun participateById(eventId: Long): EventData {
         db.execSQL(
             """
-                UPDATE ${EventTable.TABLE_NAME} SET
-                    ${EventTable.PARTICIPATE_BY_ME} = CASE WHEN ${EventTable.PARTICIPATE_BY_ME} THEN 0 ELSE 1 END
-                WHERE ${EventTable.ID} =?;
+                UPDATE ${EventTableSQLite.TABLE_NAME} SET
+                    ${EventTableSQLite.PARTICIPATE_BY_ME} = CASE WHEN ${EventTableSQLite.PARTICIPATE_BY_ME} THEN 0 ELSE 1 END
+                WHERE ${EventTableSQLite.ID} =?;
             """.trimIndent(),
             arrayOf(eventId.toString())
         )
@@ -122,8 +128,8 @@ class EventDaoImpl(
      */
     override fun deleteById(eventId: Long) {
         db.delete(
-            EventTable.TABLE_NAME,
-            "${EventTable.ID} = ?",
+            EventTableSQLite.TABLE_NAME,
+            "${EventTableSQLite.ID} = ?",
             arrayOf(eventId.toString())
         )
     }
@@ -145,18 +151,18 @@ class EventDaoImpl(
         data: String
     ) {
         val contentValues = contentValuesOf(
-            EventTable.CONTENT to content,
-            EventTable.LINK to link,
-            EventTable.OPTIONS_CONDUCTING to option,
-            EventTable.DATA_EVENT to data,
-            EventTable.LAST_MODIFIED to LocalDateTime.now()
+            EventTableSQLite.CONTENT to content,
+            EventTableSQLite.LINK to link,
+            EventTableSQLite.OPTIONS_CONDUCTING to option,
+            EventTableSQLite.DATA_EVENT to data,
+            EventTableSQLite.LAST_MODIFIED to LocalDateTime.now()
                 .format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
         )
 
         db.update(
-            EventTable.TABLE_NAME,
+            EventTableSQLite.TABLE_NAME,
             contentValues,
-            "${EventTable.ID} = ?",
+            "${EventTableSQLite.ID} = ?",
             arrayOf(eventId.toString())
         )
     }
@@ -170,9 +176,9 @@ class EventDaoImpl(
      */
     private fun getEventById(eventId: Long): EventData =
         db.query(
-            EventTable.TABLE_NAME,
-            EventTable.allColumns,
-            "${EventTable.ID} = ?",
+            EventTableSQLite.TABLE_NAME,
+            EventTableSQLite.allColumns,
+            "${EventTableSQLite.ID} = ?",
             arrayOf(eventId.toString()),
             null,
             null,
@@ -191,14 +197,14 @@ class EventDaoImpl(
  */
 private fun Cursor.readEvent(): EventData =
     EventData(
-        id = getLongOrThrow(EventTable.ID),
-        author = getStringOrThrow(EventTable.AUTHOR),
-        published = getStringOrThrow(EventTable.PUBLISHED),
-        lastModified = getStringOrNull(EventTable.LAST_MODIFIED),
-        optionConducting = getStringOrThrow(EventTable.OPTIONS_CONDUCTING),
-        dataEvent = getStringOrThrow(EventTable.DATA_EVENT),
-        content = getStringOrThrow(EventTable.CONTENT),
-        link = getStringOrThrow(EventTable.LINK),
-        likeByMe = getBooleanOrThrow(EventTable.LIKE_BY_ME),
-        participateByMe = getBooleanOrThrow(EventTable.PARTICIPATE_BY_ME),
+        id = getLongOrThrow(EventTableSQLite.ID),
+        author = getStringOrThrow(EventTableSQLite.AUTHOR),
+        published = getStringOrThrow(EventTableSQLite.PUBLISHED),
+        lastModified = getStringOrNull(EventTableSQLite.LAST_MODIFIED),
+        optionConducting = getStringOrThrow(EventTableSQLite.OPTIONS_CONDUCTING),
+        dataEvent = getStringOrThrow(EventTableSQLite.DATA_EVENT),
+        content = getStringOrThrow(EventTableSQLite.CONTENT),
+        link = getStringOrThrow(EventTableSQLite.LINK),
+        likeByMe = getBooleanOrThrow(EventTableSQLite.LIKE_BY_ME),
+        participateByMe = getBooleanOrThrow(EventTableSQLite.PARTICIPATE_BY_ME),
     )

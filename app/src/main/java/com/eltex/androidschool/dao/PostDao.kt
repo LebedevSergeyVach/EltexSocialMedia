@@ -3,10 +3,10 @@ package com.eltex.androidschool.dao
 import androidx.room.Dao
 import androidx.room.Query
 import androidx.room.Upsert
-import com.eltex.androidschool.db.PostTableInfo
 
 import kotlinx.coroutines.flow.Flow
 
+import com.eltex.androidschool.db.PostTableInfo
 import com.eltex.androidschool.entity.PostEntity
 
 /**
@@ -19,7 +19,11 @@ interface PostDao {
      *
      * @return Flow со списком постов.
      */
-    @Query("SELECT * FROM ${PostTableInfo.TABLE_NAME} ORDER BY id DESC")
+    @Query(
+        """
+            SELECT * FROM ${PostTableInfo.TABLE_NAME} ORDER BY id DESC
+        """
+    )
     fun getAll(): Flow<List<PostEntity>>
 
     /**
@@ -66,8 +70,13 @@ interface PostDao {
      */
     @Query(
         """
-            UPDATE ${PostTableInfo.TABLE_NAME} SET content = :content, lastModified = :lastModified WHERE id = :postId
+            UPDATE ${PostTableInfo.TABLE_NAME} 
+                SET content = :content, lastModified = :lastModified WHERE id = :postId
         """
     )
-    fun updateById(postId: Long, content: String, lastModified: String)
+    fun updateById(
+        postId: Long,
+        content: String,
+        lastModified: String
+    )
 }

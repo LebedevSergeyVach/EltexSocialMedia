@@ -2,36 +2,25 @@ package com.eltex.androidschool.db
 
 import android.content.Context
 
-import android.database.sqlite.SQLiteDatabase
+import androidx.room.Database
+import androidx.room.Room
+import androidx.room.RoomDatabase
 
-import com.eltex.androidschool.dao.EventDaoImpl
+import com.eltex.androidschool.dao.EventDao
+import com.eltex.androidschool.entity.EventEntity
 
-/**
- * Класс для управления базой данных приложения.
- *
- * @property db База данных SQLite.
- */
-class AppDbEvent private constructor(
-    db: SQLiteDatabase,
-) {
-    /**
-     * DAO для работы с данными событий.
-     */
-    val eventDao = EventDaoImpl(db)
+
+@Database(
+    entities = [EventEntity::class],
+    version = EventTableInfo.DB_VERSION,
+)
+abstract class AppDbEvent : RoomDatabase() {
+    abstract val eventDao: EventDao
 
     companion object {
-        /**
-         * Единственный экземпляр класса [AppDbEvent].
-         */
         @Volatile
         private var INSTANCE: AppDbEvent? = null
 
-        /**
-         * Получает экземпляр класса [AppDbEvent].
-         *
-         * @param context Контекст приложения.
-         * @return Экземпляр класса [AppDbEvent].
-         */
         fun getInstance(context: Context): AppDbEvent {
             val application = context.applicationContext
 
@@ -44,7 +33,15 @@ class AppDbEvent private constructor(
                     return appDbEvent
                 }
 
-                val appDbEvent = AppDbEvent(DbHelperEvent(application).writableDatabase)
+                val appDbEvent: AppDbEvent =
+                    Room.databaseBuilder(
+                        context = application,
+                        klass = AppDbEvent::class.java,
+                        name = EventTableInfo.DB_NAME
+                    )
+                        .fallbackToDestructiveMigration() // разрешаем стереть данные при увеличении версии БД
+                        .allowMainThreadQueries() // разрешаем запросы с главного потока
+                        .build()
 
                 INSTANCE = appDbEvent
 

@@ -4,7 +4,7 @@
     На данный момент испоьлзуется PostDaoImpl ROOM ORM
 */
 
-package com.eltex.androidschool.development.database
+package com.eltex.androidschool.development.dao
 
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
@@ -20,6 +20,7 @@ import com.eltex.androidschool.utils.getStringOrThrow
 import com.eltex.androidschool.utils.getStringOrNull
 
 import com.eltex.androidschool.data.PostData
+import com.eltex.androidschool.development.database.PostTableSQLite
 
 /**
  * Реализация интерфейса [PostDao] для работы с данными постов в базе данных SQLite.

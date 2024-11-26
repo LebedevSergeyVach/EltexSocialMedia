@@ -1,10 +1,10 @@
 package com.eltex.androidschool.db
 
-object PostTableInfo {
+object EventTableInfo {
     /**
      * Имя базы данных.
      */
-    const val DB_NAME = "PostsDatabase"
+    const val DB_NAME = "EventsDatabase"
 
     /**
      * Версия базы данных.
@@ -14,5 +14,5 @@ object PostTableInfo {
     /**
      * Имя таблицы постов.
      */
-    const val TABLE_NAME = "PostsTableName"
+    const val TABLE_NAME = "EventsTableName"
 }

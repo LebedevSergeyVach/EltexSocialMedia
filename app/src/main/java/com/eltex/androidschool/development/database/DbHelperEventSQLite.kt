@@ -16,24 +16,28 @@ import android.database.sqlite.SQLiteOpenHelper
  *
  * @property context Контекст приложения.
  */
-class DbHelperPostSQLite(
+class DbHelperEventSQLite(
     context: Context,
-) : SQLiteOpenHelper(context, PostTableSQLite.DB_NAME, null, PostTableSQLite.DB_VERSION) {
+) : SQLiteOpenHelper(context, EventTableSQLite.DB_NAME, null, EventTableSQLite.DB_VERSION) {
     /**
-     * Создает таблицу постов в базе данных.
+     * Создает таблицу событий в базе данных.
      *
      * @param db База данных SQLite.
      */
     override fun onCreate(db: SQLiteDatabase) {
         db.execSQL(
             """
-                CREATE TABLE ${PostTableSQLite.TABLE_NAME} (
-                    ${PostTableSQLite.ID} INTEGER PRIMARY KEY AUTOINCREMENT,
-                    ${PostTableSQLite.AUTHOR} TEXT NOT NULL,
-                    ${PostTableSQLite.PUBLISHED} TEXT NOT NULL,
-                    ${PostTableSQLite.LAST_MODIFIED} TEXT,
-                    ${PostTableSQLite.CONTENT} TEXT NOT NULL,
-                    ${PostTableSQLite.LIKE_BY_ME} INTEGER NOT NULL DEFAULT 0
+                CREATE TABLE ${EventTableSQLite.TABLE_NAME} (
+                    ${EventTableSQLite.ID} INTEGER PRIMARY KEY AUTOINCREMENT,
+                    ${EventTableSQLite.AUTHOR} TEXT NOT NULL,
+                    ${EventTableSQLite.PUBLISHED} TEXT NOT NULL,
+                    ${EventTableSQLite.LAST_MODIFIED} TEXT,
+                    ${EventTableSQLite.OPTIONS_CONDUCTING} TEXT NOT NULL,
+                    ${EventTableSQLite.DATA_EVENT} TEXT NOT NULL,
+                    ${EventTableSQLite.CONTENT} TEXT NOT NULL,
+                    ${EventTableSQLite.LINK} TEXT NOT NULL,
+                    ${EventTableSQLite.LIKE_BY_ME} INTEGER NOT NULL DEFAULT 0,
+                    ${EventTableSQLite.PARTICIPATE_BY_ME} INTEGER NOT NULL DEFAULT 0
                 )
             """.trimIndent()
         )
@@ -47,7 +51,7 @@ class DbHelperPostSQLite(
      * @param newVersion Новая версия базы данных.
      */
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db.execSQL("DROP TABLE IF EXISTS ${PostTableSQLite.TABLE_NAME}")
+        db.execSQL("DROP TABLE IF EXISTS ${EventTableSQLite.TABLE_NAME}")
 
         onCreate(db)
     }

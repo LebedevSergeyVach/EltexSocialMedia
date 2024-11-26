@@ -47,7 +47,11 @@ abstract class AppDbPost : RoomDatabase() {
                 }
 
                 val appDbPost: AppDbPost =
-                    Room.databaseBuilder(application, AppDbPost::class.java, PostTableInfo.DB_NAME)
+                    Room.databaseBuilder(
+                        context = application,
+                        klass = AppDbPost::class.java,
+                        name = PostTableInfo.DB_NAME
+                    )
                         .fallbackToDestructiveMigration() // разрешаем стереть данные при увеличении версии БД
                         .allowMainThreadQueries() // разрешаем запросы с главного потока
                         .build()

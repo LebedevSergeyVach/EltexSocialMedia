@@ -7,14 +7,11 @@ import androidx.room.PrimaryKey
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-import com.eltex.androidschool.data.PostData
-import com.eltex.androidschool.db.PostTableInfo
+import com.eltex.androidschool.data.EventData
+import com.eltex.androidschool.db.EventTableInfo
 
-/**
- * Сущность, представляющая пост в базе данных.
- */
-@Entity(tableName = PostTableInfo.TABLE_NAME)
-data class PostEntity(
+@Entity(tableName = EventTableInfo.TABLE_NAME)
+class EventEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo("id")
     val id: Long = 0L,
@@ -24,43 +21,48 @@ data class PostEntity(
     val published: String = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
     @ColumnInfo("lastModified")
     val lastModified: String? = null,
+    @ColumnInfo("optionConducting")
+    val optionConducting: String = "",
+    @ColumnInfo("dataEvent")
+    val dataEvent: String = "",
     @ColumnInfo("content")
     val content: String = "",
+    @ColumnInfo("link")
+    val link: String = "",
     @ColumnInfo("likeByMe")
     val likeByMe: Boolean = false,
+    @ColumnInfo("participateByMe")
+    val participateByMe: Boolean = false,
 ) {
     companion object {
-        /**
-         * Создает экземпляр [PostEntity] из [PostData].
-         *
-         * @param post Данные поста.
-         * @return Экземпляр [PostEntity].
-         */
-        fun fromPostData(post: PostData): PostEntity =
-            with(post) {
-                PostEntity(
+        fun fromEventData(event: EventData): EventEntity =
+            with(event) {
+                EventEntity(
                     id = id,
                     author = author,
                     published = published,
                     lastModified = lastModified,
+                    optionConducting = optionConducting,
+                    dataEvent = dataEvent,
                     content = content,
+                    link = link,
                     likeByMe = likeByMe,
+                    participateByMe = participateByMe,
                 )
             }
     }
 
-    /**
-     * Преобразует экземпляр [PostEntity] в [PostData].
-     *
-     * @return Экземпляр [PostData].
-     */
-    fun toPostData(): PostData =
-        PostData(
+    fun toEventData(): EventData =
+        EventData(
             id = id,
             author = author,
             published = published,
             lastModified = lastModified,
+            optionConducting = optionConducting,
+            dataEvent = dataEvent,
             content = content,
-            likeByMe = likeByMe
+            link = link,
+            likeByMe = likeByMe,
+            participateByMe = participateByMe,
         )
 }

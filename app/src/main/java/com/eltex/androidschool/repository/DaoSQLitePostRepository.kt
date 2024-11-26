@@ -3,11 +3,12 @@ package com.eltex.androidschool.repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 import com.eltex.androidschool.dao.PostDao
 import com.eltex.androidschool.data.PostData
 import com.eltex.androidschool.entity.PostEntity
-import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 
 /**
  * Репозиторий для работы с данными постов, использующий SQLite и StateFlow.
@@ -31,7 +32,7 @@ class DaoSQLitePostRepository(
             }
 
     /**
-     * Переключает состояние лайка у поста по его идентификатору.
+     * Поставить или убрать лайк у поста по его идентификатору.
      *
      * @param postId Идентификатор поста.
      */
@@ -56,7 +57,11 @@ class DaoSQLitePostRepository(
      */
     override fun updateById(postId: Long, content: String) {
         val lastModified = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-        postDao.updateById(postId, content, lastModified)
+        postDao.updateById(
+            postId = postId,
+            content = content,
+            lastModified = lastModified
+        )
     }
 
     /**
@@ -73,6 +78,5 @@ class DaoSQLitePostRepository(
                 )
             )
         )
-
     }
 }

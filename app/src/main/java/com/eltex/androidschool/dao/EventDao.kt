@@ -1,65 +1,63 @@
 package com.eltex.androidschool.dao
 
-import com.eltex.androidschool.data.EventData
+import androidx.room.Dao
+import androidx.room.Query
+import androidx.room.Upsert
 
-/**
- * Интерфейс для работы с данными событий в базе данных.
- *
- * @see EventData Класс, представляющий данные события.
- */
+import kotlinx.coroutines.flow.Flow
+
+import com.eltex.androidschool.db.EventTableInfo
+import com.eltex.androidschool.entity.EventEntity
+
+@Dao
 interface EventDao {
-    /**
-     * Получает все события из базы данных.
-     *
-     * @return Список всех событий.
-     */
-    fun getAll(): List<EventData>
+    @Query(
+        """
+            SELECT * FROM ${EventTableInfo.TABLE_NAME} ORDER BY id DESC
+        """
+    )
+    fun getAll(): Flow<List<EventEntity>>
 
-    /**
-     * Сохраняет новое событие в базу данных.
-     *
-     * @param event Событие для сохранения.
-     * @return Сохраненное событие с обновленным идентификатором.
-     */
-    fun save(event: EventData): EventData
+    @Upsert
+    fun save(event: EventEntity): Long
 
-    /**
-     * Поставить или убрать лайк у события по его идентификатору.
-     *
-     * @param eventId Идентификатор события.
-     * @return Обновленное событие.
-     */
-    fun likeById(eventId: Long): EventData
+    @Query(
+        """
+            UPDATE ${EventTableInfo.TABLE_NAME} SET
+                likeByMe =  CASE WHEN likeByMe THEN 0 ELSE 1 END
+            WHERE id = :eventId
+        """
+    )
+    fun likeById(eventId: Long)
 
-    /**
-     * Участвовать или отказаться от участия в событии по его идентификатору.
-     *
-     * @param eventId Идентификатор события.
-     * @return Обновленное событие.
-     */
-    fun participateById(eventId: Long): EventData
+    @Query(
+        """
+            UPDATE ${EventTableInfo.TABLE_NAME} SET
+                participateByMe =  CASE WHEN participateByMe THEN 0 ELSE 1 END
+            WHERE id = :eventId
+        """
+    )
+    fun participateById(eventId: Long)
 
-    /**
-     * Удаляет событие по его идентификатору.
-     *
-     * @param eventId Идентификатор события.
-     */
+    @Query(
+        """
+            DELETE FROM ${EventTableInfo.TABLE_NAME} WHERE id = :eventId
+        """
+    )
     fun deleteById(eventId: Long)
 
-    /**
-     * Обновляет содержимое события по его идентификатору.
-     *
-     * @param eventId Идентификатор события.
-     * @param content Новое содержимое события.
-     * @param link Новый URL-адрес события.
-     * @param option Новая опция проведения события.
-     * @param data Новая дата события.
-     */
+    @Query(
+        """
+            UPDATE ${EventTableInfo.TABLE_NAME} 
+                SET content = :content, link = :link, optionConducting = :option, dataEvent = :data, lastModified = :lastModified WHERE id = :eventId
+        """
+    )
     fun updateById(
         eventId: Long,
         content: String,
         link: String,
         option: String,
-        data: String
+        data: String,
+        lastModified: String
     )
 }

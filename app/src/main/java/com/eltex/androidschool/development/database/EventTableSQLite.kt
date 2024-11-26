@@ -1,9 +1,15 @@
-package com.eltex.androidschool.db
+/*
+    Не используется
+    Нужен для работы напрямую с запросами SQLite
+    На данный момент испоьлзуется ROOM ORM
+*/
+
+package com.eltex.androidschool.development.database
 
 /**
  * Объект, содержащий константы для работы с таблицей событий в базе данных.
  */
-object EventTable {
+object EventTableSQLite {
     /**
      * Имя базы данных.
      */

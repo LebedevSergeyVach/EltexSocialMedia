@@ -9,6 +9,7 @@ package com.eltex.androidschool.development.database
 import android.content.Context
 
 import android.database.sqlite.SQLiteDatabase
+import com.eltex.androidschool.development.dao.PostDaoImplSQLite
 
 /**
  * Класс для управления базой данных приложения.

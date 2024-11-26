@@ -1,12 +1,13 @@
-package com.eltex.androidschool.repository
+package com.eltex.androidschool.development.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-import com.eltex.androidschool.dao.EventDao
 import com.eltex.androidschool.data.EventData
+import com.eltex.androidschool.development.dao.EventDaoSQLite
+import com.eltex.androidschool.repository.EventRepository
 
 /**
  * Репозиторий для работы с данными событий, использующий SQLite и StateFlow.
@@ -14,7 +15,7 @@ import com.eltex.androidschool.data.EventData
  * @property eventDao DAO для работы с данными событий.
  */
 class SQLiteEventRepository(
-    private val eventDao: EventDao
+    private val eventDao: EventDaoSQLite
 ) : EventRepository {
     /**
      * Flow для хранения состояния списка событий.

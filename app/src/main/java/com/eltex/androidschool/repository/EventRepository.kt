@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
  * Интерфейс репозитория для работы с событиями.
  * Предоставляет методы для получения списка событий, лайков и участия в событиях.
  *
- * @see LocalPreferencesDataStoreJsonEventRepository Реализация интерфейса в памяти.
+ * @see DaoSQLiteEventRepository Реализация интерфейса в памяти.
  */
 interface EventRepository {
 

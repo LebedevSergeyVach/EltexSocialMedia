@@ -19,7 +19,7 @@ import com.eltex.androidschool.adapter.OffsetDecoration
 import com.eltex.androidschool.data.EventData
 import com.eltex.androidschool.data.EventDataParcelable
 import com.eltex.androidschool.db.AppDbEvent
-import com.eltex.androidschool.repository.SQLiteEventRepository
+import com.eltex.androidschool.repository.DaoSQLiteEventRepository
 import com.eltex.androidschool.ui.EdgeToEdgeHelper
 import com.eltex.androidschool.viewmodel.EventViewModel
 import com.eltex.androidschool.viewmodel.EventState
@@ -41,7 +41,7 @@ class EventActivity : AppCompatActivity() {
         viewModelFactory {
             addInitializer(EventViewModel::class) {
                 EventViewModel(
-                    SQLiteEventRepository(
+                    DaoSQLiteEventRepository(
                         AppDbEvent.getInstance(applicationContext).eventDao
                     )
                 )

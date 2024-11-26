@@ -4,7 +4,7 @@
     На данный момент испоьлзуется PostDao ROOM ORM
 */
 
-package com.eltex.androidschool.development.database
+package com.eltex.androidschool.development.dao
 
 import com.eltex.androidschool.data.PostData
 
