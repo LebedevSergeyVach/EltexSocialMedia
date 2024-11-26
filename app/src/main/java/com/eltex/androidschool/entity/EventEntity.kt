@@ -36,6 +36,9 @@ class EventEntity(
     val likeByMe: Boolean = false,
     @ColumnInfo("participateByMe")
     val participateByMe: Boolean = false,
+    // ТУТ Я ДОБАВИЛ НОВОЕ СВОЙСТВО :)
+    @ColumnInfo("newProperty")
+    val newProperty: String = ""
 ) {
     companion object {
         /**
@@ -57,6 +60,7 @@ class EventEntity(
                     link = link,
                     likeByMe = likeByMe,
                     participateByMe = participateByMe,
+                    newProperty = newProperty
                 )
             }
     }
@@ -78,5 +82,6 @@ class EventEntity(
             link = link,
             likeByMe = likeByMe,
             participateByMe = participateByMe,
+            newProperty = newProperty
         )
 }

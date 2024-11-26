@@ -7,6 +7,8 @@ import android.database.sqlite.SQLiteDatabase
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 
 import java.io.File
 import java.io.FileOutputStream
@@ -34,6 +36,12 @@ abstract class AppDbEvent : RoomDatabase() {
          */
         @Volatile
         private var INSTANCE: AppDbEvent? = null
+
+        private val MIGRATION_1_2 = object : Migration(1, 2) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL("ALTER TABLE ${EventTableInfo.TABLE_NAME} ADD COLUMN newProperty TEXT")
+            }
+        }
 
         /**
          * Получает экземпляр класса [AppDbEvent].
@@ -67,6 +75,7 @@ abstract class AppDbEvent : RoomDatabase() {
                         klass = AppDbEvent::class.java,
                         name = EventTableInfo.DB_NAME
                     )
+                        .addMigrations(MIGRATION_1_2)
                         .fallbackToDestructiveMigration() // разрешаем стереть данные при увеличении версии БД
                         .allowMainThreadQueries() // разрешаем запросы с главного потока
                         .build()

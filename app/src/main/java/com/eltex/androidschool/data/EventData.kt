@@ -1,5 +1,6 @@
 package com.eltex.androidschool.data
 
+import androidx.room.ColumnInfo
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -42,6 +43,9 @@ data class EventData(
     val likeByMe: Boolean = false,
     @SerialName("participateByMe")
     val participateByMe: Boolean = false,
+    // ТУТ Я ДОБАВИЛ НОВОЕ СВОЙСТВО :)
+    @SerialName("newProperty")
+    val newProperty: String = ""
 ) {
     /**
      * Возвращает отформатированную строку даты и времени публикации события формате "yyyy-MM-dd HH:mm:ss".
