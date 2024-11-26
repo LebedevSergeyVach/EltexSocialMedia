@@ -17,7 +17,7 @@ import java.time.format.DateTimeFormatter
  * @property likeByMe Флаг, указывающий, лайкнул ли текущий пользователь этот пост. По умолчанию false.
  */
 @Serializable
-data class PostData(
+data class Post(
     @SerialName("id")
     val id: Long = 0L,
     @SerialName("author")
