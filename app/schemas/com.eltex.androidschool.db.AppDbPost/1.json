@@ -1,64 +1,64 @@
 {
-  "formatVersion": 1,
-  "database": {
-    "version": 1,
-    "identityHash": "569710d361a60066974533b0e0eaa4e8",
-    "entities": [
-      {
-        "tableName": "PostsTableName",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `author` TEXT NOT NULL, `published` TEXT NOT NULL, `lastModified` TEXT, `content` TEXT NOT NULL, `likeByMe` INTEGER NOT NULL)",
-        "fields": [
-          {
-            "fieldPath": "id",
-            "columnName": "id",
-            "affinity": "INTEGER",
-            "notNull": true
-          },
-          {
-            "fieldPath": "author",
-            "columnName": "author",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "published",
-            "columnName": "published",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "lastModified",
-            "columnName": "lastModified",
-            "affinity": "TEXT",
-            "notNull": false
-          },
-          {
-            "fieldPath": "content",
-            "columnName": "content",
-            "affinity": "TEXT",
-            "notNull": true
-          },
-          {
-            "fieldPath": "likeByMe",
-            "columnName": "likeByMe",
-            "affinity": "INTEGER",
-            "notNull": true
-          }
+    "formatVersion": 1,
+    "database": {
+        "version": 1,
+        "identityHash": "569710d361a60066974533b0e0eaa4e8",
+        "entities": [
+            {
+                "tableName": "PostsTableName",
+                "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `author` TEXT NOT NULL, `published` TEXT NOT NULL, `lastModified` TEXT, `content` TEXT NOT NULL, `likeByMe` INTEGER NOT NULL)",
+                "fields": [
+                    {
+                        "fieldPath": "id",
+                        "columnName": "id",
+                        "affinity": "INTEGER",
+                        "notNull": true
+                    },
+                    {
+                        "fieldPath": "author",
+                        "columnName": "author",
+                        "affinity": "TEXT",
+                        "notNull": true
+                    },
+                    {
+                        "fieldPath": "published",
+                        "columnName": "published",
+                        "affinity": "TEXT",
+                        "notNull": true
+                    },
+                    {
+                        "fieldPath": "lastModified",
+                        "columnName": "lastModified",
+                        "affinity": "TEXT",
+                        "notNull": false
+                    },
+                    {
+                        "fieldPath": "content",
+                        "columnName": "content",
+                        "affinity": "TEXT",
+                        "notNull": true
+                    },
+                    {
+                        "fieldPath": "likeByMe",
+                        "columnName": "likeByMe",
+                        "affinity": "INTEGER",
+                        "notNull": true
+                    }
+                ],
+                "primaryKey": {
+                    "autoGenerate": true,
+                    "columnNames": [
+                        "id"
+                    ]
+                },
+                "indices": [],
+                "foreignKeys": []
+            }
         ],
-        "primaryKey": {
-          "autoGenerate": true,
-          "columnNames": [
-            "id"
-          ]
-        },
-        "indices": [],
-        "foreignKeys": []
-      }
-    ],
-    "views": [],
-    "setupQueries": [
-      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '569710d361a60066974533b0e0eaa4e8')"
-    ]
-  }
+        "views": [],
+        "setupQueries": [
+            "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+            "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '569710d361a60066974533b0e0eaa4e8')"
+        ]
+    }
 }

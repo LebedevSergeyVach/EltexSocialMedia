@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.protobuf)
     alias(libs.plugins.room)
     alias(libs.plugins.ksp)
+    id("kotlin-parcelize")
 }
 
 android {
