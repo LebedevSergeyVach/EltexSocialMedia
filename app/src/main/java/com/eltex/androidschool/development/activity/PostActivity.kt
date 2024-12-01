@@ -1,3 +1,4 @@
+/*
 package com.eltex.androidschool.activity
 
 import android.content.Intent
@@ -10,6 +11,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.lifecycle.lifecycleScope
 import androidx.activity.viewModels
 import com.eltex.androidschool.R
+import com.eltex.androidschool.development.activity.NewOrUpdatePostActivity
 
 import com.eltex.androidschool.databinding.MainActivityBinding
 
@@ -26,6 +28,7 @@ import com.eltex.androidschool.viewmodel.PostViewModel
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
+*/
 /**
  * Основная активность приложения, отображающая список постов.
  *
@@ -36,7 +39,8 @@ import kotlinx.coroutines.flow.onEach
  * @see PostViewModel ViewModel для управления состоянием постов.
  * @see PostAdapter Адаптер для отображения списка постов.
  * @see OffsetDecoration Декорация для добавления отступов между элементами RecyclerView.
- */
+*//*
+
 @Suppress("DEPRECATION")
 class PostActivity : AppCompatActivity() {
     private val viewModel by viewModels<PostViewModel> {
@@ -146,3 +150,4 @@ class PostActivity : AppCompatActivity() {
         EdgeToEdgeHelper.applyingIndentationOfSystemFields(findViewById(android.R.id.content))
     }
 }
+*/

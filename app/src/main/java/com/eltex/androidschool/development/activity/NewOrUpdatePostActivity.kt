@@ -1,4 +1,5 @@
-package com.eltex.androidschool.activity
+/*
+package com.eltex.androidschool.development.activity
 
 import android.content.Intent
 import android.os.Bundle
@@ -63,3 +64,4 @@ class NewOrUpdatePostActivity : AppCompatActivity() {
         }
     }
 }
+*/

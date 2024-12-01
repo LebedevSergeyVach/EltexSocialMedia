@@ -37,4 +37,8 @@
     <string name="event">Событие</string>
     <string name="link">Ссылка</string>
     <string name="post">Пост</string>
+    <string name="posts">Посты</string>
+    <string name="events">События</string>
+    <string name="user">Пользователь</string>
+    <string name="users">Пользователи</string>
 </resources>

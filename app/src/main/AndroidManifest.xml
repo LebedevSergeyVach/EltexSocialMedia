@@ -27,48 +27,14 @@
         </activity>
 
         <activity
-            android:name=".activity.PostActivity"
+            android:name=".activity.MainActivity"
             android:exported="false">
-            <intent-filter android:label="@string/create_post">
-                <action android:name="android.intent.action.SEND" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="text/plain" />
-            </intent-filter>
-        </activity>
-
-        <activity
-            android:name=".activity.EventActivity"
-            android:exported="true">
-            <!-- Фильтр для обработки текста -->
-            <intent-filter android:label="@string/create_event">
-                <action android:name="android.intent.action.SEND" />
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:mimeType="text/plain" />
-            </intent-filter>
-
-            <!-- Фильтр для обработки ссылок -->
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.SEND" />
 
-                <category android:name="android.intent.category.BROWSABLE" />
-                <category android:name="android.intent.category.DEFAULT" />
-
-                <data android:scheme="geo" />
-                <data android:scheme="http" />
-                <data android:scheme="https" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".activity.NewOrUpdateEventActivity"
-            android:exported="false" />
-
-        <activity
-            android:name=".activity.NewOrUpdatePostActivity"
-            android:exported="false" />
     </application>
 
 </manifest>

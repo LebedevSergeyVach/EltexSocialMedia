@@ -12,4 +12,6 @@
 
     <color name="check_ok">#FF000000</color>
     <color name="toast_custom">#f8f9fc</color>
+
+    <color name="active_navigate">#4f378b</color>
 </resources>

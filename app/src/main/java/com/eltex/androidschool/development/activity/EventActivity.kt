@@ -1,4 +1,5 @@
-package com.eltex.androidschool.activity
+/*
+package com.eltex.androidschool.development.activity
 
 import android.content.Intent
 import android.net.Uri
@@ -11,6 +12,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.eltex.androidschool.R
+import com.eltex.androidschool.development.activity.NewOrUpdateEventActivity
 
 import com.eltex.androidschool.databinding.MainActivityBinding
 
@@ -27,6 +29,7 @@ import com.eltex.androidschool.viewmodel.EventState
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
+*/
 /**
  * Основная активность приложения, отображающая список событий.
  *
@@ -34,7 +37,8 @@ import kotlinx.coroutines.flow.onEach
  * @see EventViewModel ViewModel для управления состоянием событий.
  * @see EventAdapter Адаптер для отображения списка событий.
  * @see OffsetDecoration Декорация для добавления отступов между элементами RecyclerView.
- */
+ *//*
+
 @Suppress("DEPRECATION")
 class EventActivity : AppCompatActivity() {
     private val viewModel by viewModels<EventViewModel> {
@@ -198,3 +202,4 @@ class EventActivity : AppCompatActivity() {
         newEventContracts.launch(newEventIntent)
     }
 }
+*/

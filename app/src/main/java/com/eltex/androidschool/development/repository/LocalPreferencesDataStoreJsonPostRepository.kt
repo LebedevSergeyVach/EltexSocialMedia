@@ -1,3 +1,4 @@
+/*
 package com.eltex.androidschool.development.repository
 
 import androidx.datastore.core.DataStore
@@ -29,12 +30,14 @@ import com.eltex.androidschool.data.PostData
 import com.eltex.androidschool.repository.PostRepository
 import java.time.format.DateTimeFormatter
 
+*/
 /**
  * Реализация интерфейса [PostRepository], хранящая данные о постах в памяти.
  * Предоставляет методы для получения списка постов и лайков постов.
  *
  * @see PostRepository Интерфейс, который реализует этот класс.
- */
+ *//*
+
 // InMemoryPostRepository -> PrefsPostRepository
 class LocalPreferencesDataStoreJsonPostRepository(
     context: Context,
@@ -61,10 +64,12 @@ class LocalPreferencesDataStoreJsonPostRepository(
         dataStore.data.first()[longPreferencesKey(NEXT_ID_KEY)] ?: 0L
     }
 
-    /**
+    */
+/**
      * Flow, хранящий текущее состояние списка постов.
      * Инициализируется списком из 20 постов с фиктивными данными.
-     */
+     *//*
+
 //    private val _state = MutableStateFlow(
 //        List(nextId.toInt()) { int ->
 //            Post(
@@ -88,18 +93,22 @@ class LocalPreferencesDataStoreJsonPostRepository(
 
     private val _state: MutableStateFlow<List<PostData>> = MutableStateFlow(readPosts())
 
-    /**
+    */
+/**
      * Возвращает Flow, который излучает список постов.
      *
      * @return Flow<List<Post>> Flow, излучающий список постов.
-     */
+     *//*
+
     override fun getPost(): Flow<List<PostData>> = _state.asStateFlow()
 
-    /**
+    */
+/**
      * Помечает пост с указанным идентификатором как "лайкнутый" или "нелайкнутый".
      *
      * @param postId Идентификатор поста, который нужно лайкнуть.
-     */
+     *//*
+
     override fun likeById(postId: Long) {
         _state.update { posts ->
             posts.map { post ->
@@ -114,11 +123,13 @@ class LocalPreferencesDataStoreJsonPostRepository(
         sync()
     }
 
-    /**
+    */
+/**
      * Удаления поста по его id.
      *
      * @param postId Идентификатор поста, который нужно удалить.
-     */
+     *//*
+
     override fun deleteById(postId: Long) {
         _state.update { posts: List<PostData> ->
             posts.filter { post: PostData ->
@@ -129,12 +140,14 @@ class LocalPreferencesDataStoreJsonPostRepository(
         sync()
     }
 
-    /**
+    */
+/**
      * Обновляет пост по его id.
      *
      * @param postId Идентификатор поста, который нужно обновить.
      * @param content Новое содержание поста.
-     */
+     *//*
+
     override fun updateById(postId: Long, content: String) {
         _state.update { posts: List<PostData> ->
             posts.map { post: PostData ->
@@ -153,12 +166,14 @@ class LocalPreferencesDataStoreJsonPostRepository(
         sync()
     }
 
-    /**
+    */
+/**
      * Добавляет новый пост.
      *
      * @param content Содержание нового поста.
-     */
-    override fun addPost(content: String) {
+     *//*
+
+    override fun save(content: String) {
         _state.update { posts: List<PostData> ->
             buildList(posts.size + 1) {
                 add(
@@ -177,9 +192,11 @@ class LocalPreferencesDataStoreJsonPostRepository(
         sync()
     }
 
-    /**
+    */
+/**
      * Синхронизирует данные с DataStore и файлом.
-     */
+     *//*
+
     private fun sync() {
         runBlocking {
             dataStore.edit { preferences ->
@@ -199,7 +216,8 @@ class LocalPreferencesDataStoreJsonPostRepository(
 //            bufferedWriter.write(Json.encodeToString(_state.value))
 //        }
 
-        /*
+        */
+/*
         val editor: SharedPreferences.Editor = prefs.edit()
 
         editor.putLong(NEXT_ID_KEY, nextId)
@@ -207,14 +225,17 @@ class LocalPreferencesDataStoreJsonPostRepository(
 
         editor.commit() // записывает в файл на текущем потоке и блокируя его
         editor.apply() // на фооновый поток передает задачу на, что нужно в фоне сохранить файл
-        */
+        *//*
+
     }
 
-    /**
+    */
+/**
      * Читает посты из файла.
      *
      * @return Список постов, прочитанных из файла.
-     */
+     *//*
+
     private fun readPosts(): List<PostData> {
         return if (postsFileDir.exists()) {
             postsFileDir.bufferedReader().use { bufferedReader: BufferedReader ->
@@ -225,3 +246,4 @@ class LocalPreferencesDataStoreJsonPostRepository(
         }
     }
 }
+*/

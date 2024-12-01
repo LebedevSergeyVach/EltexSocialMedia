@@ -3,48 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
-    android:id="@+id/main"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".activity.NewOrUpdatePostActivity">
+    android:layout_marginBottom="10dp"
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbar"
-
-        style="@style/Widget.Material3.Toolbar"
-
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-
-        android:elevation="10dp"
-        android:textStyle="bold"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-
-        app:menu="@menu/new_or_update_post_menu"
-
-        app:navigationIcon="?homeAsUpIndicator"
-
-        app:title="@string/new_post_title"/>
+    tools:context=".fragments.NewOrUpdatePostFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
 
         android:layout_margin="@dimen/common_spacing"
-
 
         app:cardCornerRadius="20dp"
         app:cardElevation="2dp"
 
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar">
+        app:layout_constraintTop_toTopOf="parent">
 
         <EditText
             android:id="@+id/content"
@@ -71,6 +48,5 @@
             tools:text="@tools:sample/lorem[10]" />
 
     </com.google.android.material.card.MaterialCardView>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

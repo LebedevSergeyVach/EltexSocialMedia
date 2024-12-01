@@ -7,7 +7,6 @@
     <string name="shared">Shared</string>
 
     <string name="create_post">Create post</string>
-
     <string name="new_post_title">New Post</string>
     <string name="save_post">Save post</string>
     <string name="update_post_title">Updating the post</string>
@@ -37,4 +36,11 @@
     <string name="event">Event</string>
     <string name="link">Link</string>
     <string name="post">Post</string>
+    <string name="posts">Posts</string>
+    <string name="events">Events</string>
+    <string name="user">User</string>
+    <string name="users">Users</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 </resources>

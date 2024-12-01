@@ -1,3 +1,4 @@
+/*
 package com.eltex.androidschool.development.repository
 
 import androidx.datastore.core.DataStore
@@ -29,12 +30,14 @@ import com.eltex.androidschool.data.EventData
 import com.eltex.androidschool.repository.EventRepository
 import java.time.format.DateTimeFormatter
 
+*/
 /**
  * Реализация интерфейса [EventRepository], хранящая данные о событиях в памяти.
  * Предоставляет методы для получения списка событий, лайков и участия в событиях.
  *
  * @see EventRepository Интерфейс, который реализует этот класс.
- */
+ *//*
+
 class LocalPreferencesDataStoreJsonEventRepository(
     context: Context,
 ) : EventRepository {
@@ -57,18 +60,22 @@ class LocalPreferencesDataStoreJsonEventRepository(
 
     private val _state: MutableStateFlow<List<EventData>> = MutableStateFlow(readPosts())
 
-    /**
+    */
+/**
      * Возвращает Flow, который излучает список событий.
      *
      * @return Flow<List<Event>> Flow, излучающий список событий.
-     */
+     *//*
+
     override fun getEvent(): Flow<List<EventData>> = _state.asStateFlow()
 
-    /**
+    */
+/**
      * Помечает событие с указанным идентификатором как "лайкнутое" или "нелайкнутое".
      *
      * @param eventId Идентификатор события, которое нужно лайкнуть.
-     */
+     *//*
+
     override fun likeById(eventId: Long) {
         _state.update { events: List<EventData> ->
             events.map { event: EventData ->
@@ -83,11 +90,13 @@ class LocalPreferencesDataStoreJsonEventRepository(
         sync()
     }
 
-    /**
+    */
+/**
      * Помечает событие с указанным идентификатором как "участие" или "отказ от участия".
      *
      * @param eventId Идентификатор события, в котором нужно участвовать.
-     */
+     *//*
+
     override fun participateById(eventId: Long) {
         _state.update { events: List<EventData> ->
             events.map { event: EventData ->
@@ -102,11 +111,13 @@ class LocalPreferencesDataStoreJsonEventRepository(
         sync()
     }
 
-    /**
+    */
+/**
      * Удаления события по его id.
      *
      * @param eventId Идентификатор события, который нужно удалить.
-     */
+     *//*
+
     override fun deleteById(eventId: Long) {
         _state.update { events: List<EventData> ->
             events.filter { event: EventData ->
@@ -117,13 +128,15 @@ class LocalPreferencesDataStoreJsonEventRepository(
         sync()
     }
 
-    /**
+    */
+/**
      * Обновляет событие по его id.
      *
      * @param eventId Идентификатор поста, который нужно обновить.
      * @param content Новое содержание события.
      * @param link Новая ссылка события.
-     */
+     *//*
+
     override fun updateById(
         eventId: Long,
         content: String,
@@ -151,12 +164,14 @@ class LocalPreferencesDataStoreJsonEventRepository(
         sync()
     }
 
-    /**
+    */
+/**
      * Добавляет новое событие.
      *
      * @param content Содержание нового события.
      * @param content Ссылка нового события.
-     */
+     *//*
+
     override fun addEvent(content: String, link: String, option: String, data: String) {
         _state.update { events: List<EventData> ->
             buildList(events.size + 1) {
@@ -179,9 +194,11 @@ class LocalPreferencesDataStoreJsonEventRepository(
         sync()
     }
 
-    /**
+    */
+/**
      * Синхронизирует данные с DataStore и файлом.
-     */
+     *//*
+
     private fun sync() {
         runBlocking {
             dataStore.edit { preferences ->
@@ -195,11 +212,13 @@ class LocalPreferencesDataStoreJsonEventRepository(
         }
     }
 
-    /**
+    */
+/**
      * Читает посты из файла.
      *
      * @return Список постов, прочитанных из файла.
-     */
+     *//*
+
     private fun readPosts(): List<EventData> {
         return if (eventsFileDir.exists()) {
             eventsFileDir.bufferedReader().use { bufferedReader: BufferedReader ->
@@ -210,3 +229,4 @@ class LocalPreferencesDataStoreJsonEventRepository(
         }
     }
 }
+*/
