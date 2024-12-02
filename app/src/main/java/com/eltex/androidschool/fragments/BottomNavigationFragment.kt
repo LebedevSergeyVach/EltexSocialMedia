@@ -40,7 +40,6 @@ class BottomNavigationFragment : Fragment() {
     ): View {
         val binding = FragmentBottomNavigationBinding.inflate(inflater, container, false)
 
-        // Находим контроллер навигации для текущего фрагмента
         val navController =
             requireNotNull(childFragmentManager.findFragmentById(R.id.container)).findNavController()
 
@@ -58,29 +57,27 @@ class BottomNavigationFragment : Fragment() {
             // TODO: Implement event navigation logic
         }
 
-        // Настраиваем нижнюю навигационную панель с контроллером навигации
         binding.bottomNavigation.setupWithNavController(navController)
 
-        // Добавляем слушателя для изменения пункта назначения
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.postsFragment -> {
-                    binding.newCard.setOnClickListener(postsClickListener)
-                    binding.newCard.animate()
+                    binding.news.setOnClickListener(postsClickListener)
+                    binding.news.animate()
                         .scaleX(1F)
                         .scaleY(1F)
                 }
 
                 R.id.eventsFragment -> {
-                    binding.newCard.setOnClickListener(eventsClickListener)
-                    binding.newCard.animate()
+                    binding.news.setOnClickListener(eventsClickListener)
+                    binding.news.animate()
                         .scaleX(1F)
                         .scaleY(1F)
                 }
 
                 R.id.usersFragment -> {
-                    binding.newCard.setOnClickListener(usersClickListener)
-                    binding.newCard.animate()
+                    binding.news.setOnClickListener(usersClickListener)
+                    binding.news.animate()
                         .scaleX(0F)
                         .scaleY(0F)
                 }

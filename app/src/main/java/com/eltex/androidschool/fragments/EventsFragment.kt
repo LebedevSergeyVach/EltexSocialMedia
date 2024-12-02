@@ -113,15 +113,11 @@ class EventsFragment : Fragment() {
             context = requireContext()
         )
 
-        // Устанавливаем адаптер для RecyclerView
         binding.list.adapter = adapter
 
-        // Добавляем декорацию для отступов между элементами
         binding.list.addItemDecoration(
             OffsetDecoration(resources.getDimensionPixelSize(R.dimen.list_offset))
         )
-
-        // Подписываемся на изменения состояния событий
         viewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { eventState: EventState ->

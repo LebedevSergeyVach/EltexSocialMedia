@@ -40,7 +40,7 @@
         app:menu="@menu/bottom_navigation_menu" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/newCard"
+        android:id="@+id/news"
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

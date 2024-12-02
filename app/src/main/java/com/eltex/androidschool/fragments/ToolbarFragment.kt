@@ -61,26 +61,20 @@ class ToolbarFragment : Fragment() {
     ): View {
         val binding = FragmentToolbarBinding.inflate(inflater, container, false)
 
-        // Находим контроллер навигации для текущего фрагмента
         val navController =
             requireNotNull(childFragmentManager.findFragmentById(R.id.container)).findNavController()
 
-        // Настраиваем панель инструментов с контроллером навигации
         binding.toolbar.setupWithNavController(navController)
 
-        // Получаем ViewModel для управления состоянием панели инструментов
         val toolBarViewModel by activityViewModels<ToolBarViewModel>()
 
-        // Находим элемент меню "Сохранить"
         val newPostItem = binding.toolbar.menu.findItem(R.id.save_post)
 
-        // Подписываемся на изменения состояния видимости кнопки сохранения
         toolBarViewModel.saveVisible.onEach {
             newPostItem.isVisible = it
         }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        // Устанавливаем слушателя для кнопки сохранения
         newPostItem.setOnMenuItemClickListener {
             toolBarViewModel.onSaveClicked(true)
             true

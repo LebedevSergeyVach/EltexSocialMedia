@@ -80,7 +80,6 @@ class PostsFragment : Fragment() {
     ): View {
         val binding = FragmentPostsBinding.inflate(layoutInflater, container, false)
 
-        // Создаем адаптер для списка постов
         val adapter = PostAdapter(
             object : PostAdapter.PostListener {
                 override fun onLikeClicked(post: PostData) {
@@ -107,15 +106,12 @@ class PostsFragment : Fragment() {
             context = requireContext()
         )
 
-        // Устанавливаем адаптер для RecyclerView
         binding.list.adapter = adapter
 
-        // Добавляем декорацию для отступов между элементами
         binding.list.addItemDecoration(
             OffsetDecoration(resources.getDimensionPixelSize(R.dimen.list_offset))
         )
 
-        // Подписываемся на изменения состояния постов
         viewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { postState: PostState ->

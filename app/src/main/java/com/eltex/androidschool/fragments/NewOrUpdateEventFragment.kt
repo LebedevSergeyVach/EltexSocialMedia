@@ -104,7 +104,6 @@ class NewOrUpdateEventFragment : Fragment() {
             }
         }
 
-        // Подписываемся на изменения состояния кнопки сохранения
         toolbarViewModel.saveClicked.filter { display: Boolean -> display }
             .onEach {
                 val newContent = binding.content.text?.toString().orEmpty()
@@ -127,12 +126,10 @@ class NewOrUpdateEventFragment : Fragment() {
                     requireContext().toast(R.string.error_text_event_is_empty)
                 }
 
-                // Сбрасываем состояние кнопки сохранения
                 toolbarViewModel.onSaveClicked(false)
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        // Добавляем слушателя для изменения состояния фрагмента
         viewLifecycleOwner.lifecycle.addObserver(
             object : LifecycleEventObserver {
                 override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
