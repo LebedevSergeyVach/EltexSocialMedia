@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 /**
  * Класс [PostDataParcelable], реализующий интерфейс [Parcelable] с использованием аннотации [Parcelize].
- * Используется для передачи данных о событии через [Intent].
+ * Используется для передачи данных о посте через [Intent].
  *
  * @property content Содержание события.
  * @property postId Уникальный идентификатор поста.

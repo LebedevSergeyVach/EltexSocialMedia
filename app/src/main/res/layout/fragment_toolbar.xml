@@ -24,7 +24,7 @@
         app:menu="@menu/new_or_update_post_menu" />
 
     <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/container"
+        android:id="@+id/toolbarContainer"
 
         android:name="androidx.navigation.fragment.NavHostFragment"
 

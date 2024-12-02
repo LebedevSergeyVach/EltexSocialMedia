@@ -14,6 +14,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.navigation.findNavController
 
 import androidx.navigation.fragment.findNavController
 
@@ -93,12 +94,13 @@ class PostsFragment : Fragment() {
                 }
 
                 override fun onUpdateClicked(post: PostData) {
-                    findNavController()
+                    requireParentFragment().requireParentFragment().findNavController()
                         .navigate(
-                            R.id.action_postsFragment_to_newOrUpdatePostFragment,
+                            R.id.action_BottomNavigationFragment_to_newOrUpdatePostFragment,
                             bundleOf(
                                 NewOrUpdatePostFragment.POST_ID to post.id,
                                 NewOrUpdatePostFragment.POST_CONTENT to post.content,
+                                NewOrUpdatePostFragment.IS_UPDATE to true,
                             )
                         )
                 }

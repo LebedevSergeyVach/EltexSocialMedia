@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
+import androidx.appcompat.widget.Toolbar
+
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -51,6 +53,7 @@ class NewOrUpdatePostFragment : Fragment() {
     companion object {
         const val POST_ID = "POST_ID"
         const val POST_CONTENT = "POST_CONTENT"
+        const val IS_UPDATE = "IS_UPDATE"
     }
 
     /**
@@ -74,6 +77,7 @@ class NewOrUpdatePostFragment : Fragment() {
 
         val postId = arguments?.getLong(POST_ID) ?: 0L
         val content = arguments?.getString(POST_CONTENT) ?: ""
+        val isUpdate = arguments?.getBoolean(IS_UPDATE, false) ?: false
 
         binding.content.setText(content)
 
@@ -125,6 +129,11 @@ class NewOrUpdatePostFragment : Fragment() {
                 }
             }
         )
+
+        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
+
+        toolbar.title =
+            if (isUpdate) getString(R.string.update_post_title) else getString(R.string.new_post_title)
 
         return binding.root
     }

@@ -62,7 +62,7 @@ class ToolbarFragment : Fragment() {
         val binding = FragmentToolbarBinding.inflate(inflater, container, false)
 
         val navController =
-            requireNotNull(childFragmentManager.findFragmentById(R.id.container)).findNavController()
+            requireNotNull(childFragmentManager.findFragmentById(R.id.toolbarContainer)).findNavController()
 
         binding.toolbar.setupWithNavController(navController)
 
@@ -70,8 +70,8 @@ class ToolbarFragment : Fragment() {
 
         val newPostItem = binding.toolbar.menu.findItem(R.id.save_post)
 
-        toolBarViewModel.saveVisible.onEach {
-            newPostItem.isVisible = it
+        toolBarViewModel.saveVisible.onEach { display: Boolean ->
+            newPostItem.isVisible = display
         }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 

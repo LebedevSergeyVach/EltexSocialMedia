@@ -97,15 +97,16 @@ class EventsFragment : Fragment() {
                 }
 
                 override fun onUpdateClicked(event: EventData) {
-                    findNavController()
+                    requireParentFragment().requireParentFragment().findNavController()
                         .navigate(
-                            R.id.action_eventsFragment_to_newOrUpdateEventFragment,
+                            R.id.action_BottomNavigationFragment_to_newOrUpdateEventFragment,
                             bundleOf(
                                 NewOrUpdateEventFragment.EVENT_ID to event.id,
                                 NewOrUpdateEventFragment.EVENT_CONTENT to event.content,
                                 NewOrUpdateEventFragment.EVENT_LINK to event.link,
                                 NewOrUpdateEventFragment.EVENT_DATE to event.dataEvent,
-                                NewOrUpdateEventFragment.EVENT_OPTION to event.optionConducting
+                                NewOrUpdateEventFragment.EVENT_OPTION to event.optionConducting,
+                                NewOrUpdateEventFragment.IS_UPDATE to true,
                             )
                         )
                 }

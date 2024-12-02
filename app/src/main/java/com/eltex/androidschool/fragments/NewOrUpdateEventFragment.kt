@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
+import androidx.appcompat.widget.Toolbar
+
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -54,6 +56,7 @@ class NewOrUpdateEventFragment : Fragment() {
         const val EVENT_LINK = "EVENT_LINK"
         const val EVENT_DATE = "EVENT_DATE"
         const val EVENT_OPTION = "EVENT_OPTION"
+        const val IS_UPDATE = "IS_UPDATE"
     }
 
     /**
@@ -80,6 +83,7 @@ class NewOrUpdateEventFragment : Fragment() {
         val link = arguments?.getString(EVENT_LINK) ?: ""
         val date = arguments?.getString(EVENT_DATE) ?: ""
         val option = arguments?.getString(EVENT_OPTION) ?: ""
+        val isUpdate = arguments?.getBoolean(IS_UPDATE, false) ?: false
 
         binding.content.setText(content)
         binding.link.setText(link)
@@ -144,6 +148,11 @@ class NewOrUpdateEventFragment : Fragment() {
                 }
             }
         )
+
+        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
+
+        toolbar.title =
+            if (isUpdate) getString(R.string.update_event_title) else getString(R.string.new_event_title)
 
         return binding.root
     }
