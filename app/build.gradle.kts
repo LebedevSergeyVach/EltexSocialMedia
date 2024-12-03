@@ -1,4 +1,5 @@
 import com.google.protobuf.gradle.id
+import java.util.Properties
 
 plugins {
     alias(libs.plugins.android.application)
@@ -22,6 +23,17 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        // file("secrets.properties")
+        val secretsProperties = rootDir.resolve("secrets.properties")
+            .bufferedReader()
+            .use {
+                Properties().apply {
+                    load(it)
+                }
+            }
+
+        buildConfigField("String", "API_KEY", secretsProperties.getProperty("API_KEY"))
     }
 
     buildTypes {
@@ -43,9 +55,11 @@ android {
         jvmTarget = "1.8"
     }
 
-    // Для ViewBinding вместо findViewById
     buildFeatures {
+        // Для ViewBinding вместо findViewById
         viewBinding = true
+        // Для secrets.properties
+        buildConfig = true
     }
 
     // Proto DataStore
