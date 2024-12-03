@@ -178,7 +178,6 @@
             android:autoLink="web"
             android:textColorLink="@color/active_element"
             android:textSize="@dimen/size_text_sp"
-            app:iconTint="@color/active_element"
 
             app:layout_constraintEnd_toEndOf="@id/optionConducting"
             app:layout_constraintStart_toStartOf="parent"

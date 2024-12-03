@@ -31,21 +31,23 @@
 
             android:layout_margin="@dimen/common_spacing"
 
+            android:autoLink="web"
             android:background="@android:color/transparent"
-
             android:gravity="top"
 
             android:hint="@string/new_post_content_hint"
 
             android:importantForAutofill="no"
+
             android:inputType="textMultiLine"
+            android:textColorLink="@color/active_element"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="parent"
 
-            tools:text="@tools:sample/lorem[10]" />
+            tools:text="@tools:sample/lorem[100]" />
 
     </com.google.android.material.card.MaterialCardView>
 
