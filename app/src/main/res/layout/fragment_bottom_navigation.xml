@@ -48,6 +48,7 @@
         android:layout_margin="20dp"
 
         android:background="?colorOnPrimary"
+        android:backgroundTint="@color/active_element"
 
         app:layout_constraintBottom_toBottomOf="@id/container"
         app:layout_constraintEnd_toEndOf="parent"

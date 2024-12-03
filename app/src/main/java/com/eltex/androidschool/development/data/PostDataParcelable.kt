@@ -1,4 +1,4 @@
-package com.eltex.androidschool.data
+package com.eltex.androidschool.development.data
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

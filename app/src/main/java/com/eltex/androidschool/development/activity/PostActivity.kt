@@ -15,10 +15,10 @@ import com.eltex.androidschool.development.activity.NewOrUpdatePostActivity
 
 import com.eltex.androidschool.databinding.MainActivityBinding
 
-import com.eltex.androidschool.adapter.OffsetDecoration
+import com.eltex.androidschool.ui.OffsetDecoration
 import com.eltex.androidschool.adapter.PostAdapter
 import com.eltex.androidschool.data.PostData
-import com.eltex.androidschool.data.PostDataParcelable
+import com.eltex.androidschool.development.data.PostDataParcelable
 import com.eltex.androidschool.db.AppDbPost
 import com.eltex.androidschool.repository.DaoSQLitePostRepository
 import com.eltex.androidschool.ui.EdgeToEdgeHelper

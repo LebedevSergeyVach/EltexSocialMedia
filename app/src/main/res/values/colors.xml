@@ -13,5 +13,6 @@
     <color name="check_ok">#FF000000</color>
     <color name="toast_custom">#f8f9fc</color>
 
-    <color name="active_navigate">#4f378b</color>
+    #4f378b material google
+    <color name="active_element">#00A0D9</color>
 </resources>

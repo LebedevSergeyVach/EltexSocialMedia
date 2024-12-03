@@ -17,9 +17,9 @@ import com.eltex.androidschool.development.activity.NewOrUpdateEventActivity
 import com.eltex.androidschool.databinding.MainActivityBinding
 
 import com.eltex.androidschool.adapter.EventAdapter
-import com.eltex.androidschool.adapter.OffsetDecoration
+import com.eltex.androidschool.ui.OffsetDecoration
 import com.eltex.androidschool.data.EventData
-import com.eltex.androidschool.data.EventDataParcelable
+import com.eltex.androidschool.development.data.EventDataParcelable
 import com.eltex.androidschool.db.AppDbEvent
 import com.eltex.androidschool.repository.DaoSQLiteEventRepository
 import com.eltex.androidschool.ui.EdgeToEdgeHelper

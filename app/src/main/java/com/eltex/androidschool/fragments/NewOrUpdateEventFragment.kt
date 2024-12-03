@@ -110,19 +110,19 @@ class NewOrUpdateEventFragment : Fragment() {
 
         toolbarViewModel.saveClicked.filter { display: Boolean -> display }
             .onEach {
-                val newContent = binding.content.text?.toString().orEmpty()
-                val newDate = binding.data.text?.toString().orEmpty()
-                val newOption = binding.option.text?.toString().orEmpty()
-                val newLink = binding.link.text?.toString().orEmpty()
+                val newContent = binding.content.text?.toString().orEmpty().trimStart().trimEnd()
+                val newDate = binding.data.text?.toString().orEmpty().trimStart().trimEnd()
+                val newOption = binding.option.text?.toString().orEmpty().trimStart().trimEnd()
+                val newLink = binding.link.text?.toString().orEmpty().trimStart().trimEnd()
 
                 if (
                     newContent.isNotEmpty() && newDate.isNotEmpty() && newOption.isNotEmpty() && newLink.isNotEmpty()
                 ) {
                     newEventViewModel.save(
                         content = newContent,
-                        link = newDate,
+                        link = newLink,
                         option = newOption,
-                        data = newLink,
+                        data = newDate,
                     )
                     findNavController().navigateUp()
                 } else {

@@ -1,4 +1,4 @@
-package com.eltex.androidschool.adapter
+package com.eltex.androidschool.ui
 
 import android.graphics.Rect
 import android.view.View

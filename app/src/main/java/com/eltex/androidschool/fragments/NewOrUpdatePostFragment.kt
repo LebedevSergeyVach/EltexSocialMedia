@@ -101,7 +101,7 @@ class NewOrUpdatePostFragment : Fragment() {
 
         toolbarViewModel.saveClicked.filter { display: Boolean -> display }
             .onEach {
-                val newContent = binding.content.text?.toString().orEmpty()
+                val newContent = binding.content.text?.toString().orEmpty().trimStart().trimEnd()
 
                 if (newContent.isNotEmpty()) {
                     newPostVewModel.save(content = newContent)

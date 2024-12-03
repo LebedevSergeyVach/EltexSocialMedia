@@ -2,10 +2,15 @@ package com.eltex.androidschool.adapter
 
 import android.animation.AnimatorInflater
 import android.annotation.SuppressLint
+
 import android.content.Context
 import android.content.Intent
+
+import android.text.SpannableString
+
 import android.view.MotionEvent
 import android.view.View
+
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.eltex.androidschool.R
 
@@ -59,6 +64,9 @@ class EventViewHolder(
         binding.dataEvent.text = event.dataEvent
         binding.content.text = event.content
         binding.link.text = event.link
+
+        SpannableString(binding.link.text)
+        SpannableString(binding.content.text)
 
         if (event.lastModified != null) {
             binding.lastModified.visibility = View.VISIBLE

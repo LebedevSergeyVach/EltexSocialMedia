@@ -2,10 +2,15 @@ package com.eltex.androidschool.adapter
 
 import android.animation.AnimatorInflater
 import android.annotation.SuppressLint
+
 import android.content.Context
 import android.content.Intent
+
+import android.text.SpannableString
+
 import android.view.MotionEvent
 import android.view.View
+
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.eltex.androidschool.R
 
@@ -56,6 +61,8 @@ class PostViewHolder(
         binding.initial.text = post.author.take(1)
         binding.published.text = post.getFormattedPublished()
         binding.content.text = post.content
+
+        SpannableString(binding.content.text)
 
         if (post.lastModified != null) {
             binding.lastModified.visibility = View.VISIBLE

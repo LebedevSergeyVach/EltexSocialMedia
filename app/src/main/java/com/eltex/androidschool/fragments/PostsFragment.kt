@@ -22,7 +22,7 @@ import kotlinx.coroutines.flow.onEach
 
 import com.eltex.androidschool.R
 
-import com.eltex.androidschool.adapter.OffsetDecoration
+import com.eltex.androidschool.ui.OffsetDecoration
 import com.eltex.androidschool.adapter.PostAdapter
 
 import com.eltex.androidschool.data.PostData

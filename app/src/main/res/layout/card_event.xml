@@ -99,7 +99,9 @@
             android:layout_marginEnd="4dp"
 
             android:importantForAccessibility="no"
+            android:textColor="@color/active_element"
             app:icon="@drawable/ic_more"
+            app:iconTint="@color/active_element"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -154,6 +156,8 @@
             android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
             android:layout_marginTop="@dimen/indentation_between_main_objects"
 
+            android:autoLink="web"
+            android:textColorLink="@color/active_element"
             android:textSize="@dimen/size_text_sp"
 
             app:layout_constraintEnd_toEndOf="@id/optionConducting"
@@ -172,7 +176,9 @@
             android:layout_marginTop="@dimen/indentation_between_main_objects"
 
             android:autoLink="web"
+            android:textColorLink="@color/active_element"
             android:textSize="@dimen/size_text_sp"
+            app:iconTint="@color/active_element"
 
             app:layout_constraintEnd_toEndOf="@id/optionConducting"
             app:layout_constraintStart_toStartOf="parent"
@@ -207,7 +213,9 @@
             android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
             android:layout_marginTop="@dimen/indentation_between_main_objects"
 
+            android:textColor="@color/active_element"
             app:icon="@drawable/like_button"
+            app:iconTint="@color/active_element"
 
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/link"
@@ -224,7 +232,9 @@
 
             android:layout_marginStart="8dp"
 
+            android:textColor="@color/active_element"
             app:icon="@drawable/ic_share_24"
+            app:iconTint="@color/active_element"
 
             app:layout_constraintStart_toEndOf="@id/like"
             app:layout_constraintTop_toTopOf="@id/like" />
@@ -239,7 +249,9 @@
 
             android:layout_marginEnd="@dimen/indent_end"
 
+            android:textColor="@color/active_element"
             app:icon="@drawable/participate_button"
+            app:iconTint="@color/active_element"
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="@id/like"

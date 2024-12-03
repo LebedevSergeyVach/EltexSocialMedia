@@ -9,7 +9,7 @@ import com.eltex.androidschool.R
 
 import com.eltex.androidschool.databinding.ActivityNewOrUpdateEventBinding
 
-import com.eltex.androidschool.data.EventDataParcelable
+import com.eltex.androidschool.development.data.EventDataParcelable
 import com.eltex.androidschool.ui.EdgeToEdgeHelper
 
 import com.eltex.androidschool.utils.toast
