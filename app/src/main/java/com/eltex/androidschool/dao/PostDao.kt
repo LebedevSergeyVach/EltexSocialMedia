@@ -79,4 +79,11 @@ interface PostDao {
         content: String,
         lastModified: String
     )
+
+    @Query(
+        """
+            SELECT * FROM ${PostTableInfo.TABLE_NAME} WHERE id = :postId
+        """
+    )
+    fun getPostById(postId: Long): PostEntity
 }

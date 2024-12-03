@@ -99,4 +99,11 @@ interface EventDao {
         data: String,
         lastModified: String
     )
+
+    @Query(
+        """
+            SELECT * FROM ${EventTableInfo.TABLE_NAME} WHERE id = :eventId
+        """
+    )
+    fun getEventById(eventId: Long): EventEntity
 }

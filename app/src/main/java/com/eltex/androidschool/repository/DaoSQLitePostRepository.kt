@@ -56,12 +56,16 @@ class DaoSQLitePostRepository(
      * @param content Новое содержимое поста.
      */
     override fun updateById(postId: Long, content: String) {
-        val lastModified = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-        postDao.updateById(
-            postId = postId,
-            content = content,
-            lastModified = lastModified
-        )
+        val existingPost = postDao.getPostById(postId)
+
+        if (existingPost.content != content) {
+            val lastModified = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            postDao.updateById(
+                postId = postId,
+                content = content,
+                lastModified = lastModified
+            )
+        }
     }
 
     /**

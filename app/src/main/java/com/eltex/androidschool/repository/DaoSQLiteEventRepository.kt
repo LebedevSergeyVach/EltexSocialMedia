@@ -74,15 +74,24 @@ class DaoSQLiteEventRepository(
         option: String,
         data: String
     ) {
-        val lastModified = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-        eventDao.updateById(
-            eventId = eventId,
-            content = content,
-            link = link,
-            option = option,
-            data = data,
-            lastModified = lastModified,
-        )
+        val existingEvent = eventDao.getEventById(eventId)
+
+        if (
+            existingEvent.content != content
+            || existingEvent.link != link
+            || existingEvent.optionConducting != option
+            || existingEvent.dataEvent != data
+        ) {
+            val lastModified = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME)
+            eventDao.updateById(
+                eventId = eventId,
+                content = content,
+                link = link,
+                option = option,
+                data = data,
+                lastModified = lastModified,
+            )
+        }
     }
 
     /**
