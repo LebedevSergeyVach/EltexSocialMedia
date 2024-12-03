@@ -15,4 +15,6 @@
 
     <dimen name="common_spacing">12dp</dimen>
     <dimen name="splash_icon_app">300dp</dimen>
+
+    <dimen name="duration_animation_fragments">500</dimen>
 </resources>

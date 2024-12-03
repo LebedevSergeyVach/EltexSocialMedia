@@ -6,12 +6,14 @@
         android:propertyName="scaleX"
         android:valueTo="1.2"
         android:valueType="floatType" />
+
     <objectAnimator
         android:duration="200"
         android:interpolator="@android:anim/accelerate_decelerate_interpolator"
         android:propertyName="scaleY"
         android:valueTo="1.2"
         android:valueType="floatType" />
+
     <objectAnimator
         android:duration="200"
         android:interpolator="@android:anim/accelerate_decelerate_interpolator"
@@ -19,6 +21,7 @@
         android:startOffset="200"
         android:valueTo="1.0"
         android:valueType="floatType" />
+
     <objectAnimator
         android:duration="200"
         android:interpolator="@android:anim/accelerate_decelerate_interpolator"

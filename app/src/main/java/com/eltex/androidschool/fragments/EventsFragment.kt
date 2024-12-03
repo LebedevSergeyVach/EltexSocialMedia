@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.viewmodel.viewModelFactory
 
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 
 import kotlinx.coroutines.flow.onEach
@@ -107,7 +108,13 @@ class EventsFragment : Fragment() {
                                 NewOrUpdateEventFragment.EVENT_DATE to event.dataEvent,
                                 NewOrUpdateEventFragment.EVENT_OPTION to event.optionConducting,
                                 NewOrUpdateEventFragment.IS_UPDATE to true,
-                            )
+                            ),
+                            NavOptions.Builder()
+                                .setEnterAnim(R.anim.slide_in_right)
+                                .setExitAnim(R.anim.slide_out_left)
+                                .setPopEnterAnim(R.anim.slide_in_left)
+                                .setPopExitAnim(R.anim.slide_out_right)
+                                .build()
                         )
                 }
             },

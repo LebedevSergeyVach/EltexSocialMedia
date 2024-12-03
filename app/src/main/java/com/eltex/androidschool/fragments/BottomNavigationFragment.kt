@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 
@@ -45,16 +46,30 @@ class BottomNavigationFragment : Fragment() {
 
         val postsClickListener = View.OnClickListener {
             findNavController()
-                .navigate(R.id.action_BottomNavigationFragment_to_newOrUpdatePostFragment)
+                .navigate(
+                    R.id.action_BottomNavigationFragment_to_newOrUpdatePostFragment,
+                    null,
+                    NavOptions.Builder()
+                        .setEnterAnim(R.anim.slide_in_right)
+                        .setExitAnim(R.anim.slide_out_left)
+                        .setPopEnterAnim(R.anim.slide_in_left)
+                        .setPopExitAnim(R.anim.slide_out_right)
+                        .build()
+                )
         }
 
         val eventsClickListener = View.OnClickListener {
             findNavController()
-                .navigate(R.id.action_BottomNavigationFragment_to_newOrUpdateEventFragment)
-        }
-
-        val usersClickListener = View.OnClickListener {
-            // TODO: Implement event navigation logic
+                .navigate(
+                    R.id.action_BottomNavigationFragment_to_newOrUpdateEventFragment,
+                    null,
+                    NavOptions.Builder()
+                        .setEnterAnim(R.anim.slide_in_right)
+                        .setExitAnim(R.anim.slide_out_left)
+                        .setPopEnterAnim(R.anim.slide_in_left)
+                        .setPopExitAnim(R.anim.slide_out_right)
+                        .build()
+                )
         }
 
         binding.bottomNavigation.setupWithNavController(navController)
@@ -76,7 +91,6 @@ class BottomNavigationFragment : Fragment() {
                 }
 
                 R.id.usersFragment -> {
-                    binding.news.setOnClickListener(usersClickListener)
                     binding.news.animate()
                         .scaleX(0F)
                         .scaleY(0F)

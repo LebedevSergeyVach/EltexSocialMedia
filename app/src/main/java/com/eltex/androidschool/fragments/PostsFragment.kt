@@ -15,6 +15,7 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.viewModelFactory
 
+import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 
 import kotlinx.coroutines.flow.launchIn
@@ -100,7 +101,13 @@ class PostsFragment : Fragment() {
                                 NewOrUpdatePostFragment.POST_ID to post.id,
                                 NewOrUpdatePostFragment.POST_CONTENT to post.content,
                                 NewOrUpdatePostFragment.IS_UPDATE to true,
-                            )
+                            ),
+                            NavOptions.Builder()
+                                .setEnterAnim(R.anim.slide_in_right)
+                                .setExitAnim(R.anim.slide_out_left)
+                                .setPopEnterAnim(R.anim.slide_in_left)
+                                .setPopExitAnim(R.anim.slide_out_right)
+                                .build()
                         )
                 }
             },
