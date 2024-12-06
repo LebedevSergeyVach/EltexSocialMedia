@@ -24,6 +24,8 @@ The project uses several types of architecture patterns and paradigms: **Single 
         <img width="12" />
         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-plain-wordmark.svg" height="40" alt="android logo"  />
         <img width="12" />
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" height="40" alt="sqlite logo"  />
+        <img width="12" />
     </div>
 </details>
 
@@ -65,14 +67,16 @@ The project uses several types of architecture patterns and paradigms: **Single 
         <img width="12" />
         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-plain-wordmark.svg" height="40" alt="android logo"  />
         <img width="12" />
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" height="40" alt="sqlite logo"  />
+        <img width="12" />
     </div>
 </details>
 
 ---
 
-### [Anatoly Spitchenko](https://gitflic.ru/user/onotole) - Android-Разработчик и преподаватель курса
+### [Анатолий Спитченко](https://gitflic.ru/user/onotole) - Android-Разработчик и преподаватель курса
 
-### [Lebedev Sergey Vyacheslav](https://github.com/LebedevSergeyVach) – Kotlin-Разработчик
+### [Лебедев Сергей Вячеславович](https://github.com/LebedevSergeyVach) – Kotlin-Разработчик
 
 ---
 
