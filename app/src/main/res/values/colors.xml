@@ -14,5 +14,7 @@
     <color name="toast_custom">#f8f9fc</color>
 
     #4f378b material google
-    <color name="active_element">#00A0D9</color>
+    #00A0D9 ELTEX
+    #0c5df3 #083ffe #3060FF
+    <color name="active_element">#3060FF</color>
 </resources>
