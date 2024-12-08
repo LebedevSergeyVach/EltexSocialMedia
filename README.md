@@ -24,6 +24,8 @@ The project uses several types of architecture patterns and paradigms: **Single 
         <img width="12" />
         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-plain-wordmark.svg" height="40" alt="android logo"  />
         <img width="12" />
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" height="40" alt="sqlite logo"  />
+        <img width="12" />
     </div>
 </details>
 
@@ -36,3 +38,46 @@ The project uses several types of architecture patterns and paradigms: **Single 
 ---
 
 #### [README](README.md) [UP](#up)
+
+---
+
+# Социальная сеть Eltex
+<a name="вверх"></a>
+
+---
+
+**Проект написан на языке программирования [Kotlin](https://kotlinlang.org).**
+
+Образовательный проект по разработке Android-приложений на Java и Kotlin от Eltex Academy.
+Данный проект основан по архитектуре MVVM (Model-View-ViewModel).
+Акроним CRUD был реализован для работа с постами и событиями в приложении для Android.
+Используется [Jetpack Preferences DataStore](https://developer.android.com/topic/libraries/architecture/datastore) для работы с локальными файлами на устройстве.
+На данный момент для работы с акронимом CRUD используется локальная база данных SQLite на устройстве.
+Для работы с локальной базой данных SQLite используется [ORM ROOM](https://developer.android.com/training/data-storage/room) вместе с [ksp](https://developer.android.com/jetpack/androidx/releases/room).
+[The Prepopulate your Room database](https://developer.android.com/training/data-storage/room/prepopulate) используется в проекте для удобства тестирования.
+В проекте используется несколько типов архитектурных паттернов и парадигм: **Single Activity Architecture**, **Modular Architecture** and **Reactive Programming**.
+
+<details open="open">
+    <summary><h2>🚀 Стек используемых технологий</h2></summary>
+    <div align="left">
+        <img width="12" />
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" height="40" alt="kotlin logo"  />
+        <img width="12" />
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gradle/gradle-original.svg" height="40" alt="gradle logo"  />
+        <img width="12" />
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-plain-wordmark.svg" height="40" alt="android logo"  />
+        <img width="12" />
+        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" height="40" alt="sqlite logo"  />
+        <img width="12" />
+    </div>
+</details>
+
+---
+
+### [Анатолий Спитченко](https://gitflic.ru/user/onotole) - Android-Разработчик и преподаватель курса
+
+### [Лебедев Сергей Вячеславович](https://github.com/LebedevSergeyVach) – Kotlin-Разработчик
+
+---
+
+#### [README](README.md) [ВВЕРХ](#ввурх)
