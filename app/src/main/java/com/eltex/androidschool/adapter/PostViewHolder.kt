@@ -20,6 +20,8 @@ import com.eltex.androidschool.databinding.CardPostBinding
 import com.eltex.androidschool.data.PostData
 import com.eltex.androidschool.utils.toast
 
+import java.util.Locale
+
 /**
  * ViewHolder для отображения элемента списка постов.
  *
@@ -60,7 +62,7 @@ class PostViewHolder(
         binding.author.text = post.author
         binding.initial.text = post.author.take(1)
 //        binding.published.text = post.getFormattedPublished()
-        binding.published.text = post.published
+        binding.published.text = post.getFormattedPublished(Locale.getDefault())
         binding.content.text = post.content
 
         SpannableString(binding.content.text)
@@ -68,7 +70,7 @@ class PostViewHolder(
         if (post.lastModified != null) {
             binding.lastModified.visibility = View.VISIBLE
             binding.lastModified.text =
-                post.getFormattedLastModified()?.let { lastModified: String? ->
+                post.getFormattedLastModified(Locale.getDefault())?.let { lastModified: String? ->
                     context.getString(R.string.changed) + ": $lastModified"
                 }
         } else {
@@ -84,7 +86,8 @@ class PostViewHolder(
 
             if (post.lastModified != null) {
                 modification =
-                    "\n\n" + context.getString(R.string.changed) + ": " + post.getFormattedLastModified()
+                    "\n\n" + context.getString(R.string.changed) + ": " +
+                            post.getFormattedLastModified(Locale.getDefault())
             }
 
             val intent = Intent.createChooser(
@@ -92,7 +95,8 @@ class PostViewHolder(
                     .putExtra(
                         Intent.EXTRA_TEXT,
                         context.getString(R.string.author) + ":\n" + post.author
-                                + "\n\n" + context.getString(R.string.published) + ":\n" + post.published
+                                + "\n\n" + context.getString(R.string.published) + ":\n"
+                                + post.getFormattedPublished(Locale.getDefault())
                                 + "\n\n" + context.getString(R.string.post) + ":\n" + post.content
                                 + modification
                     )
