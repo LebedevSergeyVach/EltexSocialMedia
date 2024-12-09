@@ -6,12 +6,13 @@
 **The project is written in the [Kotlin](https://kotlinlang.org) programming language**
 
 Educational project Development of Android applications in Java and Kotlin from Eltex Academy.
-This project is based on the MVVM architecture (Model-View-ViewModel).
-The acronym CRUD has been implemented to work with posts and events in the android application.
-Using [Jetpack Preferences DataStore](https://developer.android.com/topic/libraries/architecture/datastore) to work with local files on the device.
-At the moment, the local SQLite database on the device is used to work with the acronym CRUD.
-To work with the local database SQLite, [ORM ROOM](https://developer.android.com/training/data-storage/room) is used together with [ksp](https://developer.android.com/jetpack/androidx/releases/room).
-[The Prepopulate your Room database](https://developer.android.com/training/data-storage/room/prepopulate) is used in the project for convenient testing.
+This project is based on the **MVVM** architecture **(Model-View-ViewModel)**.
+The acronym **CRUD** has been implemented to work with posts and events in the android application.
+Using **[Jetpack Preferences DataStore](https://developer.android.com/topic/libraries/architecture/datastore)** to work with local files on the device.
+At the moment, the local **SQLite** database on the device is used to work with the acronym **CRUD**.
+To work with the local database **SQLite**, **[ORM ROOM](https://developer.android.com/training/data-storage/room)** is used together with **[ksp](https://developer.android.com/jetpack/androidx/releases/room)**.
+**[The Prepopulate your Room database](https://developer.android.com/training/data-storage/room/prepopulate)** is used in the project for convenient testing.
+**[Square's](https://github.com/square)** **[OkHttp](https://github.com/square/okhttp)** library is used to work with requests to the server and process the received data in JSON format.
 The project uses several types of architecture patterns and paradigms: **Builder**, **Observer**, **Adapter**, **Dependency Injection**, **Single Activity Architecture**, **Modular Architecture** and **Reactive Programming**.
 
 <details open="open">
@@ -49,12 +50,13 @@ The project uses several types of architecture patterns and paradigms: **Builder
 **Проект написан на языке программирования [Kotlin](https://kotlinlang.org).**
 
 Образовательный проект по разработке Android-приложений на Java и Kotlin от Eltex Academy.
-Данный проект основан по архитектуре MVVM (Model-View-ViewModel).
-Акроним CRUD был реализован для работа с постами и событиями в приложении для Android.
-Используется [Jetpack Preferences DataStore](https://developer.android.com/topic/libraries/architecture/datastore) для работы с локальными файлами на устройстве.
-На данный момент для работы с акронимом CRUD используется локальная база данных SQLite на устройстве.
-Для работы с локальной базой данных SQLite используется [ORM ROOM](https://developer.android.com/training/data-storage/room) вместе с [ksp](https://developer.android.com/jetpack/androidx/releases/room).
-[The Prepopulate your Room database](https://developer.android.com/training/data-storage/room/prepopulate) используется в проекте для удобства тестирования.
+Данный проект основан по архитектуре **MVVM** **(Model-View-ViewModel)**.
+Акроним **CRUD** был реализован для работа с постами и событиями в приложении для Android.
+Используется **[Jetpack Preferences DataStore](https://developer.android.com/topic/libraries/architecture/datastore)** для работы с локальными файлами на устройстве.
+На данный момент для работы с акронимом **CRUD** используется локальная база данных **SQLite** на устройстве.
+Для работы с локальной базой данных **SQLite** используется **[ORM ROOM](https://developer.android.com/training/data-storage/room)** вместе с **[ksp](https://developer.android.com/jetpack/androidx/releases/room)**.
+**[The Prepopulate your Room database](https://developer.android.com/training/data-storage/room/prepopulate)** используется в проекте для удобства тестирования.
+Для работы с запросами на сервер и обработкой полученных данных в формате JSON используется библиотека **[OkHttp](https://github.com/square/okhttp)** от **[Square](https://github.com/square)**.
 В проекте используется несколько типов архитектурных паттернов и парадигм: **Строитель**, **Наблюдатель**, **Адаптер**, **Внедрение зависимостей**, **Архитектура с одной активностью**, **Модульная архитектура** and **Реактивное программирование**.
 
 <details open="open">
