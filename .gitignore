@@ -17,3 +17,5 @@ local.properties
 .idea/
 Task.md
 secrets.properties
+apk
+app/release

@@ -3,8 +3,11 @@ package com.eltex.androidschool.repository
 import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.data.PostData
 import com.eltex.androidschool.utils.Callback
+import com.eltex.androidschool.utils.DnsSelector
+
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
+
 import okhttp3.Call
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -13,6 +16,7 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
 import okhttp3.internal.EMPTY_REQUEST
 import okhttp3.logging.HttpLoggingInterceptor
+
 import java.io.IOException
 import java.lang.Exception
 import java.util.concurrent.TimeUnit
@@ -58,6 +62,7 @@ class NetworkPostRepository : PostRepository {
                     .build()
             )
         }
+        .dns(DnsSelector())
         .build()
 
     /**

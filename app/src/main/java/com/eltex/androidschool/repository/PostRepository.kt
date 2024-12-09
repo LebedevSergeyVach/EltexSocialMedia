@@ -1,6 +1,7 @@
 package com.eltex.androidschool.repository
 
 import com.eltex.androidschool.data.PostData
+
 import com.eltex.androidschool.utils.Callback
 
 /**

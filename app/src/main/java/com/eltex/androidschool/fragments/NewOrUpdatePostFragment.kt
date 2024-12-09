@@ -21,25 +21,22 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 
 import androidx.navigation.fragment.findNavController
 
+import com.eltex.androidschool.R
+import com.eltex.androidschool.databinding.FragmentNewOrUpdatePostBinding
+
+import com.eltex.androidschool.repository.NetworkPostRepository
+
+import com.eltex.androidschool.utils.getErrorText
+import com.eltex.androidschool.utils.toast
+import com.eltex.androidschool.utils.vibrateWithEffect
+
+import com.eltex.androidschool.viewmodel.NewPostState
+import com.eltex.androidschool.viewmodel.NewPostViewModel
+import com.eltex.androidschool.viewmodel.ToolBarViewModel
+
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-
-import com.eltex.androidschool.R
-
-import com.eltex.androidschool.databinding.FragmentNewOrUpdatePostBinding
-
-import com.eltex.androidschool.db.AppDbPost
-
-import com.eltex.androidschool.repository.NetworkPostRepository
-import com.eltex.androidschool.utils.getErrorText
-
-import com.eltex.androidschool.utils.toast
-import com.eltex.androidschool.utils.vibrateWithEffect
-import com.eltex.androidschool.viewmodel.NewPostState
-
-import com.eltex.androidschool.viewmodel.NewPostViewModel
-import com.eltex.androidschool.viewmodel.ToolBarViewModel
 
 /**
  * Фрагмент для создания или обновления поста.

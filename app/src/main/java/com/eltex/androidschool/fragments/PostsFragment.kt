@@ -23,15 +23,16 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 import com.eltex.androidschool.R
+import com.eltex.androidschool.databinding.FragmentPostsBinding
 
 import com.eltex.androidschool.ui.OffsetDecoration
+
 import com.eltex.androidschool.adapter.PostAdapter
 
 import com.eltex.androidschool.data.PostData
 
-import com.eltex.androidschool.databinding.FragmentPostsBinding
-
 import com.eltex.androidschool.repository.NetworkPostRepository
+
 import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.toast
 
