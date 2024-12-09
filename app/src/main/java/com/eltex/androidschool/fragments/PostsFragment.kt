@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -30,9 +31,9 @@ import com.eltex.androidschool.data.PostData
 
 import com.eltex.androidschool.databinding.FragmentPostsBinding
 
-import com.eltex.androidschool.db.AppDbPost
-
-import com.eltex.androidschool.repository.DaoSQLitePostRepository
+import com.eltex.androidschool.repository.NetworkPostRepository
+import com.eltex.androidschool.utils.getErrorText
+import com.eltex.androidschool.utils.toast
 
 import com.eltex.androidschool.viewmodel.PostState
 import com.eltex.androidschool.viewmodel.PostViewModel
@@ -59,9 +60,7 @@ class PostsFragment : Fragment() {
         viewModelFactory {
             addInitializer(PostViewModel::class) {
                 PostViewModel(
-                    DaoSQLitePostRepository(
-                        AppDbPost.getInstance(requireContext()).postDao
-                    )
+                    NetworkPostRepository()
                 )
             }
         }
@@ -84,7 +83,7 @@ class PostsFragment : Fragment() {
         val adapter = PostAdapter(
             object : PostAdapter.PostListener {
                 override fun onLikeClicked(post: PostData) {
-                    viewModel.likeById(post.id)
+                    viewModel.likeById(post.id, post.likedByMe)
                 }
 
                 override fun onShareClicked(post: PostData) {}
@@ -120,9 +119,36 @@ class PostsFragment : Fragment() {
             OffsetDecoration(resources.getDimensionPixelSize(R.dimen.list_offset))
         )
 
+        binding.retryButton.setOnClickListener {
+            viewModel.load()
+        }
+
+        binding.swiperRefresh.setOnRefreshListener {
+            viewModel.load()
+        }
+
         viewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { postState: PostState ->
+                binding.errorGroup.isVisible = postState.isEmptyError
+
+                val errorText: CharSequence? = postState.status.throwableOrNull?.getErrorText(requireContext())
+                binding.errorText.text = errorText
+
+                binding.progressBar.isVisible = postState.isEmptyLoading
+
+                binding.swiperRefresh.isRefreshing = postState.isRefreshing
+
+                if (postState.isRefreshError && errorText == getString(R.string.network_error)) {
+                    requireContext().toast(R.string.network_error)
+
+                    viewModel.consumerError()
+                } else if (postState.isRefreshError && errorText == getString(R.string.unknown_error)) {
+                    requireContext().toast(R.string.unknown_error)
+
+                    viewModel.consumerError()
+                }
+
                 adapter.submitList(postState.posts)
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)

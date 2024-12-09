@@ -44,7 +44,7 @@ data class PostEntity(
                     published = published,
                     lastModified = lastModified,
                     content = content,
-                    likeByMe = likeByMe,
+                    likeByMe = likedByMe,
                 )
             }
     }
@@ -61,6 +61,6 @@ data class PostEntity(
             published = published,
             lastModified = lastModified,
             content = content,
-            likeByMe = likeByMe
+            likedByMe = likeByMe
         )
 }

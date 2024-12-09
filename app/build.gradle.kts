@@ -34,6 +34,8 @@ android {
             }
 
         buildConfigField("String", "API_KEY", secretsProperties.getProperty("API_KEY"))
+        // TODO Registration User
+        buildConfigField("String", "AUTHORIZATION", secretsProperties.getProperty("AUTHORIZATION"))
     }
 
     buildTypes {
@@ -153,4 +155,12 @@ dependencies {
     */
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
+
+    // OkHttp
+    implementation(platform(libs.okhttp.bom))
+    implementation(libs.okhttp)
+    implementation(libs.logging.interceptor)
+
+    // SwipeRefreshLayout
+    implementation(libs.androidx.swiperefreshlayout)
 }

@@ -1,17 +1,14 @@
 package com.eltex.androidschool.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-
+import com.eltex.androidschool.data.PostData
+import com.eltex.androidschool.repository.PostRepository
+import com.eltex.androidschool.utils.Callback
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-
-import com.eltex.androidschool.repository.PostRepository
-import com.eltex.androidschool.data.PostData
+import java.lang.Exception
 
 /**
  * ViewModel для управления состоянием постов и взаимодействия с репозиторием.
@@ -41,49 +38,129 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
      * Подписывается на изменения в Flow репозитория и обновляет состояние постов.
      */
     init {
-        repository.getPost()
-            .onEach { posts: List<PostData> ->
-                _state.update { statePost: PostState ->
-                    statePost.copy(posts = posts)
+        load()
+    }
+
+    /**
+     * Загружает список постов с сервера.
+     */
+    fun load() {
+        _state.update { statePost: PostState ->
+            statePost.copy(
+                status = Status.Loading
+            )
+        }
+
+        repository.getPosts(
+            object : Callback<List<PostData>> {
+                override fun onError(exception: Exception) {
+                    _state.update { statePost: PostState ->
+                        statePost.copy(
+                            status = Status.Error(exception)
+                        )
+                    }
+                }
+
+                override fun onSuccess(data: List<PostData>) {
+                    _state.update { statePost: PostState ->
+                        statePost.copy(
+                            status = Status.Idle,
+                            posts = data,
+                        )
+                    }
                 }
             }
-            .launchIn(viewModelScope)
+        )
     }
 
     /**
      * Помечает пост с указанным идентификатором как "лайкнутый" или "нелайкнутый".
      *
      * @param postId Идентификатор поста, который нужно лайкнуть.
+     * @param likedByMe Флаг, указывающий, лайкнул ли текущий пользователь этот пост.
      */
-    fun likeById(postId: Long) {
-        repository.likeById(postId)
+    fun likeById(postId: Long, likedByMe: Boolean) {
+        _state.update { statePost: PostState ->
+            statePost.copy(
+                status = Status.Loading
+            )
+        }
+
+        repository.likeById(
+            postId = postId,
+            likedByMe = likedByMe,
+            callback = object : Callback<PostData> {
+                override fun onError(exception: Exception) {
+                    _state.update { statePost: PostState ->
+                        statePost.copy(
+                            status = Status.Error(exception)
+                        )
+                    }
+                }
+
+                override fun onSuccess(data: PostData) {
+                    updatePostInList(data)
+                }
+            }
+        )
     }
 
     /**
-     * Удаляет пост по его id.
+     * Удаляет пост по его идентификатору.
      *
      * @param postId Идентификатор поста, который нужно удалить.
      */
     fun deleteById(postId: Long) {
-        repository.deleteById(postId)
+        _state.update { statePost: PostState ->
+            statePost.copy(
+                status = Status.Loading
+            )
+        }
+
+        repository.deleteById(
+            postId = postId,
+            callback = object : Callback<Unit> {
+                override fun onError(exception: Exception) {
+                    _state.update { statePost: PostState ->
+                        statePost.copy(
+                            status = Status.Error(exception)
+                        )
+                    }
+                }
+
+                override fun onSuccess(data: Unit) {
+                   load()
+                }
+            }
+        )
     }
 
     /**
-     * Обновляет пост по его id.
-     *
-     * @param postId Идентификатор поста, который нужно обновить.
-     * @param content Новое содержание поста.
+     * Обрабатывает ошибку и сбрасывает состояние загрузки.
      */
-    fun updateById(postId: Long, content: String) {
-        repository.updateById(postId, content)
+    fun consumerError() {
+        _state.update { postState: PostState ->
+            postState.copy(
+                status = Status.Idle
+            )
+        }
     }
 
     /**
-     * Добавляет новый пост.
+     * Обновляет состояние списка постов, заменяя старый пост на обновленный.
      *
-     * @param content Содержание нового поста.
+     * @param updatedPost Обновленный пост.
      */
-    fun addPost(content: String) {
-        repository.addPost(content)
+    private fun updatePostInList(updatedPost: PostData) {
+        _state.update { statePost: PostState ->
+            val updatedPosts = statePost.posts?.map { post: PostData ->
+                if (post.id == updatedPost.id) updatedPost else post
+            }
+
+            statePost.copy(
+                status = Status.Idle,
+                posts = updatedPosts
+            )
+        }
     }
 }

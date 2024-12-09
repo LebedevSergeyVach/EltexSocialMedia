@@ -12,7 +12,7 @@ Using [Jetpack Preferences DataStore](https://developer.android.com/topic/librar
 At the moment, the local SQLite database on the device is used to work with the acronym CRUD.
 To work with the local database SQLite, [ORM ROOM](https://developer.android.com/training/data-storage/room) is used together with [ksp](https://developer.android.com/jetpack/androidx/releases/room).
 [The Prepopulate your Room database](https://developer.android.com/training/data-storage/room/prepopulate) is used in the project for convenient testing.
-The project uses several types of architecture patterns and paradigms: **Single Activity Architecture**, **Modular Architecture** and **Reactive Programming**.
+The project uses several types of architecture patterns and paradigms: **Builder**, **Observer**, **Adapter**, **Dependency Injection**, **Single Activity Architecture**, **Modular Architecture** and **Reactive Programming**.
 
 <details open="open">
     <summary><h2>🚀 The stack of technologies used</h2></summary>
@@ -55,7 +55,7 @@ The project uses several types of architecture patterns and paradigms: **Single 
 На данный момент для работы с акронимом CRUD используется локальная база данных SQLite на устройстве.
 Для работы с локальной базой данных SQLite используется [ORM ROOM](https://developer.android.com/training/data-storage/room) вместе с [ksp](https://developer.android.com/jetpack/androidx/releases/room).
 [The Prepopulate your Room database](https://developer.android.com/training/data-storage/room/prepopulate) используется в проекте для удобства тестирования.
-В проекте используется несколько типов архитектурных паттернов и парадигм: **Single Activity Architecture**, **Modular Architecture** and **Reactive Programming**.
+В проекте используется несколько типов архитектурных паттернов и парадигм: **Строитель**, **Наблюдатель**, **Адаптер**, **Внедрение зависимостей**, **Архитектура с одной активностью**, **Модульная архитектура** and **Реактивное программирование**.
 
 <details open="open">
     <summary><h2>🚀 Стек используемых технологий</h2></summary>

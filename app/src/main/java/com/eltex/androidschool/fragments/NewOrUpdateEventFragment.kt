@@ -74,7 +74,9 @@ class NewOrUpdateEventFragment : Fragment() {
         val binding = FragmentNewOrUpdateEventBinding.inflate(inflater, container, false)
 
         /**
-        Получаем ViewModel для управления состоянием панели инструментов
+         * Получаем ViewModel для управления состоянием панели инструментов
+         *
+         * @see ToolBarViewModel
          */
         val toolbarViewModel by activityViewModels<ToolBarViewModel>()
 
@@ -91,7 +93,9 @@ class NewOrUpdateEventFragment : Fragment() {
         binding.option.setText(option)
 
         /**
-        Получаем ViewModel для управления созданием и обновлением событий
+         * Получаем ViewModel для управления созданием и обновлением событий
+         *
+         *  @see NewEventViewModel
          */
         val newEventViewModel by viewModels<NewEventViewModel> {
             viewModelFactory {

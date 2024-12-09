@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.viewModelFactory
 
@@ -30,10 +31,12 @@ import com.eltex.androidschool.databinding.FragmentNewOrUpdatePostBinding
 
 import com.eltex.androidschool.db.AppDbPost
 
-import com.eltex.androidschool.repository.DaoSQLitePostRepository
+import com.eltex.androidschool.repository.NetworkPostRepository
+import com.eltex.androidschool.utils.getErrorText
 
 import com.eltex.androidschool.utils.toast
 import com.eltex.androidschool.utils.vibrateWithEffect
+import com.eltex.androidschool.viewmodel.NewPostState
 
 import com.eltex.androidschool.viewmodel.NewPostViewModel
 import com.eltex.androidschool.viewmodel.ToolBarViewModel
@@ -71,7 +74,9 @@ class NewOrUpdatePostFragment : Fragment() {
         val binding = FragmentNewOrUpdatePostBinding.inflate(layoutInflater)
 
         /**
-        Получаем ViewModel для управления состоянием панели инструментов
+         * Получаем ViewModel для управления состоянием панели инструментов
+         *
+         * @see ToolBarViewModel
          */
         val toolbarViewModel by activityViewModels<ToolBarViewModel>()
 
@@ -82,7 +87,9 @@ class NewOrUpdatePostFragment : Fragment() {
         binding.content.setText(content)
 
         /**
-        Получаем ViewModel для управления созданием и обновлением постов
+         * Получаем ViewModel для управления созданием и обновлением постов
+         *
+         * @see NewPostViewModel
          */
         val newPostVewModel by viewModels<NewPostViewModel> {
             viewModelFactory {
@@ -90,9 +97,7 @@ class NewOrUpdatePostFragment : Fragment() {
                     NewPostViewModel::class
                 ) {
                     NewPostViewModel(
-                        repository = DaoSQLitePostRepository(
-                            AppDbPost.getInstance(requireContext().applicationContext).postDao
-                        ),
+                        repository = NetworkPostRepository(),
                         postId = postId
                     )
                 }
@@ -105,13 +110,34 @@ class NewOrUpdatePostFragment : Fragment() {
 
                 if (newContent.isNotEmpty()) {
                     newPostVewModel.save(content = newContent)
-                    findNavController().navigateUp()
                 } else {
                     requireContext().vibrateWithEffect(100L)
                     requireContext().toast(R.string.error_text_post_is_empty)
                 }
 
                 toolbarViewModel.onSaveClicked(false)
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        newPostVewModel.state
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { newPostState: NewPostState ->
+                if (newPostState.post != null) {
+                    findNavController().navigateUp()
+                }
+
+                newPostState.status.throwableOrNull?.getErrorText(requireContext())
+                    ?.let { errorText: CharSequence? ->
+                        if (errorText == getString(R.string.network_error)) {
+                            requireContext().toast(R.string.network_error)
+
+                            newPostVewModel.consumerError()
+                        } else if (errorText == getString(R.string.unknown_error)) {
+                            requireContext().toast(R.string.unknown_error)
+
+                            newPostVewModel.consumerError()
+                        }
+                    }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 

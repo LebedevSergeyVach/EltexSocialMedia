@@ -6,7 +6,7 @@
     </style>
 
     <style name="Widget.App.PopupMenu" parent="Widget.MaterialComponents.PopupMenu">
-        <item name="android:popupBackground">@drawable/rounded_popup_background</item>
+        <item name="android:popupBackground">@drawable/popup_menu_background</item>
     </style>
 
     <style name="Theme.HelloEltex" parent="Base.Theme.HelloEltex" />

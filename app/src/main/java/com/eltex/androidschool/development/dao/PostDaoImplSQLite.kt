@@ -67,7 +67,7 @@ class PostDaoImplSQLite(
             PostTableSQLite.PUBLISHED to post.published,
             PostTableSQLite.LAST_MODIFIED to post.lastModified,
             PostTableSQLite.CONTENT to post.content,
-            PostTableSQLite.LIKE_BY_ME to post.likeByMe,
+            PostTableSQLite.LIKE_BY_ME to post.likedByMe,
         )
 
         if (post.id != 0L) {
@@ -167,5 +167,5 @@ private fun Cursor.readPost(): PostData =
         published = getStringOrThrow(PostTableSQLite.PUBLISHED),
         lastModified = getStringOrNull(PostTableSQLite.LAST_MODIFIED),
         content = getStringOrThrow(PostTableSQLite.CONTENT),
-        likeByMe = getBooleanOrThrow(PostTableSQLite.LIKE_BY_ME),
+        likedByMe = getBooleanOrThrow(PostTableSQLite.LIKE_BY_ME),
     )

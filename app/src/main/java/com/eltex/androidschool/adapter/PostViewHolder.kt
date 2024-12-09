@@ -59,7 +59,8 @@ class PostViewHolder(
     fun bindPost(post: PostData) {
         binding.author.text = post.author
         binding.initial.text = post.author.take(1)
-        binding.published.text = post.getFormattedPublished()
+//        binding.published.text = post.getFormattedPublished()
+        binding.published.text = post.published
         binding.content.text = post.content
 
         SpannableString(binding.content.text)
@@ -74,7 +75,7 @@ class PostViewHolder(
             binding.lastModified.visibility = View.GONE
         }
 
-        updateLike(post.likeByMe)
+        updateLike(post.likedByMe)
 
         binding.share.setOnClickListener {
             context.toast(R.string.shared)
@@ -91,7 +92,7 @@ class PostViewHolder(
                     .putExtra(
                         Intent.EXTRA_TEXT,
                         context.getString(R.string.author) + ":\n" + post.author
-                                + "\n\n" + context.getString(R.string.published) + ":\n" + post.getFormattedPublished()
+                                + "\n\n" + context.getString(R.string.published) + ":\n" + post.published
                                 + "\n\n" + context.getString(R.string.post) + ":\n" + post.content
                                 + modification
                     )

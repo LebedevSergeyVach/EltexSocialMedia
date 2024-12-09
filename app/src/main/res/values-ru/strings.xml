@@ -41,4 +41,8 @@
     <string name="events">События</string>
     <string name="user">Пользователь</string>
     <string name="users">Пользователи</string>
+
+    <string name="retry">Повторить</string>
+    <string name="network_error">Ошибка соединения с интернетом</string>
+    <string name="unknown_error">Неизвестная ошибка</string>
 </resources>

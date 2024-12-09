@@ -14,7 +14,7 @@ import java.time.format.DateTimeFormatter
  * @property published Дата и время публикации поста. По умолчанию текущая дата и время.
  * @property lastModified Дата и время последнего изменения поста. По умолчанию null.
  * @property content Содержание поста. По умолчанию пустая строка.
- * @property likeByMe Флаг, указывающий, лайкнул ли текущий пользователь этот пост. По умолчанию false.
+ * @property likedByMe Флаг, указывающий, лайкнул ли текущий пользователь этот пост. По умолчанию false.
  */
 @Serializable
 data class PostData(
@@ -23,13 +23,14 @@ data class PostData(
     @SerialName("author")
     val author: String = "",
     @SerialName("published")
-    val published: String = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+//    val published: String = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+    val published: String = "",
     @SerialName("last_modified")
     val lastModified: String? = null,
     @SerialName("content")
     val content: String = "",
-    @SerialName("like_by_me")
-    val likeByMe: Boolean = false,
+    @SerialName("likedByMe")
+    val likedByMe: Boolean = false,
 ) {
     /**
      * Возвращает отформатированную строку даты и времени публикации поста в формате "yyyy-MM-dd HH:mm:ss".

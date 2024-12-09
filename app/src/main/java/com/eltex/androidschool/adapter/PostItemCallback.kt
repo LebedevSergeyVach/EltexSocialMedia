@@ -41,8 +41,8 @@ class PostItemCallback : DiffUtil.ItemCallback<PostData>() {
      */
     override fun getChangePayload(oldItem: PostData, newItem: PostData): Any? =
         PostPayload(
-            likeByMe = newItem.likeByMe.takeIf { likeByMe: Boolean ->
-                likeByMe != oldItem.likeByMe
+            likeByMe = newItem.likedByMe.takeIf { likeByMe: Boolean ->
+                likeByMe != oldItem.likedByMe
             }
         )
             .takeIf { postPayload: PostPayload ->

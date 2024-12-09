@@ -8,19 +8,106 @@
 
     tools:context=".fragments.PostsFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiperRefresh"
 
         android:layout_width="0dp"
         android:layout_height="0dp"
 
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            tools:listitem="@layout/card_post"
+            tools:visibility="gone" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/background_progress_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:trackThickness="4dp"
+
+        tools:visibility="gone" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardErrorText"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:cardCornerRadius="20dp"
+
+        app:layout_constraintBottom_toTopOf="@id/retryButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 
-        tools:listitem="@layout/card_post" />
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <TextView
+            android:id="@+id/errorText"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:padding="10dp"
+
+            android:textSize="24sp"
+
+            android:textStyle="bold"
+            tools:text="ERROR NETWORK" />
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/retryButton"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="15dp"
+
+        android:background="?colorOnPrimary"
+        android:backgroundTint="@color/active_element"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardErrorText"
+
+        app:srcCompat="@drawable/ic_update_24" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/errorGroup"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:constraint_referenced_ids="retryButton, cardErrorText," />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
