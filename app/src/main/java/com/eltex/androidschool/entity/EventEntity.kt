@@ -55,8 +55,8 @@ class EventEntity(
                     dataEvent = dataEvent,
                     content = content,
                     link = link,
-                    likeByMe = likeByMe,
-                    participateByMe = participateByMe,
+                    likeByMe = likedByMe,
+                    participateByMe = participatedByMe,
                 )
             }
     }
@@ -76,7 +76,7 @@ class EventEntity(
             dataEvent = dataEvent,
             content = content,
             link = link,
-            likeByMe = likeByMe,
-            participateByMe = participateByMe,
+            likedByMe = likeByMe,
+            participatedByMe = participateByMe,
         )
 }

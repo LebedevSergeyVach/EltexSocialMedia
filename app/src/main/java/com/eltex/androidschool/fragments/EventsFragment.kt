@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.view.LayoutInflater
 
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -29,9 +30,9 @@ import com.eltex.androidschool.ui.OffsetDecoration
 
 import com.eltex.androidschool.data.EventData
 
-import com.eltex.androidschool.db.AppDbEvent
-
-import com.eltex.androidschool.repository.DaoSQLiteEventRepository
+import com.eltex.androidschool.repository.NetworkEventRepository
+import com.eltex.androidschool.utils.getErrorText
+import com.eltex.androidschool.utils.toast
 
 import com.eltex.androidschool.viewmodel.EventState
 import com.eltex.androidschool.viewmodel.EventViewModel
@@ -59,9 +60,7 @@ class EventsFragment : Fragment() {
         viewModelFactory {
             addInitializer(EventViewModel::class) {
                 EventViewModel(
-                    DaoSQLiteEventRepository(
-                        AppDbEvent.getInstance(requireContext()).eventDao
-                    )
+                    NetworkEventRepository()
                 )
             }
         }
@@ -84,13 +83,13 @@ class EventsFragment : Fragment() {
         val adapter = EventAdapter(
             object : EventAdapter.EventListener {
                 override fun onLikeClicked(event: EventData) {
-                    viewModel.likeById(event.id)
+                    viewModel.likeById(event.id, event.likedByMe)
                 }
 
                 override fun onShareClicked(event: EventData) {}
 
                 override fun onParticipateClicked(event: EventData) {
-                    viewModel.participateById(event.id)
+                    viewModel.participateById(event.id, event.participatedByMe)
                 }
 
                 override fun onDeleteClicked(event: EventData) {
@@ -126,9 +125,38 @@ class EventsFragment : Fragment() {
         binding.list.addItemDecoration(
             OffsetDecoration(resources.getDimensionPixelSize(R.dimen.list_offset))
         )
+
+        binding.retryButton.setOnClickListener {
+            viewModel.load()
+        }
+
+        binding.swiperRefresh.setOnRefreshListener {
+            viewModel.load()
+        }
+
         viewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { eventState: EventState ->
+                binding.errorGroup.isVisible = eventState.isEmptyError
+
+                val errorText: CharSequence? =
+                    eventState.statusEvent.throwableOrNull?.getErrorText(requireContext())
+                binding.errorText.text = errorText
+
+                binding.progressBar.isVisible = eventState.isEmptyLoading
+
+                binding.swiperRefresh.isRefreshing = eventState.isRefreshing
+
+                if (eventState.isRefreshError && errorText == getString(R.string.network_error)) {
+                    requireContext().toast(R.string.network_error)
+
+                    viewModel.consumerError()
+                } else if (eventState.isRefreshError && errorText == getString(R.string.unknown_error)) {
+                    requireContext().toast(R.string.unknown_error)
+
+                    viewModel.consumerError()
+                }
+
                 adapter.submitList(eventState.events)
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)

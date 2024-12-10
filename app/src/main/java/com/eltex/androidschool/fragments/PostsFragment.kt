@@ -133,7 +133,8 @@ class PostsFragment : Fragment() {
             .onEach { postState: PostState ->
                 binding.errorGroup.isVisible = postState.isEmptyError
 
-                val errorText: CharSequence? = postState.status.throwableOrNull?.getErrorText(requireContext())
+                val errorText: CharSequence? =
+                    postState.statusPost.throwableOrNull?.getErrorText(requireContext())
                 binding.errorText.text = errorText
 
                 binding.progressBar.isVisible = postState.isEmptyLoading

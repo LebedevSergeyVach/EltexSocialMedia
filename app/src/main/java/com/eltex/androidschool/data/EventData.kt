@@ -1,11 +1,13 @@
 package com.eltex.androidschool.data
 
-import androidx.room.ColumnInfo
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-import java.time.LocalDateTime
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+
+import java.util.Locale
 
 /**
  * Класс, представляющий событие в приложении.
@@ -18,8 +20,8 @@ import java.time.format.DateTimeFormatter
  * @property dataEvent Дата события. По умолчанию пустая строка.
  * @property content Содержание события. По умолчанию пустая строка.
  * @property link Ссылка на событие. По умолчанию пустая строка.
- * @property likeByMe Флаг, указывающий, лайкнул ли текущий пользователь это событие. По умолчанию false.
- * @property participateByMe Флаг, указывающий, участвует ли текущий пользователь в этом событии. По умолчанию false.
+ * @property likedByMe Флаг, указывающий, лайкнул ли текущий пользователь это событие. По умолчанию false.
+ * @property participatedByMe Флаг, указывающий, участвует ли текущий пользователь в этом событии. По умолчанию false.
  */
 @Serializable
 data class EventData(
@@ -28,43 +30,63 @@ data class EventData(
     @SerialName("author")
     val author: String = "",
     @SerialName("published")
-    val published: String = LocalDateTime.now().format(DateTimeFormatter.ISO_LOCAL_DATE_TIME),
+    val published: String = "",
     @SerialName("lastModified")
     val lastModified: String? = null,
-    @SerialName("optionConducting")
+    @SerialName("type")
     val optionConducting: String = "",
-    @SerialName("dataEvent")
+    @SerialName("datetime")
     val dataEvent: String = "",
     @SerialName("content")
     val content: String = "",
     @SerialName("link")
     val link: String = "",
-    @SerialName("likeByMe")
-    val likeByMe: Boolean = false,
-    @SerialName("participateByMe")
-    val participateByMe: Boolean = false,
+    @SerialName("likedByMe")
+    val likedByMe: Boolean = false,
+    @SerialName("participatedByMe")
+    val participatedByMe: Boolean = false,
 ) {
+    private val formattedDataAndTime: String = "yyyy-MM-dd HH:mm:ss"
+
     /**
-     * Возвращает отформатированную строку даты и времени публикации события формате "yyyy-MM-dd HH:mm:ss".
+     * Возвращает отформатированную строку даты и времени публикации события в формате, зависящем от локали пользователя.
      *
+     * @param locale Локаль пользователя.
      * @return String Отформатированная строка даты и времени.
      */
-    fun getFormattedPublished(): String {
+    fun getFormattedPublished(locale: Locale): String {
         return published.let { textData: String ->
-            val dateTime = LocalDateTime.parse(textData, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-            dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+            val dateTime = ZonedDateTime.parse(textData, DateTimeFormatter.ISO_ZONED_DATE_TIME)
+            dateTime.withZoneSameInstant(ZoneId.systemDefault())
+                .format(DateTimeFormatter.ofPattern(formattedDataAndTime, locale))
         }
     }
 
     /**
-     * Возвращает дату и время последнего изменения события в формате "yyyy-MM-dd HH:mm:ss".
+     * Возвращает отформатированную строку даты и времени проведения события в формате, зависящем от локали пользователя.
      *
+     * @param locale Локаль пользователя.
+     * @return String Отформатированная строка даты и времени.
+     */
+    fun getFormattedDataAndTimeEvent(locale: Locale): String {
+        return dataEvent.let { textData: String ->
+            val dateTime = ZonedDateTime.parse(textData, DateTimeFormatter.ISO_ZONED_DATE_TIME)
+            dateTime.withZoneSameInstant(ZoneId.systemDefault())
+                .format(DateTimeFormatter.ofPattern(formattedDataAndTime, locale))
+        }
+    }
+
+    /**
+     * Возвращает дату и время последнего изменения события в формате, зависящем от локали пользователя.
+     *
+     * @param locale Локаль пользователя.
      * @return Строка с датой и временем последнего изменения в формате "yyyy-MM-dd HH:mm:ss" или `null`, если дата отсутствует.
      */
-    fun getFormattedLastModified(): String? {
+    fun getFormattedLastModified(locale: Locale): String? {
         return lastModified?.let { textData: String ->
-            val dateTime = LocalDateTime.parse(textData, DateTimeFormatter.ISO_LOCAL_DATE_TIME)
-            dateTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+            val dateTime = ZonedDateTime.parse(textData, DateTimeFormatter.ISO_ZONED_DATE_TIME)
+            dateTime.withZoneSameInstant(ZoneId.systemDefault())
+                .format(DateTimeFormatter.ofPattern(formattedDataAndTime, locale))
         }
     }
 }

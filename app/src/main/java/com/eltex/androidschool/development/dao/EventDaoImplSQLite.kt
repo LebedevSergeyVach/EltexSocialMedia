@@ -70,8 +70,8 @@ class EventDaoImplSQLite(
             EventTableSQLite.DATA_EVENT to event.dataEvent,
             EventTableSQLite.CONTENT to event.content,
             EventTableSQLite.LINK to event.link,
-            EventTableSQLite.LIKE_BY_ME to event.likeByMe,
-            EventTableSQLite.PARTICIPATE_BY_ME to event.participateByMe,
+            EventTableSQLite.LIKE_BY_ME to event.likedByMe,
+            EventTableSQLite.PARTICIPATE_BY_ME to event.participatedByMe,
         )
 
         if (event.id != 0L) {
@@ -205,6 +205,6 @@ private fun Cursor.readEvent(): EventData =
         dataEvent = getStringOrThrow(EventTableSQLite.DATA_EVENT),
         content = getStringOrThrow(EventTableSQLite.CONTENT),
         link = getStringOrThrow(EventTableSQLite.LINK),
-        likeByMe = getBooleanOrThrow(EventTableSQLite.LIKE_BY_ME),
-        participateByMe = getBooleanOrThrow(EventTableSQLite.PARTICIPATE_BY_ME),
+        likedByMe = getBooleanOrThrow(EventTableSQLite.LIKE_BY_ME),
+        participatedByMe = getBooleanOrThrow(EventTableSQLite.PARTICIPATE_BY_ME),
     )

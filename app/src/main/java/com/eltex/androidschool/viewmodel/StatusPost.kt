@@ -5,24 +5,24 @@ package com.eltex.androidschool.viewmodel
  *
  * @property throwableOrNull Исключение, возникшее во время операции, если оно есть.
  */
-interface Status {
+interface StatusPost {
     val throwableOrNull: Throwable?
         get() = (this as? Error)?.throwable
 
     /**
      * Состояние бездействия.
      */
-    data object Idle : Status
+    data object Idle : StatusPost
 
     /**
      * Состояние загрузки.
      */
-    data object Loading : Status
+    data object Loading : StatusPost
 
     /**
      * Состояние ошибки.
      *
      * @property throwable Исключение, возникшее во время операции.
      */
-    data class Error(val throwable: Throwable) : Status
+    data class Error(val throwable: Throwable) : StatusPost
 }

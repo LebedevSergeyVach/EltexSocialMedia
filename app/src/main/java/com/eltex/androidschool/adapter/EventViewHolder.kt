@@ -20,6 +20,8 @@ import com.eltex.androidschool.databinding.CardEventBinding
 import com.eltex.androidschool.data.EventData
 import com.eltex.androidschool.utils.toast
 
+import java.util.Locale
+
 /**
  * ViewHolder для отображения элемента списка событий.
  *
@@ -59,9 +61,9 @@ class EventViewHolder(
     fun bindEvent(event: EventData) {
         binding.author.text = event.author
         binding.initial.text = event.author.take(1)
-        binding.published.text = event.getFormattedPublished()
+        binding.published.text = event.getFormattedPublished(Locale.getDefault())
         binding.optionConducting.text = event.optionConducting
-        binding.dataEvent.text = event.dataEvent
+        binding.dataEvent.text = event.getFormattedDataAndTimeEvent(Locale.getDefault())
         binding.content.text = event.content
         binding.link.text = event.link
 
@@ -71,15 +73,15 @@ class EventViewHolder(
         if (event.lastModified != null) {
             binding.lastModified.visibility = View.VISIBLE
             binding.lastModified.text =
-                event.getFormattedLastModified()?.let { lastModified: String? ->
+                event.getFormattedLastModified(Locale.getDefault())?.let { lastModified: String? ->
                     context.getString(R.string.changed) + ": $lastModified"
                 }
         } else {
             binding.lastModified.visibility = View.GONE
         }
 
-        updateLike(event.likeByMe)
-        updateParticipate(event.participateByMe)
+        updateLike(event.likedByMe)
+        updateParticipate(event.participatedByMe)
 
         binding.share.setOnClickListener {
             context.toast(R.string.shared)
@@ -88,7 +90,8 @@ class EventViewHolder(
 
             if (event.lastModified != null) {
                 modification =
-                    "\n\n" + context.getString(R.string.changed) + ": " + event.getFormattedLastModified()
+                    "\n\n" + context.getString(R.string.changed) + ": " +
+                            event.getFormattedLastModified(Locale.getDefault())
             }
 
             val intent = Intent.createChooser(
@@ -96,7 +99,8 @@ class EventViewHolder(
                     .putExtra(
                         Intent.EXTRA_TEXT,
                         context.getString(R.string.author) + ":\n" + event.author
-                                + "\n\n" + context.getString(R.string.published) + ":\n" + event.getFormattedPublished()
+                                + "\n\n" + context.getString(R.string.published) + ":\n"
+                                + event.getFormattedPublished(Locale.getDefault())
                                 + "\n\n" + context.getString(R.string.data_event) + ":\n" + event.dataEvent
                                 + "\n\n" + event.optionConducting
                                 + "\n\n" + context.getString(R.string.event) + ":\n" + event.content

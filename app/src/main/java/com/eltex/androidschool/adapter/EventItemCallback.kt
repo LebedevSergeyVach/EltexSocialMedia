@@ -41,11 +41,11 @@ class EventItemCallback : DiffUtil.ItemCallback<EventData>() {
      */
     override fun getChangePayload(oldItem: EventData, newItem: EventData): Any? =
         EventPayload(
-            likeByMe = newItem.likeByMe.takeIf { likeByMe: Boolean ->
-                likeByMe != oldItem.likeByMe
+            likeByMe = newItem.likedByMe.takeIf { likeByMe: Boolean ->
+                likeByMe != oldItem.likedByMe
             },
-            participateByMe = newItem.participateByMe.takeIf { participateByMe: Boolean ->
-                participateByMe != oldItem.participateByMe
+            participateByMe = newItem.participatedByMe.takeIf { participateByMe: Boolean ->
+                participateByMe != oldItem.participatedByMe
             }
         )
             .takeIf { eventPayload: EventPayload ->

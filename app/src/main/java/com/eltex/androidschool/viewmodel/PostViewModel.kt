@@ -50,7 +50,7 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
     fun load() {
         _state.update { statePost: PostState ->
             statePost.copy(
-                status = Status.Loading
+                statusPost = StatusPost.Loading
             )
         }
 
@@ -59,7 +59,7 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
                 override fun onError(exception: Exception) {
                     _state.update { statePost: PostState ->
                         statePost.copy(
-                            status = Status.Error(exception)
+                            statusPost = StatusPost.Error(throwable = exception)
                         )
                     }
                 }
@@ -67,7 +67,7 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
                 override fun onSuccess(data: List<PostData>) {
                     _state.update { statePost: PostState ->
                         statePost.copy(
-                            status = Status.Idle,
+                            statusPost = StatusPost.Idle,
                             posts = data,
                         )
                     }
@@ -85,7 +85,7 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
     fun likeById(postId: Long, likedByMe: Boolean) {
         _state.update { statePost: PostState ->
             statePost.copy(
-                status = Status.Loading
+                statusPost = StatusPost.Loading
             )
         }
 
@@ -96,7 +96,7 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
                 override fun onError(exception: Exception) {
                     _state.update { statePost: PostState ->
                         statePost.copy(
-                            status = Status.Error(exception)
+                            statusPost = StatusPost.Error(throwable = exception)
                         )
                     }
                 }
@@ -116,7 +116,7 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
     fun deleteById(postId: Long) {
         _state.update { statePost: PostState ->
             statePost.copy(
-                status = Status.Loading
+                statusPost = StatusPost.Loading
             )
         }
 
@@ -126,7 +126,7 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
                 override fun onError(exception: Exception) {
                     _state.update { statePost: PostState ->
                         statePost.copy(
-                            status = Status.Error(exception)
+                            statusPost = StatusPost.Error(exception)
                         )
                     }
                 }
@@ -144,7 +144,7 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
     fun consumerError() {
         _state.update { postState: PostState ->
             postState.copy(
-                status = Status.Idle
+                statusPost = StatusPost.Idle
             )
         }
     }
@@ -161,7 +161,7 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
             }
 
             statePost.copy(
-                status = Status.Idle,
+                statusPost = StatusPost.Idle,
                 posts = updatedPosts
             )
         }

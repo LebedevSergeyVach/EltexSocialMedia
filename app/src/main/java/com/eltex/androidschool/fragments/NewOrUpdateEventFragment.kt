@@ -15,6 +15,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.viewModelFactory
 
@@ -28,12 +29,12 @@ import com.eltex.androidschool.R
 
 import com.eltex.androidschool.databinding.FragmentNewOrUpdateEventBinding
 
-import com.eltex.androidschool.db.AppDbEvent
-
-import com.eltex.androidschool.repository.DaoSQLiteEventRepository
+import com.eltex.androidschool.repository.NetworkEventRepository
+import com.eltex.androidschool.utils.getErrorText
 
 import com.eltex.androidschool.utils.toast
 import com.eltex.androidschool.utils.vibrateWithEffect
+import com.eltex.androidschool.viewmodel.NewEventState
 
 import com.eltex.androidschool.viewmodel.NewEventViewModel
 import com.eltex.androidschool.viewmodel.ToolBarViewModel
@@ -103,9 +104,7 @@ class NewOrUpdateEventFragment : Fragment() {
                     NewEventViewModel::class
                 ) {
                     NewEventViewModel(
-                        repository = DaoSQLiteEventRepository(
-                            AppDbEvent.getInstance(requireContext().applicationContext).eventDao
-                        ),
+                        repository = NetworkEventRepository(),
                         eventId = eventId
                     )
                 }
@@ -128,6 +127,7 @@ class NewOrUpdateEventFragment : Fragment() {
                         option = newOption,
                         data = newDate,
                     )
+
                     findNavController().navigateUp()
                 } else {
                     requireContext().vibrateWithEffect(100L)
@@ -135,6 +135,28 @@ class NewOrUpdateEventFragment : Fragment() {
                 }
 
                 toolbarViewModel.onSaveClicked(false)
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        newEventViewModel.state
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { newEventState: NewEventState ->
+                if (newEventState.event != null) {
+                    findNavController().navigateUp()
+                }
+
+                newEventState.statusEvent.throwableOrNull?.getErrorText(requireContext())
+                    ?.let { errorText: CharSequence? ->
+                        if (errorText == getString(R.string.network_error)) {
+                            requireContext().toast(R.string.network_error)
+
+                            newEventViewModel.consumerError()
+                        } else if (errorText == getString(R.string.unknown_error)) {
+                            requireContext().toast(R.string.unknown_error)
+
+                            newEventViewModel.consumerError()
+                        }
+                    }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 

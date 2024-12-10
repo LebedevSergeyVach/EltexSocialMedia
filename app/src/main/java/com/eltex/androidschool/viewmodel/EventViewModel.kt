@@ -1,17 +1,17 @@
 package com.eltex.androidschool.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import com.eltex.androidschool.BuildConfig
+
+import com.eltex.androidschool.data.EventData
+import com.eltex.androidschool.repository.EventRepository
+import com.eltex.androidschool.utils.Callback
+import com.eltex.androidschool.utils.Logger
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
-
-import com.eltex.androidschool.repository.EventRepository
-import com.eltex.androidschool.data.EventData
 
 /**
  * ViewModel для управления состоянием событий и взаимодействия с репозиторием.
@@ -41,71 +41,165 @@ class EventViewModel(private val repository: EventRepository) : ViewModel() {
      * Подписывается на изменения в Flow репозитория и обновляет состояние событий.
      */
     init {
-        repository.getEvent()
-            .onEach { events: List<EventData> ->
-                _state.update { stateEvent: EventState ->
-                    stateEvent.copy(events = events)
+        load()
+    }
+
+    /**
+     * Загружает список событий с сервера.
+     */
+    fun load() {
+        _state.update { stateEvent: EventState ->
+            stateEvent.copy(
+                statusEvent = StatusEvent.Loading
+            )
+        }
+
+        repository.getEvents(
+            object : Callback<List<EventData>> {
+                override fun onSuccess(data: List<EventData>) {
+                    _state.update { stateEvent: EventState ->
+                        stateEvent.copy(
+                            statusEvent = StatusEvent.Idle,
+                            events = data,
+                        )
+                    }
+                }
+
+                override fun onError(exception: Exception) {
+                    if (BuildConfig.DEBUG) {
+                        Logger.e("Error: EventViewModel.load()", exception)
+                    }
+
+                    _state.update { stateEvent: EventState ->
+                        stateEvent.copy(
+                            statusEvent = StatusEvent.Error(throwable = exception)
+                        )
+                    }
                 }
             }
-            .launchIn(viewModelScope)
+        )
     }
 
     /**
      * Помечает событие с указанным идентификатором как "лайкнутое" или "нелайкнутое".
      *
      * @param eventId Идентификатор события, которое нужно лайкнуть.
+     * @param likedByMe Флаг, указывающий, лайкнул ли текущий пользователь это событие.
      */
-    fun likeById(eventId: Long) {
-        repository.likeById(eventId)
+    fun likeById(eventId: Long, likedByMe: Boolean) {
+        _state.update { stateEvent: EventState ->
+            stateEvent.copy(
+                statusEvent = StatusEvent.Loading
+            )
+        }
+
+        repository.likeById(
+            eventId = eventId,
+            likedByMe = likedByMe,
+            callback = object : Callback<EventData> {
+                override fun onSuccess(data: EventData) {
+                    updateEventInList(data)
+                }
+
+                override fun onError(exception: Exception) {
+                    _state.update { stateEvent: EventState ->
+                        stateEvent.copy(
+                            statusEvent = StatusEvent.Error(throwable = exception)
+                        )
+                    }
+                }
+            }
+        )
     }
 
     /**
      * Помечает событие с указанным идентификатором как "участие" или "отказ от участия".
      *
      * @param eventId Идентификатор события, в котором нужно участвовать.
+     * @param participatedByMe Флаг, указывающий, участвует ли текущий пользователь в этом событии.
      */
-    fun participateById(eventId: Long) {
-        repository.participateById(eventId)
+    fun participateById(eventId: Long, participatedByMe: Boolean) {
+        _state.update { stateEvent: EventState ->
+            stateEvent.copy(
+                statusEvent = StatusEvent.Loading
+            )
+        }
+
+        repository.participateById(
+            eventId = eventId,
+            participatedByMe = participatedByMe,
+            callback = object : Callback<EventData> {
+                override fun onSuccess(data: EventData) {
+                    updateEventInList(data)
+                }
+
+                override fun onError(exception: Exception) {
+                    _state.update { stateEvent: EventState ->
+                        stateEvent.copy(
+                            statusEvent = StatusEvent.Error(throwable = exception)
+                        )
+                    }
+                }
+            }
+        )
     }
 
     /**
-     * Удаления события по его id.
+     * Удаляет событие по его идентификатору.
      *
-     * @param eventId Идентификатор события, который нужно удалить.
+     * @param eventId Идентификатор события, которое нужно удалить.
      */
     fun deleteById(eventId: Long) {
-        repository.deleteById(eventId)
-    }
+        _state.update { stateEvent: EventState ->
+            stateEvent.copy(
+                statusEvent = StatusEvent.Loading
+            )
+        }
 
-    /**
-     * Обновляет событие по его id.
-     *
-     * @param eventId Идентификатор поста, который нужно обновить.
-     * @param content Новое содержание события.
-     * @param link Новая ссылка события.
-     */
-    fun updateById(eventId: Long, content: String, link: String, option: String, data: String) {
-        repository.updateById(
+        repository.deleteById(
             eventId = eventId,
-            content = content,
-            link = link,
-            option = option,
-            data = data
+            callback = object : Callback<Unit> {
+                override fun onSuccess(data: Unit) {
+                    load()
+                }
+
+                override fun onError(exception: Exception) {
+                    _state.update { stateEvent: EventState ->
+                        stateEvent.copy(
+                            statusEvent = StatusEvent.Error(throwable = exception)
+                        )
+                    }
+                }
+            }
         )
     }
 
     /**
-     * Добавляет новое событие.
-     *
-     * @param content Содержание нового события.
-     * @param content Ссылка нового события.
+     * Обрабатывает ошибку и сбрасывает состояние загрузки.
      */
-    fun addEvent(content: String, link: String, option: String, data: String) {
-        repository.addEvent(
-            content = content,
-            link = link,
-            option = option,
-            data = data
-        )
+    fun consumerError() {
+        _state.update { stateEvent: EventState ->
+            stateEvent.copy(
+                statusEvent = StatusEvent.Idle
+            )
+        }
+    }
+
+    /**
+     * Обновляет состояние списка событий, заменяя старое событие на обновленное.
+     *
+     * @param updatedEvent Обновленное событие.
+     */
+    private fun updateEventInList(updatedEvent: EventData) {
+        _state.update { stateEvent: EventState ->
+            val updatedEvents = stateEvent.events?.map { event: EventData ->
+                if (event.id == updatedEvent.id) updatedEvent else event
+            }
+
+            stateEvent.copy(
+                statusEvent = StatusEvent.Idle,
+                events = updatedEvents
+            )
+        }
     }
 }

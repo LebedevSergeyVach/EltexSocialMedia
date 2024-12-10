@@ -32,8 +32,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
 
-            tools:listitem="@layout/card_post"
-            tools:visibility="gone" />
+            tools:listitem="@layout/card_post" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -74,9 +73,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
+            android:gravity="center"
             android:padding="10dp"
             android:textSize="24sp"
-            android:gravity="center"
 
             android:textStyle="bold"
             tools:text="ERROR NETWORK" />

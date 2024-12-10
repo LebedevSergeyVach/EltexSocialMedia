@@ -50,7 +50,7 @@ class NewPostViewModel(
     fun save(content: String) {
         _state.update { newPostState: NewPostState ->
             newPostState.copy(
-                status = Status.Loading
+                statusPost = StatusPost.Loading
             )
         }
 
@@ -61,7 +61,7 @@ class NewPostViewModel(
                 override fun onSuccess(data: PostData) {
                     _state.update { newPostState: NewPostState ->
                         newPostState.copy(
-                            status = Status.Idle,
+                            statusPost = StatusPost.Idle,
                             post = data,
                         )
                     }
@@ -72,7 +72,7 @@ class NewPostViewModel(
                 override fun onError(exception: Exception) {
                     _state.update { newPostState: NewPostState ->
                         newPostState.copy(
-                            status = Status.Error(exception)
+                            statusPost = StatusPost.Error(throwable = exception)
                         )
                     }
                 }
@@ -85,7 +85,9 @@ class NewPostViewModel(
      */
     fun consumerError() {
         _state.update { newPostState: NewPostState ->
-            newPostState.copy(status = Status.Idle)
+            newPostState.copy(
+                statusPost = StatusPost.Idle
+            )
         }
     }
 }

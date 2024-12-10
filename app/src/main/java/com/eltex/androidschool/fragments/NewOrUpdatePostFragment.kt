@@ -107,6 +107,8 @@ class NewOrUpdatePostFragment : Fragment() {
 
                 if (newContent.isNotEmpty()) {
                     newPostVewModel.save(content = newContent)
+
+                    findNavController().navigateUp()
                 } else {
                     requireContext().vibrateWithEffect(100L)
                     requireContext().toast(R.string.error_text_post_is_empty)
@@ -123,7 +125,7 @@ class NewOrUpdatePostFragment : Fragment() {
                     findNavController().navigateUp()
                 }
 
-                newPostState.status.throwableOrNull?.getErrorText(requireContext())
+                newPostState.statusPost.throwableOrNull?.getErrorText(requireContext())
                     ?.let { errorText: CharSequence? ->
                         if (errorText == getString(R.string.network_error)) {
                             requireContext().toast(R.string.network_error)

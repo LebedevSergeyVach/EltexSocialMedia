@@ -61,7 +61,6 @@ class PostViewHolder(
     fun bindPost(post: PostData) {
         binding.author.text = post.author
         binding.initial.text = post.author.take(1)
-//        binding.published.text = post.getFormattedPublished()
         binding.published.text = post.getFormattedPublished(Locale.getDefault())
         binding.content.text = post.content
 
