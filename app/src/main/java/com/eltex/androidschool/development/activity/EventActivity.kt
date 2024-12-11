@@ -16,15 +16,15 @@ import com.eltex.androidschool.development.activity.NewOrUpdateEventActivity
 
 import com.eltex.androidschool.databinding.MainActivityBinding
 
-import com.eltex.androidschool.adapter.EventAdapter
+import com.eltex.androidschool.adapter.events.EventAdapter
 import com.eltex.androidschool.ui.OffsetDecoration
-import com.eltex.androidschool.data.EventData
+import com.eltex.androidschool.data.events.EventData
 import com.eltex.androidschool.development.data.EventDataParcelable
-import com.eltex.androidschool.db.AppDbEvent
+import com.eltex.androidschool.db.events.AppDbEvent
 import com.eltex.androidschool.repository.DaoSQLiteEventRepository
 import com.eltex.androidschool.ui.EdgeToEdgeHelper
-import com.eltex.androidschool.viewmodel.EventViewModel
-import com.eltex.androidschool.viewmodel.EventState
+import com.eltex.androidschool.viewmodel.events.EventViewModel
+import com.eltex.androidschool.viewmodel.events.EventState
 
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

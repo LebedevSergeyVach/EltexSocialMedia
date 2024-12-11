@@ -9,7 +9,7 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 
 import androidx.core.content.contentValuesOf
-import com.eltex.androidschool.dao.EventDao
+import com.eltex.androidschool.dao.events.EventDao
 
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -19,7 +19,7 @@ import com.eltex.androidschool.utils.getLongOrThrow
 import com.eltex.androidschool.utils.getStringOrThrow
 import com.eltex.androidschool.utils.getStringOrNull
 
-import com.eltex.androidschool.data.EventData
+import com.eltex.androidschool.data.events.EventData
 import com.eltex.androidschool.development.database.EventTableSQLite
 
 /**

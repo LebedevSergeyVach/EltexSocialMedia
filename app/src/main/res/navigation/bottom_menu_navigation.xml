@@ -9,19 +9,19 @@
 
     <fragment
         android:id="@+id/postsFragment"
-        android:name="com.eltex.androidschool.fragments.PostsFragment"
+        android:name="com.eltex.androidschool.fragments.posts.PostsFragment"
         android:label="fragment_posts"
         tools:layout="@layout/fragment_posts"/>
 
     <fragment
         android:id="@+id/eventsFragment"
-        android:name="com.eltex.androidschool.fragments.EventsFragment"
+        android:name="com.eltex.androidschool.fragments.events.EventsFragment"
         android:label="fragment_events"
         tools:layout="@layout/fragment_events"/>
 
     <fragment
         android:id="@+id/usersFragment"
-        android:name="com.eltex.androidschool.fragments.UsersFragment"
+        android:name="com.eltex.androidschool.fragments.users.UsersFragment"
         android:label="fragment_users"
         tools:layout="@layout/fragment_users" />
 

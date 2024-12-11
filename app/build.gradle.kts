@@ -156,10 +156,25 @@ dependencies {
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
 
-    // OkHttp
+    /*
+        OkHttp
+        https://github.com/square/okhttp
+        https://square.github.io/okhttp/
+     */
     implementation(platform(libs.okhttp.bom))
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
+
+    /*
+        OkHttp
+        https://github.com/square/retrofit
+        https://square.github.io/retrofit/
+
+        https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter
+        https://github.com/square/retrofit/tree/trunk/retrofit-converters/kotlinx-serialization
+    */
+    implementation(libs.retrofit)
+    implementation(libs.retrofit2.kotlinx.serialization.converter)
 
     // SwipeRefreshLayout
     implementation(libs.androidx.swiperefreshlayout)

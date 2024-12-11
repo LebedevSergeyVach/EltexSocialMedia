@@ -4,9 +4,9 @@ package com.eltex.androidschool.development.repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-import com.eltex.androidschool.dao.EventDao
-import com.eltex.androidschool.data.EventData
-import com.eltex.androidschool.entity.EventEntity
+import com.eltex.androidschool.dao.events.EventDao
+import com.eltex.androidschool.data.events.EventData
+import com.eltex.androidschool.entity.events.EventEntity
 
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter

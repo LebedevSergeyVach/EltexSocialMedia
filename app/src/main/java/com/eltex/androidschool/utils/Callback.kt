@@ -18,5 +18,5 @@ interface Callback<T> {
      *
      * @param exception Исключение, возникшее во время операции.
      */
-    fun onError(exception: Exception)
+    fun onError(exception: Throwable)
 }

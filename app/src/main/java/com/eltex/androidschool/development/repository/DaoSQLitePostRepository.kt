@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.map
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-import com.eltex.androidschool.dao.PostDao
-import com.eltex.androidschool.data.PostData
-import com.eltex.androidschool.entity.PostEntity
+import com.eltex.androidschool.dao.posts.PostDao
+import com.eltex.androidschool.data.posts.PostData
+import com.eltex.androidschool.entity.posts.PostEntity
 
 */
 /**

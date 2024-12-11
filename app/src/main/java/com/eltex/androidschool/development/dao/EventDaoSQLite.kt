@@ -6,7 +6,7 @@
 
 package com.eltex.androidschool.development.dao
 
-import com.eltex.androidschool.data.EventData
+import com.eltex.androidschool.data.events.EventData
 
 /**
  * Интерфейс для работы с данными событий в базе данных.

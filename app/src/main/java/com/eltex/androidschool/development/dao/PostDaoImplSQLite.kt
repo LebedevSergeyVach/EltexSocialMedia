@@ -19,7 +19,7 @@ import com.eltex.androidschool.utils.getLongOrThrow
 import com.eltex.androidschool.utils.getStringOrThrow
 import com.eltex.androidschool.utils.getStringOrNull
 
-import com.eltex.androidschool.data.PostData
+import com.eltex.androidschool.data.posts.PostData
 import com.eltex.androidschool.development.database.PostTableSQLite
 
 /**

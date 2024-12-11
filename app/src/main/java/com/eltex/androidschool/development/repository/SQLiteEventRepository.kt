@@ -6,9 +6,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
-import com.eltex.androidschool.data.EventData
+import com.eltex.androidschool.data.events.EventData
 import com.eltex.androidschool.development.dao.EventDaoSQLite
-import com.eltex.androidschool.repository.EventRepository
+import com.eltex.androidschool.repository.events.EventRepository
 
 */
 /**

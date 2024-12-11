@@ -2,6 +2,7 @@
 agp = "8.7.3"
 confetti = "1.1.2"
 constraintlayoutVersion = "2.2.0"
+converterKotlinxSerialization = "latest.version"
 coreSplashscreen = "1.0.1"
 datastorePreferences = "1.1.1"
 kotlin = "2.0.21"
@@ -21,6 +22,8 @@ navigationVersion = "2.8.4"
 okhttp = "4.12.0"
 okhttpBom = "4.12.0"
 protobufJavalite = "3.10.0"
+retrofit = "(insert latest version)"
+retrofit2KotlinxSerializationConverter = "1.0.0"
 roomRuntime = "2.6.1"
 swiperefreshlayout = "1.2.0-alpha01"
 uiToolingPreviewAndroid = "1.7.5"
@@ -48,6 +51,7 @@ androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
 confetti = { module = "com.github.jinatonic.confetti:confetti", version.ref = "confetti" }
+converter-kotlinx-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "converterKotlinxSerialization" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 #noinspection SimilarGradleDependency
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
@@ -71,6 +75,8 @@ okhttp-bom = { module = "com.squareup.okhttp3:okhttp-bom", version.ref = "okhttp
 okhttp3-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "loggingInterceptor" }
 okhttp3-okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 protobuf-javalite = { module = "com.google.protobuf:protobuf-javalite", version.ref = "protobufJavalite" }
+retrofit = { module = "com.squareup.retrofit2:retrofit", version = "2.11.0" }
+retrofit2-kotlinx-serialization-converter = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "retrofit2KotlinxSerializationConverter" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

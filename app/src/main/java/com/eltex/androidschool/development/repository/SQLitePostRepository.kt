@@ -13,8 +13,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 import com.eltex.androidschool.development.dao.PostDaoSQLite
-import com.eltex.androidschool.data.PostData
-import com.eltex.androidschool.repository.PostRepository
+import com.eltex.androidschool.data.posts.PostData
+import com.eltex.androidschool.repository.posts.PostRepository
 
 */
 /**

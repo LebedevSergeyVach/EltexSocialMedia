@@ -8,7 +8,7 @@
 
     android:orientation="vertical"
 
-    tools:context=".fragments.ToolbarFragment">
+    tools:context=".fragments.common.ToolbarFragment">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
