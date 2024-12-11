@@ -134,6 +134,12 @@ class EventsFragment : Fragment() {
             viewModel.load()
         }
 
+        requireActivity().supportFragmentManager.setFragmentResultListener(
+            NewOrUpdateEventFragment.EVENT_CREATED_OR_UPDATED_KEY, viewLifecycleOwner
+        ) { _, _ ->
+            viewModel.load()
+        }
+
         viewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { eventState: EventState ->

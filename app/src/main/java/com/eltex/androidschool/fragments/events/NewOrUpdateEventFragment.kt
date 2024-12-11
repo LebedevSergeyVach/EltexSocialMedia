@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import androidx.appcompat.widget.Toolbar
+import androidx.core.os.bundleOf
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -58,6 +59,7 @@ class NewOrUpdateEventFragment : Fragment() {
         const val EVENT_DATE = "EVENT_DATE"
         const val EVENT_OPTION = "EVENT_OPTION"
         const val IS_UPDATE = "IS_UPDATE"
+        const val EVENT_CREATED_OR_UPDATED_KEY = "EVENT_CREATED_OR_UPDATED_KEY"
     }
 
     /**
@@ -127,8 +129,6 @@ class NewOrUpdateEventFragment : Fragment() {
                         option = newOption,
                         data = newDate,
                     )
-
-                    findNavController().navigateUp()
                 } else {
                     requireContext().vibrateWithEffect(100L)
                     requireContext().toast(R.string.error_text_event_is_empty)
@@ -142,6 +142,11 @@ class NewOrUpdateEventFragment : Fragment() {
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { newEventState: NewEventState ->
                 if (newEventState.event != null) {
+                    requireActivity().supportFragmentManager.setFragmentResult(
+                        EVENT_CREATED_OR_UPDATED_KEY,
+                        bundleOf()
+                    )
+
                     findNavController().navigateUp()
                 }
 

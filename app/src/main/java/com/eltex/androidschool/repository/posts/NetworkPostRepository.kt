@@ -1,18 +1,21 @@
 package com.eltex.androidschool.repository.posts
 
-import com.eltex.androidschool.api.posts.PostsApi
-import com.eltex.androidschool.data.posts.PostData
 import retrofit2.Call
 import retrofit2.Response
-import com.eltex.androidschool.utils.Callback as DomainCallback
 import retrofit2.Callback as RetrofitCallback
+
+import com.eltex.androidschool.api.posts.PostsApi
+import com.eltex.androidschool.data.posts.PostData
+import com.eltex.androidschool.utils.Callback as DomainCallback
 
 /**
  * Репозиторий для работы с данными постов через сетевой API.
  *
  * Этот класс отвечает за взаимодействие с сервером для получения, обновления и удаления постов.
+ * Он использует Retrofit для выполнения сетевых запросов и обработки ответов.
  *
  * @property PostRepository
+ * @property PostsApi
  */
 class NetworkPostRepository : PostRepository {
     /**

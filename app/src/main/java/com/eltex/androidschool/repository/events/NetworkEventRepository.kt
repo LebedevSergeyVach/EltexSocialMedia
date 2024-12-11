@@ -1,81 +1,22 @@
 package com.eltex.androidschool.repository.events
 
-import com.eltex.androidschool.BuildConfig
+import com.eltex.androidschool.api.events.EventsApi
 import com.eltex.androidschool.data.events.EventData
 import com.eltex.androidschool.utils.Callback
-import com.eltex.androidschool.utils.DnsSelector
-
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-
-import okhttp3.Call
-import okhttp3.Interceptor
-import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
-import okhttp3.Request
-import okhttp3.RequestBody.Companion.toRequestBody
-import okhttp3.Response
-import okhttp3.internal.EMPTY_REQUEST
-import okhttp3.logging.HttpLoggingInterceptor
-
-import java.io.IOException
-import java.lang.Exception
-import java.util.concurrent.TimeUnit
+import retrofit2.Call
+import retrofit2.Response
+import retrofit2.Callback as RetrofitCallback
 
 /**
  * Репозиторий для работы с данными событий через сетевой API.
  *
  * Этот класс отвечает за взаимодействие с сервером для получения, обновления, удаления и управления событиями.
+ * Он использует Retrofit для выполнения сетевых запросов и обработки ответов.
  *
  * @property EventRepository
+ * @property EventsApi
  */
 class NetworkEventRepository : EventRepository {
-
-    private companion object {
-        val JSON_TYPE = "application/json".toMediaType()
-        private const val API_KEY = "Api-Key"
-        private const val API_AUTHORIZATION = "Authorization"
-        private const val API_URL_EVENTS = "https://eltex-android.ru/api/events"
-    }
-
-    private val json = Json {
-        ignoreUnknownKeys = true
-        coerceInputValues = true
-    }
-
-    /**
-     * Экземпляр клиента OkHttp, настроенный для выполнения HTTP-запросов.
-     *
-     * - Установлено время ожидания соединения в 30 секунд.
-     * - В режиме отладки (BuildConfig.DEBUG) добавлен интерсептор [HttpLoggingInterceptor] для логирования тела запросов и ответов.
-     * - Добавлен интерсептор для установки заголовков [API_KEY] и [API_AUTHORIZATION] на основе значений из [BuildConfig].
-     * - Используется пользовательская DNS-реализация [DnsSelector].
-     *
-     * Этот клиент используется для выполнения сетевых запросов к API.
-     */
-    private val client = OkHttpClient.Builder()
-        .connectTimeout(30, TimeUnit.SECONDS)
-        .let { clientOkHttp: OkHttpClient.Builder ->
-            if (BuildConfig.DEBUG) {
-                clientOkHttp.addInterceptor(
-                    HttpLoggingInterceptor().apply {
-                        level = HttpLoggingInterceptor.Level.BODY
-                    }
-                )
-            } else {
-                clientOkHttp
-            }
-        }
-        .addInterceptor { chain: Interceptor.Chain ->
-            chain.proceed(
-                chain.request().newBuilder()
-                    .addHeader(API_KEY, BuildConfig.API_KEY)
-                    .addHeader(API_AUTHORIZATION, BuildConfig.AUTHORIZATION)
-                    .build()
-            )
-        }
-        .dns(DnsSelector())
-        .build()
 
     /**
      * Получает список всех событий с сервера.
@@ -83,32 +24,24 @@ class NetworkEventRepository : EventRepository {
      * @param callback Обратный вызов для обработки результата запроса.
      */
     override fun getEvents(callback: Callback<List<EventData>>) {
-        val call: Call = client.newCall(
-            Request.Builder()
-                .url(API_URL_EVENTS)
-                .build()
-        )
+        val call = EventsApi.INSTANCE.getAllEvents()
 
         call.enqueue(
-            object : okhttp3.Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    callback.onError(exception = e)
-                }
-
-                override fun onResponse(call: Call, response: Response) {
+            object : RetrofitCallback<List<EventData>> {
+                override fun onResponse(
+                    call: Call<List<EventData>>, response: Response<List<EventData>>
+                ) {
                     if (response.isSuccessful) {
-                        try {
-                            callback.onSuccess(
-                                data = json.decodeFromString(requireNotNull(response.body).string())
-                            )
-                        } catch (e: Exception) {
-                            callback.onError(exception = e)
-                        }
+                        callback.onSuccess(requireNotNull(response.body()))
                     } else {
                         callback.onError(
-                            RuntimeException("Response code is/Код ответа с сервера ${response.code}")
+                            RuntimeException("Response code is/Код ответа с сервера ${response.code()}")
                         )
                     }
+                }
+
+                override fun onFailure(call: Call<List<EventData>>, throwable: Throwable) {
+                    callback.onError(exception = throwable)
                 }
             }
         )
@@ -122,44 +55,27 @@ class NetworkEventRepository : EventRepository {
      * @param callback Обратный вызов для обработки результата запроса.
      */
     override fun likeById(eventId: Long, likedByMe: Boolean, callback: Callback<EventData>) {
-        val call: Call = if (likedByMe) {
-            client.newCall(
-                Request.Builder()
-                    .url("$API_URL_EVENTS/$eventId/likes")
-                    .delete()
-                    .build()
-            )
+        val call = if (likedByMe) {
+            EventsApi.INSTANCE.unlikeEventById(eventId)
         } else {
-            client.newCall(
-                Request.Builder()
-                    .url("$API_URL_EVENTS/$eventId/likes")
-                    .post(EMPTY_REQUEST)
-                    .build()
-            )
+            EventsApi.INSTANCE.likeEventById(eventId)
         }
 
         call.enqueue(
-            object : okhttp3.Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    callback.onError(exception = e)
-                }
-
-                override fun onResponse(call: Call, response: Response) {
+            object : RetrofitCallback<EventData> {
+                override fun onResponse(call: Call<EventData>, response: Response<EventData>) {
                     if (response.isSuccessful) {
-                        try {
-                            callback.onSuccess(
-                                data = json.decodeFromString(requireNotNull(response.body).string())
-                            )
-                        } catch (e: Exception) {
-                            callback.onError(exception = e)
-                        }
+                        callback.onSuccess(requireNotNull(response.body()))
                     } else {
                         callback.onError(
-                            RuntimeException("Response code is/Код ответа с сервера ${response.code}")
+                            RuntimeException("Response code is/Код ответа с сервера ${response.code()}")
                         )
                     }
                 }
 
+                override fun onFailure(call: Call<EventData>, throwable: Throwable) {
+                    callback.onError(exception = throwable)
+                }
             }
         )
     }
@@ -176,44 +92,27 @@ class NetworkEventRepository : EventRepository {
         participatedByMe: Boolean,
         callback: Callback<EventData>
     ) {
-        val call: Call = if (participatedByMe) {
-            client.newCall(
-                Request.Builder()
-                    .url("$API_URL_EVENTS/$eventId/participants")
-                    .delete()
-                    .build()
-            )
+        val call = if (participatedByMe) {
+            EventsApi.INSTANCE.unparticipateEventById(eventId)
         } else {
-            client.newCall(
-                Request.Builder()
-                    .url("$API_URL_EVENTS/$eventId/participants")
-                    .post(EMPTY_REQUEST)
-                    .build()
-            )
+            EventsApi.INSTANCE.participateEventById(eventId)
         }
 
         call.enqueue(
-            object : okhttp3.Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    callback.onError(exception = e)
-                }
-
-                override fun onResponse(call: Call, response: Response) {
+            object : RetrofitCallback<EventData> {
+                override fun onResponse(call: Call<EventData>, response: Response<EventData>) {
                     if (response.isSuccessful) {
-                        try {
-                            callback.onSuccess(
-                                data = json.decodeFromString(requireNotNull(response.body).string())
-                            )
-                        } catch (e: Exception) {
-                            callback.onError(exception = e)
-                        }
+                        callback.onSuccess(requireNotNull(response.body()))
                     } else {
                         callback.onError(
-                            RuntimeException("Response code is/Код ответа с сервера ${response.code}")
+                            RuntimeException("Response code is/Код ответа с сервера ${response.code()}")
                         )
                     }
                 }
 
+                override fun onFailure(call: Call<EventData>, throwable: Throwable) {
+                    callback.onError(exception = throwable)
+                }
             }
         )
     }
@@ -225,27 +124,22 @@ class NetworkEventRepository : EventRepository {
      * @param callback Обратный вызов для обработки результата запроса.
      */
     override fun deleteById(eventId: Long, callback: Callback<Unit>) {
-        val call: Call = client.newCall(
-            Request.Builder()
-                .url("$API_URL_EVENTS/$eventId")
-                .delete()
-                .build()
-        )
+        val call = EventsApi.INSTANCE.deleteEventById(eventId)
 
         call.enqueue(
-            object : okhttp3.Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    callback.onError(exception = e)
-                }
-
-                override fun onResponse(call: Call, response: Response) {
+            object : RetrofitCallback<Unit> {
+                override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                     if (response.isSuccessful) {
                         callback.onSuccess(Unit)
                     } else {
                         callback.onError(
-                            RuntimeException("Response code is/Код ответа с сервера ${response.code}")
+                            RuntimeException("Response code is/Код ответа с сервера ${response.code()}")
                         )
                     }
+                }
+
+                override fun onFailure(call: Call<Unit>, throwable: Throwable) {
+                    callback.onError(exception = throwable)
                 }
             }
         )
@@ -270,43 +164,30 @@ class NetworkEventRepository : EventRepository {
         data: String,
         callback: Callback<EventData>
     ) {
-        val call: Call = client.newCall(
-            Request.Builder()
-                .url(API_URL_EVENTS)
-                .post(
-                    json.encodeToString(
-                        EventData(
-                            id = eventId,
-                            content = content,
-                            link = link,
-                            optionConducting = option,
-                            dataEvent = data
-                        )
-                    ).toRequestBody(JSON_TYPE)
-                )
-                .build()
+        val call = EventsApi.INSTANCE.saveEvent(
+            EventData(
+                id = eventId,
+                content = content,
+                link = link,
+                optionConducting = option,
+                dataEvent = data
+            )
         )
 
         call.enqueue(
-            object : okhttp3.Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    callback.onError(exception = e)
-                }
-
-                override fun onResponse(call: Call, response: Response) {
+            object : RetrofitCallback<EventData> {
+                override fun onResponse(call: Call<EventData>, response: Response<EventData>) {
                     if (response.isSuccessful) {
-                        try {
-                            callback.onSuccess(
-                                json.decodeFromString(requireNotNull(response.body).string())
-                            )
-                        } catch (e: Exception) {
-                            callback.onError(exception = e)
-                        }
+                        callback.onSuccess(requireNotNull(response.body()))
                     } else {
                         callback.onError(
-                            RuntimeException("Response code is/Код ответа с сервера ${response.code}")
+                            RuntimeException("Response code is/Код ответа с сервера ${response.code()}")
                         )
                     }
+                }
+
+                override fun onFailure(call: Call<EventData>, throwable: Throwable) {
+                    callback.onError(exception = throwable)
                 }
             }
         )
@@ -319,32 +200,22 @@ class NetworkEventRepository : EventRepository {
      * @param callback Обратный вызов для обработки результата запроса.
      */
     fun getEventById(eventId: Long, callback: Callback<EventData>) {
-        val call: Call = client.newCall(
-            Request.Builder()
-                .url("$API_URL_EVENTS/$eventId")
-                .build()
-        )
+        val call = EventsApi.INSTANCE.getEventById(eventId)
 
         call.enqueue(
-            object : okhttp3.Callback {
-                override fun onFailure(call: Call, e: IOException) {
-                    callback.onError(exception = e)
-                }
-
-                override fun onResponse(call: Call, response: Response) {
+            object : RetrofitCallback<EventData> {
+                override fun onResponse(call: Call<EventData>, response: Response<EventData>) {
                     if (response.isSuccessful) {
-                        try {
-                            callback.onSuccess(
-                                json.decodeFromString(requireNotNull(response.body).string())
-                            )
-                        } catch (e: Exception) {
-                            callback.onError(exception = e)
-                        }
+                        callback.onSuccess(requireNotNull(response.body()))
                     } else {
                         callback.onError(
-                            RuntimeException("Response code is/Код ответа с сервера ${response.code}")
+                            RuntimeException("Response code is/Код ответа с сервера ${response.code()}")
                         )
                     }
+                }
+
+                override fun onFailure(call: Call<EventData>, throwable: Throwable) {
+                    callback.onError(exception = throwable)
                 }
             }
         )

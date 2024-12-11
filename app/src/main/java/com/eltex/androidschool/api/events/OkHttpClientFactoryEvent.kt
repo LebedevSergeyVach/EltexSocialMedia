@@ -1,4 +1,4 @@
-package com.eltex.androidschool.api.posts
+package com.eltex.androidschool.api.events
 
 import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.utils.DnsSelector
@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
  * Этот объект отвечает за настройку и создание экземпляра OkHttpClient, который используется для выполнения сетевых запросов.
  * OkHttpClient настроен с использованием интерсепторов для добавления заголовков и логирования.
  */
-object OkHttpClientFactoryPost {
+object OkHttpClientFactoryEvent {
     private const val API_KEY = "Api-Key"
     private const val API_AUTHORIZATION = "Authorization"
 
