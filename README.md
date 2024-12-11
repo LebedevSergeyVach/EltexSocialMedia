@@ -12,7 +12,7 @@ Using **[Jetpack Preferences DataStore](https://developer.android.com/topic/libr
 At the moment, the local **SQLite** database on the device is used to work with the acronym **CRUD**.
 To work with the local database **SQLite**, **[ORM ROOM](https://developer.android.com/training/data-storage/room)** is used together with **[ksp](https://developer.android.com/jetpack/androidx/releases/room)**.
 **[The Prepopulate your Room database](https://developer.android.com/training/data-storage/room/prepopulate)** is used in the project for convenient testing.
-**[Square's](https://github.com/square)** **[OkHttp](https://github.com/square/okhttp)** library is used to work with requests to the server and process the received data in JSON format.
+**[Square's](https://github.com/square)** **[Retrofit](https://github.com/square/retrofit)** and **[OkHttp](https://github.com/square/okhttp)** librarys is used to work with requests to the server and process the received data in JSON format.
 The project uses several types of architecture patterns and paradigms: **Builder**, **Observer**, **Adapter**, **Dependency Injection**, **Single Activity Architecture**, **Modular Architecture** and **Reactive Programming**.
 
 <details open="open">
@@ -56,7 +56,7 @@ The project uses several types of architecture patterns and paradigms: **Builder
 На данный момент для работы с акронимом **CRUD** используется локальная база данных **SQLite** на устройстве.
 Для работы с локальной базой данных **SQLite** используется **[ORM ROOM](https://developer.android.com/training/data-storage/room)** вместе с **[ksp](https://developer.android.com/jetpack/androidx/releases/room)**.
 **[The Prepopulate your Room database](https://developer.android.com/training/data-storage/room/prepopulate)** используется в проекте для удобства тестирования.
-Для работы с запросами на сервер и обработкой полученных данных в формате JSON используется библиотека **[OkHttp](https://github.com/square/okhttp)** от **[Square](https://github.com/square)**.
+Для работы с запросами на сервер и обработкой полученных данных в формате JSON используется библиотеки **[Retrofit](https://github.com/square/retrofit)** и **[OkHttp](https://github.com/square/okhttp)** от **[Square](https://github.com/square)**.
 В проекте используется несколько типов архитектурных паттернов и парадигм: **Строитель**, **Наблюдатель**, **Адаптер**, **Внедрение зависимостей**, **Архитектура с одной активностью**, **Модульная архитектура** and **Реактивное программирование**.
 
 <details open="open">
