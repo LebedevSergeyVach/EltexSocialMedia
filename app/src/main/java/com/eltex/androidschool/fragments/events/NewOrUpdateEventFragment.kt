@@ -1,23 +1,44 @@
 package com.eltex.androidschool.fragments.events
 
 import android.os.Bundle
+
+import androidx.core.os.bundleOf
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import androidx.appcompat.widget.Toolbar
-import androidx.core.os.bundleOf
+
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.viewModelFactory
+
 import androidx.navigation.fragment.findNavController
+
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
+
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
+
+import java.text.SimpleDateFormat
+
+import java.util.Calendar
+import java.util.Locale
+
 import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentNewOrUpdateEventBinding
+
 import com.eltex.androidschool.repository.events.NetworkEventRepository
 import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.toast
@@ -25,15 +46,6 @@ import com.eltex.androidschool.utils.vibrateWithEffect
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 import com.eltex.androidschool.viewmodel.events.NewEventState
 import com.eltex.androidschool.viewmodel.events.NewEventViewModel
-import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-import java.text.SimpleDateFormat
-import java.util.Calendar
-import java.util.Locale
 
 /**
  * Фрагмент для создания или обновления события.
@@ -131,6 +143,7 @@ class NewOrUpdateEventFragment : Fragment() {
                         } else {
                             eventWillTake + getString(R.string.offline)
                         }
+
                     binding.optionText.animate().alpha(1f).setDuration(200).start()
                 }
                 .start()
@@ -143,8 +156,9 @@ class NewOrUpdateEventFragment : Fragment() {
         toolbarViewModel.saveClicked.filter { display: Boolean -> display }
             .onEach {
                 val newContent = binding.content.text?.toString().orEmpty().trimStart().trimEnd()
-                val newDate = binding.dataText.text?.toString().orEmpty()
                 val newLink = binding.link.text?.toString().orEmpty().trimStart().trimEnd()
+
+                val newDate = formatDateTimeForServer()
 
                 val newOption = if (binding.optionSwitch.isChecked) ONLINE else OFFLINE
 
@@ -234,6 +248,7 @@ class NewOrUpdateEventFragment : Fragment() {
             val calendar = Calendar.getInstance()
             calendar.timeInMillis = it
             selectedDate = calendar
+
             showTimePicker(binding)
         }
 
@@ -290,9 +305,34 @@ class NewOrUpdateEventFragment : Fragment() {
 
             val dateTimeFormat =
                 SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+
             val dateTimeString = dateTimeFormat.format(combinedCalendar.time)
 
             binding.dataText.text = dateTimeString
         }
+    }
+
+    /**
+     * Форматирует дату и время для отправки на сервер в формате "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'".
+     *
+     * @return Строка с датой и временем в формате для сервера.
+     */
+    private fun formatDateTimeForServer(): String {
+        if (selectedDate != null && selectedTime != null) {
+            val combinedCalendar = Calendar.getInstance().apply {
+                timeInMillis = selectedDate!!.timeInMillis
+
+                set(Calendar.HOUR_OF_DAY, selectedTime!!.get(Calendar.HOUR_OF_DAY))
+                set(Calendar.MINUTE, selectedTime!!.get(Calendar.MINUTE))
+                set(Calendar.SECOND, 0)
+            }
+
+            val dateTimeFormat =
+                SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+
+            return dateTimeFormat.format(combinedCalendar.time)
+        }
+
+        return ""
     }
 }

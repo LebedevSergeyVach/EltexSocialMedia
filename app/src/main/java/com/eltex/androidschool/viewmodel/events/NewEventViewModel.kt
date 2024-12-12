@@ -5,6 +5,7 @@ import com.eltex.androidschool.data.events.EventData
 
 import com.eltex.androidschool.repository.events.EventRepository
 import com.eltex.androidschool.utils.Callback
+import com.eltex.androidschool.utils.Logger
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
@@ -68,8 +69,6 @@ class NewEventViewModel(
                             event = data,
                         )
                     }
-
-                    EventViewModel(repository).load()
                 }
 
                 override fun onError(exception: Throwable) {
