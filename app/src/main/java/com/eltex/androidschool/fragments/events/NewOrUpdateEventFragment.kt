@@ -22,6 +22,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.viewModelFactory
 
 import androidx.navigation.fragment.findNavController
+import com.eltex.androidschool.BuildConfig
 
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -40,9 +41,12 @@ import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentNewOrUpdateEventBinding
 
 import com.eltex.androidschool.repository.events.NetworkEventRepository
+ 
+import com.eltex.androidschool.utils.Logger
 import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.toast
 import com.eltex.androidschool.utils.vibrateWithEffect
+
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 import com.eltex.androidschool.viewmodel.events.NewEventState
 import com.eltex.androidschool.viewmodel.events.NewEventViewModel
@@ -100,6 +104,7 @@ class NewOrUpdateEventFragment : Fragment() {
         val eventId = arguments?.getLong(EVENT_ID) ?: 0L
         val content = arguments?.getString(EVENT_CONTENT) ?: ""
         val link = arguments?.getString(EVENT_LINK) ?: ""
+        val date = arguments?.getString(EVENT_DATE) ?: ""
         val option = arguments?.getString(EVENT_OPTION) ?: ONLINE
         val isUpdate = arguments?.getBoolean(IS_UPDATE, false) ?: false
 
@@ -151,6 +156,11 @@ class NewOrUpdateEventFragment : Fragment() {
 
         binding.selectDateTimeButton.setOnClickListener {
             showDatePicker(binding)
+        }
+
+        if (isUpdate && date.isNotEmpty()) {
+            parseDateTime(date)
+            updateDateTimeText(binding)
         }
 
         toolbarViewModel.saveClicked.filter { display: Boolean -> display }
@@ -334,5 +344,27 @@ class NewOrUpdateEventFragment : Fragment() {
         }
 
         return ""
+    }
+
+    /**
+     * Парсит дату и время из строки в формате "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" и сохраняет их в [selectedDate] и [selectedTime].
+     *
+     * @param dateTimeString Строка с датой и временем в формате "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'".
+     */
+    private fun parseDateTime(dateTimeString: String) {
+        val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+        try {
+            val dateTime = dateTimeFormat.parse(dateTimeString)
+            dateTime?.let {
+                selectedDate = Calendar.getInstance().apply { time = it }
+                selectedTime = Calendar.getInstance().apply { time = it }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+
+            if (BuildConfig.DEBUG) {
+                Logger.e(e.toString())
+            }
+        }
     }
 }
