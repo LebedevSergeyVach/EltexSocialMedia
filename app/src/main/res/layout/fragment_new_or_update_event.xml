@@ -106,9 +106,8 @@
                 android:layout_height="wrap_content"
 
                 android:backgroundTint="@color/active_element"
-                android:textColor="@color/check_ok"
-
-                android:text="@string/select_date_and_time" />
+                android:text="@string/select_date_and_time"
+                android:textColor="@color/check_ok" />
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
@@ -120,7 +119,6 @@
         android:layout_height="wrap_content"
 
         android:layout_margin="@dimen/common_spacing"
-
 
         app:cardCornerRadius="20dp"
         app:cardElevation="2dp"
@@ -165,7 +163,6 @@
         android:layout_height="0dp"
 
         android:layout_margin="@dimen/common_spacing"
-
 
         app:cardCornerRadius="20dp"
         app:cardElevation="2dp"

@@ -228,7 +228,6 @@ class NewOrUpdateEventFragment : Fragment() {
     private fun showDatePicker(binding: FragmentNewOrUpdateEventBinding) {
         val datePicker = MaterialDatePicker.Builder.datePicker()
             .setTitleText(R.string.select_date)
-            .setTheme(R.style.CustomDatePickerTheme)
             .build()
 
         datePicker.addOnPositiveButtonClickListener {
@@ -256,7 +255,6 @@ class NewOrUpdateEventFragment : Fragment() {
             .setHour(12)
             .setMinute(0)
             .setTitleText(R.string.select_time)
-            .setTheme(R.style.CustomTimePickerTheme)
             .build()
 
         timePicker.addOnPositiveButtonClickListener {
@@ -276,7 +274,7 @@ class NewOrUpdateEventFragment : Fragment() {
      * Обновляет текст даты и времени в UI.
      *
      * Этот метод объединяет выбранную дату и время в одну строку в формате "yyyy-MM-dd HH:mm:ss"
-     * и устанавливает эту строку в TextView [dataText].
+     * и устанавливает эту строку в TextView [binding].
      *
      * @param binding Объект [FragmentNewOrUpdateEventBinding], используемый для доступа к элементам UI.
      */
