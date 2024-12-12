@@ -48,6 +48,9 @@
     <string name="online">Online</string>
     <string name="offline">Offline</string>
     <string name="event_take_will">Event will take</string>
+    <string name="select_date">Select date</string>
+    <string name="select_time">Select time</string>
+    <string name="select_date_and_time">Date and time</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>

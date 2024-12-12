@@ -49,4 +49,7 @@
     <string name="online">Онлайн</string>
     <string name="offline">Офла́йн</string>
     <string name="event_take_will">Событие пройдет</string>
+    <string name="select_date">Выберите дату</string>
+    <string name="select_time">Выберите время</string>
+    <string name="select_date_and_time">Дата и время</string>
 </resources>

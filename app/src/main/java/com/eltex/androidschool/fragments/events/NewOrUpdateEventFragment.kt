@@ -1,46 +1,39 @@
 package com.eltex.androidschool.fragments.events
 
-import android.app.TimePickerDialog
 import android.os.Bundle
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import androidx.appcompat.widget.Toolbar
 import androidx.core.os.bundleOf
-
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
-
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.viewModelFactory
-
 import androidx.navigation.fragment.findNavController
-
+import com.eltex.androidschool.R
+import com.eltex.androidschool.databinding.FragmentNewOrUpdateEventBinding
+import com.eltex.androidschool.repository.events.NetworkEventRepository
+import com.eltex.androidschool.utils.getErrorText
+import com.eltex.androidschool.utils.toast
+import com.eltex.androidschool.utils.vibrateWithEffect
+import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
+import com.eltex.androidschool.viewmodel.events.NewEventState
+import com.eltex.androidschool.viewmodel.events.NewEventViewModel
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.google.android.material.timepicker.MaterialTimePicker
+import com.google.android.material.timepicker.TimeFormat
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-
-import com.eltex.androidschool.R
-
-import com.eltex.androidschool.databinding.FragmentNewOrUpdateEventBinding
-
-import com.eltex.androidschool.repository.events.NetworkEventRepository
-import com.eltex.androidschool.utils.getErrorText
-
-import com.eltex.androidschool.utils.toast
-import com.eltex.androidschool.utils.vibrateWithEffect
-import com.eltex.androidschool.viewmodel.events.NewEventState
-
-import com.eltex.androidschool.viewmodel.events.NewEventViewModel
-import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
-import android.app.DatePickerDialog
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
 /**
  * Фрагмент для создания или обновления события.
@@ -65,6 +58,9 @@ class NewOrUpdateEventFragment : Fragment() {
         private const val ONLINE: String = "ONLINE"
         private const val OFFLINE: String = "OFFLINE"
     }
+
+    private var selectedDate: Calendar? = null
+    private var selectedTime: Calendar? = null
 
     /**
      * Создает и возвращает представление для этого фрагмента.
@@ -92,13 +88,11 @@ class NewOrUpdateEventFragment : Fragment() {
         val eventId = arguments?.getLong(EVENT_ID) ?: 0L
         val content = arguments?.getString(EVENT_CONTENT) ?: ""
         val link = arguments?.getString(EVENT_LINK) ?: ""
-        val date = arguments?.getString(EVENT_DATE) ?: ""
         val option = arguments?.getString(EVENT_OPTION) ?: ONLINE
         val isUpdate = arguments?.getBoolean(IS_UPDATE, false) ?: false
 
         binding.content.setText(content)
         binding.link.setText(link)
-        binding.data.setText(date)
         binding.optionSwitch.isChecked = option == ONLINE
 
         binding.optionText.text =
@@ -142,10 +136,14 @@ class NewOrUpdateEventFragment : Fragment() {
                 .start()
         }
 
+        binding.selectDateTimeButton.setOnClickListener {
+            showDatePicker(binding)
+        }
+
         toolbarViewModel.saveClicked.filter { display: Boolean -> display }
             .onEach {
                 val newContent = binding.content.text?.toString().orEmpty().trimStart().trimEnd()
-                val newDate = binding.data.text?.toString().orEmpty().trimStart().trimEnd()
+                val newDate = binding.dataText.text?.toString().orEmpty()
                 val newLink = binding.link.text?.toString().orEmpty().trimStart().trimEnd()
 
                 val newOption = if (binding.optionSwitch.isChecked) ONLINE else OFFLINE
@@ -216,5 +214,87 @@ class NewOrUpdateEventFragment : Fragment() {
             if (isUpdate) getString(R.string.update_event_title) else getString(R.string.new_event_title)
 
         return binding.root
+    }
+
+    /**
+     * Показывает всплывающее окно для выбора даты.
+     *
+     * Этот метод создает и отображает MaterialDatePicker, который позволяет пользователю выбрать дату.
+     * После выбора даты, метод сохраняет выбранную дату в переменную [selectedDate] и вызывает метод [showTimePicker]
+     * для выбора времени.
+     *
+     * @param binding Объект [FragmentNewOrUpdateEventBinding], используемый для доступа к элементам UI.
+     */
+    private fun showDatePicker(binding: FragmentNewOrUpdateEventBinding) {
+        val datePicker = MaterialDatePicker.Builder.datePicker()
+            .setTitleText(R.string.select_date)
+            .setTheme(R.style.CustomDatePickerTheme)
+            .build()
+
+        datePicker.addOnPositiveButtonClickListener {
+            val calendar = Calendar.getInstance()
+            calendar.timeInMillis = it
+            selectedDate = calendar
+            showTimePicker(binding)
+        }
+
+        datePicker.show(childFragmentManager, "DATE_PICKER")
+    }
+
+    /**
+     * Показывает всплывающее окно для выбора времени.
+     *
+     * Этот метод создает и отображает MaterialTimePicker, который позволяет пользователю выбрать время.
+     * После выбора времени, метод сохраняет выбранное время в переменную [selectedTime] и вызывает метод [updateDateTimeText]
+     * для обновления текста даты и времени в UI.
+     *
+     * @param binding Объект [FragmentNewOrUpdateEventBinding], используемый для доступа к элементам UI.
+     */
+    private fun showTimePicker(binding: FragmentNewOrUpdateEventBinding) {
+        val timePicker = MaterialTimePicker.Builder()
+            .setTimeFormat(TimeFormat.CLOCK_24H)
+            .setHour(12)
+            .setMinute(0)
+            .setTitleText(R.string.select_time)
+            .setTheme(R.style.CustomTimePickerTheme)
+            .build()
+
+        timePicker.addOnPositiveButtonClickListener {
+            selectedTime = Calendar.getInstance().apply {
+                set(Calendar.HOUR_OF_DAY, timePicker.hour)
+                set(Calendar.MINUTE, timePicker.minute)
+                set(Calendar.SECOND, 0)
+            }
+
+            updateDateTimeText(binding)
+        }
+
+        timePicker.show(childFragmentManager, "TIME_PICKER")
+    }
+
+    /**
+     * Обновляет текст даты и времени в UI.
+     *
+     * Этот метод объединяет выбранную дату и время в одну строку в формате "yyyy-MM-dd HH:mm:ss"
+     * и устанавливает эту строку в TextView [dataText].
+     *
+     * @param binding Объект [FragmentNewOrUpdateEventBinding], используемый для доступа к элементам UI.
+     */
+    private fun updateDateTimeText(binding: FragmentNewOrUpdateEventBinding) {
+        if (selectedDate != null && selectedTime != null) {
+            val combinedCalendar = Calendar.getInstance().apply {
+                timeInMillis = selectedDate!!.timeInMillis
+
+                set(Calendar.HOUR_OF_DAY, selectedTime!!.get(Calendar.HOUR_OF_DAY))
+                set(Calendar.MINUTE, selectedTime!!.get(Calendar.MINUTE))
+                set(Calendar.SECOND, 0)
+            }
+
+            val dateTimeFormat =
+                SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
+            val dateTimeString = dateTimeFormat.format(combinedCalendar.time)
+
+            binding.dataText.text = dateTimeString
+        }
     }
 }

@@ -19,4 +19,14 @@
     <color name="active_element">#3060FF</color>
 
     <color name="switch_off_back">#6E00B0</color>
+
+    <color name="custom_date_picker_primary">@color/active_element</color>
+    <color name="custom_date_picker_on_primary">@color/white</color>
+    <color name="custom_date_picker_secondary">@color/active_element</color>
+    <color name="custom_date_picker_on_secondary">@color/white</color>
+
+    <color name="custom_time_picker_primary">@color/active_element</color>
+    <color name="custom_time_picker_on_primary">@color/white</color>
+    <color name="custom_time_picker_secondary">@color/active_element</color>
+    <color name="custom_time_picker_on_secondary">@color/white</color>
 </resources>

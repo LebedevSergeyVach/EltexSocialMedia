@@ -14,7 +14,7 @@
         android:id="@+id/card_option"
 
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
 
         android:layout_margin="@dimen/common_spacing"
 
@@ -43,7 +43,7 @@
                 android:layout_weight="1"
 
                 android:text="@string/new_event_options_hint"
-                android:textSize="16sp"
+                android:textSize="17sp"
                 android:textStyle="bold" />
 
             <com.google.android.material.switchmaterial.SwitchMaterial
@@ -69,7 +69,7 @@
         android:id="@+id/card_data"
 
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
 
         android:layout_margin="@dimen/common_spacing"
 
@@ -80,30 +80,36 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_option">
 
-        <EditText
-            android:id="@+id/data"
-
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/common_spacing">
 
-            android:layout_margin="@dimen/common_spacing"
+            <TextView
+                android:id="@+id/data_text"
 
-            android:background="@android:color/transparent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
 
-            android:ellipsize="end"
+                android:text="@string/new_event_data_hint"
 
-            android:gravity="top"
+                android:textSize="17sp"
+                android:textStyle="bold" />
 
-            android:hint="@string/new_event_data_hint"
-            android:importantForAutofill="no"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/select_date_time_button"
 
-            android:inputType="textMultiLine"
-            android:maxLines="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="parent" />
+                android:backgroundTint="@color/active_element"
+                android:textColor="@color/check_ok"
+
+                android:text="@string/select_date_and_time" />
+        </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -111,7 +117,7 @@
         android:id="@+id/card_link"
 
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
 
         android:layout_margin="@dimen/common_spacing"
 
