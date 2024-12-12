@@ -25,30 +25,43 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/option"
-
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
 
-            android:layout_margin="@dimen/common_spacing"
-            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
 
-            android:ellipsize="end"
+            android:padding="@dimen/common_spacing">
 
-            android:gravity="top"
+            <TextView
+                android:id="@+id/option_text"
 
-            android:hint="@string/new_event_options_hint"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
 
-            android:importantForAutofill="no"
+                android:layout_weight="1"
 
-            android:inputType="textMultiLine"
-            android:maxLines="1"
+                android:text="@string/new_event_options_hint"
+                android:textSize="16sp"
+                android:textStyle="bold" />
 
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="parent" />
+            <com.google.android.material.switchmaterial.SwitchMaterial
+                android:id="@+id/option_switch"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:backgroundTint="@color/active_element"
+
+                android:checked="false"
+
+                android:textOff="@string/offline"
+                android:textOn="@string/online"
+
+                app:thumbTint="@drawable/switch_thumb_tint"
+                app:trackTint="@drawable/switch_track_tint" />
+        </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -59,7 +72,6 @@
         android:layout_height="50dp"
 
         android:layout_margin="@dimen/common_spacing"
-
 
         app:cardCornerRadius="20dp"
         app:cardElevation="2dp"

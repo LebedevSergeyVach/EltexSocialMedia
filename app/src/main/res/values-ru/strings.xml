@@ -45,4 +45,8 @@
     <string name="retry">Повторить</string>
     <string name="network_error">Ошибка сети</string>
     <string name="unknown_error">Неизвестная ошибка</string>
+
+    <string name="online">Онлайн</string>
+    <string name="offline">Офла́йн</string>
+    <string name="event_take_will">Событие пройдет</string>
 </resources>

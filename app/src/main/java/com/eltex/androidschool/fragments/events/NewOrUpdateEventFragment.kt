@@ -1,5 +1,6 @@
 package com.eltex.androidschool.fragments.events
 
+import android.app.TimePickerDialog
 import android.os.Bundle
 
 import android.view.LayoutInflater
@@ -39,6 +40,7 @@ import com.eltex.androidschool.viewmodel.events.NewEventState
 
 import com.eltex.androidschool.viewmodel.events.NewEventViewModel
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
+import android.app.DatePickerDialog
 
 /**
  * Фрагмент для создания или обновления события.
@@ -60,6 +62,8 @@ class NewOrUpdateEventFragment : Fragment() {
         const val EVENT_OPTION = "EVENT_OPTION"
         const val IS_UPDATE = "IS_UPDATE"
         const val EVENT_CREATED_OR_UPDATED_KEY = "EVENT_CREATED_OR_UPDATED_KEY"
+        private const val ONLINE: String = "ONLINE"
+        private const val OFFLINE: String = "OFFLINE"
     }
 
     /**
@@ -83,17 +87,26 @@ class NewOrUpdateEventFragment : Fragment() {
          */
         val toolbarViewModel by activityViewModels<ToolBarViewModel>()
 
+        val eventWillTake: String = getString(R.string.event_take_will) + " "
+
         val eventId = arguments?.getLong(EVENT_ID) ?: 0L
         val content = arguments?.getString(EVENT_CONTENT) ?: ""
         val link = arguments?.getString(EVENT_LINK) ?: ""
         val date = arguments?.getString(EVENT_DATE) ?: ""
-        val option = arguments?.getString(EVENT_OPTION) ?: ""
+        val option = arguments?.getString(EVENT_OPTION) ?: ONLINE
         val isUpdate = arguments?.getBoolean(IS_UPDATE, false) ?: false
 
         binding.content.setText(content)
         binding.link.setText(link)
         binding.data.setText(date)
-        binding.option.setText(option)
+        binding.optionSwitch.isChecked = option == ONLINE
+
+        binding.optionText.text =
+            if (binding.optionSwitch.isChecked) {
+                eventWillTake + getString(R.string.online)
+            } else {
+                eventWillTake + getString(R.string.offline)
+            }
 
         /**
          * Получаем ViewModel для управления созданием и обновлением событий
@@ -113,12 +126,29 @@ class NewOrUpdateEventFragment : Fragment() {
             }
         }
 
+        binding.optionSwitch.setOnCheckedChangeListener { _, isChecked ->
+            binding.optionText.animate()
+                .alpha(0f)
+                .setDuration(200)
+                .withEndAction {
+                    binding.optionText.text =
+                        if (isChecked) {
+                            eventWillTake + getString(R.string.online)
+                        } else {
+                            eventWillTake + getString(R.string.offline)
+                        }
+                    binding.optionText.animate().alpha(1f).setDuration(200).start()
+                }
+                .start()
+        }
+
         toolbarViewModel.saveClicked.filter { display: Boolean -> display }
             .onEach {
                 val newContent = binding.content.text?.toString().orEmpty().trimStart().trimEnd()
                 val newDate = binding.data.text?.toString().orEmpty().trimStart().trimEnd()
-                val newOption = binding.option.text?.toString().orEmpty().trimStart().trimEnd()
                 val newLink = binding.link.text?.toString().orEmpty().trimStart().trimEnd()
+
+                val newOption = if (binding.optionSwitch.isChecked) ONLINE else OFFLINE
 
                 if (
                     newContent.isNotEmpty() && newDate.isNotEmpty() && newOption.isNotEmpty() && newLink.isNotEmpty()

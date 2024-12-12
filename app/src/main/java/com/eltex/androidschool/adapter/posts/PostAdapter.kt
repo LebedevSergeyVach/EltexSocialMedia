@@ -70,7 +70,7 @@ class PostAdapter(
                     when (menuItem.itemId) {
                         R.id.delete_post -> {
                             listener.onDeleteClicked(getItem(viewHolder.adapterPosition))
-                            context.singleVibration(50L)
+                            context.singleVibration(75L)
                             true
                         }
 
