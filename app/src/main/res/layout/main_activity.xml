@@ -5,7 +5,7 @@
 
     android:id="@+id/container"
 
-    android:name="com.eltex.androidschool.fragments.ToolbarFragment"
+    android:name="com.eltex.androidschool.fragments.common.ToolbarFragment"
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"

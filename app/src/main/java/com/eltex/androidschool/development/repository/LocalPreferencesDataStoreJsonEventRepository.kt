@@ -26,8 +26,8 @@ import kotlinx.coroutines.runBlocking
 
 import kotlinx.serialization.encodeToString
 
-import com.eltex.androidschool.data.EventData
-import com.eltex.androidschool.repository.EventRepository
+import com.eltex.androidschool.data.events.EventData
+import com.eltex.androidschool.repository.events.EventRepository
 import java.time.format.DateTimeFormatter
 
 */

@@ -9,7 +9,7 @@
 
     <fragment
         android:id="@+id/BottomNavigationFragment"
-        android:name="com.eltex.androidschool.fragments.BottomNavigationFragment"
+        android:name="com.eltex.androidschool.fragments.common.BottomNavigationFragment"
         android:label="@string/app_name"
         tools:layout="@layout/fragment_bottom_navigation">
 
@@ -34,12 +34,12 @@
 
     <fragment
         android:id="@+id/newOrUpdatePostFragment"
-        android:name="com.eltex.androidschool.fragments.NewOrUpdatePostFragment"
+        android:name="com.eltex.androidschool.fragments.posts.NewOrUpdatePostFragment"
         tools:layout="@layout/fragment_new_or_update_post" />
 
     <fragment
         android:id="@+id/newOrUpdateEventFragment"
-        android:name="com.eltex.androidschool.fragments.NewOrUpdateEventFragment"
+        android:name="com.eltex.androidschool.fragments.events.NewOrUpdateEventFragment"
         tools:layout="@layout/fragment_new_or_update_event" />
 
 </navigation>

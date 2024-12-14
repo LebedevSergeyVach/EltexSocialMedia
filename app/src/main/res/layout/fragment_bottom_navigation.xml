@@ -8,7 +8,7 @@
 
     android:orientation="vertical"
 
-    tools:context=".fragments.BottomNavigationFragment">
+    tools:context=".fragments.common.BottomNavigationFragment">
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container"

@@ -16,14 +16,14 @@ import com.eltex.androidschool.development.activity.NewOrUpdatePostActivity
 import com.eltex.androidschool.databinding.MainActivityBinding
 
 import com.eltex.androidschool.ui.OffsetDecoration
-import com.eltex.androidschool.adapter.PostAdapter
-import com.eltex.androidschool.data.PostData
+import com.eltex.androidschool.adapter.posts.PostAdapter
+import com.eltex.androidschool.data.posts.PostData
 import com.eltex.androidschool.development.data.PostDataParcelable
-import com.eltex.androidschool.db.AppDbPost
-import com.eltex.androidschool.repository.DaoSQLitePostRepository
+import com.eltex.androidschool.db.posts.AppDbPost
+import com.eltex.androidschool.repository.posts.DaoSQLitePostRepository
 import com.eltex.androidschool.ui.EdgeToEdgeHelper
-import com.eltex.androidschool.viewmodel.PostState
-import com.eltex.androidschool.viewmodel.PostViewModel
+import com.eltex.androidschool.viewmodel.posts.PostState
+import com.eltex.androidschool.viewmodel.posts.PostViewModel
 
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach

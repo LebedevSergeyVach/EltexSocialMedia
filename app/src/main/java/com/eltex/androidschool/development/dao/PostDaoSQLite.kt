@@ -6,7 +6,7 @@
 
 package com.eltex.androidschool.development.dao
 
-import com.eltex.androidschool.data.PostData
+import com.eltex.androidschool.data.posts.PostData
 
 /**
  * Интерфейс для работы с данными постов в базе данных.
