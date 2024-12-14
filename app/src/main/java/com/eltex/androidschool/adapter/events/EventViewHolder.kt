@@ -10,6 +10,7 @@ import android.text.SpannableString
 
 import android.view.MotionEvent
 import android.view.View
+import androidx.core.content.ContextCompat
 
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.eltex.androidschool.R
@@ -185,11 +186,6 @@ class EventViewHolder(
     @SuppressLint("ResourceType")
     private fun buttonClickAnimation(button: View, condition: Boolean, confetti: Boolean) {
         if (condition) {
-//            val animation =
-//                AnimationUtils.loadAnimation(binding.root.context, R.anim.scale_animation)
-//
-//            button.startAnimation(animation)
-
             val animator =
                 AnimatorInflater.loadAnimator(binding.root.context, R.anim.scale_animation)
 
@@ -197,14 +193,15 @@ class EventViewHolder(
             animator.start()
 
             if (confetti) {
-                CommonConfetti.rainingConfetti(
-                    binding.root,
-                    intArrayOf(R.color.red)
-                ).oneShot()
+                val confettiColors = intArrayOf(
+                    ContextCompat.getColor(binding.root.context, R.color.white),
+                    ContextCompat.getColor(binding.root.context, R.color.confetti_blue),
+                    ContextCompat.getColor(binding.root.context, R.color.blue),
+                )
 
                 CommonConfetti.rainingConfetti(
                     binding.root,
-                    intArrayOf(R.color.blue)
+                    confettiColors
                 ).oneShot()
             }
         }

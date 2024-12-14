@@ -5,11 +5,15 @@ import android.annotation.SuppressLint
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 
 import android.text.SpannableString
 
 import android.view.MotionEvent
 import android.view.View
+import android.view.ViewGroup
+import androidx.compose.ui.graphics.Canvas
+import androidx.core.content.ContextCompat
 
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.eltex.androidschool.R
@@ -19,8 +23,15 @@ import com.github.jinatonic.confetti.CommonConfetti
 import com.eltex.androidschool.databinding.CardPostBinding
 import com.eltex.androidschool.data.posts.PostData
 import com.eltex.androidschool.utils.toast
+import com.github.jinatonic.confetti.ConfettiManager
+import com.github.jinatonic.confetti.ConfettiSource
+import com.github.jinatonic.confetti.ConfettiView
+import com.github.jinatonic.confetti.ConfettoGenerator
+import com.github.jinatonic.confetti.confetto.BitmapConfetto
+import com.github.jinatonic.confetti.confetto.Confetto
 
 import java.util.Locale
+import kotlin.random.Random
 
 /**
  * ViewHolder для отображения элемента списка постов.
@@ -161,14 +172,15 @@ class PostViewHolder(
             animator.start()
 
             if (confetti) {
-                CommonConfetti.rainingConfetti(
-                    binding.root,
-                    intArrayOf(R.color.red)
-                ).oneShot()
+                val confettiColors = intArrayOf(
+                    ContextCompat.getColor(binding.root.context, R.color.white),
+                    ContextCompat.getColor(binding.root.context, R.color.confetti_blue),
+                    ContextCompat.getColor(binding.root.context, R.color.blue),
+                )
 
                 CommonConfetti.rainingConfetti(
                     binding.root,
-                    intArrayOf(R.color.blue)
+                    confettiColors
                 ).oneShot()
             }
         }

@@ -10,20 +10,4 @@
     </style>
 
     <style name="Theme.HelloEltex" parent="Base.Theme.HelloEltex" />
-
-    <!-- Theme for Date Picker -->
-    <style name="CustomDatePickerTheme" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
-        <item name="colorPrimary">@color/custom_date_picker_primary</item>
-        <item name="colorOnPrimary">@color/custom_date_picker_on_primary</item>
-        <item name="colorSecondary">@color/custom_date_picker_secondary</item>
-        <item name="colorOnSecondary">@color/custom_date_picker_on_secondary</item>
-    </style>
-
-    <!-- Theme for Time Picker -->
-    <style name="CustomTimePickerTheme" parent="ThemeOverlay.MaterialComponents.TimePicker">
-        <item name="colorPrimary">@color/custom_time_picker_primary</item>
-        <item name="colorOnPrimary">@color/custom_time_picker_on_primary</item>
-        <item name="colorSecondary">@color/custom_time_picker_secondary</item>
-        <item name="colorOnSecondary">@color/custom_time_picker_on_secondary</item>
-    </style>
 </resources>
