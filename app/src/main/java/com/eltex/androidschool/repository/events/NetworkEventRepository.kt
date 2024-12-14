@@ -93,7 +93,7 @@ class NetworkEventRepository : EventRepository {
         callback: Callback<EventData>
     ) {
         val call = if (participatedByMe) {
-            EventsApi.INSTANCE.unparticipateEventById(eventId)
+            EventsApi.INSTANCE.unsubscribeEventById(eventId)
         } else {
             EventsApi.INSTANCE.participateEventById(eventId)
         }

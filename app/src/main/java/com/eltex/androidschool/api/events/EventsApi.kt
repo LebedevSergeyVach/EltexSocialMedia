@@ -68,7 +68,7 @@ interface EventsApi {
      * @return Call<EventData> Объект Call для выполнения запроса.
      */
     @DELETE("api/events/{id}/participants")
-    fun unparticipateEventById(@Path("id") eventId: Long): Call<EventData>
+    fun unsubscribeEventById(@Path("id") eventId: Long): Call<EventData>
 
     /**
      * Удаляет событие по его идентификатору.
