@@ -10,6 +10,7 @@ import android.text.SpannableString
 
 import android.view.MotionEvent
 import android.view.View
+import androidx.core.content.ContextCompat
 
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
@@ -191,14 +192,15 @@ class EventViewHolder(
             animator.start()
 
             if (confetti) {
-                CommonConfetti.rainingConfetti(
-                    binding.root,
-                    intArrayOf(R.color.red)
-                ).oneShot()
+                val confettiColors = intArrayOf(
+                    ContextCompat.getColor(binding.root.context, R.color.white),
+                    ContextCompat.getColor(binding.root.context, R.color.confetti_blue),
+                    ContextCompat.getColor(binding.root.context, R.color.blue),
+                )
 
                 CommonConfetti.rainingConfetti(
                     binding.root,
-                    intArrayOf(R.color.blue)
+                    confettiColors
                 ).oneShot()
             }
         }

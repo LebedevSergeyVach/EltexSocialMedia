@@ -2,4 +2,6 @@
 <resources>
     <color name="check_ok">#FFFFFFFF</color>
     <color name="toast_custom">#2e3133</color>
+
+    <color name="switch_off_back">#6E00B0</color>
 </resources>

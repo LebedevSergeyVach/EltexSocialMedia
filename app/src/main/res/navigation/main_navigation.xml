@@ -10,7 +10,7 @@
     <fragment
         android:id="@+id/BottomNavigationFragment"
         android:name="com.eltex.androidschool.fragments.common.BottomNavigationFragment"
-        android:label="@string/app_name"
+        android:label="@string/app_name_new_year"
         tools:layout="@layout/fragment_bottom_navigation">
 
         <action

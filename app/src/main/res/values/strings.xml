@@ -7,17 +7,17 @@
     <string name="shared">Shared</string>
 
     <string name="create_post">Create post</string>
-    <string name="new_post_title">New Post</string>
+    <string name="new_post_title">☃️ New Post</string>
     <string name="save_post">Save post</string>
-    <string name="update_post_title">Updating the post</string>
+    <string name="update_post_title">⛄️ Updating the post</string>
     <string name="new_post_content_hint">Write content for your new post!</string>
     <string name="delete_post">Delete post</string>
     <string name="update_post">Update post</string>
 
-    <string name="new_event_title">New event</string>
+    <string name="new_event_title">☃️ New event</string>
     <string name="save_event">Save event</string>
     <string name="create_event">Create event</string>
-    <string name="update_event_title">Updating the event</string>
+    <string name="update_event_title">⛄️ Updating the event</string>
     <string name="new_event_content_hint">Write a description for your new event!</string>
     <string name="new_event_link_hint">Insert a link for your new event!</string>
     <string name="new_event_data_hint">When will your event take place?</string>
@@ -52,6 +52,6 @@
     <string name="select_time">Select time</string>
     <string name="select_date_and_time">Date and time</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
+    NEW YEAR
+    <string name="app_name_new_year">❄️ Eltex Academy</string>
 </resources>

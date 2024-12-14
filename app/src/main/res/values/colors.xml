@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
 
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="red">#FF0000</color>
+    <color name="blue">#0000FF</color>
+    <color name="green">#00FF00</color>
+    <color name="yellow">#FFE500</color>
+    <color name="purple">#F700FF</color>
+    <color name="lilac">#9C27B0</color>
+    <color name="violet">#673AB7</color>
 
-    <color name="red">#FFFF0000</color>
-    <color name="blue">#FF0000FF</color>
-    <color name="green">#FF00FF00</color>
-    <color name="yellow">#FFFFE500</color>
-    <color name="purple">#FFF700FF</color>
-
-    <color name="check_ok">#FF000000</color>
+    <color name="check_ok">#000000</color>
     <color name="toast_custom">#f8f9fc</color>
 
     #4f378b material google
@@ -18,7 +19,7 @@
     #0c5df3 #083ffe #3060FF
     <color name="active_element">#3060FF</color>
 
-    <color name="switch_off_back">#8700D6</color>
+    <color name="switch_off_back">#6E00B0</color>
 
     <color name="custom_date_picker_primary">@color/active_element</color>
     <color name="custom_date_picker_on_primary">@color/white</color>
@@ -29,4 +30,10 @@
     <color name="custom_time_picker_on_primary">@color/white</color>
     <color name="custom_time_picker_secondary">@color/active_element</color>
     <color name="custom_time_picker_on_secondary">@color/white</color>
+
+    <color name="confetti_blue">#03A9F4</color>
+    <color name="confetti_red">#E91E63</color>
+    <color name="confetti_green">#8BC34A</color>
+    <color name="confetti_orange">#FF9800</color>
+    <color name="confetti_yellow">#FFEB3B</color>
 </resources>
