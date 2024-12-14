@@ -101,7 +101,8 @@ class EventViewHolder(
                         context.getString(R.string.author) + ":\n" + event.author
                                 + "\n\n" + context.getString(R.string.published) + ":\n"
                                 + event.getFormattedPublished(Locale.getDefault())
-                                + "\n\n" + context.getString(R.string.data_event) + ":\n" + event.dataEvent
+                                + "\n\n" + context.getString(R.string.data_event) + ":\n"
+                                + event.getFormattedDataAndTimeEvent(Locale.getDefault())
                                 + "\n\n" + event.optionConducting
                                 + "\n\n" + context.getString(R.string.event) + ":\n" + event.content
                                 + "\n\n" + context.getString(R.string.link) + ":\n" + event.link
