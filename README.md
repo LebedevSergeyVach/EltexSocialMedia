@@ -27,7 +27,7 @@ The project uses several types of architecture patterns and paradigms: **Builder
         <img width="12" />
         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gradle/gradle-original.svg" height="40" alt="gradle logo"  />
         <img width="12" />
-        <img src="https://yt3.ggpht.com/a/AGF-l78gGF6gQ5m1MvcFHU2NK6u-prQSlRMhE7Y2Dg=s900-c-k-c0xffffffff-no-rj-mo" height="40" alt="androidx jetpack logo"  />
+        <img src="https://services.google.com/fh/files/emails/android_dev_newsletter_feb_image3.png" height="40" alt="androidx jetpack logo"  />
         <img width="12" />
         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-plain-wordmark.svg" height="40" alt="android logo"  />
         <img width="12" />
@@ -77,7 +77,7 @@ The project uses several types of architecture patterns and paradigms: **Builder
         <img width="12" />
         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gradle/gradle-original.svg" height="40" alt="gradle logo"  />
         <img width="12" />
-        <img src="https://yt3.ggpht.com/a/AGF-l78gGF6gQ5m1MvcFHU2NK6u-prQSlRMhE7Y2Dg=s900-c-k-c0xffffffff-no-rj-mo" height="40" alt="androidx jetpack logo"  />
+        <img src="https://services.google.com/fh/files/emails/android_dev_newsletter_feb_image3.png" height="40" alt="androidx jetpack logo"  />
         <img width="12" />
         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-plain-wordmark.svg" height="40" alt="android logo"  />
         <img width="12" />
