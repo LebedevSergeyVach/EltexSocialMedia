@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter
 
 import com.eltex.androidschool.data.posts.PostData
 import com.eltex.androidschool.db.posts.PostTableInfo
+import java.time.Instant
 
 /**
  * Сущность, представляющая пост в базе данных.
@@ -41,8 +42,7 @@ data class PostEntity(
                 PostEntity(
                     id = id,
                     author = author,
-                    published = published,
-                    lastModified = lastModified,
+                    published = published.toString(),
                     content = content,
                     likeByMe = likedByMe,
                 )
@@ -58,9 +58,10 @@ data class PostEntity(
         PostData(
             id = id,
             author = author,
-            published = published,
-            lastModified = lastModified,
+            published = Instant.parse(published),
             content = content,
-            likedByMe = likeByMe
+            likedByMe = likeByMe,
+            // TODO: add serializer for db data
+            likeOwnerIds = emptySet(),
         )
 }

@@ -1,6 +1,6 @@
 package com.eltex.androidschool.viewmodel.posts
 
-import com.eltex.androidschool.data.posts.PostData
+import com.eltex.androidschool.ui.posts.PostUiModel
 
 /**
  * Состояние ViewModel для постов.
@@ -10,7 +10,7 @@ import com.eltex.androidschool.data.posts.PostData
  * @property statusPost Состояние операции. По умолчанию Idle.
  */
 data class PostState(
-    val posts: List<PostData>? = null,
+    val posts: List<PostUiModel>? = null,
     val statusPost: StatusPost = StatusPost.Idle,
 ) {
     /**

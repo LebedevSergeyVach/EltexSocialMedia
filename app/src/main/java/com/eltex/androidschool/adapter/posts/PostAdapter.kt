@@ -12,6 +12,7 @@ import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.CardPostBinding
 
 import com.eltex.androidschool.data.posts.PostData
+import com.eltex.androidschool.ui.posts.PostUiModel
 import com.eltex.androidschool.utils.singleVibration
 
 /**
@@ -28,16 +29,16 @@ import com.eltex.androidschool.utils.singleVibration
 class PostAdapter(
     private val listener: PostListener,
     private val context: Context
-) : ListAdapter<PostData, PostViewHolder>(PostItemCallback()) {
+) : ListAdapter<PostUiModel, PostViewHolder>(PostItemCallback()) {
 
     /**
      * Интерфейс для обработки событий, связанных с постами.
      */
     interface PostListener {
-        fun onLikeClicked(post: PostData)
-        fun onShareClicked(post: PostData)
-        fun onDeleteClicked(post: PostData)
-        fun onUpdateClicked(post: PostData)
+        fun onLikeClicked(post: PostUiModel)
+        fun onShareClicked(post: PostUiModel)
+        fun onDeleteClicked(post: PostUiModel)
+        fun onUpdateClicked(post: PostUiModel)
     }
 
     /**

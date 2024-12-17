@@ -1,4 +1,4 @@
-package com.eltex.androidschool.ui
+package com.eltex.androidschool.ui.common
 
 import android.view.View
 import androidx.core.view.ViewCompat

@@ -5,6 +5,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 
 /**
  * Фабрика для создания экземпляра Retrofit.
@@ -34,6 +35,7 @@ object RetrofitFactoryPost {
         Retrofit.Builder()
             .client(OkHttpClientFactoryPost.INSTANCE)
             .baseUrl(API_BASE_URL_POST)
+            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(json.asConverterFactory(JSON_TYPE))
             .build()
     }

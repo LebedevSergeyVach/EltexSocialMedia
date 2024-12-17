@@ -25,13 +25,12 @@ import kotlinx.coroutines.flow.onEach
 import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentPostsBinding
 
-import com.eltex.androidschool.ui.OffsetDecoration
+import com.eltex.androidschool.ui.common.OffsetDecoration
 
 import com.eltex.androidschool.adapter.posts.PostAdapter
 
-import com.eltex.androidschool.data.posts.PostData
-
 import com.eltex.androidschool.repository.posts.NetworkPostRepository
+import com.eltex.androidschool.ui.posts.PostUiModel
 
 import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.toast
@@ -83,17 +82,17 @@ class PostsFragment : Fragment() {
 
         val adapter = PostAdapter(
             object : PostAdapter.PostListener {
-                override fun onLikeClicked(post: PostData) {
+                override fun onLikeClicked(post: PostUiModel) {
                     viewModel.likeById(post.id, post.likedByMe)
                 }
 
-                override fun onShareClicked(post: PostData) {}
+                override fun onShareClicked(post: PostUiModel) {}
 
-                override fun onDeleteClicked(post: PostData) {
+                override fun onDeleteClicked(post: PostUiModel) {
                     viewModel.deleteById(post.id)
                 }
 
-                override fun onUpdateClicked(post: PostData) {
+                override fun onUpdateClicked(post: PostUiModel) {
                     requireParentFragment().requireParentFragment().findNavController()
                         .navigate(
                             R.id.action_BottomNavigationFragment_to_newOrUpdatePostFragment,

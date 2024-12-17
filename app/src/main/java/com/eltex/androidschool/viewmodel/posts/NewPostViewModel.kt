@@ -4,7 +4,11 @@ import androidx.lifecycle.ViewModel
 
 import com.eltex.androidschool.data.posts.PostData
 import com.eltex.androidschool.repository.posts.PostRepository
-import com.eltex.androidschool.utils.Callback
+import com.eltex.androidschool.rx.posts.SchedulersProvider
+
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.addTo
+import io.reactivex.rxjava3.kotlin.subscribeBy
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,7 +25,10 @@ import kotlinx.coroutines.flow.update
 class NewPostViewModel(
     private val repository: PostRepository,
     private val postId: Long = 0L,
+    private val schedulersProvider: SchedulersProvider = SchedulersProvider.DEFAULT,
 ) : ViewModel() {
+
+    private val disposable: CompositeDisposable = CompositeDisposable()
 
     /**
      * Flow, хранящий текущее состояние создания или обновления поста.
@@ -54,26 +61,28 @@ class NewPostViewModel(
 
         repository.save(
             postId = postId,
-            content = content,
-            callback = object : Callback<PostData> {
-                override fun onSuccess(data: PostData) {
+            content = content
+        )
+            .observeOn(schedulersProvider.mainThread)
+            .subscribeBy(
+                onSuccess = { newPost: PostData ->
                     _state.update { newPostState: NewPostState ->
                         newPostState.copy(
                             statusPost = StatusPost.Idle,
-                            post = data,
+                            post = newPost,
                         )
                     }
-                }
+                },
 
-                override fun onError(exception: Throwable) {
+                onError = { throwable: Throwable ->
                     _state.update { newPostState: NewPostState ->
                         newPostState.copy(
-                            statusPost = StatusPost.Error(throwable = exception)
+                            statusPost = StatusPost.Error(throwable = throwable)
                         )
                     }
                 }
-            }
-        )
+            )
+            .addTo(disposable)
     }
 
     /**
@@ -85,5 +94,9 @@ class NewPostViewModel(
                 statusPost = StatusPost.Idle
             )
         }
+    }
+
+    override fun onCleared() {
+        disposable.dispose()
     }
 }

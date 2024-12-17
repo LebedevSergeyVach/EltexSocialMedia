@@ -2,7 +2,9 @@ package com.eltex.androidschool.api.posts
 
 import com.eltex.androidschool.data.posts.PostData
 
-import retrofit2.Call
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
+
 import retrofit2.create
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -23,7 +25,7 @@ interface PostsApi {
      * @return Call<List<PostData>> Объект Call для выполнения запроса.
      */
     @GET("api/posts")
-    fun getAllPosts(): Call<List<PostData>>
+    fun getAllPosts(): Single<List<PostData>>
 
     /**
      * Сохраняет или обновляет пост.
@@ -32,7 +34,7 @@ interface PostsApi {
      * @return Call<PostData> Объект Call для выполнения запроса.
      */
     @POST("api/posts")
-    fun savePost(@Body post: PostData): Call<PostData>
+    fun savePost(@Body post: PostData): Single<PostData>
 
     /**
      * Поставить лайк посту по его идентификатору.
@@ -41,7 +43,7 @@ interface PostsApi {
      * @return Call<PostData> Объект Call для выполнения запроса.
      */
     @POST("api/posts/{id}/likes")
-    fun likePostById(@Path("id") postId: Long): Call<PostData>
+    fun likePostById(@Path("id") postId: Long): Single<PostData>
 
     /**
      * Убрать лайк у поста по его идентификатору.
@@ -50,7 +52,7 @@ interface PostsApi {
      * @return Call<PostData> Объект Call для выполнения запроса.
      */
     @DELETE("api/posts/{id}/likes")
-    fun unlikePostById(@Path("id") postId: Long): Call<PostData>
+    fun unlikePostById(@Path("id") postId: Long): Single<PostData>
 
     /**
      * Удаляет пост по его идентификатору.
@@ -59,7 +61,7 @@ interface PostsApi {
      * @return Call<Unit> Объект Call для выполнения запроса.
      */
     @DELETE("api/posts/{id}")
-    fun deletePostById(@Path("id") postId: Long): Call<Unit>
+    fun deletePostById(@Path("id") postId: Long): Completable
 
     /**
      * Получает пост по его идентификатору.
@@ -68,7 +70,7 @@ interface PostsApi {
      * @return Call<PostData> Объект Call для выполнения запроса.
      */
     @GET("api/posts/{id}")
-    fun getPostById(@Path("id") postId: Long): Call<PostData>
+    fun getPostById(@Path("id") postId: Long): Single<PostData>
 
     /**
      * Объект-компаньон для создания экземпляра PostsApi.

@@ -1,12 +1,9 @@
 package com.eltex.androidschool.repository.posts
 
-import retrofit2.Call
-import retrofit2.Response
-import retrofit2.Callback as RetrofitCallback
-
 import com.eltex.androidschool.api.posts.PostsApi
 import com.eltex.androidschool.data.posts.PostData
-import com.eltex.androidschool.utils.Callback as DomainCallback
+
+import io.reactivex.rxjava3.core.Single
 
 /**
  * Репозиторий для работы с данными постов через сетевой API.
@@ -23,29 +20,8 @@ class NetworkPostRepository : PostRepository {
      *
      * @param callback Обратный вызов для обработки результата запроса.
      */
-    override fun getPosts(callback: DomainCallback<List<PostData>>) {
-        val call = PostsApi.INSTANCE.getAllPosts()
-
-        call.enqueue(
-            object : RetrofitCallback<List<PostData>> {
-                override fun onResponse(
-                    call: Call<List<PostData>>, response: Response<List<PostData>>
-                ) {
-                    if (response.isSuccessful) {
-                        callback.onSuccess(requireNotNull(response.body()))
-                    } else {
-                        callback.onError(
-                            RuntimeException("Response code is/Код ответа с сервера ${response.code()}")
-                        )
-                    }
-                }
-
-                override fun onFailure(call: Call<List<PostData>>, throwable: Throwable) {
-                    callback.onError(exception = throwable)
-                }
-            }
-        )
-    }
+    override fun getPosts() =
+        PostsApi.INSTANCE.getAllPosts()
 
     /**
      * Поставить или убрать лайк у поста по его идентификатору.
@@ -54,30 +30,12 @@ class NetworkPostRepository : PostRepository {
      * @param likedByMe Флаг, указывающий, лайкнул ли текущий пользователь этот пост.
      * @param callback Обратный вызов для обработки результата запроса.
      */
-    override fun likeById(postId: Long, likedByMe: Boolean, callback: DomainCallback<PostData>) {
-        val call = if (likedByMe) {
-            PostsApi.INSTANCE.unlikePostById(postId)
+    override fun likeById(postId: Long, likedByMe: Boolean): Single<PostData> {
+        return if (likedByMe) {
+            PostsApi.INSTANCE.unlikePostById(postId = postId)
         } else {
-            PostsApi.INSTANCE.likePostById(postId)
+            PostsApi.INSTANCE.likePostById(postId = postId)
         }
-
-        call.enqueue(
-            object : RetrofitCallback<PostData> {
-                override fun onResponse(call: Call<PostData>, response: Response<PostData>) {
-                    if (response.isSuccessful) {
-                        callback.onSuccess(requireNotNull(response.body()))
-                    } else {
-                        callback.onError(
-                            RuntimeException("Response code is/Код ответа с сервера ${response.code()}")
-                        )
-                    }
-                }
-
-                override fun onFailure(call: Call<PostData>, throwable: Throwable) {
-                    callback.onError(exception = throwable)
-                }
-            }
-        )
     }
 
     /**
@@ -86,27 +44,8 @@ class NetworkPostRepository : PostRepository {
      * @param postId Идентификатор поста.
      * @param callback Обратный вызов для обработки результата запроса.
      */
-    override fun deleteById(postId: Long, callback: DomainCallback<Unit>) {
-        val call = PostsApi.INSTANCE.deletePostById(postId)
-
-        call.enqueue(
-            object : RetrofitCallback<Unit> {
-                override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-                    if (response.isSuccessful) {
-                        callback.onSuccess(Unit)
-                    } else {
-                        callback.onError(
-                            RuntimeException("Response code is/Код ответа с сервера ${response.code()}")
-                        )
-                    }
-                }
-
-                override fun onFailure(call: Call<Unit>, throwable: Throwable) {
-                    callback.onError(exception = throwable)
-                }
-            }
-        )
-    }
+    override fun deleteById(postId: Long) =
+        PostsApi.INSTANCE.deletePostById(postId = postId)
 
     /**
      * Обновляет пост по его идентификатору или добавляет новый пост.
@@ -115,32 +54,13 @@ class NetworkPostRepository : PostRepository {
      * @param content Новое содержимое поста.
      * @param callback Обратный вызов для обработки результата запроса.
      */
-    override fun save(postId: Long, content: String, callback: DomainCallback<PostData>) {
-        val call = PostsApi.INSTANCE.savePost(
-            PostData(
+    override fun save(postId: Long, content: String) =
+        PostsApi.INSTANCE.savePost(
+            post = PostData(
                 id = postId,
-                content = content
+                content = content,
             )
         )
-
-        call.enqueue(
-            object : RetrofitCallback<PostData> {
-                override fun onResponse(call: Call<PostData>, response: Response<PostData>) {
-                    if (response.isSuccessful) {
-                        callback.onSuccess(requireNotNull(response.body()))
-                    } else {
-                        callback.onError(
-                            RuntimeException("Response code is/Код ответа с сервера ${response.code()}")
-                        )
-                    }
-                }
-
-                override fun onFailure(call: Call<PostData>, throwable: Throwable) {
-                    callback.onError(exception = throwable)
-                }
-            }
-        )
-    }
 
     /**
      * Получает пост по его идентификатору.
@@ -148,25 +68,6 @@ class NetworkPostRepository : PostRepository {
      * @param postId Идентификатор поста.
      * @param callback Обратный вызов для обработки результата запроса.
      */
-    fun getPostById(postId: Long, callback: DomainCallback<PostData>) {
-        val call = PostsApi.INSTANCE.getPostById(postId)
-
-        call.enqueue(
-            object : RetrofitCallback<PostData> {
-                override fun onResponse(call: Call<PostData>, response: Response<PostData>) {
-                    if (response.isSuccessful) {
-                        callback.onSuccess(requireNotNull(response.body()))
-                    } else {
-                        callback.onError(
-                            RuntimeException("Response code is/Код ответа с сервера ${response.code()}")
-                        )
-                    }
-                }
-
-                override fun onFailure(call: Call<PostData>, throwable: Throwable) {
-                    callback.onError(exception = throwable)
-                }
-            }
-        )
-    }
+    fun getPostById(postId: Long) =
+        PostsApi.INSTANCE.getPostById(postId)
 }

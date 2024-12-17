@@ -26,7 +26,7 @@ import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentEventsBinding
 
 import com.eltex.androidschool.adapter.events.EventAdapter
-import com.eltex.androidschool.ui.OffsetDecoration
+import com.eltex.androidschool.ui.common.OffsetDecoration
 
 import com.eltex.androidschool.data.events.EventData
 

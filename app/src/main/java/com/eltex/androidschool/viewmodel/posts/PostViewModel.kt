@@ -4,7 +4,13 @@ import androidx.lifecycle.ViewModel
 
 import com.eltex.androidschool.data.posts.PostData
 import com.eltex.androidschool.repository.posts.PostRepository
-import com.eltex.androidschool.utils.Callback
+import com.eltex.androidschool.rx.posts.SchedulersProvider
+import com.eltex.androidschool.ui.posts.PostUiModel
+import com.eltex.androidschool.ui.posts.PostUiModelMapper
+
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.addTo
+import io.reactivex.rxjava3.kotlin.subscribeBy
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -19,7 +25,15 @@ import kotlinx.coroutines.flow.update
  * @see PostRepository Интерфейс репозитория, который используется в этом ViewModel.
  * @see PostState Состояние, которое управляется этим ViewModel.
  */
-class PostViewModel(private val repository: PostRepository) : ViewModel() {
+class PostViewModel(
+    private val repository: PostRepository,
+    private val schedulersProvider: SchedulersProvider = SchedulersProvider.DEFAULT,
+) : ViewModel() {
+
+    private val mapper = PostUiModelMapper()
+
+    private val disposable: CompositeDisposable = CompositeDisposable()
+
     /**
      * Flow, хранящий текущее состояние постов.
      *
@@ -52,26 +66,33 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
             )
         }
 
-        repository.getPosts(
-            object : Callback<List<PostData>> {
-                override fun onError(exception: Throwable) {
-                    _state.update { statePost: PostState ->
-                        statePost.copy(
-                            statusPost = StatusPost.Error(throwable = exception)
-                        )
-                    }
+        repository.getPosts()
+            .observeOn(schedulersProvider.computation)
+            .map { posts: List<PostData> ->
+                posts.map { post ->
+                    mapper.map(post)
                 }
-
-                override fun onSuccess(data: List<PostData>) {
+            }
+            .observeOn(schedulersProvider.mainThread)
+            .subscribeBy(
+                onSuccess = { allPosts: List<PostUiModel> ->
                     _state.update { statePost: PostState ->
                         statePost.copy(
                             statusPost = StatusPost.Idle,
-                            posts = data,
+                            posts = allPosts,
+                        )
+                    }
+                },
+
+                onError = { throwable: Throwable ->
+                    _state.update { statePost: PostState ->
+                        statePost.copy(
+                            statusPost = StatusPost.Error(throwable = throwable)
                         )
                     }
                 }
-            }
-        )
+            )
+            .addTo(disposable)
     }
 
     /**
@@ -81,29 +102,40 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
      * @param likedByMe Флаг, указывающий, лайкнул ли текущий пользователь этот пост.
      */
     fun likeById(postId: Long, likedByMe: Boolean) {
-        _state.update { statePost: PostState ->
-            statePost.copy(
-                statusPost = StatusPost.Loading
-            )
-        }
-
         repository.likeById(
             postId = postId,
-            likedByMe = likedByMe,
-            callback = object : Callback<PostData> {
-                override fun onError(exception: Throwable) {
+            likedByMe = likedByMe
+        )
+            .observeOn(schedulersProvider.computation)
+            .map { post ->
+                _state.value.posts.orEmpty().map { postUiModel: PostUiModel ->
+                    if (postUiModel.id == post.id) {
+                        mapper.map(post)
+                    } else {
+                        postUiModel
+                    }
+                }
+            }
+            .observeOn(schedulersProvider.mainThread)
+            .subscribeBy(
+                onSuccess = { posts: List<PostUiModel> ->
                     _state.update { statePost: PostState ->
                         statePost.copy(
-                            statusPost = StatusPost.Error(throwable = exception)
+                            statusPost = StatusPost.Idle,
+                            posts = posts,
+                        )
+                    }
+                },
+
+                onError = { throwable: Throwable ->
+                    _state.update { statePost: PostState ->
+                        statePost.copy(
+                            statusPost = StatusPost.Error(throwable = throwable)
                         )
                     }
                 }
-
-                override fun onSuccess(data: PostData) {
-                    updatePostInList(data)
-                }
-            }
-        )
+            )
+            .addTo(disposable)
     }
 
     /**
@@ -118,22 +150,28 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
             )
         }
 
-        repository.deleteById(
-            postId = postId,
-            callback = object : Callback<Unit> {
-                override fun onError(exception: Throwable) {
+        repository.deleteById(postId)
+            .observeOn(schedulersProvider.mainThread)
+            .subscribeBy(
+                onComplete = {
                     _state.update { statePost: PostState ->
                         statePost.copy(
-                            statusPost = StatusPost.Error(exception)
+                            statusPost = StatusPost.Idle,
+                            posts = _state.value.posts.orEmpty().filter { post: PostUiModel ->
+                                post.id != postId
+                            }
+                        )
+                    }
+                },
+                onError = { throwable: Throwable ->
+                    _state.update { statePost: PostState ->
+                        statePost.copy(
+                            statusPost = StatusPost.Error(throwable = throwable)
                         )
                     }
                 }
-
-                override fun onSuccess(data: Unit) {
-                   load()
-                }
-            }
-        )
+            )
+            .addTo(disposable)
     }
 
     /**
@@ -147,21 +185,7 @@ class PostViewModel(private val repository: PostRepository) : ViewModel() {
         }
     }
 
-    /**
-     * Обновляет состояние списка постов, заменяя старый пост на обновленный.
-     *
-     * @param updatedPost Обновленный пост.
-     */
-    private fun updatePostInList(updatedPost: PostData) {
-        _state.update { statePost: PostState ->
-            val updatedPosts = statePost.posts?.map { post: PostData ->
-                if (post.id == updatedPost.id) updatedPost else post
-            }
-
-            statePost.copy(
-                statusPost = StatusPost.Idle,
-                posts = updatedPosts
-            )
-        }
+    override fun onCleared() {
+        disposable.dispose()
     }
 }

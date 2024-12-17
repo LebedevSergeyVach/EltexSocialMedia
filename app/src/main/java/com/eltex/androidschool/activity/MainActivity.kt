@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import com.eltex.androidschool.R
-import com.eltex.androidschool.ui.EdgeToEdgeHelper
+import com.eltex.androidschool.ui.common.EdgeToEdgeHelper
 
 
 class MainActivity : AppCompatActivity(R.layout.main_activity) {

@@ -2,7 +2,8 @@ package com.eltex.androidschool.repository.posts
 
 import com.eltex.androidschool.data.posts.PostData
 
-import com.eltex.androidschool.utils.Callback
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * Интерфейс репозитория для работы с постами.
@@ -16,7 +17,7 @@ interface PostRepository {
      *
      * @param callback Обратный вызов для обработки результата запроса.
      */
-    fun getPosts(callback: Callback<List<PostData>>)
+    fun getPosts(): Single<List<PostData>> = Single.never()
 
     /**
      * Переключает состояние лайка у поста по его идентификатору.
@@ -25,7 +26,7 @@ interface PostRepository {
      * @param likedByMe Флаг, указывающий, лайкнул ли текущий пользователь этот пост.
      * @param callback Обратный вызов для обработки результата запроса.
      */
-    fun likeById(postId: Long, likedByMe: Boolean, callback: Callback<PostData>)
+    fun likeById(postId: Long, likedByMe: Boolean): Single<PostData> = Single.never()
 
     /**
      * Удаляет пост по его идентификатору.
@@ -33,7 +34,7 @@ interface PostRepository {
      * @param postId Идентификатор поста, который нужно удалить.
      * @param callback Обратный вызов для обработки результата запроса.
      */
-    fun deleteById(postId: Long, callback: Callback<Unit>)
+    fun deleteById(postId: Long): Completable = Completable.complete()
 
     /**
      * Обновляет пост по его идентификатору.
@@ -43,5 +44,5 @@ interface PostRepository {
      * @param content Новое содержание поста.
      * @param callback Обратный вызов для обработки результата запроса.
      */
-    fun save(postId: Long, content: String, callback: Callback<PostData>)
+    fun save(postId: Long, content: String): Single<PostData> = Single.never()
 }

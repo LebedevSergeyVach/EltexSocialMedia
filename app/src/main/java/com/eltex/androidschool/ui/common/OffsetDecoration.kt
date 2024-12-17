@@ -1,4 +1,4 @@
-package com.eltex.androidschool.ui
+package com.eltex.androidschool.ui.common
 
 import android.graphics.Rect
 import android.view.View

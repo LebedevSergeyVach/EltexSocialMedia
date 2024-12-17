@@ -17,7 +17,7 @@ android {
 
     defaultConfig {
         applicationId = "com.eltex.androidschool"
-        minSdk = 26 // For LocalDateTime = LocalDateTime.now(),
+        minSdk = 24
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
@@ -51,6 +51,11 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+        /**
+         * Use Java 8 language features and APIs
+         * developer.android.com/studio/write/java8-support
+         */
+        isCoreLibraryDesugaringEnabled = true
     }
 
     kotlinOptions {
@@ -112,10 +117,10 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 
-    /*
-         Constraintlayout
-         https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout
-    */
+    /**
+     * Constraintlayout
+     *  https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout
+     */
     implementation(libs.androidx.constraintlayout.v220)
 
     // ViewModel
@@ -139,43 +144,62 @@ dependencies {
     implementation(libs.protobuf.javalite)
     implementation(libs.androidx.datastore.rxjava2)
 
-    /*
-        Room SQLite Jetpack
-        https://developer.android.com/training/data-storage/room
-        https://developer.android.com/jetpack/androidx/releases/room
+    /**
+     *  Room SQLite Jetpack
+     * https://developer.android.com/training/data-storage/room
+     * https://developer.android.com/jetpack/androidx/releases/room
      */
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     ksp(libs.androidx.room.compiler)
 
-    /*
-        FragmentActivity
-        Navigation Component
-        https://developer.android.com/guide/navigation
-    */
+    /**
+     * FragmentActivity
+     * Navigation Component
+     * https://developer.android.com/guide/navigation
+     */
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
 
-    /*
-        OkHttp
-        https://github.com/square/okhttp
-        https://square.github.io/okhttp/
+    /**
+     * OkHttp
+     * https://github.com/square/okhttp
+     * https://square.github.io/okhttp/
      */
     implementation(platform(libs.okhttp.bom))
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
 
-    /*
-        OkHttp
-        https://github.com/square/retrofit
-        https://square.github.io/retrofit/
-
-        https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter
-        https://github.com/square/retrofit/tree/trunk/retrofit-converters/kotlinx-serialization
-    */
+    /**
+     * Retrofit
+     * https://github.com/square/retrofit
+     * https://square.github.io/retrofit/
+     *
+     * https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter
+     * https://github.com/square/retrofit/tree/trunk/retrofit-converters/kotlinx-serialization
+     */
     implementation(libs.retrofit)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
 
     // SwipeRefreshLayout
     implementation(libs.androidx.swiperefreshlayout)
+
+    /**
+     * RxJava
+     * https://github.com/ReactiveX/RxJava
+     * https://reactivex.io/documentation
+     */
+    implementation(libs.rxjava)
+    // Функции для работы с MainThread
+    implementation(libs.rxandroid)
+    // Adapter для retrofit
+    implementation(libs.adapter.rxjava3)
+    // Полезные экстеншены для Kotlin
+    implementation(libs.rxkotlin)
+
+    /**
+     * Use Java 8 language features and APIs
+     * developer.android.com/studio/write/java8-support
+     */
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
 }

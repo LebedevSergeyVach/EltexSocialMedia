@@ -22,6 +22,7 @@ import com.github.jinatonic.confetti.CommonConfetti
 
 import com.eltex.androidschool.databinding.CardPostBinding
 import com.eltex.androidschool.data.posts.PostData
+import com.eltex.androidschool.ui.posts.PostUiModel
 import com.eltex.androidschool.utils.toast
 import com.github.jinatonic.confetti.ConfettiManager
 import com.github.jinatonic.confetti.ConfettiSource
@@ -69,36 +70,20 @@ class PostViewHolder(
      *
      * @param post Пост, данные которого нужно отобразить.
      */
-    fun bindPost(post: PostData) {
+    @SuppressLint("SetTextI18n")
+    fun bindPost(post: PostUiModel) {
         binding.author.text = post.author
         binding.initial.text = post.author.take(1)
-        binding.published.text = post.getFormattedPublished(Locale.getDefault())
         binding.content.text = post.content
+        binding.published.text = post.published
+        binding.like.text = post.likes.toString()
 
         SpannableString(binding.content.text)
-
-        if (post.lastModified != null) {
-            binding.lastModified.visibility = View.VISIBLE
-            binding.lastModified.text =
-                post.getFormattedLastModified(Locale.getDefault())?.let { lastModified: String? ->
-                    context.getString(R.string.changed) + ": $lastModified"
-                }
-        } else {
-            binding.lastModified.visibility = View.GONE
-        }
 
         updateLike(post.likedByMe)
 
         binding.share.setOnClickListener {
             context.toast(R.string.shared)
-
-            var modification = ""
-
-            if (post.lastModified != null) {
-                modification =
-                    "\n\n" + context.getString(R.string.changed) + ": " +
-                            post.getFormattedLastModified(Locale.getDefault())
-            }
 
             val intent = Intent.createChooser(
                 Intent(Intent.ACTION_SEND)
@@ -106,9 +91,8 @@ class PostViewHolder(
                         Intent.EXTRA_TEXT,
                         context.getString(R.string.author) + ":\n" + post.author
                                 + "\n\n" + context.getString(R.string.published) + ":\n"
-                                + post.getFormattedPublished(Locale.getDefault())
+                                + post.published
                                 + "\n\n" + context.getString(R.string.post) + ":\n" + post.content
-                                + modification
                     )
                     .setType("text/plain"),
                 null
@@ -129,11 +113,16 @@ class PostViewHolder(
      *
      * @param payload Изменения в посте.
      */
+    @SuppressLint("SetTextI18n")
     fun bind(payload: PostPayload) {
         payload.likeByMe?.let { likeByMe: Boolean ->
             updateLike(likeByMe)
 
             buttonClickAnimation(binding.like, likeByMe, true)
+        }
+
+        payload.likes?.let { likes: Int ->
+            binding.like.text = likes.toString()
         }
     }
 
@@ -142,15 +131,8 @@ class PostViewHolder(
      *
      * @param likeByMe Состояние лайка (лайкнут/не лайкнут).
      */
-    @SuppressLint("SetTextI18n")
     private fun updateLike(likeByMe: Boolean) {
         binding.like.isSelected = likeByMe
-
-        binding.like.text = if (likeByMe) {
-            1
-        } else {
-            0
-        }.toString()
     }
 
     /**

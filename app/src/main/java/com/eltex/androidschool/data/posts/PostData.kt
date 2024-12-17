@@ -1,13 +1,11 @@
 package com.eltex.androidschool.data.posts
 
+import com.eltex.androidschool.data.common.InstantSerializer
+
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
-
-import java.util.Locale
+import java.time.Instant
 
 /**
  * Класс, представляющий пост в приложении.
@@ -26,39 +24,12 @@ data class PostData(
     @SerialName("author")
     val author: String = "",
     @SerialName("published")
-    val published: String = "",
-    @SerialName("last_modified")
-    val lastModified: String? = null,
+    @Serializable(with = InstantSerializer::class)
+    val published: Instant = Instant.now(),
     @SerialName("content")
     val content: String = "",
     @SerialName("likedByMe")
     val likedByMe: Boolean = false,
-) {
-    /**
-     * Возвращает отформатированную строку даты и времени публикации поста в формате, зависящем от локали пользователя.
-     *
-     * @param locale Локаль пользователя.
-     * @return String Отформатированная строка даты и времени.
-     */
-    fun getFormattedPublished(locale: Locale): String {
-        return published.let { textData: String ->
-            val dateTime = ZonedDateTime.parse(textData, DateTimeFormatter.ISO_ZONED_DATE_TIME)
-            dateTime.withZoneSameInstant(ZoneId.systemDefault())
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", locale))
-        }
-    }
-
-    /**
-     * Возвращает дату и время последнего изменения поста в формате, зависящем от локали пользователя.
-     *
-     * @param locale Локаль пользователя.
-     * @return Строка с датой и временем последнего изменения в формате "yyyy-MM-dd HH:mm:ss" или `null`, если дата отсутствует.
-     */
-    fun getFormattedLastModified(locale: Locale): String? {
-        return lastModified?.let { textData: String ->
-            val dateTime = ZonedDateTime.parse(textData, DateTimeFormatter.ISO_ZONED_DATE_TIME)
-            dateTime.withZoneSameInstant(ZoneId.systemDefault())
-                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss", locale))
-        }
-    }
-}
+    @SerialName("likeOwnerIds")
+    val likeOwnerIds: Set<Long> = emptySet()
+)
