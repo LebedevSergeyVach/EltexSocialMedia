@@ -1,6 +1,6 @@
 package com.eltex.androidschool
 
-import com.eltex.androidschool.rx.posts.SchedulersProvider
+import com.eltex.androidschool.rx.common.SchedulersProvider
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.schedulers.Schedulers
 
