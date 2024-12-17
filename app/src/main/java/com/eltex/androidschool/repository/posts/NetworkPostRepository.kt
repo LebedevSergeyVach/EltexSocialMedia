@@ -11,14 +11,16 @@ import io.reactivex.rxjava3.core.Single
  * Этот класс отвечает за взаимодействие с сервером для получения, обновления и удаления постов.
  * Он использует Retrofit для выполнения сетевых запросов и обработки ответов.
  *
- * @property PostRepository
- * @property PostsApi
+ * @see PostRepository Интерфейс репозитория, который реализует этот класс.
+ * @see PostsApi Интерфейс для работы с API постов.
+ * @see Single Класс из RxJava3, используемый для асинхронных операций, возвращающих одно значение.
+ * @see Completable Класс из RxJava3, используемый для асинхронных операций, не возвращающих значения.
  */
 class NetworkPostRepository : PostRepository {
     /**
      * Получает список всех постов с сервера.
      *
-     * @param callback Обратный вызов для обработки результата запроса.
+     * @return Single<List<PostData>> Объект Single для выполнения запроса.
      */
     override fun getPosts() =
         PostsApi.INSTANCE.getAllPosts()
@@ -28,7 +30,7 @@ class NetworkPostRepository : PostRepository {
      *
      * @param postId Идентификатор поста.
      * @param likedByMe Флаг, указывающий, лайкнул ли текущий пользователь этот пост.
-     * @param callback Обратный вызов для обработки результата запроса.
+     * @return Single<PostData> Объект Single для выполнения запроса.
      */
     override fun likeById(postId: Long, likedByMe: Boolean): Single<PostData> {
         return if (likedByMe) {
@@ -42,7 +44,7 @@ class NetworkPostRepository : PostRepository {
      * Удаляет пост по его идентификатору.
      *
      * @param postId Идентификатор поста.
-     * @param callback Обратный вызов для обработки результата запроса.
+     * @return Completable Объект Completable для выполнения запроса.
      */
     override fun deleteById(postId: Long) =
         PostsApi.INSTANCE.deletePostById(postId = postId)
@@ -52,7 +54,7 @@ class NetworkPostRepository : PostRepository {
      *
      * @param postId Идентификатор поста.
      * @param content Новое содержимое поста.
-     * @param callback Обратный вызов для обработки результата запроса.
+     * @return Single<PostData> Объект Single для выполнения запроса.
      */
     override fun save(postId: Long, content: String) =
         PostsApi.INSTANCE.savePost(
@@ -66,8 +68,8 @@ class NetworkPostRepository : PostRepository {
      * Получает пост по его идентификатору.
      *
      * @param postId Идентификатор поста.
-     * @param callback Обратный вызов для обработки результата запроса.
+     * @return Single<PostData> Объект Single для выполнения запроса.
      */
     fun getPostById(postId: Long) =
-        PostsApi.INSTANCE.getPostById(postId)
+        PostsApi.INSTANCE.getPostById(postId = postId)
 }

@@ -30,6 +30,7 @@ import com.eltex.androidschool.ui.common.OffsetDecoration
 import com.eltex.androidschool.adapter.posts.PostAdapter
 
 import com.eltex.androidschool.repository.posts.NetworkPostRepository
+
 import com.eltex.androidschool.ui.posts.PostUiModel
 
 import com.eltex.androidschool.utils.getErrorText

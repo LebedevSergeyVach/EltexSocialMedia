@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 
 import com.eltex.androidschool.data.posts.PostData
 import com.eltex.androidschool.repository.posts.PostRepository
-import com.eltex.androidschool.rx.posts.SchedulersProvider
+import com.eltex.androidschool.rx.common.SchedulersProvider
 import com.eltex.androidschool.ui.posts.PostUiModel
 import com.eltex.androidschool.ui.posts.PostUiModelMapper
 
@@ -30,8 +30,18 @@ class PostViewModel(
     private val schedulersProvider: SchedulersProvider = SchedulersProvider.DEFAULT,
 ) : ViewModel() {
 
+    /**
+     * Маппер для преобразования данных поста в UI-модель.
+     *
+     * @see PostUiModelMapper Класс, отвечающий за преобразование данных в UI-модель.
+     */
     private val mapper = PostUiModelMapper()
 
+    /**
+     * Композитный disposable для управления подписками RxJava.
+     *
+     * Используется для хранения всех подписок и их последующего освобождения при очистке ViewModel.
+     */
     private val disposable: CompositeDisposable = CompositeDisposable()
 
     /**
@@ -69,7 +79,7 @@ class PostViewModel(
         repository.getPosts()
             .observeOn(schedulersProvider.computation)
             .map { posts: List<PostData> ->
-                posts.map { post ->
+                posts.map { post: PostData ->
                     mapper.map(post)
                 }
             }
@@ -107,7 +117,7 @@ class PostViewModel(
             likedByMe = likedByMe
         )
             .observeOn(schedulersProvider.computation)
-            .map { post ->
+            .map { post: PostData ->
                 _state.value.posts.orEmpty().map { postUiModel: PostUiModel ->
                     if (postUiModel.id == post.id) {
                         mapper.map(post)
@@ -150,7 +160,7 @@ class PostViewModel(
             )
         }
 
-        repository.deleteById(postId)
+        repository.deleteById(postId = postId)
             .observeOn(schedulersProvider.mainThread)
             .subscribeBy(
                 onComplete = {
@@ -163,6 +173,7 @@ class PostViewModel(
                         )
                     }
                 },
+
                 onError = { throwable: Throwable ->
                     _state.update { statePost: PostState ->
                         statePost.copy(
@@ -185,6 +196,14 @@ class PostViewModel(
         }
     }
 
+    /**
+     * Вызывается при очистке ViewModel.
+     *
+     * Этот метод освобождает все ресурсы, связанные с подписками RxJava.
+     * Он вызывается, когда ViewModel больше не используется и будет уничтожено.
+     *
+     * @see CompositeDisposable Используется для управления подписками RxJava.
+     */
     override fun onCleared() {
         disposable.dispose()
     }

@@ -41,7 +41,7 @@ import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentNewOrUpdateEventBinding
 
 import com.eltex.androidschool.repository.events.NetworkEventRepository
- 
+
 import com.eltex.androidschool.utils.Logger
 import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.toast
@@ -352,7 +352,7 @@ class NewOrUpdateEventFragment : Fragment() {
      * @param dateTimeString Строка с датой и временем в формате "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'".
      */
     private fun parseDateTime(dateTimeString: String) {
-        val dateTimeFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.getDefault())
+        val dateTimeFormat = SimpleDateFormat("dd.MM.yy HH:mm", Locale.getDefault())
         try {
             val dateTime = dateTimeFormat.parse(dateTimeString)
             dateTime?.let {

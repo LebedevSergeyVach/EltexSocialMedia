@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter
 
 import com.eltex.androidschool.data.events.EventData
 import com.eltex.androidschool.db.events.EventTableInfo
+import java.time.Instant
 
 /**
  * Сущность, представляющая событие в базе данных.
@@ -49,10 +50,9 @@ class EventEntity(
                 EventEntity(
                     id = id,
                     author = author,
-                    published = published,
-                    lastModified = lastModified,
+                    published = published.toString(),
                     optionConducting = optionConducting,
-                    dataEvent = dataEvent,
+                    dataEvent = dataEvent.toString(),
                     content = content,
                     link = link,
                     likeByMe = likedByMe,
@@ -70,13 +70,16 @@ class EventEntity(
         EventData(
             id = id,
             author = author,
-            published = published,
-            lastModified = lastModified,
+            published = Instant.parse(published),
             optionConducting = optionConducting,
-            dataEvent = dataEvent,
+            dataEvent = Instant.parse(dataEvent),
             content = content,
             link = link,
             likedByMe = likeByMe,
             participatedByMe = participateByMe,
+            // TODO: add serializer for db data
+            likeOwnerIds = emptySet(),
+            // TODO: add serializer for db data
+            participantsIds = emptySet(),
         )
 }

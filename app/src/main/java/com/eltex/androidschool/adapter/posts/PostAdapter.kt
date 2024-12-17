@@ -8,10 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.ListAdapter
 import com.eltex.androidschool.R
-
 import com.eltex.androidschool.databinding.CardPostBinding
-
-import com.eltex.androidschool.data.posts.PostData
 import com.eltex.androidschool.ui.posts.PostUiModel
 import com.eltex.androidschool.utils.singleVibration
 

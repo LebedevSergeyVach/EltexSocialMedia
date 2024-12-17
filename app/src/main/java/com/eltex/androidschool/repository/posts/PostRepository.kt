@@ -10,12 +10,14 @@ import io.reactivex.rxjava3.core.Single
  * Предоставляет методы для получения списка постов и лайков постов.
  *
  * @see NetworkPostRepository Реализация интерфейса в памяти.
+ * @see Single Класс из RxJava3, используемый для асинхронных операций, возвращающих одно значение.
+ * @see Completable Класс из RxJava3, используемый для асинхронных операций, не возвращающих значения.
  */
 interface PostRepository {
     /**
-     * Возвращает Flow, который излучает список постов.
+     * Возвращает Single, который излучает список постов.
      *
-     * @param callback Обратный вызов для обработки результата запроса.
+     * @return Single<List<PostData>> Объект Single для выполнения запроса.
      */
     fun getPosts(): Single<List<PostData>> = Single.never()
 
@@ -24,7 +26,7 @@ interface PostRepository {
      *
      * @param postId Идентификатор поста, который нужно лайкнуть.
      * @param likedByMe Флаг, указывающий, лайкнул ли текущий пользователь этот пост.
-     * @param callback Обратный вызов для обработки результата запроса.
+     * @return Single<PostData> Объект Single для выполнения запроса.
      */
     fun likeById(postId: Long, likedByMe: Boolean): Single<PostData> = Single.never()
 
@@ -32,7 +34,7 @@ interface PostRepository {
      * Удаляет пост по его идентификатору.
      *
      * @param postId Идентификатор поста, который нужно удалить.
-     * @param callback Обратный вызов для обработки результата запроса.
+     * @return Completable Объект Completable для выполнения запроса.
      */
     fun deleteById(postId: Long): Completable = Completable.complete()
 
@@ -42,7 +44,7 @@ interface PostRepository {
      *
      * @param postId Идентификатор поста, который нужно обновить.
      * @param content Новое содержание поста.
-     * @param callback Обратный вызов для обработки результата запроса.
+     * @return Single<PostData> Объект Single для выполнения запроса.
      */
     fun save(postId: Long, content: String): Single<PostData> = Single.never()
 }

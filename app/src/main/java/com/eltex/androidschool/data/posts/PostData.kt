@@ -10,12 +10,15 @@ import java.time.Instant
 /**
  * Класс, представляющий пост в приложении.
  *
+ * Этот класс используется для хранения данных о посте, включая его идентификатор, автора, дату публикации,
+ * содержание и информацию о лайках.
+ *
  * @property id Уникальный идентификатор поста. По умолчанию 0L.
  * @property author Автор поста. По умолчанию пустая строка.
- * @property published Дата и время публикации поста. По умолчанию пустая строка.
- * @property lastModified Дата и время последнего изменения поста. По умолчанию null.
+ * @property published Дата и время публикации поста. По умолчанию текущее время.
  * @property content Содержание поста. По умолчанию пустая строка.
  * @property likedByMe Флаг, указывающий, лайкнул ли текущий пользователь этот пост. По умолчанию false.
+ * @property likeOwnerIds Множество идентификаторов пользователей, которые лайкнули этот пост. По умолчанию пустое множество.
  */
 @Serializable
 data class PostData(
@@ -31,5 +34,5 @@ data class PostData(
     @SerialName("likedByMe")
     val likedByMe: Boolean = false,
     @SerialName("likeOwnerIds")
-    val likeOwnerIds: Set<Long> = emptySet()
+    val likeOwnerIds: Set<Long> = emptySet(),
 )

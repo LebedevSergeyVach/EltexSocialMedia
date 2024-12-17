@@ -2,48 +2,51 @@ package com.eltex.androidschool.repository.events
 
 import com.eltex.androidschool.data.events.EventData
 
-import com.eltex.androidschool.utils.Callback
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Single
 
 /**
  * Интерфейс репозитория для работы с событиями.
  * Предоставляет методы для получения списка событий, лайков и участия в событиях.
  *
- * @see NetworkEventRepository Реализация интерфейса в памяти.
+ * @see NetworkEventRepository Реализация интерфейса для работы с сетевым API.
+ * @see Single Класс из RxJava3, используемый для асинхронных операций, возвращающих одно значение.
+ * @see Completable Класс из RxJava3, используемый для асинхронных операций, не возвращающих значения.
  */
 interface EventRepository {
-
     /**
      * Возвращает список событий.
      *
-     * @param callback Обратный вызов для обработки результата запроса.
+     * @return Single<List<EventData>> Объект Single для выполнения запроса.
      */
-    fun getEvents(callback: Callback<List<EventData>>)
+    fun getEvents(): Single<List<EventData>> = Single.never()
 
     /**
      * Переключает состояние лайка у события по его идентификатору.
      *
      * @param eventId Идентификатор события, которое нужно лайкнуть.
      * @param likedByMe Флаг, указывающий, лайкнул ли текущий пользователь это событие.
-     * @param callback Обратный вызов для обработки результата запроса.
+     * @return Single<EventData> Объект Single для выполнения запроса.
      */
-    fun likeById(eventId: Long, likedByMe: Boolean, callback: Callback<EventData>)
+    fun likeById(eventId: Long, likedByMe: Boolean): Single<EventData> = Single.never()
 
     /**
      * Переключает состояние участия в событии по его идентификатору.
      *
      * @param eventId Идентификатор события, в котором нужно участвовать.
      * @param participatedByMe Флаг, указывающий, участвует ли текущий пользователь в этом событии.
-     * @param callback Обратный вызов для обработки результата запроса.
+     * @return Single<EventData> Объект Single для выполнения запроса.
      */
-    fun participateById(eventId: Long, participatedByMe: Boolean, callback: Callback<EventData>)
+    fun participateById(eventId: Long, participatedByMe: Boolean): Single<EventData> =
+        Single.never()
 
     /**
      * Удаляет событие по его идентификатору.
      *
      * @param eventId Идентификатор события, которое нужно удалить.
-     * @param callback Обратный вызов для обработки результата запроса.
+     * @return Completable Объект Completable для выполнения запроса.
      */
-    fun deleteById(eventId: Long, callback: Callback<Unit>)
+    fun deleteById(eventId: Long): Completable = Completable.complete()
 
     /**
      * Сохраняет или обновляет событие.
@@ -54,14 +57,13 @@ interface EventRepository {
      * @param link Ссылка на событие.
      * @param option Дополнительная опция.
      * @param data Дата события.
-     * @param callback Обратный вызов для обработки результата запроса.
+     * @return Single<EventData> Объект Single для выполнения запроса.
      */
     fun save(
         eventId: Long,
         content: String,
         link: String,
         option: String,
-        data: String,
-        callback: Callback<EventData>
-    )
+        data: String
+    ): Single<EventData> = Single.never()
 }

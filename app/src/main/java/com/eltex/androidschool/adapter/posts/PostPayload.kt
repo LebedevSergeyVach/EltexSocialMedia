@@ -4,6 +4,7 @@ package com.eltex.androidschool.adapter.posts
  * Класс, представляющий изменения в посте.
  *
  * @property likeByMe Состояние лайка (лайкнут/не лайкнут).
+ * @property likes Количество лайков у поста.
  *
  * @see PostItemCallback Используется для передачи изменений в элемент списка.
  */

@@ -1,6 +1,7 @@
 package com.eltex.androidschool.adapter.events
 
 import android.animation.AnimatorInflater
+
 import android.annotation.SuppressLint
 
 import android.content.Context
@@ -10,15 +11,18 @@ import android.text.SpannableString
 
 import android.view.MotionEvent
 import android.view.View
+
 import androidx.core.content.ContextCompat
 
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+
 import com.eltex.androidschool.R
 
 import com.github.jinatonic.confetti.CommonConfetti
 
 import com.eltex.androidschool.databinding.CardEventBinding
 import com.eltex.androidschool.data.events.EventData
+import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.utils.toast
 
 import java.util.Locale
@@ -59,27 +63,20 @@ class EventViewHolder(
      *
      * @param event Событие, данные которого нужно отобразить.
      */
-    fun bindEvent(event: EventData) {
+    @SuppressLint("SetTextI18n")
+    fun bindEvent(event: EventUiModel) {
         binding.author.text = event.author
         binding.initial.text = event.author.take(1)
-        binding.published.text = event.getFormattedPublished(Locale.getDefault())
+        binding.published.text = event.published
         binding.optionConducting.text = event.optionConducting
-        binding.dataEvent.text = event.getFormattedDataAndTimeEvent(Locale.getDefault())
+        binding.dataEvent.text = event.dataEvent
         binding.content.text = event.content
         binding.link.text = event.link
+        binding.like.text = event.likes.toString()
+        binding.participate.text = event.participates.toString()
 
         SpannableString(binding.link.text)
         SpannableString(binding.content.text)
-
-        if (event.lastModified != null) {
-            binding.lastModified.visibility = View.VISIBLE
-            binding.lastModified.text =
-                event.getFormattedLastModified(Locale.getDefault())?.let { lastModified: String? ->
-                    context.getString(R.string.changed) + ": $lastModified"
-                }
-        } else {
-            binding.lastModified.visibility = View.GONE
-        }
 
         updateLike(event.likedByMe)
         updateParticipate(event.participatedByMe)
@@ -87,32 +84,22 @@ class EventViewHolder(
         binding.share.setOnClickListener {
             context.toast(R.string.shared)
 
-            var modification = ""
-
-            if (event.lastModified != null) {
-                modification =
-                    "\n\n" + context.getString(R.string.changed) + ": " +
-                            event.getFormattedLastModified(Locale.getDefault())
-            }
-
             val intent = Intent.createChooser(
                 Intent(Intent.ACTION_SEND)
                     .putExtra(
                         Intent.EXTRA_TEXT,
                         context.getString(R.string.author) + ":\n" + event.author
                                 + "\n\n" + context.getString(R.string.published) + ":\n"
-                                + event.getFormattedPublished(Locale.getDefault())
+                                + event.published
                                 + "\n\n" + context.getString(R.string.data_event) + ":\n"
-                                + event.getFormattedDataAndTimeEvent(Locale.getDefault())
+                                + event.dataEvent
                                 + "\n\n" + event.optionConducting
                                 + "\n\n" + context.getString(R.string.event) + ":\n" + event.content
                                 + "\n\n" + context.getString(R.string.link) + ":\n" + event.link
-                                + modification
                     )
                     .setType("text/plain"),
                 null
             )
-
 
             runCatching {
                 context.startActivity(intent)
@@ -129,16 +116,26 @@ class EventViewHolder(
      *
      * @param payload Изменения в событии.
      */
+    @SuppressLint("SetTextI18n")
     fun bind(payload: EventPayload) {
         payload.likeByMe?.let { likeByMe: Boolean ->
             updateLike(likeByMe)
 
             buttonClickAnimation(binding.like, likeByMe, true)
         }
+
+        payload.likes?.let { likes: Int ->
+            binding.like.text = likes.toString()
+        }
+
         payload.participateByMe?.let { participateByMe: Boolean ->
             updateParticipate(participateByMe)
 
             buttonClickAnimation(binding.participate, participateByMe, true)
+        }
+
+        payload.participates?.let { participates: Int ->
+            binding.participate.text = participates.toString()
         }
     }
 
@@ -147,15 +144,8 @@ class EventViewHolder(
      *
      * @param likeByMe Состояние лайка (лайкнут/не лайкнут).
      */
-    @SuppressLint("SetTextI18n")
     private fun updateLike(likeByMe: Boolean) {
         binding.like.isSelected = likeByMe
-
-        binding.like.text = if (likeByMe) {
-            1
-        } else {
-            0
-        }.toString()
     }
 
     /**
@@ -163,15 +153,8 @@ class EventViewHolder(
      *
      * @param participateByMe Состояние участия (участвует/не участвует).
      */
-    @SuppressLint("SetTextI18n")
     private fun updateParticipate(participateByMe: Boolean) {
         binding.participate.isSelected = participateByMe
-
-        binding.participate.text = if (participateByMe) {
-            1
-        } else {
-            0
-        }.toString()
     }
 
     /**

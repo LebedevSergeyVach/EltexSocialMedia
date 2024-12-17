@@ -8,10 +8,8 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.PopupMenu
 import androidx.recyclerview.widget.ListAdapter
 import com.eltex.androidschool.R
-
 import com.eltex.androidschool.databinding.CardEventBinding
-
-import com.eltex.androidschool.data.events.EventData
+import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.utils.singleVibration
 
 /**
@@ -28,17 +26,17 @@ import com.eltex.androidschool.utils.singleVibration
 class EventAdapter(
     private val listener: EventListener,
     private val context: Context
-) : ListAdapter<EventData, EventViewHolder>(EventItemCallback()) {
+) : ListAdapter<EventUiModel, EventViewHolder>(EventItemCallback()) {
 
     /**
      * Интерфейс для обработки событий, связанных с Событиями.
      */
     interface EventListener {
-        fun onLikeClicked(event: EventData)
-        fun onShareClicked(event: EventData)
-        fun onParticipateClicked(event: EventData)
-        fun onDeleteClicked(event: EventData)
-        fun onUpdateClicked(event: EventData)
+        fun onLikeClicked(event: EventUiModel)
+        fun onShareClicked(event: EventUiModel)
+        fun onParticipateClicked(event: EventUiModel)
+        fun onDeleteClicked(event: EventUiModel)
+        fun onUpdateClicked(event: EventUiModel)
     }
 
     /**

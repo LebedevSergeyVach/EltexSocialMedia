@@ -3,7 +3,9 @@ package com.eltex.androidschool.api.posts
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 
 import kotlinx.serialization.json.Json
+
 import okhttp3.MediaType.Companion.toMediaType
+
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 
@@ -12,6 +14,10 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
  *
  * Этот объект отвечает за настройку и создание экземпляра Retrofit, который используется для выполнения сетевых запросов.
  * Retrofit настроен с использованием OkHttpClient и конвертера для работы с JSON.
+ *
+ * @see Retrofit Основной класс для работы с сетевыми запросами.
+ * @see RxJava3CallAdapterFactory Адаптер для интеграции RxJava3 с Retrofit.
+ * @see Json Конфигурация JSON-сериализации.
  */
 object RetrofitFactoryPost {
     private val JSON_TYPE = "application/json".toMediaType()

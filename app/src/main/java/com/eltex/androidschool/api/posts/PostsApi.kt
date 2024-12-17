@@ -17,12 +17,16 @@ import retrofit2.http.Path
  *
  * Этот интерфейс определяет методы для выполнения сетевых запросов к API постов.
  * Каждый метод соответствует определённому HTTP-методу и URL.
+ *
+ * @see PostData Класс, представляющий данные поста.
+ * @see Single Класс из RxJava3, используемый для асинхронных операций, возвращающих одно значение.
+ * @see Completable Класс из RxJava3, используемый для асинхронных операций, не возвращающих значения.
  */
 interface PostsApi {
     /**
      * Получает список всех постов.
      *
-     * @return Call<List<PostData>> Объект Call для выполнения запроса.
+     * @return Single<List<PostData>> Объект Single для выполнения запроса.
      */
     @GET("api/posts")
     fun getAllPosts(): Single<List<PostData>>
@@ -31,7 +35,7 @@ interface PostsApi {
      * Сохраняет или обновляет пост.
      *
      * @param post Объект PostData, который нужно сохранить или обновить.
-     * @return Call<PostData> Объект Call для выполнения запроса.
+     * @return Single<PostData> Объект Single для выполнения запроса.
      */
     @POST("api/posts")
     fun savePost(@Body post: PostData): Single<PostData>
@@ -40,7 +44,7 @@ interface PostsApi {
      * Поставить лайк посту по его идентификатору.
      *
      * @param postId Идентификатор поста, которому нужно поставить лайк.
-     * @return Call<PostData> Объект Call для выполнения запроса.
+     * @return Single<PostData> Объект Single для выполнения запроса.
      */
     @POST("api/posts/{id}/likes")
     fun likePostById(@Path("id") postId: Long): Single<PostData>
@@ -49,7 +53,7 @@ interface PostsApi {
      * Убрать лайк у поста по его идентификатору.
      *
      * @param postId Идентификатор поста, у которого нужно убрать лайк.
-     * @return Call<PostData> Объект Call для выполнения запроса.
+     * @return Single<PostData> Объект Single для выполнения запроса.
      */
     @DELETE("api/posts/{id}/likes")
     fun unlikePostById(@Path("id") postId: Long): Single<PostData>
@@ -58,7 +62,7 @@ interface PostsApi {
      * Удаляет пост по его идентификатору.
      *
      * @param postId Идентификатор поста, который нужно удалить.
-     * @return Call<Unit> Объект Call для выполнения запроса.
+     * @return Completable Объект Completable для выполнения запроса.
      */
     @DELETE("api/posts/{id}")
     fun deletePostById(@Path("id") postId: Long): Completable
@@ -67,7 +71,7 @@ interface PostsApi {
      * Получает пост по его идентификатору.
      *
      * @param postId Идентификатор поста, который нужно получить.
-     * @return Call<PostData> Объект Call для выполнения запроса.
+     * @return Single<PostData> Объект Single для выполнения запроса.
      */
     @GET("api/posts/{id}")
     fun getPostById(@Path("id") postId: Long): Single<PostData>

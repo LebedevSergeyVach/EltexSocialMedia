@@ -28,9 +28,10 @@ import com.eltex.androidschool.databinding.FragmentEventsBinding
 import com.eltex.androidschool.adapter.events.EventAdapter
 import com.eltex.androidschool.ui.common.OffsetDecoration
 
-import com.eltex.androidschool.data.events.EventData
-
 import com.eltex.androidschool.repository.events.NetworkEventRepository
+
+import com.eltex.androidschool.ui.events.EventUiModel
+
 import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.toast
 
@@ -82,21 +83,21 @@ class EventsFragment : Fragment() {
 
         val adapter = EventAdapter(
             object : EventAdapter.EventListener {
-                override fun onLikeClicked(event: EventData) {
+                override fun onLikeClicked(event: EventUiModel) {
                     viewModel.likeById(event.id, event.likedByMe)
                 }
 
-                override fun onShareClicked(event: EventData) {}
+                override fun onShareClicked(event: EventUiModel) {}
 
-                override fun onParticipateClicked(event: EventData) {
+                override fun onParticipateClicked(event: EventUiModel) {
                     viewModel.participateById(event.id, event.participatedByMe)
                 }
 
-                override fun onDeleteClicked(event: EventData) {
+                override fun onDeleteClicked(event: EventUiModel) {
                     viewModel.deleteById(event.id)
                 }
 
-                override fun onUpdateClicked(event: EventData) {
+                override fun onUpdateClicked(event: EventUiModel) {
                     requireParentFragment().requireParentFragment().findNavController()
                         .navigate(
                             R.id.action_BottomNavigationFragment_to_newOrUpdateEventFragment,

@@ -1,38 +1,28 @@
 package com.eltex.androidschool.adapter.posts
 
 import android.animation.AnimatorInflater
+
 import android.annotation.SuppressLint
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 
 import android.text.SpannableString
 
 import android.view.MotionEvent
 import android.view.View
-import android.view.ViewGroup
-import androidx.compose.ui.graphics.Canvas
+
 import androidx.core.content.ContextCompat
 
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
+
 import com.eltex.androidschool.R
 
 import com.github.jinatonic.confetti.CommonConfetti
 
 import com.eltex.androidschool.databinding.CardPostBinding
-import com.eltex.androidschool.data.posts.PostData
 import com.eltex.androidschool.ui.posts.PostUiModel
 import com.eltex.androidschool.utils.toast
-import com.github.jinatonic.confetti.ConfettiManager
-import com.github.jinatonic.confetti.ConfettiSource
-import com.github.jinatonic.confetti.ConfettiView
-import com.github.jinatonic.confetti.ConfettoGenerator
-import com.github.jinatonic.confetti.confetto.BitmapConfetto
-import com.github.jinatonic.confetti.confetto.Confetto
-
-import java.util.Locale
-import kotlin.random.Random
 
 /**
  * ViewHolder для отображения элемента списка постов.

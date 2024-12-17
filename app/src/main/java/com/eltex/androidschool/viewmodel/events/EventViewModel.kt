@@ -1,12 +1,16 @@
 package com.eltex.androidschool.viewmodel.events
 
 import androidx.lifecycle.ViewModel
-import com.eltex.androidschool.BuildConfig
 
 import com.eltex.androidschool.data.events.EventData
 import com.eltex.androidschool.repository.events.EventRepository
-import com.eltex.androidschool.utils.Callback
-import com.eltex.androidschool.utils.Logger
+import com.eltex.androidschool.rx.common.SchedulersProvider
+import com.eltex.androidschool.ui.events.EventUiModel
+import com.eltex.androidschool.ui.events.EventUiModelMapper
+
+import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.addTo
+import io.reactivex.rxjava3.kotlin.subscribeBy
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,12 +20,33 @@ import kotlinx.coroutines.flow.update
 /**
  * ViewModel для управления состоянием событий и взаимодействия с репозиторием.
  *
+ * Этот ViewModel отвечает за загрузку, обновление и управление состоянием событий.
+ *
  * @param repository Репозиторий, который предоставляет данные о событиях.
+ * @param schedulersProvider Провайдер для управления потоками выполнения.
  *
  * @see EventRepository Интерфейс репозитория, который используется в этом ViewModel.
  * @see EventState Состояние, которое управляется этим ViewModel.
  */
-class EventViewModel(private val repository: EventRepository) : ViewModel() {
+class EventViewModel(
+    private val repository: EventRepository,
+    private val schedulersProvider: SchedulersProvider = SchedulersProvider.DEFAULT,
+) : ViewModel() {
+
+    /**
+     * Маппер для преобразования данных события в UI-модель.
+     *
+     * @see EventUiModelMapper Класс, отвечающий за преобразование данных в UI-модель.
+     */
+    private val mapper = EventUiModelMapper()
+
+    /**
+     * Композитный disposable для управления подписками RxJava.
+     *
+     * Используется для хранения всех подписок и их последующего освобождения при очистке ViewModel.
+     */
+    private val disposable: CompositeDisposable = CompositeDisposable()
+
     /**
      * Flow, хранящий текущее состояние событий.
      *
@@ -54,31 +79,35 @@ class EventViewModel(private val repository: EventRepository) : ViewModel() {
             )
         }
 
-        repository.getEvents(
-            object : Callback<List<EventData>> {
-                override fun onSuccess(data: List<EventData>) {
+        repository.getEvents()
+            .observeOn(schedulersProvider.computation)
+            .map { events: List<EventData> ->
+                events.map { event: EventData ->
+                    mapper.map(event)
+                }
+            }
+            .observeOn(schedulersProvider.mainThread)
+            .subscribeBy(
+                onSuccess = { allEvents: List<EventUiModel> ->
                     _state.update { stateEvent: EventState ->
                         stateEvent.copy(
                             statusEvent = StatusEvent.Idle,
-                            events = data,
+                            events = allEvents,
                         )
                     }
-                }
+                },
 
-                override fun onError(exception: Throwable) {
-                    if (BuildConfig.DEBUG) {
-                        Logger.e("Error: EventViewModel.load()", exception)
-                    }
-
+                onError = { throwable: Throwable ->
                     _state.update { stateEvent: EventState ->
                         stateEvent.copy(
-                            statusEvent = StatusEvent.Error(throwable = exception)
+                            statusEvent = StatusEvent.Error(throwable = throwable)
                         )
                     }
                 }
-            }
-        )
+            )
+            .addTo(disposable)
     }
+
 
     /**
      * Помечает событие с указанным идентификатором как "лайкнутое" или "нелайкнутое".
@@ -87,29 +116,40 @@ class EventViewModel(private val repository: EventRepository) : ViewModel() {
      * @param likedByMe Флаг, указывающий, лайкнул ли текущий пользователь это событие.
      */
     fun likeById(eventId: Long, likedByMe: Boolean) {
-        _state.update { stateEvent: EventState ->
-            stateEvent.copy(
-                statusEvent = StatusEvent.Loading
-            )
-        }
-
         repository.likeById(
             eventId = eventId,
-            likedByMe = likedByMe,
-            callback = object : Callback<EventData> {
-                override fun onSuccess(data: EventData) {
-                    updateEventInList(data)
-                }
-
-                override fun onError(exception: Throwable) {
-                    _state.update { stateEvent: EventState ->
-                        stateEvent.copy(
-                            statusEvent = StatusEvent.Error(throwable = exception)
-                        )
+            likedByMe = likedByMe
+        )
+            .observeOn(schedulersProvider.computation)
+            .map { event: EventData ->
+                _state.value.events.orEmpty().map { eventUiModel: EventUiModel ->
+                    if (eventUiModel.id == event.id) {
+                        mapper.map(event)
+                    } else {
+                        eventUiModel
                     }
                 }
             }
-        )
+            .observeOn(schedulersProvider.mainThread)
+            .subscribeBy(
+                onSuccess = { events: List<EventUiModel> ->
+                    _state.update { stateEvent: EventState ->
+                        stateEvent.copy(
+                            statusEvent = StatusEvent.Idle,
+                            events = events,
+                        )
+                    }
+                },
+
+                onError = { throwable: Throwable ->
+                    _state.update { stateEvent: EventState ->
+                        stateEvent.copy(
+                            statusEvent = StatusEvent.Error(throwable = throwable)
+                        )
+                    }
+                }
+            )
+            .addTo(disposable)
     }
 
     /**
@@ -119,29 +159,41 @@ class EventViewModel(private val repository: EventRepository) : ViewModel() {
      * @param participatedByMe Флаг, указывающий, участвует ли текущий пользователь в этом событии.
      */
     fun participateById(eventId: Long, participatedByMe: Boolean) {
-        _state.update { stateEvent: EventState ->
-            stateEvent.copy(
-                statusEvent = StatusEvent.Loading
-            )
-        }
-
         repository.participateById(
             eventId = eventId,
-            participatedByMe = participatedByMe,
-            callback = object : Callback<EventData> {
-                override fun onSuccess(data: EventData) {
-                    updateEventInList(data)
-                }
-
-                override fun onError(exception: Throwable) {
-                    _state.update { stateEvent: EventState ->
-                        stateEvent.copy(
-                            statusEvent = StatusEvent.Error(throwable = exception)
-                        )
+            participatedByMe = participatedByMe
+        )
+            .observeOn(schedulersProvider.computation)
+            .map { event: EventData ->
+                _state.value.events.orEmpty().map { eventUiModel: EventUiModel ->
+                    if (eventUiModel.id == event.id) {
+                        mapper.map(event)
+                    } else {
+                        eventUiModel
                     }
                 }
             }
-        )
+            .observeOn(schedulersProvider.mainThread)
+            .subscribeBy(
+                onSuccess = { events: List<EventUiModel> ->
+                    _state.update { stateEvent: EventState ->
+                        stateEvent.copy(
+                            statusEvent = StatusEvent.Idle,
+                            events = events,
+                        )
+                    }
+                },
+
+                onError = { throwable: Throwable ->
+                    _state.update { stateEvent: EventState ->
+                        stateEvent.copy(
+                            statusEvent = StatusEvent.Error(throwable = throwable)
+                        )
+                    }
+                }
+            )
+            .addTo(disposable)
+
     }
 
     /**
@@ -156,22 +208,29 @@ class EventViewModel(private val repository: EventRepository) : ViewModel() {
             )
         }
 
-        repository.deleteById(
-            eventId = eventId,
-            callback = object : Callback<Unit> {
-                override fun onSuccess(data: Unit) {
-                    load()
-                }
-
-                override fun onError(exception: Throwable) {
+        repository.deleteById(eventId = eventId)
+            .observeOn(schedulersProvider.mainThread)
+            .subscribeBy(
+                onComplete = {
                     _state.update { stateEvent: EventState ->
                         stateEvent.copy(
-                            statusEvent = StatusEvent.Error(throwable = exception)
+                            statusEvent = StatusEvent.Idle,
+                            events = _state.value.events.orEmpty().filter { event: EventUiModel ->
+                                event.id != eventId
+                            }
                         )
                     }
-                }
-            }
-        )
+                },
+
+                onError = { throwable: Throwable ->
+                    _state.update { stateEvent: EventState ->
+                        stateEvent.copy(
+                            statusEvent = StatusEvent.Error(throwable = throwable)
+                        )
+                    }
+                },
+            )
+            .addTo(disposable)
     }
 
     /**
@@ -186,20 +245,14 @@ class EventViewModel(private val repository: EventRepository) : ViewModel() {
     }
 
     /**
-     * Обновляет состояние списка событий, заменяя старое событие на обновленное.
+     * Вызывается при очистке ViewModel.
      *
-     * @param updatedEvent Обновленное событие.
+     * Этот метод освобождает все ресурсы, связанные с подписками RxJava.
+     * Он вызывается, когда ViewModel больше не используется и будет уничтожено.
+     *
+     * @see CompositeDisposable Используется для управления подписками RxJava.
      */
-    private fun updateEventInList(updatedEvent: EventData) {
-        _state.update { stateEvent: EventState ->
-            val updatedEvents = stateEvent.events?.map { event: EventData ->
-                if (event.id == updatedEvent.id) updatedEvent else event
-            }
-
-            stateEvent.copy(
-                statusEvent = StatusEvent.Idle,
-                events = updatedEvents
-            )
-        }
+    override fun onCleared() {
+        disposable.dispose()
     }
 }

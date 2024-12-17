@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 
 import com.eltex.androidschool.data.posts.PostData
 import com.eltex.androidschool.repository.posts.PostRepository
-import com.eltex.androidschool.rx.posts.SchedulersProvider
+import com.eltex.androidschool.rx.common.SchedulersProvider
 
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
@@ -28,6 +28,11 @@ class NewPostViewModel(
     private val schedulersProvider: SchedulersProvider = SchedulersProvider.DEFAULT,
 ) : ViewModel() {
 
+    /**
+     * Композитный disposable для управления подписками RxJava.
+     *
+     * Используется для хранения всех подписок и их последующего освобождения при очистке ViewModel.
+     */
     private val disposable: CompositeDisposable = CompositeDisposable()
 
     /**
@@ -96,6 +101,14 @@ class NewPostViewModel(
         }
     }
 
+    /**
+     * Вызывается при очистке ViewModel.
+     *
+     * Этот метод освобождает все ресурсы, связанные с подписками RxJava.
+     * Он вызывается, когда ViewModel больше не используется и будет уничтожено.
+     *
+     * @see CompositeDisposable Используется для управления подписками RxJava.
+     */
     override fun onCleared() {
         disposable.dispose()
     }
