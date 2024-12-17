@@ -21,7 +21,13 @@ The project uses several types of architecture patterns and paradigms: **Builder
         <img width="12" />
         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" height="40" alt="kotlin logo"  />
         <img width="12" />
+        <img src="https://uploads-ssl.webflow.com/60996f3af06ca2ff488a7bfb/60a269bf446a85794a4d3b6b_Retrofit.jpg" height="40" alt="retrofit logo"  />
+        <img width="12" />
+        <img src="https://static.cdnlogo.com/logos/r/27/reactivex.svg" height="40" alt="rxjava logo"  />
+        <img width="12" />
         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gradle/gradle-original.svg" height="40" alt="gradle logo"  />
+        <img width="12" />
+        <img src="https://yt3.ggpht.com/a/AGF-l78gGF6gQ5m1MvcFHU2NK6u-prQSlRMhE7Y2Dg=s900-c-k-c0xffffffff-no-rj-mo" height="40" alt="androidx jetpack logo"  />
         <img width="12" />
         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-plain-wordmark.svg" height="40" alt="android logo"  />
         <img width="12" />
@@ -65,7 +71,13 @@ The project uses several types of architecture patterns and paradigms: **Builder
         <img width="12" />
         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" height="40" alt="kotlin logo"  />
         <img width="12" />
+        <img src="https://uploads-ssl.webflow.com/60996f3af06ca2ff488a7bfb/60a269bf446a85794a4d3b6b_Retrofit.jpg" height="40" alt="retrofit logo"  />
+        <img width="12" />
+        <img src="https://static.cdnlogo.com/logos/r/27/reactivex.svg" height="40" alt="rxjava logo"  />
+        <img width="12" />
         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gradle/gradle-original.svg" height="40" alt="gradle logo"  />
+        <img width="12" />
+        <img src="https://yt3.ggpht.com/a/AGF-l78gGF6gQ5m1MvcFHU2NK6u-prQSlRMhE7Y2Dg=s900-c-k-c0xffffffff-no-rj-mo" height="40" alt="androidx jetpack logo"  />
         <img width="12" />
         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-plain-wordmark.svg" height="40" alt="android logo"  />
         <img width="12" />
