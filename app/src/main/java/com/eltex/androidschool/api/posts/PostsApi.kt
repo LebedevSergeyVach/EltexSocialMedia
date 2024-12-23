@@ -77,6 +77,15 @@ interface PostsApi {
     fun getPostById(@Path("id") postId: Long): Single<PostData>
 
     /**
+     * Получает пользователя по его идентификатору.
+     *
+     * @param userId Идентификатор пользователя, который нужно получить.
+     * @return Single<PostData> Объект Single для выполнения запроса.
+     */
+    @GET("api/users/{id}")
+    fun getUserById(@Path("id") userId: Long): Single<PostData>
+
+    /**
      * Объект-компаньон для создания экземпляра PostsApi.
      *
      * Использует ленивую инициализацию для создания экземпляра Retrofit и его настройки.

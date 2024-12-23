@@ -47,7 +47,7 @@
             app:layout_constraintStart_toStartOf="@id/avatar"
             app:layout_constraintTop_toTopOf="@id/avatar"
 
-            tools:text="@string/testAvatar" />
+            tools:text="L" />
 
         <TextView
             android:id="@+id/author"

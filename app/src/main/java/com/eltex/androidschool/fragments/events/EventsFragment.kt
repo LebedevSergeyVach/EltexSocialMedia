@@ -26,6 +26,7 @@ import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentEventsBinding
 
 import com.eltex.androidschool.adapter.events.EventAdapter
+import com.eltex.androidschool.fragments.users.UserFragment
 import com.eltex.androidschool.ui.common.OffsetDecoration
 
 import com.eltex.androidschool.repository.events.NetworkEventRepository
@@ -108,6 +109,22 @@ class EventsFragment : Fragment() {
                                 NewOrUpdateEventFragment.EVENT_DATE to event.dataEvent,
                                 NewOrUpdateEventFragment.EVENT_OPTION to event.optionConducting,
                                 NewOrUpdateEventFragment.IS_UPDATE to true,
+                            ),
+                            NavOptions.Builder()
+                                .setEnterAnim(R.anim.slide_in_right)
+                                .setExitAnim(R.anim.slide_out_left)
+                                .setPopEnterAnim(R.anim.slide_in_left)
+                                .setPopExitAnim(R.anim.slide_out_right)
+                                .build()
+                        )
+                }
+
+                override fun onGetUserClicked(event: EventUiModel) {
+                    requireParentFragment().requireParentFragment().findNavController()
+                        .navigate(
+                            R.id.action_BottomNavigationFragment_to_userFragment,
+                            bundleOf(
+                                UserFragment.USER_NAME to event.author
                             ),
                             NavOptions.Builder()
                                 .setEnterAnim(R.anim.slide_in_right)

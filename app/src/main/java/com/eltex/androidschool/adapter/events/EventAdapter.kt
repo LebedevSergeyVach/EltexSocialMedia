@@ -37,6 +37,7 @@ class EventAdapter(
         fun onParticipateClicked(event: EventUiModel)
         fun onDeleteClicked(event: EventUiModel)
         fun onUpdateClicked(event: EventUiModel)
+        fun onGetUserClicked(event: EventUiModel)
     }
 
     /**
@@ -63,6 +64,10 @@ class EventAdapter(
 
         binding.share.setOnClickListener {
             listener.onShareClicked(getItem(viewHolder.adapterPosition))
+        }
+
+        binding.avatar.setOnClickListener {
+            listener.onGetUserClicked(getItem(viewHolder.adapterPosition))
         }
 
         binding.menu.setOnClickListener { view: View ->

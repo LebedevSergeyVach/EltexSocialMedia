@@ -36,6 +36,7 @@ class PostAdapter(
         fun onShareClicked(post: PostUiModel)
         fun onDeleteClicked(post: PostUiModel)
         fun onUpdateClicked(post: PostUiModel)
+        fun onGetUserClicked(post: PostUiModel)
     }
 
     /**
@@ -58,6 +59,10 @@ class PostAdapter(
 
         binding.share.setOnClickListener {
             listener.onShareClicked(getItem(viewHolder.adapterPosition))
+        }
+
+        binding.avatar.setOnClickListener {
+            listener.onGetUserClicked(getItem(viewHolder.adapterPosition))
         }
 
         binding.menu.setOnClickListener { view: View ->

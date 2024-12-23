@@ -28,6 +28,7 @@ import com.eltex.androidschool.databinding.FragmentPostsBinding
 import com.eltex.androidschool.ui.common.OffsetDecoration
 
 import com.eltex.androidschool.adapter.posts.PostAdapter
+import com.eltex.androidschool.fragments.users.UserFragment
 
 import com.eltex.androidschool.repository.posts.NetworkPostRepository
 
@@ -101,6 +102,22 @@ class PostsFragment : Fragment() {
                                 NewOrUpdatePostFragment.POST_ID to post.id,
                                 NewOrUpdatePostFragment.POST_CONTENT to post.content,
                                 NewOrUpdatePostFragment.IS_UPDATE to true,
+                            ),
+                            NavOptions.Builder()
+                                .setEnterAnim(R.anim.slide_in_right)
+                                .setExitAnim(R.anim.slide_out_left)
+                                .setPopEnterAnim(R.anim.slide_in_left)
+                                .setPopExitAnim(R.anim.slide_out_right)
+                                .build()
+                        )
+                }
+
+                override fun onGetUserClicked(post: PostUiModel) {
+                    requireParentFragment().requireParentFragment().findNavController()
+                        .navigate(
+                            R.id.action_BottomNavigationFragment_to_userFragment,
+                            bundleOf(
+                                UserFragment.USER_NAME to post.author
                             ),
                             NavOptions.Builder()
                                 .setEnterAnim(R.anim.slide_in_right)

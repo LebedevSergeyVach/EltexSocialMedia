@@ -72,4 +72,13 @@ class NetworkPostRepository : PostRepository {
      */
     fun getPostById(postId: Long) =
         PostsApi.INSTANCE.getPostById(postId = postId)
+
+    /**
+     * Получает пользователя по его идентификатору.
+     *
+     * @param userId Идентификатор пользователя, который нужно получить.
+     * @return Single<PostData> Объект Single для выполнения запроса.
+     */
+    fun getUserById(userId: Long) =
+        PostsApi.INSTANCE.getUserById(userId = userId)
 }
