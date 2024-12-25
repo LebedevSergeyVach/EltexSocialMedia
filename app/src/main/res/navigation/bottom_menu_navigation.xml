@@ -25,4 +25,10 @@
         android:label="fragment_users"
         tools:layout="@layout/fragment_users" />
 
+    <fragment
+        android:id="@+id/userFragment"
+        android:name="com.eltex.androidschool.fragments.users.UserFragment"
+        android:label="fragment_user"
+        tools:layout="@layout/fragment_user" />
+
 </navigation>

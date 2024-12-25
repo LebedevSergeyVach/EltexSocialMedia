@@ -72,15 +72,6 @@ interface PostsApi {
     suspend fun getPostById(@Path("id") postId: Long): PostData
 
     /**
-     * Получает пользователя по его идентификатору.
-     *
-     * @param userId Идентификатор пользователя, который нужно получить.
-     * @return [PostData] Пользователь, соответствующий указанному идентификатору.
-     */
-    @GET("api/users/{id}")
-    suspend fun getUserById(@Path("id") userId: Long): PostData
-
-    /**
      * Объект-компаньон для создания экземпляра [PostsApi].
      *
      * Использует ленивую инициализацию для создания экземпляра Retrofit и его настройки.
@@ -89,7 +80,7 @@ interface PostsApi {
         /**
          * Экземпляр [PostsApi], созданный с использованием [RetrofitFactoryPost].
          */
-        val INSTANCE by lazy {
+        val INSTANCE: PostsApi by lazy {
             RetrofitFactoryPost.INSTANCE.create<PostsApi>()
         }
     }

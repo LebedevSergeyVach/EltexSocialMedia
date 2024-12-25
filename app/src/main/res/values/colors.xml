@@ -10,8 +10,9 @@
     <color name="purple">#F700FF</color>
     <color name="lilac">#9C27B0</color>
     <color name="violet">#673AB7</color>
-    
-    <color name="check_ok">#000000</color>
+
+    <color name="background_color_of_the_refresh_circle">#f8f9fc</color>
+    <color name="black_white_theme">#000000</color>
     <color name="toast_custom">#f8f9fc</color>
 
     #4f378b material google

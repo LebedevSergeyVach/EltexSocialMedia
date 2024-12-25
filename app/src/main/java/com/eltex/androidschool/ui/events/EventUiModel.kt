@@ -7,6 +7,7 @@ package com.eltex.androidschool.ui.events
  *
  * @property id Уникальный идентификатор события.
  * @property author Автор события.
+ * @property authorId ID автора события.
  * @property published Дата и время публикации события.
  * @property optionConducting Вариант проведения события.
  * @property dataEvent Дата и время события.
@@ -20,6 +21,7 @@ package com.eltex.androidschool.ui.events
 data class EventUiModel(
     val id: Long = 0L,
     val author: String = "",
+    val authorId: Long = 0L,
     val published: String = "",
     val optionConducting: String = "",
     val dataEvent: String = "",

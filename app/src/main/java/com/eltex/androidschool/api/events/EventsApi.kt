@@ -98,7 +98,7 @@ interface EventsApi {
         /**
          * Экземпляр [EventsApi], созданный с использованием [RetrofitFactoryEvent].
          */
-        val INSTANCE by lazy {
+        val INSTANCE: EventsApi by lazy {
             RetrofitFactoryEvent.INSTANCE.create<EventsApi>()
         }
     }

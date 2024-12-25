@@ -34,8 +34,10 @@ android {
             }
 
         buildConfigField("String", "API_KEY", secretsProperties.getProperty("API_KEY"))
-        // TODO Registration User
+        // TODO Registration and Login User
         buildConfigField("String", "AUTHORIZATION", secretsProperties.getProperty("AUTHORIZATION"))
+        // TODO Get ID registration User
+        buildConfigField("Long", "USER_ID", secretsProperties.getProperty("USER_ID"))
     }
 
     buildTypes {

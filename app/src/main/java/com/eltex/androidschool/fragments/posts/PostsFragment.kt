@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
@@ -117,7 +118,7 @@ class PostsFragment : Fragment() {
                         .navigate(
                             R.id.action_BottomNavigationFragment_to_userFragment,
                             bundleOf(
-                                UserFragment.USER_NAME to post.author
+                                UserFragment.USER_ID to post.authorId
                             ),
                             NavOptions.Builder()
                                 .setEnterAnim(R.anim.slide_in_right)
@@ -144,6 +145,14 @@ class PostsFragment : Fragment() {
         binding.swiperRefresh.setOnRefreshListener {
             viewModel.load()
         }
+
+        binding.swiperRefresh.setColorSchemeColors(
+            ContextCompat.getColor(requireContext(), R.color.active_element)
+        )
+
+        binding.swiperRefresh.setProgressBackgroundColorSchemeColor(
+            ContextCompat.getColor(requireContext(), R.color.background_color_of_the_refresh_circle)
+        )
 
         requireActivity().supportFragmentManager.setFragmentResultListener(
             NewOrUpdatePostFragment.POST_CREATED_OR_UPDATED_KEY, viewLifecycleOwner

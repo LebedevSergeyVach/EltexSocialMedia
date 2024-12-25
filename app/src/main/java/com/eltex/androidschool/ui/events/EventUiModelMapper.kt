@@ -37,6 +37,7 @@ class EventUiModelMapper {
         EventUiModel(
             id = id,
             author = author,
+            authorId = authorId,
             published = FORMATTER.format(published.atZone(ZoneId.systemDefault())),
             optionConducting = optionConducting,
             dataEvent = FORMATTER.format(dataEvent?.atZone(ZoneId.systemDefault())),

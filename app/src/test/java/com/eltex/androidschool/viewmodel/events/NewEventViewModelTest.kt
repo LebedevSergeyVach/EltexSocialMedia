@@ -9,7 +9,7 @@ import io.reactivex.rxjava3.core.Single
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-/**
+*
  * Тестовый класс для проверки функциональности ViewModel, отвечающего за создание и обновление событий.
  *
  * Этот класс содержит тесты для проверки корректной работы методов `NewEventViewModel`, таких как:
@@ -22,15 +22,17 @@ import org.junit.Test
  * @see NewEventViewModel ViewModel, которое тестируется.
  * @see EventRepository Интерфейс репозитория, используемый для мокирования данных.
  * @see TestSchedulersProvider Провайдер планировщиков для синхронного выполнения тестов.
- */
+
+
 class NewEventViewModelTest {
 
-    /**
+*
      * Тест для проверки успешного сохранения нового события.
      *
      * @param content Содержимое нового события.
      * @return Успешное состояние с сохраненным событием.
-     */
+
+
     @Test
     fun `save new event successfully`() {
         val content = "New Event Content"
@@ -50,12 +52,13 @@ class NewEventViewModelTest {
         assertEquals(newEvent, viewModel.state.value.event)
     }
 
-    /**
+*
      * Тест для проверки обработки ошибки при сохранении нового события.
      *
      * @param error Исключение, которое будет возвращено из репозитория.
      * @return Состояние с ошибкой.
-     */
+
+
     @Test
     fun `save new event with error`() {
         val error = RuntimeException("test error save")
@@ -74,13 +77,14 @@ class NewEventViewModelTest {
         assertEquals(StatusEvent.Error(error), viewModel.state.value.statusEvent)
     }
 
-    /**
+*
      * Тест для проверки успешного обновления существующего события.
      *
      * @param eventId Идентификатор существующего события.
      * @param content Новое содержимое события.
      * @return Успешное состояние с обновленным событием.
-     */
+
+
     @Test
     fun `update existing event successfully`() {
         val eventId = 1L
@@ -102,12 +106,13 @@ class NewEventViewModelTest {
         assertEquals(updatedEvent, viewModel.state.value.event)
     }
 
-    /**
+*
      * Тест для проверки обработки ошибки при обновлении существующего события.
      *
      * @param error Исключение, которое будет возвращено из репозитория.
      * @return Состояние с ошибкой.
-     */
+
+
     @Test
     fun `update existing event with error`() {
         val error = RuntimeException("test error update")

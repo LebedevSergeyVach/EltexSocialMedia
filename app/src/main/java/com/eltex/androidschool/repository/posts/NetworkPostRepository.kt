@@ -69,13 +69,4 @@ class NetworkPostRepository : PostRepository {
      */
     suspend fun getPostById(postId: Long) =
         PostsApi.INSTANCE.getPostById(postId = postId)
-
-    /**
-     * Получает пользователя по его идентификатору.
-     *
-     * @param userId Идентификатор пользователя, который нужно получить.
-     * @return [PostData] Пользователь, соответствующий указанному идентификатору.
-     */
-    suspend fun getUserById(userId: Long) =
-        PostsApi.INSTANCE.getUserById(userId = userId)
 }

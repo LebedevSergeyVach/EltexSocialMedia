@@ -107,7 +107,7 @@
 
                 android:backgroundTint="@color/active_element"
                 android:text="@string/select_date_and_time"
-                android:textColor="@color/check_ok" />
+                android:textColor="@color/black_white_theme" />
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>

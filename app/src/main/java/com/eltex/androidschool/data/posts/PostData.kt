@@ -15,6 +15,7 @@ import java.time.Instant
  *
  * @property id Уникальный идентификатор поста. По умолчанию 0L.
  * @property author Автор поста. По умолчанию пустая строка.
+ * @property authorId ID автора поста. По умолчанию 0L.
  * @property published Дата и время публикации поста. По умолчанию текущее время.
  * @property content Содержание поста. По умолчанию пустая строка.
  * @property likedByMe Флаг, указывающий, лайкнул ли текущий пользователь этот пост. По умолчанию false.
@@ -26,6 +27,8 @@ data class PostData(
     val id: Long = 0L,
     @SerialName("author")
     val author: String = "",
+    @SerialName("authorId")
+    val authorId: Long = 0L,
     @SerialName("published")
     @Serializable(with = InstantSerializer::class)
     val published: Instant = Instant.now(),

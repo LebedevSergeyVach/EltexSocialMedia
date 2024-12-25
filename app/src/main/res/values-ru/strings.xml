@@ -41,6 +41,7 @@
     <string name="events">События</string>
     <string name="user">Пользователь</string>
     <string name="users">Пользователи</string>
+    <string name="account">Аккаунт</string>
 
     <string name="retry">Повторить</string>
     <string name="network_error">Ошибка сети</string>

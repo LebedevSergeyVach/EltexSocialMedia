@@ -7,6 +7,7 @@ package com.eltex.androidschool.ui.posts
  *
  * @property id Уникальный идентификатор поста.
  * @property author Автор поста.
+ * @property authorId ID автора поста.
  * @property published Дата и время публикации поста.
  * @property content Содержимое поста.
  * @property likedByMe Указывает, лайкнул ли текущий пользователь этот пост.
@@ -15,6 +16,7 @@ package com.eltex.androidschool.ui.posts
 data class PostUiModel(
     val id: Long = 0L,
     val author: String = "",
+    val authorId: Long = 0L,
     val published: String = "",
     val content: String = "",
     val likedByMe: Boolean = false,

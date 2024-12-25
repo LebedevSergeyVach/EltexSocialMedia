@@ -1,82 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
+
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".fragments.users.UsersFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiperRefresh"
 
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_width="0dp"
+        android:layout_height="0dp"
 
-        <ImageView
-            android:id="@+id/avatar_user"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-            android:layout_width="200dp"
-            android:layout_height="200dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            android:layout_marginBottom="100dp"
+            <ImageView
+                android:id="@+id/avatar_user"
 
-            android:importantForAccessibility="no"
-            android:src="@drawable/avatar_background"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
 
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+                android:layout_marginBottom="100dp"
 
-        <TextView
-            android:id="@+id/initial"
+                android:importantForAccessibility="no"
+                android:src="@drawable/avatar_background"
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:textColor="?colorOnPrimary"
-
-            android:textSize="80sp"
-            android:textStyle="bold"
-
-            app:layout_constraintBottom_toBottomOf="@id/avatar_user"
-            app:layout_constraintEnd_toEndOf="@id/avatar_user"
-            app:layout_constraintStart_toStartOf="@id/avatar_user"
-            app:layout_constraintTop_toTopOf="@id/avatar_user"
-
-            tools:text="E" />
-
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_app_name"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_marginTop="30dp"
-
-            app:cardCornerRadius="20dp"
-
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/avatar_user">
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/name_user"
+                android:id="@+id/initial"
 
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-                android:layout_below="@id/splash_icon"
+                android:textColor="?colorOnPrimary"
 
-                android:padding="14dp"
+                android:textSize="80sp"
+                android:textStyle="bold"
 
-                android:text="@string/app_name"
+                app:layout_constraintBottom_toBottomOf="@id/avatar_user"
+                app:layout_constraintEnd_toEndOf="@id/avatar_user"
+                app:layout_constraintStart_toStartOf="@id/avatar_user"
+                app:layout_constraintTop_toTopOf="@id/avatar_user"
 
-                android:textSize="30sp"
-                android:textStyle="bold" />
+                tools:text="E" />
 
-        </com.google.android.material.card.MaterialCardView>
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_app_name"
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
 
-</FrameLayout>
+                android:layout_marginTop="30dp"
+
+                app:cardCornerRadius="20dp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/avatar_user">
+
+                <TextView
+                    android:id="@+id/name_user"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:layout_below="@id/splash_icon"
+
+                    android:padding="14dp"
+
+                    android:textSize="30sp"
+                    android:textStyle="bold"
+
+                    tools:text="@string/account"/>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/background_progress_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:trackThickness="4dp"
+
+        tools:visibility="gone" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardErrorText"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:cardCornerRadius="20dp"
+
+        app:layout_constraintBottom_toTopOf="@id/retryButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <TextView
+            android:id="@+id/errorText"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:gravity="center"
+            android:padding="10dp"
+            android:textSize="24sp"
+
+            android:textStyle="bold"
+            tools:text="ERROR NETWORK" />
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/retryButton"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="15dp"
+
+        android:background="?colorOnPrimary"
+        android:backgroundTint="@color/active_element"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardErrorText"
+
+        app:srcCompat="@drawable/ic_update_24" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/errorGroup"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:constraint_referenced_ids="retryButton, cardErrorText," />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

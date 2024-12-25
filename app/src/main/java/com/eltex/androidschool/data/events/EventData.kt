@@ -19,6 +19,7 @@ import java.util.Locale
  *
  * @property id Уникальный идентификатор события. По умолчанию 0L.
  * @property author Автор события. По умолчанию пустая строка.
+ * @property authorId ID автора события. По умолчанию 0L.
  * @property published Дата и время публикации события. По умолчанию текущее время.
  * @property optionConducting Вариант проведения события. По умолчанию пустая строка.
  * @property dataEvent Дата и время события в формате ISO. По умолчанию пустая строка.
@@ -35,6 +36,8 @@ data class EventData(
     val id: Long = 0L,
     @SerialName("author")
     val author: String = "",
+    @SerialName("authorId")
+    val authorId: Long = 0L,
     @SerialName("published")
     @Serializable(with = InstantSerializer::class)
     val published: Instant = Instant.now(),

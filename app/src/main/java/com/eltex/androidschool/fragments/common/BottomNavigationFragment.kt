@@ -95,6 +95,12 @@ class BottomNavigationFragment : Fragment() {
                         .scaleX(0F)
                         .scaleY(0F)
                 }
+
+                R.id.userFragment -> {
+                    binding.news.animate()
+                        .scaleX(0F)
+                        .scaleY(0F)
+                }
             }
         }
 
