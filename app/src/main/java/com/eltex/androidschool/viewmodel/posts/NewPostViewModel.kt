@@ -1,23 +1,25 @@
 package com.eltex.androidschool.viewmodel.posts
 
 import androidx.lifecycle.ViewModel
-
-import com.eltex.androidschool.data.posts.PostData
-import com.eltex.androidschool.repository.posts.PostRepository
-import com.eltex.androidschool.rx.common.SchedulersProvider
-
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.kotlin.addTo
-import io.reactivex.rxjava3.kotlin.subscribeBy
+import androidx.lifecycle.viewModelScope
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+
+import com.eltex.androidschool.data.posts.PostData
+import com.eltex.androidschool.repository.posts.PostRepository
+
 /**
  * ViewModel для управления созданием и обновлением постов.
  *
  * Этот ViewModel отвечает за сохранение нового поста или обновление существующего.
+ *
+ * @param repository Репозиторий для работы с данными постов.
+ * @param postId Идентификатор поста (по умолчанию 0, если создается новое событие).
  *
  * @see ViewModel Базовый класс для ViewModel, использующих функции библиотеки поддержки.
  * @see PostRepository Репозиторий для работы с данными постов.
@@ -25,15 +27,7 @@ import kotlinx.coroutines.flow.update
 class NewPostViewModel(
     private val repository: PostRepository,
     private val postId: Long = 0L,
-    private val schedulersProvider: SchedulersProvider = SchedulersProvider.DEFAULT,
 ) : ViewModel() {
-
-    /**
-     * Композитный disposable для управления подписками RxJava.
-     *
-     * Используется для хранения всех подписок и их последующего освобождения при очистке ViewModel.
-     */
-    private val disposable: CompositeDisposable = CompositeDisposable()
 
     /**
      * Flow, хранящий текущее состояние создания или обновления поста.
@@ -64,30 +58,27 @@ class NewPostViewModel(
             )
         }
 
-        repository.save(
-            postId = postId,
-            content = content
-        )
-            .observeOn(schedulersProvider.mainThread)
-            .subscribeBy(
-                onSuccess = { newPost: PostData ->
-                    _state.update { newPostState: NewPostState ->
-                        newPostState.copy(
-                            statusPost = StatusPost.Idle,
-                            post = newPost,
-                        )
-                    }
-                },
+        viewModelScope.launch {
+            try {
+                val post: PostData = repository.save(
+                    postId = postId,
+                    content = content
+                )
 
-                onError = { throwable: Throwable ->
-                    _state.update { newPostState: NewPostState ->
-                        newPostState.copy(
-                            statusPost = StatusPost.Error(throwable = throwable)
-                        )
-                    }
+                _state.update { newPostState: NewPostState ->
+                    newPostState.copy(
+                        statusPost = StatusPost.Idle,
+                        post = post,
+                    )
                 }
-            )
-            .addTo(disposable)
+            } catch (e: Exception) {
+                _state.update { newPostState: NewPostState ->
+                    newPostState.copy(
+                        statusPost = StatusPost.Error(exception = e)
+                    )
+                }
+            }
+        }
     }
 
     /**
@@ -104,12 +95,12 @@ class NewPostViewModel(
     /**
      * Вызывается при очистке ViewModel.
      *
-     * Этот метод освобождает все ресурсы, связанные с подписками RxJava.
+     * Этот метод освобождает все ресурсы, связанные с корутинами.
      * Он вызывается, когда ViewModel больше не используется и будет уничтожено.
      *
-     * @see CompositeDisposable Используется для управления подписками RxJava.
+     * @see viewModelScope
      */
     override fun onCleared() {
-        disposable.dispose()
+        viewModelScope.cancel()
     }
 }

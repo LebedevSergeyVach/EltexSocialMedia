@@ -202,4 +202,12 @@ dependencies {
      * developer.android.com/studio/write/java8-support
      */
     coreLibraryDesugaring(libs.desugar.jdk.libs)
+
+    /**
+     * Kotlinx coroutines test
+     * https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-test/
+     * https://developer.android.com/kotlin/coroutines/test
+     * https://github.com/Kotlin/kotlinx.coroutines
+     */
+    testImplementation(libs.kotlinx.coroutines.test)
 }

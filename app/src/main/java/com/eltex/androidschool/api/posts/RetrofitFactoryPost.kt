@@ -41,7 +41,6 @@ object RetrofitFactoryPost {
         Retrofit.Builder()
             .client(OkHttpClientFactoryPost.INSTANCE)
             .baseUrl(API_BASE_URL_POST)
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(json.asConverterFactory(JSON_TYPE))
             .build()
     }

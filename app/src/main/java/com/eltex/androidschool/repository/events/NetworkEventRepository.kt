@@ -3,8 +3,6 @@ package com.eltex.androidschool.repository.events
 import com.eltex.androidschool.api.events.EventsApi
 import com.eltex.androidschool.data.events.EventData
 
-import io.reactivex.rxjava3.core.Single
-
 import java.time.Instant
 
 /**
@@ -15,17 +13,16 @@ import java.time.Instant
  *
  * @see EventRepository Интерфейс, который реализует этот класс.
  * @see EventsApi API для работы с событиями.
- * @see Single Класс из RxJava3, используемый для асинхронных операций, возвращающих одно значение.
- * @see Completable Класс из RxJava3, используемый для асинхронных операций, не возвращающих значения.
+ * @see suspend Функции, которые могут быть приостановлены и возобновлены позже.
  */
 class NetworkEventRepository : EventRepository {
 
     /**
      * Получает список всех событий с сервера.
      *
-     * @return Single<List<EventData>> Объект Single для выполнения запроса.
+     * @return List<[EventData]> Список событий, полученных с сервера.
      */
-    override fun getEvents() =
+    override suspend fun getEvents() =
         EventsApi.INSTANCE.getAllEvents()
 
     /**
@@ -33,9 +30,9 @@ class NetworkEventRepository : EventRepository {
      *
      * @param eventId Идентификатор события.
      * @param likedByMe Флаг, указывающий, лайкнул ли текущий пользователь это событие.
-     * @return Single<EventData> Объект Single для выполнения запроса.
+     * @return [EventData] Событие с обновленным состоянием лайка.
      */
-    override fun likeById(eventId: Long, likedByMe: Boolean): Single<EventData> {
+    override suspend fun likeById(eventId: Long, likedByMe: Boolean): EventData {
         return if (likedByMe) {
             EventsApi.INSTANCE.unlikeEventById(eventId = eventId)
         } else {
@@ -48,9 +45,9 @@ class NetworkEventRepository : EventRepository {
      *
      * @param eventId Идентификатор события.
      * @param participatedByMe Флаг, указывающий, участвует ли текущий пользователь в этом событии.
-     * @return Single<EventData> Объект Single для выполнения запроса.
+     * @return [EventData] Событие с обновленным состоянием участия.
      */
-    override fun participateById(eventId: Long, participatedByMe: Boolean): Single<EventData> {
+    override suspend fun participateById(eventId: Long, participatedByMe: Boolean): EventData {
         return if (participatedByMe) {
             EventsApi.INSTANCE.unsubscribeEventById(eventId = eventId)
         } else {
@@ -62,9 +59,8 @@ class NetworkEventRepository : EventRepository {
      * Удаляет событие по его идентификатору.
      *
      * @param eventId Идентификатор события.
-     * @return Completable Объект Completable для выполнения запроса.
      */
-    override fun deleteById(eventId: Long) =
+    override suspend fun deleteById(eventId: Long) =
         EventsApi.INSTANCE.deleteEventById(eventId = eventId)
 
     /**
@@ -76,9 +72,9 @@ class NetworkEventRepository : EventRepository {
      * @param link Ссылка на событие.
      * @param option Дополнительная опция.
      * @param data Дата события.
-     * @return Single<EventData> Объект Single для выполнения запроса.
+     * @return [EventData] Обновленное или сохраненное событие.
      */
-    override fun save(
+    override suspend fun save(
         eventId: Long,
         content: String,
         link: String,
@@ -98,8 +94,8 @@ class NetworkEventRepository : EventRepository {
      * Получает событие по его идентификатору.
      *
      * @param eventId Идентификатор события.
-     * @return Single<EventData> Объект Single для выполнения запроса.
+     * @return [EventData] Событие, соответствующее указанному идентификатору.
      */
-    fun getEventById(eventId: Long) =
+    suspend fun getEventById(eventId: Long) =
         EventsApi.INSTANCE.getEventById(eventId = eventId)
 }

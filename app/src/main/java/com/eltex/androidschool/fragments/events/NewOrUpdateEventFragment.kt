@@ -50,6 +50,8 @@ import com.eltex.androidschool.utils.vibrateWithEffect
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 import com.eltex.androidschool.viewmodel.events.NewEventState
 import com.eltex.androidschool.viewmodel.events.NewEventViewModel
+import java.time.ZoneOffset
+import java.time.format.DateTimeFormatter
 
 /**
  * Фрагмент для создания или обновления события.
@@ -337,10 +339,11 @@ class NewOrUpdateEventFragment : Fragment() {
                 set(Calendar.SECOND, 0)
             }
 
+            val instant = combinedCalendar.toInstant().atOffset(ZoneOffset.UTC)
             val dateTimeFormat =
-                SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.getDefault())
+                DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").withZone(ZoneOffset.UTC)
 
-            return dateTimeFormat.format(combinedCalendar.time)
+            return dateTimeFormat.format(instant)
         }
 
         return ""

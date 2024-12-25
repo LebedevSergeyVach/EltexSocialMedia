@@ -2,49 +2,44 @@ package com.eltex.androidschool.repository.posts
 
 import com.eltex.androidschool.data.posts.PostData
 
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
-
 /**
  * Интерфейс репозитория для работы с постами.
- * Предоставляет методы для получения списка постов и лайков постов.
+ * Предоставляет методы для получения списка постов, лайков постов и управления ими.
  *
  * @see NetworkPostRepository Реализация интерфейса в памяти.
- * @see Single Класс из RxJava3, используемый для асинхронных операций, возвращающих одно значение.
- * @see Completable Класс из RxJava3, используемый для асинхронных операций, не возвращающих значения.
+ * @see suspend Функции, которые могут быть приостановлены и возобновлены позже.
  */
 interface PostRepository {
+
     /**
-     * Возвращает Single, который излучает список постов.
+     * Возвращает список постов.
      *
-     * @return Single<List<PostData>> Объект Single для выполнения запроса.
+     * @return List<[PostData]> Список постов, полученных с сервера.
      */
-    fun getPosts(): Single<List<PostData>> = Single.never()
+    suspend fun getPosts(): List<PostData>
 
     /**
      * Переключает состояние лайка у поста по его идентификатору.
      *
      * @param postId Идентификатор поста, который нужно лайкнуть.
      * @param likedByMe Флаг, указывающий, лайкнул ли текущий пользователь этот пост.
-     * @return Single<PostData> Объект Single для выполнения запроса.
+     * @return [PostData] Пост с обновленным состоянием лайка.
      */
-    fun likeById(postId: Long, likedByMe: Boolean): Single<PostData> = Single.never()
+    suspend fun likeById(postId: Long, likedByMe: Boolean): PostData
 
     /**
      * Удаляет пост по его идентификатору.
      *
      * @param postId Идентификатор поста, который нужно удалить.
-     * @return Completable Объект Completable для выполнения запроса.
      */
-    fun deleteById(postId: Long): Completable = Completable.complete()
+    suspend fun deleteById(postId: Long)
 
     /**
-     * Обновляет пост по его идентификатору.
-     * Добавляет новый пост.
+     * Обновляет пост по его идентификатору или добавляет новый пост.
      *
      * @param postId Идентификатор поста, который нужно обновить.
      * @param content Новое содержание поста.
-     * @return Single<PostData> Объект Single для выполнения запроса.
+     * @return [PostData] Обновленный или сохраненный пост.
      */
-    fun save(postId: Long, content: String): Single<PostData> = Single.never()
+    suspend fun save(postId: Long, content: String): PostData
 }

@@ -2,51 +2,45 @@ package com.eltex.androidschool.repository.events
 
 import com.eltex.androidschool.data.events.EventData
 
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
-
 /**
  * Интерфейс репозитория для работы с событиями.
- * Предоставляет методы для получения списка событий, лайков и участия в событиях.
+ * Предоставляет методы для получения списка событий, лайков, участия в событиях и управления ими.
  *
  * @see NetworkEventRepository Реализация интерфейса для работы с сетевым API.
- * @see Single Класс из RxJava3, используемый для асинхронных операций, возвращающих одно значение.
- * @see Completable Класс из RxJava3, используемый для асинхронных операций, не возвращающих значения.
+ * @see suspend Функции, которые могут быть приостановлены и возобновлены позже.
  */
 interface EventRepository {
     /**
      * Возвращает список событий.
      *
-     * @return Single<List<EventData>> Объект Single для выполнения запроса.
+     * @return List<[EventData]> Список событий, полученных с сервера.
      */
-    fun getEvents(): Single<List<EventData>> = Single.never()
+    suspend fun getEvents(): List<EventData>
 
     /**
      * Переключает состояние лайка у события по его идентификатору.
      *
      * @param eventId Идентификатор события, которое нужно лайкнуть.
      * @param likedByMe Флаг, указывающий, лайкнул ли текущий пользователь это событие.
-     * @return Single<EventData> Объект Single для выполнения запроса.
+     * @return [EventData] Событие с обновленным состоянием лайка.
      */
-    fun likeById(eventId: Long, likedByMe: Boolean): Single<EventData> = Single.never()
+    suspend fun likeById(eventId: Long, likedByMe: Boolean): EventData
 
     /**
      * Переключает состояние участия в событии по его идентификатору.
      *
      * @param eventId Идентификатор события, в котором нужно участвовать.
      * @param participatedByMe Флаг, указывающий, участвует ли текущий пользователь в этом событии.
-     * @return Single<EventData> Объект Single для выполнения запроса.
+     * @return [EventData] Событие с обновленным состоянием участия.
      */
-    fun participateById(eventId: Long, participatedByMe: Boolean): Single<EventData> =
-        Single.never()
+    suspend fun participateById(eventId: Long, participatedByMe: Boolean): EventData
 
     /**
      * Удаляет событие по его идентификатору.
      *
      * @param eventId Идентификатор события, которое нужно удалить.
-     * @return Completable Объект Completable для выполнения запроса.
      */
-    fun deleteById(eventId: Long): Completable = Completable.complete()
+    suspend fun deleteById(eventId: Long)
 
     /**
      * Сохраняет или обновляет событие.
@@ -57,13 +51,13 @@ interface EventRepository {
      * @param link Ссылка на событие.
      * @param option Дополнительная опция.
      * @param data Дата события.
-     * @return Single<EventData> Объект Single для выполнения запроса.
+     * @return [EventData] Обновленное или сохраненное событие.
      */
-    fun save(
+    suspend fun save(
         eventId: Long,
         content: String,
         link: String,
         option: String,
         data: String
-    ): Single<EventData> = Single.never()
+    ): EventData
 }

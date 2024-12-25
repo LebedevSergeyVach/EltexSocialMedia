@@ -2,9 +2,6 @@ package com.eltex.androidschool.api.posts
 
 import com.eltex.androidschool.data.posts.PostData
 
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
-
 import retrofit2.create
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -19,80 +16,78 @@ import retrofit2.http.Path
  * Каждый метод соответствует определённому HTTP-методу и URL.
  *
  * @see PostData Класс, представляющий данные поста.
- * @see Single Класс из RxJava3, используемый для асинхронных операций, возвращающих одно значение.
- * @see Completable Класс из RxJava3, используемый для асинхронных операций, не возвращающих значения.
+ * @see suspend Функции, которые могут быть приостановлены и возобновлены позже.
  */
 interface PostsApi {
     /**
      * Получает список всех постов.
      *
-     * @return Single<List<PostData>> Объект Single для выполнения запроса.
+     * @return List<[PostData]> Список постов, полученных с сервера.
      */
     @GET("api/posts")
-    fun getAllPosts(): Single<List<PostData>>
+    suspend fun getAllPosts(): List<PostData>
 
     /**
      * Сохраняет или обновляет пост.
      *
      * @param post Объект PostData, который нужно сохранить или обновить.
-     * @return Single<PostData> Объект Single для выполнения запроса.
+     * @return [PostData] Обновленный или сохраненный пост.
      */
     @POST("api/posts")
-    fun savePost(@Body post: PostData): Single<PostData>
+    suspend fun savePost(@Body post: PostData): PostData
 
     /**
      * Поставить лайк посту по его идентификатору.
      *
      * @param postId Идентификатор поста, которому нужно поставить лайк.
-     * @return Single<PostData> Объект Single для выполнения запроса.
+     * @return [PostData] Пост с обновленным состоянием лайка.
      */
     @POST("api/posts/{id}/likes")
-    fun likePostById(@Path("id") postId: Long): Single<PostData>
+    suspend fun likePostById(@Path("id") postId: Long): PostData
 
     /**
      * Убрать лайк у поста по его идентификатору.
      *
      * @param postId Идентификатор поста, у которого нужно убрать лайк.
-     * @return Single<PostData> Объект Single для выполнения запроса.
+     * @return [PostData] Пост с обновленным состоянием лайка.
      */
     @DELETE("api/posts/{id}/likes")
-    fun unlikePostById(@Path("id") postId: Long): Single<PostData>
+    suspend fun unlikePostById(@Path("id") postId: Long): PostData
 
     /**
      * Удаляет пост по его идентификатору.
      *
      * @param postId Идентификатор поста, который нужно удалить.
-     * @return Completable Объект Completable для выполнения запроса.
      */
     @DELETE("api/posts/{id}")
-    fun deletePostById(@Path("id") postId: Long): Completable
+    suspend fun deletePostById(@Path("id") postId: Long)
 
     /**
      * Получает пост по его идентификатору.
      *
      * @param postId Идентификатор поста, который нужно получить.
-     * @return Single<PostData> Объект Single для выполнения запроса.
+     * @return [PostData] Пост, соответствующий указанному идентификатору.
      */
     @GET("api/posts/{id}")
-    fun getPostById(@Path("id") postId: Long): Single<PostData>
+    suspend fun getPostById(@Path("id") postId: Long): PostData
 
     /**
      * Получает пользователя по его идентификатору.
      *
      * @param userId Идентификатор пользователя, который нужно получить.
-     * @return Single<PostData> Объект Single для выполнения запроса.
+     * @return [PostData] Пользователь, соответствующий указанному идентификатору.
      */
     @GET("api/users/{id}")
-    fun getUserById(@Path("id") userId: Long): Single<PostData>
+    suspend fun getUserById(@Path("id") userId: Long): PostData
 
     /**
-     * Объект-компаньон для создания экземпляра PostsApi.
+     * Объект-компаньон для создания экземпляра [PostsApi].
      *
      * Использует ленивую инициализацию для создания экземпляра Retrofit и его настройки.
      */
     companion object {
         /**
-         * Экземпляр PostsApi, созданный с использованием RetrofitFactoryPost.
+         * Экземпляр [PostsApi], созданный с использованием [RetrofitFactoryPost].
          */
         val INSTANCE by lazy {
             RetrofitFactoryPost.INSTANCE.create<PostsApi>()

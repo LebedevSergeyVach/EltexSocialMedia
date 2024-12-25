@@ -3,8 +3,6 @@ package com.eltex.androidschool.repository.posts
 import com.eltex.androidschool.api.posts.PostsApi
 import com.eltex.androidschool.data.posts.PostData
 
-import io.reactivex.rxjava3.core.Single
-
 /**
  * Репозиторий для работы с данными постов через сетевой API.
  *
@@ -13,16 +11,15 @@ import io.reactivex.rxjava3.core.Single
  *
  * @see PostRepository Интерфейс репозитория, который реализует этот класс.
  * @see PostsApi Интерфейс для работы с API постов.
- * @see Single Класс из RxJava3, используемый для асинхронных операций, возвращающих одно значение.
- * @see Completable Класс из RxJava3, используемый для асинхронных операций, не возвращающих значения.
+ * @see suspend Функции, которые могут быть приостановлены и возобновлены позже.
  */
 class NetworkPostRepository : PostRepository {
     /**
      * Получает список всех постов с сервера.
      *
-     * @return Single<List<PostData>> Объект Single для выполнения запроса.
+     * @return List<[PostData]> Список постов, полученных с сервера.
      */
-    override fun getPosts() =
+    override suspend fun getPosts() =
         PostsApi.INSTANCE.getAllPosts()
 
     /**
@@ -30,9 +27,9 @@ class NetworkPostRepository : PostRepository {
      *
      * @param postId Идентификатор поста.
      * @param likedByMe Флаг, указывающий, лайкнул ли текущий пользователь этот пост.
-     * @return Single<PostData> Объект Single для выполнения запроса.
+     * @return [PostData] Пост с обновленным состоянием лайка.
      */
-    override fun likeById(postId: Long, likedByMe: Boolean): Single<PostData> {
+    override suspend fun likeById(postId: Long, likedByMe: Boolean): PostData {
         return if (likedByMe) {
             PostsApi.INSTANCE.unlikePostById(postId = postId)
         } else {
@@ -44,19 +41,19 @@ class NetworkPostRepository : PostRepository {
      * Удаляет пост по его идентификатору.
      *
      * @param postId Идентификатор поста.
-     * @return Completable Объект Completable для выполнения запроса.
      */
-    override fun deleteById(postId: Long) =
+    override suspend fun deleteById(postId: Long) =
         PostsApi.INSTANCE.deletePostById(postId = postId)
 
     /**
-     * Обновляет пост по его идентификатору или добавляет новый пост.
+     * Сохраняет или обновляет пост.
+     * Если идентификатор события равен 0, то создается новый пост.
      *
      * @param postId Идентификатор поста.
      * @param content Новое содержимое поста.
-     * @return Single<PostData> Объект Single для выполнения запроса.
+     * @return [PostData] Обновленный или сохраненный пост.
      */
-    override fun save(postId: Long, content: String) =
+    override suspend fun save(postId: Long, content: String) =
         PostsApi.INSTANCE.savePost(
             post = PostData(
                 id = postId,
@@ -68,17 +65,17 @@ class NetworkPostRepository : PostRepository {
      * Получает пост по его идентификатору.
      *
      * @param postId Идентификатор поста.
-     * @return Single<PostData> Объект Single для выполнения запроса.
+     * @return [PostData] Пост, соответствующий указанному идентификатору.
      */
-    fun getPostById(postId: Long) =
+    suspend fun getPostById(postId: Long) =
         PostsApi.INSTANCE.getPostById(postId = postId)
 
     /**
      * Получает пользователя по его идентификатору.
      *
      * @param userId Идентификатор пользователя, который нужно получить.
-     * @return Single<PostData> Объект Single для выполнения запроса.
+     * @return [PostData] Пользователь, соответствующий указанному идентификатору.
      */
-    fun getUserById(userId: Long) =
+    suspend fun getUserById(userId: Long) =
         PostsApi.INSTANCE.getUserById(userId = userId)
 }

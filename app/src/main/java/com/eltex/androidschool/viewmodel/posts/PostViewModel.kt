@@ -1,24 +1,27 @@
 package com.eltex.androidschool.viewmodel.posts
 
 import androidx.lifecycle.ViewModel
-
-import com.eltex.androidschool.data.posts.PostData
-import com.eltex.androidschool.repository.posts.PostRepository
-import com.eltex.androidschool.rx.common.SchedulersProvider
-import com.eltex.androidschool.ui.posts.PostUiModel
-import com.eltex.androidschool.ui.posts.PostUiModelMapper
-
-import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.kotlin.addTo
-import io.reactivex.rxjava3.kotlin.subscribeBy
+import androidx.lifecycle.viewModelScope
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
+import com.eltex.androidschool.data.posts.PostData
+import com.eltex.androidschool.repository.posts.PostRepository
+import com.eltex.androidschool.ui.posts.PostUiModel
+import com.eltex.androidschool.ui.posts.PostUiModelMapper
+
 /**
  * ViewModel для управления состоянием постов и взаимодействия с репозиторием.
+ *
+ * Этот ViewModel отвечает за загрузку, обновление и управление состоянием постов.
  *
  * @param repository Репозиторий, который предоставляет данные о постах.
  *
@@ -27,7 +30,6 @@ import kotlinx.coroutines.flow.update
  */
 class PostViewModel(
     private val repository: PostRepository,
-    private val schedulersProvider: SchedulersProvider = SchedulersProvider.DEFAULT,
 ) : ViewModel() {
 
     /**
@@ -36,13 +38,6 @@ class PostViewModel(
      * @see PostUiModelMapper Класс, отвечающий за преобразование данных в UI-модель.
      */
     private val mapper = PostUiModelMapper()
-
-    /**
-     * Композитный disposable для управления подписками RxJava.
-     *
-     * Используется для хранения всех подписок и их последующего освобождения при очистке ViewModel.
-     */
-    private val disposable: CompositeDisposable = CompositeDisposable()
 
     /**
      * Flow, хранящий текущее состояние постов.
@@ -76,33 +71,30 @@ class PostViewModel(
             )
         }
 
-        repository.getPosts()
-            .observeOn(schedulersProvider.computation)
-            .map { posts: List<PostData> ->
-                posts.map { post: PostData ->
-                    mapper.map(post)
+        viewModelScope.launch {
+            try {
+                val posts: List<PostData> = repository.getPosts()
+
+                val postsUiModels: List<PostUiModel> = withContext(Dispatchers.Default) {
+                    posts.map { post: PostData ->
+                        mapper.map(post)
+                    }
+                }
+
+                _state.update { statePost: PostState ->
+                    statePost.copy(
+                        statusPost = StatusPost.Idle,
+                        posts = postsUiModels,
+                    )
+                }
+            } catch (e: Exception) {
+                _state.update { statePost: PostState ->
+                    statePost.copy(
+                        statusPost = StatusPost.Error(exception = e)
+                    )
                 }
             }
-            .observeOn(schedulersProvider.mainThread)
-            .subscribeBy(
-                onSuccess = { allPosts: List<PostUiModel> ->
-                    _state.update { statePost: PostState ->
-                        statePost.copy(
-                            statusPost = StatusPost.Idle,
-                            posts = allPosts,
-                        )
-                    }
-                },
-
-                onError = { throwable: Throwable ->
-                    _state.update { statePost: PostState ->
-                        statePost.copy(
-                            statusPost = StatusPost.Error(throwable = throwable)
-                        )
-                    }
-                }
-            )
-            .addTo(disposable)
+        }
     }
 
     /**
@@ -112,40 +104,37 @@ class PostViewModel(
      * @param likedByMe Флаг, указывающий, лайкнул ли текущий пользователь этот пост.
      */
     fun likeById(postId: Long, likedByMe: Boolean) {
-        repository.likeById(
-            postId = postId,
-            likedByMe = likedByMe
-        )
-            .observeOn(schedulersProvider.computation)
-            .map { post: PostData ->
-                _state.value.posts.orEmpty().map { postUiModel: PostUiModel ->
-                    if (postUiModel.id == post.id) {
-                        mapper.map(post)
-                    } else {
-                        postUiModel
+        viewModelScope.launch {
+            try {
+                val post: PostData = repository.likeById(
+                    postId = postId,
+                    likedByMe = likedByMe
+                )
+
+                val postsUiModel: List<PostUiModel> = withContext(Dispatchers.Default) {
+                    _state.value.posts.orEmpty().map { postUiModel: PostUiModel ->
+                        if (postUiModel.id == post.id) {
+                            mapper.map(post)
+                        } else {
+                            postUiModel
+                        }
                     }
+                }
+
+                _state.update { statePost: PostState ->
+                    statePost.copy(
+                        statusPost = StatusPost.Idle,
+                        posts = postsUiModel,
+                    )
+                }
+            } catch (e: Exception) {
+                _state.update { statePost: PostState ->
+                    statePost.copy(
+                        statusPost = StatusPost.Error(exception = e)
+                    )
                 }
             }
-            .observeOn(schedulersProvider.mainThread)
-            .subscribeBy(
-                onSuccess = { posts: List<PostUiModel> ->
-                    _state.update { statePost: PostState ->
-                        statePost.copy(
-                            statusPost = StatusPost.Idle,
-                            posts = posts,
-                        )
-                    }
-                },
-
-                onError = { throwable: Throwable ->
-                    _state.update { statePost: PostState ->
-                        statePost.copy(
-                            statusPost = StatusPost.Error(throwable = throwable)
-                        )
-                    }
-                }
-            )
-            .addTo(disposable)
+        }
     }
 
     /**
@@ -154,35 +143,26 @@ class PostViewModel(
      * @param postId Идентификатор поста, который нужно удалить.
      */
     fun deleteById(postId: Long) {
-        _state.update { statePost: PostState ->
-            statePost.copy(
-                statusPost = StatusPost.Loading
-            )
-        }
+        viewModelScope.launch {
+            try {
+                repository.deleteById(postId = postId)
 
-        repository.deleteById(postId = postId)
-            .observeOn(schedulersProvider.mainThread)
-            .subscribeBy(
-                onComplete = {
-                    _state.update { statePost: PostState ->
-                        statePost.copy(
-                            statusPost = StatusPost.Idle,
-                            posts = _state.value.posts.orEmpty().filter { post: PostUiModel ->
-                                post.id != postId
-                            }
-                        )
-                    }
-                },
-
-                onError = { throwable: Throwable ->
-                    _state.update { statePost: PostState ->
-                        statePost.copy(
-                            statusPost = StatusPost.Error(throwable = throwable)
-                        )
-                    }
+                _state.update { statePost: PostState ->
+                    statePost.copy(
+                        statusPost = StatusPost.Idle,
+                        posts = _state.value.posts.orEmpty().filter { post: PostUiModel ->
+                            post.id != postId
+                        }
+                    )
                 }
-            )
-            .addTo(disposable)
+            } catch (e: Exception) {
+                _state.update { statePost: PostState ->
+                    statePost.copy(
+                        statusPost = StatusPost.Error(exception = e)
+                    )
+                }
+            }
+        }
     }
 
     /**
@@ -199,12 +179,12 @@ class PostViewModel(
     /**
      * Вызывается при очистке ViewModel.
      *
-     * Этот метод освобождает все ресурсы, связанные с подписками RxJava.
+     * Этот метод освобождает все ресурсы, связанные с корутинами.
      * Он вызывается, когда ViewModel больше не используется и будет уничтожено.
      *
-     * @see CompositeDisposable Используется для управления подписками RxJava.
+     * @see viewModelScope
      */
     override fun onCleared() {
-        disposable.dispose()
+        viewModelScope.cancel()
     }
 }

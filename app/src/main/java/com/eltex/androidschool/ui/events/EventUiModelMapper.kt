@@ -32,7 +32,8 @@ class EventUiModelMapper {
      * @param event Объект EventData, который нужно преобразовать.
      * @return Объект EventUiModel, представляющий событие в UI.
      */
-    fun map(event: EventData): EventUiModel = with(event) {
+    fun map(event: EventData): EventUiModel = with(event)
+    {
         EventUiModel(
             id = id,
             author = author,

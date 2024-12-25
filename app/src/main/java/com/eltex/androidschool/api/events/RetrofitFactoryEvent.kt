@@ -43,7 +43,6 @@ object RetrofitFactoryEvent {
         Retrofit.Builder()
             .client(OkHttpClientFactoryEvent.INSTANCE)
             .baseUrl(API_BASE_URL_EVENT)
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .addConverterFactory(json.asConverterFactory(JSON_TYPE))
             .build()
     }

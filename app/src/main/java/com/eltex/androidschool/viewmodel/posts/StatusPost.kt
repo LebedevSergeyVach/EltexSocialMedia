@@ -7,7 +7,7 @@ package com.eltex.androidschool.viewmodel.posts
  */
 interface StatusPost {
     val throwableOrNull: Throwable?
-        get() = (this as? Error)?.throwable
+        get() = (this as? Error)?.exception
 
     /**
      * Состояние бездействия.
@@ -22,7 +22,7 @@ interface StatusPost {
     /**
      * Состояние ошибки.
      *
-     * @property throwable Исключение, возникшее во время операции.
+     * @property exception Исключение, возникшее во время операции.
      */
-    data class Error(val throwable: Throwable) : StatusPost
+    data class Error(val exception: Exception) : StatusPost
 }
