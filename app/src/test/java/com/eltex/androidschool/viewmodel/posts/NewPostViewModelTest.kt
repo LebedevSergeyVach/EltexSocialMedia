@@ -1,13 +1,16 @@
 package com.eltex.androidschool.viewmodel.posts
 
-import com.eltex.androidschool.TestSchedulersProvider
+import com.eltex.androidschool.TestCoroutinesRule
 import com.eltex.androidschool.data.posts.PostData
-import com.eltex.androidschool.repository.posts.PostRepository
-
-import io.reactivex.rxjava3.core.Single
-
+import com.eltex.androidschool.repository.TestPostRepository
+import com.eltex.androidschool.ui.posts.PostUiModel
+import com.eltex.androidschool.ui.posts.PostUiModelMapper
 import org.junit.Assert.assertEquals
+import org.junit.Rule
 import org.junit.Test
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 /**
  * Тестовый класс для проверки функциональности ViewModel, отвечающего за создание и обновление постов.
@@ -20,16 +23,22 @@ import org.junit.Test
  * Тесты используют моки репозитория для имитации поведения сервера и проверки корректности обновления состояния ViewModel.
  *
  * @see NewPostViewModel ViewModel, которое тестируется.
- * @see PostRepository Интерфейс репозитория, используемый для мокирования данных.
- * @see TestSchedulersProvider Провайдер планировщиков для синхронного выполнения тестов.
+ * @see TestPostRepository Интерфейс репозитория, используемый для мокирования данных.
+ * @see TestCoroutinesRule Правило для управления корутинами в тестах.
  */
 class NewPostViewModelTest {
+    @get:Rule
+    val coroutinesRule: TestCoroutinesRule = TestCoroutinesRule()
+
+    /**
+     * Маппер для преобразования данных поста в UI-модель.
+     *
+     * @see PostUiModelMapper Класс, отвечающий за преобразование данных в UI-модель.
+     */
+    private val mapper = PostUiModelMapper()
 
     /**
      * Тест для проверки успешного сохранения нового поста.
-     *
-     * @param content Содержимое нового поста.
-     * @return Успешное состояние с сохраненным постом.
      */
     @Test
     fun `save new post successfully`() {
@@ -37,24 +46,26 @@ class NewPostViewModelTest {
         val newPost = PostData(id = 1, content = content)
 
         val viewModel = NewPostViewModel(
-            repository = object : PostRepository {
-                override fun save(postId: Long, content: String): Single<PostData> =
-                    Single.just(newPost)
-            },
-            schedulersProvider = TestSchedulersProvider
+            repository = object : TestPostRepository {
+                override suspend fun save(postId: Long, content: String): PostData = newPost
+            }
+        )
+
+        val expected = NewPostState(
+            post = newPost,
+            statusPost = StatusPost.Idle
         )
 
         viewModel.save(content)
 
-        assertEquals(StatusPost.Idle, viewModel.state.value.statusPost)
-        assertEquals(newPost, viewModel.state.value.post)
+        val actual = viewModel.state.value
+
+        assertEquals(expected, actual)
+        assertEquals(newPost, actual.post)
     }
 
     /**
      * Тест для проверки обработки ошибки при сохранении нового поста.
-     *
-     * @param error Исключение, которое будет возвращено из репозитория.
-     * @return Состояние с ошибкой.
      */
     @Test
     fun `save new post with error`() {
@@ -62,24 +73,25 @@ class NewPostViewModelTest {
         val content = "New Post Content"
 
         val viewModel = NewPostViewModel(
-            repository = object : PostRepository {
-                override fun save(postId: Long, content: String): Single<PostData> =
-                    Single.error(error)
-            },
-            schedulersProvider = TestSchedulersProvider
+            repository = object : TestPostRepository {
+                override suspend fun save(postId: Long, content: String) = throw error
+            }
+        )
+
+        val expected = NewPostState(
+            post = null,
+            statusPost = StatusPost.Error(error)
         )
 
         viewModel.save(content)
 
-        assertEquals(StatusPost.Error(error), viewModel.state.value.statusPost)
+        val actual = viewModel.state.value
+
+        assertEquals(expected, actual)
     }
 
     /**
      * Тест для проверки успешного обновления существующего поста.
-     *
-     * @param postId Идентификатор существующего поста.
-     * @param content Новое содержимое поста.
-     * @return Успешное состояние с обновленным постом.
      */
     @Test
     fun `update existing post successfully`() {
@@ -88,25 +100,28 @@ class NewPostViewModelTest {
         val updatedPost = PostData(id = postId, content = content)
 
         val viewModel = NewPostViewModel(
-            repository = object : PostRepository {
-                override fun save(postId: Long, content: String): Single<PostData> =
-                    Single.just(updatedPost)
+            repository = object : TestPostRepository {
+                override suspend fun save(postId: Long, content: String): PostData =
+                    updatedPost
             },
-            postId = postId,
-            schedulersProvider = TestSchedulersProvider
+            postId = postId
+        )
+
+        val expected = NewPostState(
+            post = updatedPost,
+            statusPost = StatusPost.Idle
         )
 
         viewModel.save(content)
 
-        assertEquals(StatusPost.Idle, viewModel.state.value.statusPost)
+        val actual = viewModel.state.value
+
+        assertEquals(expected, actual)
         assertEquals(updatedPost, viewModel.state.value.post)
     }
 
     /**
      * Тест для проверки обработки ошибки при обновлении существующего поста.
-     *
-     * @param error Исключение, которое будет возвращено из репозитория.
-     * @return Состояние с ошибкой.
      */
     @Test
     fun `update existing post with error`() {
@@ -115,16 +130,21 @@ class NewPostViewModelTest {
         val content = "Updated Post Content"
 
         val viewModel = NewPostViewModel(
-            repository = object : PostRepository {
-                override fun save(postId: Long, content: String): Single<PostData> =
-                    Single.error(error)
+            repository = object : TestPostRepository {
+                override suspend fun save(postId: Long, content: String): PostData = throw error
             },
-            postId = postId,
-            schedulersProvider = TestSchedulersProvider
+            postId = postId
+        )
+
+        val expected = NewPostState(
+            post = null,
+            statusPost = StatusPost.Error(error)
         )
 
         viewModel.save(content)
 
-        assertEquals(StatusPost.Error(error), viewModel.state.value.statusPost)
+        val actual = viewModel.state.value
+
+        assertEquals(expected, actual)
     }
 }
