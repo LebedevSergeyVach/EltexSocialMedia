@@ -29,4 +29,9 @@
         <item name="colorPrimary">@color/active_element</item>
         <item name="colorPrimaryContainer">@color/active_element</item>
     </style>
+
+    <!-- Кастомный стиль для TextView -->
+    <style name="CustomTextViewStyle">
+        <item name="android:textColorHighlight">@color/active_element</item>
+    </style>
 </resources>
