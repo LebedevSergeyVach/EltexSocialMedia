@@ -1,15 +1,15 @@
 package com.eltex.androidschool.viewmodel.events
 
-import com.eltex.androidschool.TestSchedulersProvider
+import com.eltex.androidschool.TestCoroutinesRule
 import com.eltex.androidschool.data.events.EventData
-import com.eltex.androidschool.repository.events.EventRepository
-
-import io.reactivex.rxjava3.core.Single
+import com.eltex.androidschool.repository.TestEventRepository
 
 import org.junit.Assert.assertEquals
+import org.junit.Rule
 import org.junit.Test
+import java.time.Instant
 
-*
+/**
  * Тестовый класс для проверки функциональности ViewModel, отвечающего за создание и обновление событий.
  *
  * Этот класс содержит тесты для проверки корректной работы методов `NewEventViewModel`, таких как:
@@ -20,116 +20,207 @@ import org.junit.Test
  * Тесты используют моки репозитория для имитации поведения сервера и проверки корректности обновления состояния ViewModel.
  *
  * @see NewEventViewModel ViewModel, которое тестируется.
- * @see EventRepository Интерфейс репозитория, используемый для мокирования данных.
- * @see TestSchedulersProvider Провайдер планировщиков для синхронного выполнения тестов.
-
-
+ * @see TestEventRepository Интерфейс репозитория, используемый для мокирования данных.
+ * @see TestCoroutinesRule Правило для управления корутинами в тестах.
+ */
 class NewEventViewModelTest {
 
-*
-     * Тест для проверки успешного сохранения нового события.
+    /**
+     * Правило для управления корутинами в тестах.
      *
-     * @param content Содержимое нового события.
-     * @return Успешное состояние с сохраненным событием.
+     * Это правило заменяет основной диспетчер (`Dispatchers.Main`) на тестовый диспетчер (`TestDispatcher`)
+     * перед выполнением теста и восстанавливает его после завершения теста. Это позволяет контролировать
+     * выполнение корутин в тестах и избегать проблем с асинхронным кодом.
+     *
+     * Используется в тестах, где необходимо управлять корутинами, чтобы гарантировать корректное выполнение
+     * асинхронных операций.
+     *
+     * @see TestCoroutinesRule Класс, реализующий правило для управления корутинами в тестах.
+     */
+    @get:Rule
+    val coroutinesRule: TestCoroutinesRule = TestCoroutinesRule()
 
-
+    /**
+     * Тест для проверки успешного сохранения нового события.
+     */
     @Test
     fun `save new event successfully`() {
+        val eventId = 0L
         val content = "New Event Content"
-        val newEvent = EventData(id = 1, content = content)
+        val link = "link.ru"
+        val option = "OFFLINE"
+        val data: Instant = Instant.now()
 
-        val viewModel = NewEventViewModel(
-            repository = object : EventRepository {
-                override fun save(eventId: Long, content: String, link: String, option: String, data: String): Single<EventData> =
-                    Single.just(newEvent)
-            },
-            schedulersProvider = TestSchedulersProvider
+        val newEvent = EventData(
+            id = eventId,
+            content = content,
+            link = link,
+            optionConducting = option,
+            dataEvent = data,
         )
 
-        viewModel.save(content, "", "", "")
+        val viewModel = NewEventViewModel(
+            object : TestEventRepository {
+                override suspend fun save(
+                    eventId: Long,
+                    content: String,
+                    link: String,
+                    option: String,
+                    data: String
+                ): EventData = newEvent
+            },
+            eventId = eventId
+        )
 
-        assertEquals(StatusEvent.Idle, viewModel.state.value.statusEvent)
-        assertEquals(newEvent, viewModel.state.value.event)
+        val expected = NewEventState(
+            event = newEvent,
+            statusEvent = StatusEvent.Idle
+        )
+
+        viewModel.save(
+            content = content,
+            link = link,
+            option = option,
+            data = data.toString()
+        )
+
+        val actual = viewModel.state.value
+
+        assertEquals(expected, actual)
     }
 
-*
+    /**
      * Тест для проверки обработки ошибки при сохранении нового события.
-     *
-     * @param error Исключение, которое будет возвращено из репозитория.
-     * @return Состояние с ошибкой.
-
-
+     */
     @Test
     fun `save new event with error`() {
         val error = RuntimeException("test error save")
+
+        val eventId = 0L
         val content = "New Event Content"
+        val link = "link.ru"
+        val option = "OFFLINE"
+        val data: Instant = Instant.now()
 
         val viewModel = NewEventViewModel(
-            repository = object : EventRepository {
-                override fun save(eventId: Long, content: String, link: String, option: String, data: String): Single<EventData> =
-                    Single.error(error)
+            object : TestEventRepository {
+                override suspend fun save(
+                    eventId: Long,
+                    content: String,
+                    link: String,
+                    option: String,
+                    data: String
+                ): EventData = throw error
             },
-            schedulersProvider = TestSchedulersProvider
+            eventId = eventId
         )
 
-        viewModel.save(content, "", "", "")
+        val expected = NewEventState(
+            event = null,
+            statusEvent = StatusEvent.Error(error)
+        )
 
-        assertEquals(StatusEvent.Error(error), viewModel.state.value.statusEvent)
+        viewModel.save(
+            content = content,
+            link = link,
+            option = option,
+            data = data.toString()
+        )
+
+        val actual = viewModel.state.value
+
+        assertEquals(expected, actual)
     }
 
-*
+    /**
      * Тест для проверки успешного обновления существующего события.
-     *
-     * @param eventId Идентификатор существующего события.
-     * @param content Новое содержимое события.
-     * @return Успешное состояние с обновленным событием.
-
-
+     */
     @Test
     fun `update existing event successfully`() {
         val eventId = 1L
         val content = "Updated Event Content"
-        val updatedEvent = EventData(id = eventId, content = content)
+        val link = "link.ru"
+        val option = "OFFLINE"
+        val data: Instant = Instant.now()
 
-        val viewModel = NewEventViewModel(
-            repository = object : EventRepository {
-                override fun save(eventId: Long, content: String, link: String, option: String, data: String): Single<EventData> =
-                    Single.just(updatedEvent)
-            },
-            eventId = eventId,
-            schedulersProvider = TestSchedulersProvider
+        val updateEvent = EventData(
+            id = eventId,
+            content = content,
+            link = link,
+            optionConducting = option,
+            dataEvent = data,
         )
 
-        viewModel.save(content, "", "", "")
+        val viewModel = NewEventViewModel(
+            object : TestEventRepository {
+                override suspend fun save(
+                    eventId: Long,
+                    content: String,
+                    link: String,
+                    option: String,
+                    data: String
+                ): EventData = updateEvent
+            },
+            eventId = eventId
+        )
 
-        assertEquals(StatusEvent.Idle, viewModel.state.value.statusEvent)
-        assertEquals(updatedEvent, viewModel.state.value.event)
+        val expected = NewEventState(
+            event = updateEvent,
+            statusEvent = StatusEvent.Idle
+        )
+
+        viewModel.save(
+            content = content,
+            link = link,
+            option = option,
+            data = data.toString()
+        )
+
+        val actual = viewModel.state.value
+
+        assertEquals(expected, actual)
     }
 
-*
+    /**
      * Тест для проверки обработки ошибки при обновлении существующего события.
-     *
-     * @param error Исключение, которое будет возвращено из репозитория.
-     * @return Состояние с ошибкой.
-
-
+     */
     @Test
     fun `update existing event with error`() {
         val error = RuntimeException("test error update")
+
         val eventId = 1L
         val content = "Updated Event Content"
+        val link = "link.ru"
+        val option = "OFFLINE"
+        val data: Instant = Instant.now()
 
         val viewModel = NewEventViewModel(
-            repository = object : EventRepository {
-                override fun save(eventId: Long, content: String, link: String, option: String, data: String): Single<EventData> =
-                    Single.error(error)
+            object : TestEventRepository {
+                override suspend fun save(
+                    eventId: Long,
+                    content: String,
+                    link: String,
+                    option: String,
+                    data: String
+                ): EventData = throw error
             },
-            eventId = eventId,
-            schedulersProvider = TestSchedulersProvider
+            eventId = eventId
         )
 
-        viewModel.save(content, "", "", "")
+        val expected = NewEventState(
+            event = null,
+            statusEvent = StatusEvent.Error(error)
+        )
 
-        assertEquals(StatusEvent.Error(error), viewModel.state.value.statusEvent)
+        viewModel.save(
+            content = content,
+            link = link,
+            option = option,
+            data = data.toString()
+        )
+
+        val actual = viewModel.state.value
+
+        assertEquals(expected, actual)
     }
 }

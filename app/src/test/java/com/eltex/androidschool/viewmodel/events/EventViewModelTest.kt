@@ -1,17 +1,17 @@
 package com.eltex.androidschool.viewmodel.events
 
-import com.eltex.androidschool.TestSchedulersProvider
-import com.eltex.androidschool.data.events.EventData
-import com.eltex.androidschool.repository.events.EventRepository
-import com.eltex.androidschool.ui.events.EventUiModel
+import com.eltex.androidschool.TestCoroutinesRule
+import com.eltex.androidschool.TestUtils.loading
 
-import io.reactivex.rxjava3.core.Completable
-import io.reactivex.rxjava3.core.Single
+import com.eltex.androidschool.repository.TestEventRepository
+import com.eltex.androidschool.data.events.EventData
+import com.eltex.androidschool.ui.events.EventUiModelMapper
 
 import org.junit.Assert.assertEquals
+import org.junit.Rule
 import org.junit.Test
 
-*
+/**
  * Тестовый класс для проверки функциональности ViewModel, отвечающего за управление событиями.
  *
  * Этот класс содержит тесты для проверки корректной работы методов `EventViewModel`, таких как:
@@ -24,19 +24,36 @@ import org.junit.Test
  * Тесты используют моки репозитория для имитации поведения сервера и проверки корректности обновления состояния ViewModel.
  *
  * @see EventViewModel ViewModel, которое тестируется.
- * @see EventRepository Интерфейс репозитория, используемый для мокирования данных.
- * @see TestSchedulersProvider Провайдер планировщиков для синхронного выполнения тестов.
-
-
+ * @see TestEventRepository Интерфейс репозитория, используемый для мокирования данных.
+ * @see TestCoroutinesRule Правило для управления корутинами в тестах.
+ */
 class EventViewModelTest {
 
-*
-     * Тест для проверки корректной загрузки списка событий.
+    /**
+     * Правило для управления корутинами в тестах.
      *
-     * @param events Список событий, которые будут возвращены из репозитория.
-     * @return Успешное состояние с загруженными событиями.
+     * Это правило заменяет основной диспетчер (`Dispatchers.Main`) на тестовый диспетчер (`TestDispatcher`)
+     * перед выполнением теста и восстанавливает его после завершения теста. Это позволяет контролировать
+     * выполнение корутин в тестах и избегать проблем с асинхронным кодом.
+     *
+     * Используется в тестах, где необходимо управлять корутинами, чтобы гарантировать корректное выполнение
+     * асинхронных операций.
+     *
+     * @see TestCoroutinesRule Класс, реализующий правило для управления корутинами в тестах.
+     */
+    @get:Rule
+    val coroutinesRule: TestCoroutinesRule = TestCoroutinesRule()
 
+    /**
+     * Маппер для преобразования данных поста в UI-модель.
+     *
+     * @see EventUiModelMapper Класс, отвечающий за преобразование данных в UI-модель.
+     */
+    private val mapper = EventUiModelMapper()
 
+    /**
+     * Тест для проверки корректной загрузки списка событий.
+     */
     @Test
     fun `load events successfully`() {
         val events = listOf(
@@ -45,215 +62,253 @@ class EventViewModelTest {
         )
 
         val viewModel = EventViewModel(
-            object : EventRepository {
-                override fun getEvents(): Single<List<EventData>> = Single.just(events)
+            object : TestEventRepository {
+                override suspend fun getEvents(): List<EventData> = events
+            }
+        )
+
+        val expected = EventState(
+            events = events.map { event: EventData ->
+                mapper.map(event)
             },
-            TestSchedulersProvider
+            statusEvent = StatusEvent.Idle
         )
 
         viewModel.load()
 
-        assertEquals(StatusEvent.Idle, viewModel.state.value.statusEvent)
-        assertEquals(events.size, viewModel.state.value.events?.size)
+        loading()
+
+        val actual = viewModel.state.value
+
+        assertEquals(expected, actual)
     }
 
-*
+    /**
      * Тест для проверки обработки ошибки при загрузке списка событий.
-     *
-     * @param error Исключение, которое будет возвращено из репозитория.
-     * @return Состояние с ошибкой.
-
-
+     */
     @Test
     fun `load events with error`() {
         val error = RuntimeException("test error load")
 
         val viewModel = EventViewModel(
-            object : EventRepository {
-                override fun getEvents(): Single<List<EventData>> = Single.error(error)
-            },
-            TestSchedulersProvider
+            object : TestEventRepository {
+                override suspend fun getEvents(): List<EventData> = throw error
+            }
+        )
+
+        val expected = EventState(
+            events = null,
+            statusEvent = StatusEvent.Error(error)
         )
 
         viewModel.load()
 
-        assertEquals(StatusEvent.Error(error), viewModel.state.value.statusEvent)
+        val actual = viewModel.state.value
+
+        assertEquals(expected, actual)
     }
 
-*
+    /**
      * Тест для проверки корректного лайка события.
-     *
-     * @param eventId Идентификатор события, которое нужно лайкнуть.
-     * @param likedByMe Флаг, указывающий, лайкнул ли текущий пользователь это событие.
-     * @return Успешное состояние с обновленным списком событий.
-
-
+     */
     @Test
     fun `like event successfully`() {
         val eventId = 1L
+
         val initialEvents = listOf(
             EventData(id = eventId, content = "Event 1", likedByMe = false),
             EventData(id = 2, content = "Event 2", likedByMe = false)
         )
+
         val likedEvent = EventData(id = eventId, content = "Event 1", likedByMe = true)
 
         val viewModel = EventViewModel(
-            object : EventRepository {
-                override fun getEvents(): Single<List<EventData>> = Single.just(initialEvents)
-                override fun likeById(eventId: Long, likedByMe: Boolean): Single<EventData> =
-                    Single.just(likedEvent)
+            object : TestEventRepository {
+                override suspend fun getEvents(): List<EventData> = initialEvents
+                override suspend fun likeById(eventId: Long, likedByMe: Boolean): EventData =
+                    likedEvent
+            }
+        )
+
+        val expected = EventState(
+            events = initialEvents.map { event: EventData ->
+                mapper.map(event)
             },
-            TestSchedulersProvider
+            statusEvent = StatusEvent.Idle
         )
 
         viewModel.load()
 
-        viewModel.likeById(eventId, false)
+        loading()
 
-        assertEquals(StatusEvent.Idle, viewModel.state.value.statusEvent)
-        assertEquals(true, viewModel.state.value.events?.find { event: EventUiModel ->
-            event.id == eventId
-        }
-            ?.likedByMe)
+        viewModel.likeById(eventId, likedEvent.likedByMe)
+
+        val actual = viewModel.state.value
+
+        assertEquals(expected, actual)
     }
 
-*
+    /**
      * Тест для проверки обработки ошибки при лайке события.
-     *
-     * @param error Исключение, которое будет возвращено из репозитория.
-     * @return Состояние с ошибкой.
-
-
+     */
     @Test
     fun `like event with error`() {
         val error = RuntimeException("test error like")
 
         val viewModel = EventViewModel(
-            object : EventRepository {
-                override fun likeById(eventId: Long, likedByMe: Boolean): Single<EventData> =
-                    Single.error(error)
-            },
-            TestSchedulersProvider
+            object : TestEventRepository {
+                override suspend fun likeById(eventId: Long, likedByMe: Boolean): EventData =
+                    throw error
+            }
+        )
+
+        val expected = EventState(
+            events = null,
+            statusEvent = StatusEvent.Error(error)
         )
 
         viewModel.likeById(1, false)
 
-        assertEquals(StatusEvent.Error(error), viewModel.state.value.statusEvent)
+        val actual = viewModel.state.value
+
+        assertEquals(expected, actual)
     }
 
-*
+    /**
      * Тест для проверки корректного участия в событии.
-     *
-     * @param eventId Идентификатор события, в котором нужно участвовать.
-     * @param participatedByMe Флаг, указывающий, участвует ли текущий пользователь в этом событии.
-     * @return Успешное состояние с обновленным списком событий.
-
-
+     */
     @Test
     fun `participate in event successfully`() {
         val eventId = 1L
+
         val initialEvents = listOf(
             EventData(id = eventId, content = "Event 1", participatedByMe = false),
             EventData(id = 2, content = "Event 2", participatedByMe = false)
         )
-        val participatedEvent = EventData(id = eventId, content = "Event 1", participatedByMe = true)
+
+        val participatedEvent =
+            EventData(id = eventId, content = "Event 1", participatedByMe = true)
 
         val viewModel = EventViewModel(
-            object : EventRepository {
-                override fun getEvents(): Single<List<EventData>> = Single.just(initialEvents)
-                override fun participateById(eventId: Long, participatedByMe: Boolean): Single<EventData> =
-                    Single.just(participatedEvent)
+            object : TestEventRepository {
+                override suspend fun getEvents(): List<EventData> = initialEvents
+                override suspend fun participateById(
+                    eventId: Long,
+                    participatedByMe: Boolean
+                ): EventData = participatedEvent
+            }
+        )
+
+        val expected = EventState(
+            events = initialEvents.map { event: EventData ->
+                mapper.map(event)
             },
-            TestSchedulersProvider
+            statusEvent = StatusEvent.Idle
         )
 
         viewModel.load()
 
-        viewModel.participateById(eventId, false)
+        loading()
 
-        assertEquals(StatusEvent.Idle, viewModel.state.value.statusEvent)
-        assertEquals(true, viewModel.state.value.events?.find { event: EventUiModel ->
-            event.id == eventId
-        }
-            ?.participatedByMe)
+        viewModel.participateById(eventId, participatedEvent.participatedByMe)
+
+        val actual = viewModel.state.value
+
+        assertEquals(expected, actual)
     }
 
-*
+    /**
      * Тест для проверки обработки ошибки при участии в событии.
-     *
-     * @param error Исключение, которое будет возвращено из репозитория.
-     * @return Состояние с ошибкой.
-
-
+     */
     @Test
     fun `participate in event with error`() {
         val error = RuntimeException("test error participate")
 
         val viewModel = EventViewModel(
-            object : EventRepository {
-                override fun participateById(eventId: Long, participatedByMe: Boolean): Single<EventData> =
-                    Single.error(error)
-            },
-            TestSchedulersProvider
+            object : TestEventRepository {
+                override suspend fun participateById(
+                    eventId: Long,
+                    participatedByMe: Boolean
+                ): EventData = throw error
+            }
+        )
+
+        val expected = EventState(
+            events = null,
+            statusEvent = StatusEvent.Error(error)
         )
 
         viewModel.participateById(1, false)
 
-        assertEquals(StatusEvent.Error(error), viewModel.state.value.statusEvent)
+        val actual = viewModel.state.value
+
+        assertEquals(expected, actual)
     }
 
-*
+    /**
      * Тест для проверки корректного удаления события.
-     *
-     * @param eventId Идентификатор события, которое нужно удалить.
-     * @return Успешное состояние с обновленным списком событий.
-
-
+     */
     @Test
     fun `delete event successfully`() {
         val eventId = 1L
-        val events = listOf(
+
+        val initialEvents = listOf(
             EventData(id = eventId, content = "Event 1"),
             EventData(id = 2, content = "Event 2")
         )
 
         val viewModel = EventViewModel(
-            object : EventRepository {
-                override fun deleteById(eventId: Long): Completable = Completable.complete()
-                override fun getEvents(): Single<List<EventData>> = Single.just(events)
-            },
-            TestSchedulersProvider
+            object : TestEventRepository {
+                override suspend fun getEvents(): List<EventData> = initialEvents
+                override suspend fun deleteById(eventId: Long) {}
+            }
         )
+
+        val expectedEvents = initialEvents.filter { event: EventData ->
+            event.id != eventId
+        }
+            .map { event: EventData ->
+                mapper.map(event)
+            }
+
+        val expected = EventState(
+            events = expectedEvents,
+            statusEvent = StatusEvent.Idle
+        )
+
+        viewModel.load()
+
+        loading()
 
         viewModel.deleteById(eventId)
 
-        assertEquals(StatusEvent.Idle, viewModel.state.value.statusEvent)
-        assertEquals(1, viewModel.state.value.events?.size)
-        assertEquals(false, viewModel.state.value.events?.any { event: EventUiModel ->
-            event.id == eventId
-        })
+        val actual = viewModel.state.value
+
+        assertEquals(expected, actual)
     }
 
-*
+    /**
      * Тест для проверки обработки ошибки при удалении события.
-     *
-     * @param error Исключение, которое будет возвращено из репозитория.
-     * @return Состояние с ошибкой.
-
-
+     */
     @Test
     fun `delete event with error`() {
         val error = RuntimeException("test error delete")
 
         val viewModel = EventViewModel(
-            object : EventRepository {
-                override fun deleteById(eventId: Long): Completable = Completable.error(error)
-            },
-            TestSchedulersProvider
+            object : TestEventRepository {
+                override suspend fun deleteById(eventId: Long) = throw error
+            }
+        )
+
+        val expected = EventState(
+            events = null,
+            statusEvent = StatusEvent.Error(error)
         )
 
         viewModel.deleteById(1)
 
-        assertEquals(StatusEvent.Error(error), viewModel.state.value.statusEvent)
+        val actual = viewModel.state.value
+
+        assertEquals(expected, actual)
     }
 }

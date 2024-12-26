@@ -3,14 +3,10 @@ package com.eltex.androidschool.viewmodel.posts
 import com.eltex.androidschool.TestCoroutinesRule
 import com.eltex.androidschool.data.posts.PostData
 import com.eltex.androidschool.repository.TestPostRepository
-import com.eltex.androidschool.ui.posts.PostUiModel
-import com.eltex.androidschool.ui.posts.PostUiModelMapper
+
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 /**
  * Тестовый класс для проверки функциональности ViewModel, отвечающего за создание и обновление постов.
@@ -27,28 +23,40 @@ import kotlinx.coroutines.runBlocking
  * @see TestCoroutinesRule Правило для управления корутинами в тестах.
  */
 class NewPostViewModelTest {
-    @get:Rule
-    val coroutinesRule: TestCoroutinesRule = TestCoroutinesRule()
 
     /**
-     * Маппер для преобразования данных поста в UI-модель.
+     * Правило для управления корутинами в тестах.
      *
-     * @see PostUiModelMapper Класс, отвечающий за преобразование данных в UI-модель.
+     * Это правило заменяет основной диспетчер (`Dispatchers.Main`) на тестовый диспетчер (`TestDispatcher`)
+     * перед выполнением теста и восстанавливает его после завершения теста. Это позволяет контролировать
+     * выполнение корутин в тестах и избегать проблем с асинхронным кодом.
+     *
+     * Используется в тестах, где необходимо управлять корутинами, чтобы гарантировать корректное выполнение
+     * асинхронных операций.
+     *
+     * @see TestCoroutinesRule Класс, реализующий правило для управления корутинами в тестах.
      */
-    private val mapper = PostUiModelMapper()
+    @get:Rule
+    val coroutinesRule: TestCoroutinesRule = TestCoroutinesRule()
 
     /**
      * Тест для проверки успешного сохранения нового поста.
      */
     @Test
     fun `save new post successfully`() {
+        val postId = 0L
         val content = "New Post Content"
-        val newPost = PostData(id = 1, content = content)
+
+        val newPost = PostData(
+            id = postId,
+            content = content
+        )
 
         val viewModel = NewPostViewModel(
             repository = object : TestPostRepository {
                 override suspend fun save(postId: Long, content: String): PostData = newPost
-            }
+            },
+            postId = postId
         )
 
         val expected = NewPostState(
@@ -56,12 +64,11 @@ class NewPostViewModelTest {
             statusPost = StatusPost.Idle
         )
 
-        viewModel.save(content)
+        viewModel.save(content = content)
 
         val actual = viewModel.state.value
 
         assertEquals(expected, actual)
-        assertEquals(newPost, actual.post)
     }
 
     /**
@@ -70,12 +77,15 @@ class NewPostViewModelTest {
     @Test
     fun `save new post with error`() {
         val error = RuntimeException("test error save")
+
+        val postId = 0L
         val content = "New Post Content"
 
         val viewModel = NewPostViewModel(
             repository = object : TestPostRepository {
                 override suspend fun save(postId: Long, content: String) = throw error
-            }
+            },
+            postId = postId
         )
 
         val expected = NewPostState(
@@ -83,7 +93,7 @@ class NewPostViewModelTest {
             statusPost = StatusPost.Error(error)
         )
 
-        viewModel.save(content)
+        viewModel.save(content = content)
 
         val actual = viewModel.state.value
 
@@ -97,7 +107,11 @@ class NewPostViewModelTest {
     fun `update existing post successfully`() {
         val postId = 1L
         val content = "Updated Post Content"
-        val updatedPost = PostData(id = postId, content = content)
+
+        val updatedPost = PostData(
+            id = postId,
+            content = content
+        )
 
         val viewModel = NewPostViewModel(
             repository = object : TestPostRepository {
@@ -112,12 +126,11 @@ class NewPostViewModelTest {
             statusPost = StatusPost.Idle
         )
 
-        viewModel.save(content)
+        viewModel.save(content = content)
 
         val actual = viewModel.state.value
 
         assertEquals(expected, actual)
-        assertEquals(updatedPost, viewModel.state.value.post)
     }
 
     /**
@@ -126,6 +139,7 @@ class NewPostViewModelTest {
     @Test
     fun `update existing post with error`() {
         val error = RuntimeException("test error update")
+
         val postId = 1L
         val content = "Updated Post Content"
 
@@ -141,7 +155,7 @@ class NewPostViewModelTest {
             statusPost = StatusPost.Error(error)
         )
 
-        viewModel.save(content)
+        viewModel.save(content = content)
 
         val actual = viewModel.state.value
 

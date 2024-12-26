@@ -1,16 +1,15 @@
 package com.eltex.androidschool.viewmodel.posts
 
 import com.eltex.androidschool.TestCoroutinesRule
-import com.eltex.androidschool.data.posts.PostData
+import com.eltex.androidschool.TestUtils.loading
+
 import com.eltex.androidschool.repository.TestPostRepository
-import com.eltex.androidschool.ui.posts.PostUiModel
+import com.eltex.androidschool.data.posts.PostData
 import com.eltex.androidschool.ui.posts.PostUiModelMapper
+
 import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 /**
  * Тестовый класс для проверки функциональности ViewModel, отвечающего за управление постами.
@@ -28,6 +27,19 @@ import kotlinx.coroutines.runBlocking
  * @see TestCoroutinesRule Правило для управления корутинами в тестах.
  */
 class PostViewModelTest {
+
+    /**
+     * Правило для управления корутинами в тестах.
+     *
+     * Это правило заменяет основной диспетчер (`Dispatchers.Main`) на тестовый диспетчер (`TestDispatcher`)
+     * перед выполнением теста и восстанавливает его после завершения теста. Это позволяет контролировать
+     * выполнение корутин в тестах и избегать проблем с асинхронным кодом.
+     *
+     * Используется в тестах, где необходимо управлять корутинами, чтобы гарантировать корректное выполнение
+     * асинхронных операций.
+     *
+     * @see TestCoroutinesRule Класс, реализующий правило для управления корутинами в тестах.
+     */
     @get:Rule
     val coroutinesRule: TestCoroutinesRule = TestCoroutinesRule()
 
@@ -43,9 +55,22 @@ class PostViewModelTest {
      */
     @Test
     fun `load posts successfully`() {
+        val firstPostId = 1L
+        val secondPostId = 2L
+
+        val firstContent = "Post 1"
+        val secondContent = "Post 2"
+
         val posts = listOf(
-            PostData(id = 1, content = "Post 1"),
-            PostData(id = 2, content = "Post 2")
+            PostData(
+                id = firstPostId,
+                content = firstContent,
+            ),
+
+            PostData(
+                id = secondPostId,
+                content = secondContent,
+            )
         )
 
         val viewModel = PostViewModel(
@@ -68,7 +93,6 @@ class PostViewModelTest {
         val actual = viewModel.state.value
 
         assertEquals(expected, actual)
-        assertEquals(posts.size, actual.posts?.size)
     }
 
     /**
@@ -101,14 +125,34 @@ class PostViewModelTest {
      */
     @Test
     fun `like post successfully`() {
-        val postId = 1L
+        val firstPostId = 1L
+        val secondPostId = 2L
+
+        val firstContent = "Post 1"
+        val secondContent = "Post 2"
+
+        val firstLikedByMe = false
+        val secondLikedByMe = false
 
         val initialPosts = listOf(
-            PostData(id = postId, content = "Post 1", likedByMe = false),
-            PostData(id = 2, content = "Post 2", likedByMe = false)
+            PostData(
+                id = firstPostId,
+                content = firstContent,
+                likedByMe = firstLikedByMe
+            ),
+
+            PostData(
+                id = secondPostId,
+                content = secondContent,
+                likedByMe = secondLikedByMe
+            )
         )
 
-        val likedPost = PostData(id = postId, content = "Post 1", likedByMe = true)
+        val likedPost = PostData(
+            id = firstPostId,
+            content = firstContent,
+            likedByMe = true
+        )
 
         val viewModel = PostViewModel(
             object : TestPostRepository {
@@ -129,34 +173,14 @@ class PostViewModelTest {
 
         loading()
 
-        viewModel.likeById(postId, likedPost.likedByMe)
+        viewModel.likeById(
+            postId = firstPostId,
+            likedByMe = likedPost.likedByMe
+        )
 
         val actual = viewModel.state.value
 
         assertEquals(expected, actual)
-        assertEquals(
-            expected.posts?.find { post: PostUiModel ->
-                post.id == postId
-            }?.likedByMe,
-
-            actual.posts?.find { post: PostUiModel ->
-                post.id == postId
-            }?.likedByMe
-        )
-        assertEquals(
-            initialPosts[0].likedByMe,
-
-            actual.posts?.find { post: PostUiModel ->
-                post.id == postId
-            }?.likedByMe
-        )
-        assertEquals(
-            false,
-
-            actual.posts?.find { post: PostUiModel ->
-                post.id == postId
-            }?.likedByMe
-        )
     }
 
     /**
@@ -165,6 +189,9 @@ class PostViewModelTest {
     @Test
     fun `like post with error`() {
         val error = RuntimeException("test error like")
+
+        val postId = 1L
+        val likedByMe = false
 
         val viewModel = PostViewModel(
             object : TestPostRepository {
@@ -178,7 +205,10 @@ class PostViewModelTest {
             statusPost = StatusPost.Error(error)
         )
 
-        viewModel.likeById(1, false)
+        viewModel.likeById(
+            postId = postId,
+            likedByMe = likedByMe
+        )
 
         val actual = viewModel.state.value
 
@@ -190,11 +220,27 @@ class PostViewModelTest {
      */
     @Test
     fun `delete post successfully`() {
-        val postId = 1L
+        val firstPostId = 1L
+        val secondPostId = 2L
+
+        val firstContent = "Post 1"
+        val secondContent = "Post 2"
+
+        val firstLikedByMe = false
+        val secondLikedByMe = false
 
         val initialPosts = listOf(
-            PostData(id = postId, content = "Post 1", likedByMe = false),
-            PostData(id = 2, content = "Post 2", likedByMe = false)
+            PostData(
+                id = firstPostId,
+                content = firstContent,
+                likedByMe = firstLikedByMe
+            ),
+
+            PostData(
+                id = secondPostId,
+                content = secondContent,
+                likedByMe = secondLikedByMe
+            )
         )
 
         val viewModel = PostViewModel(
@@ -205,7 +251,7 @@ class PostViewModelTest {
         )
 
         val expectedPosts = initialPosts.filter { post: PostData ->
-            post.id != postId
+            post.id != firstPostId
         }
             .map { post: PostData ->
                 mapper.map(post)
@@ -220,15 +266,11 @@ class PostViewModelTest {
 
         loading()
 
-        viewModel.deleteById(postId)
+        viewModel.deleteById(postId = firstPostId)
 
         val actual = viewModel.state.value
 
         assertEquals(expected, actual)
-        assertEquals(1, viewModel.state.value.posts?.size)
-        assertEquals(false, viewModel.state.value.posts?.any { post: PostUiModel ->
-            post.id == postId
-        })
     }
 
     /**
@@ -237,6 +279,8 @@ class PostViewModelTest {
     @Test
     fun `delete post with error`() {
         val error = RuntimeException("test error delete")
+
+        val postId = 1L
 
         val viewModel = PostViewModel(
             object : TestPostRepository {
@@ -249,16 +293,10 @@ class PostViewModelTest {
             statusPost = StatusPost.Error(error)
         )
 
-        viewModel.deleteById(1)
+        viewModel.deleteById(postId = postId)
 
         val actual = viewModel.state.value
 
         assertEquals(expected, actual)
-    }
-
-    private fun loading(timeMillis: Long = 1_000L) = runBlocking {
-        launch {
-            delay(timeMillis)
-        }
     }
 }
