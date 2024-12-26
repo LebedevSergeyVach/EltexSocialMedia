@@ -46,7 +46,7 @@
                 android:textSize="17sp"
                 android:textStyle="bold" />
 
-            <com.google.android.material.switchmaterial.SwitchMaterial
+            <com.google.android.material.materialswitch.MaterialSwitch
                 android:id="@+id/option_switch"
 
                 android:layout_width="wrap_content"
@@ -55,12 +55,14 @@
                 android:backgroundTint="@color/active_element"
 
                 android:checked="false"
-
                 android:textOff="@string/offline"
+
                 android:textOn="@string/online"
 
                 app:thumbTint="@drawable/switch_thumb_tint"
-                app:trackTint="@drawable/switch_track_tint" />
+                app:trackTint="@drawable/switch_track_tint"
+
+                app:useMaterialThemeColors="true" />
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>

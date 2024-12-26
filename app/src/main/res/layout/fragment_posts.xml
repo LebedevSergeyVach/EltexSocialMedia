@@ -16,8 +16,10 @@
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/list"
@@ -36,21 +38,47 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressLiner"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="120dp"
+        android:indeterminate="true"
+        android:paddingStart="80dp"
+
+        android:paddingEnd="80dp"
+
+        app:indicatorColor="@color/active_element"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:trackThickness="8dp" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressBar"
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
         android:background="@drawable/background_progress_bar"
-        app:layout_constraintBottom_toBottomOf="parent"
 
+        android:indeterminate="true"
+
+        android:padding="8dp"
+
+        app:indicatorColor="@color/active_element"
+
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:trackThickness="4dp"
 
-        tools:visibility="gone" />
+        app:trackThickness="6dp" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardErrorText"
@@ -107,6 +135,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        app:constraint_referenced_ids="retryButton, cardErrorText," />
+        app:constraint_referenced_ids="retryButton, cardErrorText,"
+
+        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

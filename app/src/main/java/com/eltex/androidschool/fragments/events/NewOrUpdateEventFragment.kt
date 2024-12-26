@@ -156,7 +156,15 @@ class NewOrUpdateEventFragment : Fragment() {
                 .start()
         }
 
+        binding.cardOption.setOnClickListener {
+            binding.optionSwitch.isChecked = !binding.optionSwitch.isChecked
+        }
+
         binding.selectDateTimeButton.setOnClickListener {
+            showDatePicker(binding)
+        }
+
+        binding.cardData.setOnClickListener {
             showDatePicker(binding)
         }
 
@@ -254,6 +262,7 @@ class NewOrUpdateEventFragment : Fragment() {
     private fun showDatePicker(binding: FragmentNewOrUpdateEventBinding) {
         val datePicker = MaterialDatePicker.Builder.datePicker()
             .setTitleText(R.string.select_date)
+            .setTheme(R.style.CustomDatePicker)
             .build()
 
         datePicker.addOnPositiveButtonClickListener {
@@ -282,6 +291,7 @@ class NewOrUpdateEventFragment : Fragment() {
             .setHour(12)
             .setMinute(0)
             .setTitleText(R.string.select_time)
+            .setTheme(R.style.CustomTimePicker)
             .build()
 
         timePicker.addOnPositiveButtonClickListener {

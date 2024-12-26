@@ -18,4 +18,15 @@
         <item name="itemRippleColor">@null</item>
     </style>
 
+    <!-- Стиль для MaterialDatePicker -->
+    <style name="CustomDatePicker" parent="ThemeOverlay.Material3.MaterialCalendar">
+        <item name="colorPrimary">@color/active_element</item>
+        <item name="colorPrimaryContainer">@color/active_element</item>
+    </style>
+
+    <!-- Стиль для MaterialTimePicker -->
+    <style name="CustomTimePicker" parent="ThemeOverlay.Material3.MaterialTimePicker">
+        <item name="colorPrimary">@color/active_element</item>
+        <item name="colorPrimaryContainer">@color/active_element</item>
+    </style>
 </resources>

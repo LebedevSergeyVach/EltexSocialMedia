@@ -170,6 +170,7 @@ class PostsFragment : Fragment() {
                 binding.errorText.text = errorText
 
                 binding.progressBar.isVisible = postState.isEmptyLoading
+                binding.progressLiner.isVisible = postState.isEmptyLoading
 
                 binding.swiperRefresh.isRefreshing = postState.isRefreshing
 

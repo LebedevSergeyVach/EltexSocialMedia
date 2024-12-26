@@ -95,6 +95,7 @@ class UserFragment : Fragment() {
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { userState: UserState ->
                 binding.progressBar.isVisible = userState.isEmptyLoading
+                binding.progressLiner.isVisible = userState.isEmptyLoading
                 binding.swiperRefresh.isRefreshing = userState.isRefreshing
                 binding.errorGroup.isVisible = userState.isEmptyError
 
