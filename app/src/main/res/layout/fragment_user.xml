@@ -7,7 +7,7 @@
 
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragments.users.UsersFragment">
+    tools:context=".fragments.users.UserFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swiperRefresh"
@@ -85,7 +85,7 @@
                     android:textSize="30sp"
                     android:textStyle="bold"
 
-                    tools:text="@string/account"/>
+                    tools:text="@string/account" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -101,12 +101,12 @@
         android:layout_height="wrap_content"
 
         android:layout_marginBottom="100dp"
+        android:indeterminate="true"
         android:paddingStart="100dp"
+
         android:paddingEnd="100dp"
 
         app:indicatorColor="@color/active_element"
-
-        android:indeterminate="true"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -123,9 +123,9 @@
 
         android:background="@drawable/background_progress_bar"
 
-        app:indicatorColor="@color/active_element"
-
         android:indeterminate="true"
+
+        app:indicatorColor="@color/active_element"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

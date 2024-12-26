@@ -54,7 +54,7 @@
     <fragment
         android:id="@+id/userFragment"
         android:name="com.eltex.androidschool.fragments.users.UserFragment"
-        android:label="UserFragment"
+        android:label="@string/account"
         tools:layout="@layout/fragment_user" />
 
 </navigation>

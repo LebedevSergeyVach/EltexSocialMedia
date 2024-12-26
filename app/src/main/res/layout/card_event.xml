@@ -100,7 +100,7 @@
 
             android:importantForAccessibility="no"
             android:textColor="@color/active_element"
-            app:icon="@drawable/ic_more"
+            app:icon="@drawable/ic_more_24"
             app:iconTint="@color/active_element"
 
             app:layout_constraintEnd_toEndOf="parent"

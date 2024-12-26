@@ -46,8 +46,8 @@
 
         android:layout_marginBottom="120dp"
         android:indeterminate="true"
-        android:paddingStart="80dp"
 
+        android:paddingStart="80dp"
         android:paddingEnd="80dp"
 
         app:indicatorColor="@color/active_element"
