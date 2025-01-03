@@ -29,7 +29,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_app_name"
+            android:id="@+id/card_user_name"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

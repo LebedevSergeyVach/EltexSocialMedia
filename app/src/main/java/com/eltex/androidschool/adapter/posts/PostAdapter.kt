@@ -25,7 +25,8 @@ import com.eltex.androidschool.utils.singleVibration
  */
 class PostAdapter(
     private val listener: PostListener,
-    private val context: Context
+    private val context: Context,
+    private val currentUserId: Long
 ) : ListAdapter<PostUiModel, PostViewHolder>(PostItemCallback()) {
 
     /**
@@ -84,7 +85,7 @@ class PostAdapter(
      * @param position Позиция элемента в списке.
      */
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        holder.bindPost(getItem(position))
+        holder.bindPost(getItem(position), currentUserId)
     }
 
     /**

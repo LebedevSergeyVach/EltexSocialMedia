@@ -8,6 +8,7 @@ import android.view.ViewGroup
 
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 
 import androidx.core.view.isVisible
 
@@ -21,18 +22,31 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
 
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
+import com.eltex.androidschool.adapter.posts.PostAdapter
 
 import com.eltex.androidschool.databinding.FragmentUserBinding
+import com.eltex.androidschool.fragments.posts.NewOrUpdatePostFragment
+
+import com.eltex.androidschool.repository.posts.NetworkPostRepository
 import com.eltex.androidschool.repository.users.NetworkUserRepository
+import com.eltex.androidschool.ui.common.OffsetDecoration
+import com.eltex.androidschool.ui.posts.PostUiModel
+
 import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.toast
+
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
+import com.eltex.androidschool.viewmodel.posts.PostState
+import com.eltex.androidschool.viewmodel.posts.PostByIdAuthorForUser
 import com.eltex.androidschool.viewmodel.users.UserState
 import com.eltex.androidschool.viewmodel.users.UserViewModel
 
@@ -49,7 +63,7 @@ import com.eltex.androidschool.viewmodel.users.UserViewModel
  */
 class UserFragment : Fragment() {
 
-    private val viewModel by viewModels<UserViewModel> {
+    private val userViewModel by viewModels<UserViewModel> {
         viewModelFactory {
             addInitializer(UserViewModel::class) {
                 UserViewModel(
@@ -58,6 +72,8 @@ class UserFragment : Fragment() {
             }
         }
     }
+
+    val toolbarViewModel by activityViewModels<ToolBarViewModel>()
 
     companion object {
         const val USER_ID = "USER_ID"
@@ -71,16 +87,28 @@ class UserFragment : Fragment() {
 
         val userId: Long = arguments?.getLong(USER_ID) ?: BuildConfig.USER_ID
 
-        val toolbarViewModel by activityViewModels<ToolBarViewModel>()
+        val postViewModel by viewModels<PostByIdAuthorForUser> {
+            viewModelFactory {
+                addInitializer(PostByIdAuthorForUser::class) {
+                    PostByIdAuthorForUser(
+                        repository = NetworkPostRepository(),
+                        userId = userId
+                    )
+                }
+            }
+        }
 
-        viewModel.getUserById(userId)
+        userViewModel.getUserById(userId)
+        postViewModel.loadPostsByAuthor(userId)
 
         binding.swiperRefresh.setOnRefreshListener {
-            viewModel.getUserById(userId)
+            userViewModel.getUserById(userId)
+            postViewModel.loadPostsByAuthor(userId)
         }
 
         binding.retryButton.setOnClickListener {
-            viewModel.getUserById(userId)
+            userViewModel.getUserById(userId)
+            postViewModel.loadPostsByAuthor(userId)
         }
 
         binding.swiperRefresh.setColorSchemeColors(
@@ -91,7 +119,55 @@ class UserFragment : Fragment() {
             ContextCompat.getColor(requireContext(), R.color.background_color_of_the_refresh_circle)
         )
 
-        viewModel.state
+        binding.postsRecyclerView.addItemDecoration(
+            OffsetDecoration(resources.getDimensionPixelSize(R.dimen.list_offset))
+        )
+
+        if (userId != BuildConfig.USER_ID) {
+            val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
+            toolbar.title = getString(R.string.account)
+        }
+
+        val postAdapter = PostAdapter(
+            listener = object : PostAdapter.PostListener {
+                override fun onLikeClicked(post: PostUiModel) {
+                    postViewModel.likeById(post.id, post.likedByMe)
+                }
+
+                override fun onShareClicked(post: PostUiModel) {}
+
+                override fun onDeleteClicked(post: PostUiModel) {
+                    postViewModel.deleteById(post.id)
+                }
+
+                override fun onUpdateClicked(post: PostUiModel) {
+                    requireParentFragment().requireParentFragment().findNavController()
+                        .navigate(
+                            R.id.action_BottomNavigationFragment_to_newOrUpdatePostFragment,
+                            bundleOf(
+                                NewOrUpdatePostFragment.POST_ID to post.id,
+                                NewOrUpdatePostFragment.POST_CONTENT to post.content,
+                                NewOrUpdatePostFragment.IS_UPDATE to true,
+                            ),
+                            NavOptions.Builder()
+                                .setEnterAnim(R.anim.slide_in_right)
+                                .setExitAnim(R.anim.slide_out_left)
+                                .setPopEnterAnim(R.anim.slide_in_left)
+                                .setPopExitAnim(R.anim.slide_out_right)
+                                .build()
+                        )
+                }
+
+                override fun onGetUserClicked(post: PostUiModel) {}
+            },
+
+            context = requireContext(),
+            currentUserId = BuildConfig.USER_ID
+        )
+
+        binding.postsRecyclerView.adapter = postAdapter
+
+        userViewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { userState: UserState ->
                 binding.progressBar.isVisible = userState.isEmptyLoading
@@ -111,11 +187,11 @@ class UserFragment : Fragment() {
                 if (userState.isRefreshError && errorText == getString(R.string.network_error)) {
                     requireContext().toast(R.string.network_error)
 
-                    viewModel.consumerError()
+                    userViewModel.consumerError()
                 } else if (userState.isRefreshError && errorText == getString(R.string.unknown_error)) {
                     requireContext().toast(R.string.unknown_error)
 
-                    viewModel.consumerError()
+                    userViewModel.consumerError()
                 }
 
                 userState.users?.firstOrNull()?.let { user ->
@@ -125,10 +201,34 @@ class UserFragment : Fragment() {
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        if (userId != BuildConfig.USER_ID) {
-            val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
-            toolbar.title = getString(R.string.account)
-        }
+        postViewModel.state
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { postState: PostState ->
+                binding.errorGroup.isVisible = postState.isEmptyError
+
+                val errorText: CharSequence? =
+                    postState.statusPost.throwableOrNull?.getErrorText(requireContext())
+
+                binding.errorText.text = errorText
+
+                binding.progressBar.isVisible = postState.isEmptyLoading
+                binding.progressLiner.isVisible = postState.isEmptyLoading
+
+                binding.swiperRefresh.isRefreshing = postState.isRefreshing
+
+                if (postState.isRefreshError && errorText == getString(R.string.network_error)) {
+                    requireContext().toast(R.string.network_error)
+
+                    postViewModel.consumerError()
+                } else if (postState.isRefreshError && errorText == getString(R.string.unknown_error)) {
+                    requireContext().toast(R.string.unknown_error)
+
+                    postViewModel.consumerError()
+                }
+
+                postAdapter.submitList(postState.posts)
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
 
         viewLifecycleOwner.lifecycle.addObserver(
             object : LifecycleEventObserver {
@@ -142,6 +242,11 @@ class UserFragment : Fragment() {
                 }
             }
         )
+
+        binding.postsRecyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = postAdapter
+        }
 
         return binding.root
     }

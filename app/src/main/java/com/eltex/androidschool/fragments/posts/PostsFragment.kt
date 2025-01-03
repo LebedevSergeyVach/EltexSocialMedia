@@ -19,6 +19,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import com.eltex.androidschool.BuildConfig
 
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -129,7 +130,9 @@ class PostsFragment : Fragment() {
                         )
                 }
             },
-            context = requireContext()
+
+            context = requireContext(),
+            currentUserId = BuildConfig.USER_ID
         )
 
         binding.list.adapter = adapter
@@ -167,6 +170,7 @@ class PostsFragment : Fragment() {
 
                 val errorText: CharSequence? =
                     postState.statusPost.throwableOrNull?.getErrorText(requireContext())
+
                 binding.errorText.text = errorText
 
                 binding.progressBar.isVisible = postState.isEmptyLoading
@@ -194,14 +198,14 @@ class PostsFragment : Fragment() {
     /**
      * Прокручивает RecyclerView на самый верх.
      */
-    fun scrollToTop(binding: FragmentPostsBinding) {
+    private fun scrollToTop(binding: FragmentPostsBinding) {
         binding.list.smoothScrollToPosition(0)
     }
 
     /**
      * Прокручивает RecyclerView на самый верх и обновляет данные.
      */
-    fun scrollToTopAndRefresh(binding: FragmentPostsBinding) {
+    private fun scrollToTopAndRefresh(binding: FragmentPostsBinding) {
         viewModel.load()
         binding.list.smoothScrollToPosition(0)
     }

@@ -13,6 +13,7 @@ import android.view.MotionEvent
 import android.view.View
 
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
@@ -61,7 +62,7 @@ class PostViewHolder(
      * @param post Пост, данные которого нужно отобразить.
      */
     @SuppressLint("SetTextI18n")
-    fun bindPost(post: PostUiModel) {
+    fun bindPost(post: PostUiModel, currentUserId: Long) {
         binding.author.text = post.author
         binding.initial.text = post.author.take(1)
         binding.content.text = post.content
@@ -71,6 +72,9 @@ class PostViewHolder(
         SpannableString(binding.content.text)
 
         updateLike(post.likedByMe)
+
+        // Проверяем, совпадает ли authorId поста с текущим пользователем
+        binding.menu.isVisible = post.authorId == currentUserId
 
         binding.share.setOnClickListener {
             context.toast(R.string.shared)
