@@ -157,7 +157,7 @@ class PostsFragment : Fragment() {
         requireActivity().supportFragmentManager.setFragmentResultListener(
             NewOrUpdatePostFragment.POST_CREATED_OR_UPDATED_KEY, viewLifecycleOwner
         ) { _, _ ->
-            viewModel.load()
+            scrollToTopAndRefresh(binding = binding)
         }
 
         viewModel.state
@@ -189,5 +189,20 @@ class PostsFragment : Fragment() {
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
         return binding.root
+    }
+
+    /**
+     * Прокручивает RecyclerView на самый верх.
+     */
+    fun scrollToTop(binding: FragmentPostsBinding) {
+        binding.list.smoothScrollToPosition(0)
+    }
+
+    /**
+     * Прокручивает RecyclerView на самый верх и обновляет данные.
+     */
+    fun scrollToTopAndRefresh(binding: FragmentPostsBinding) {
+        viewModel.load()
+        binding.list.smoothScrollToPosition(0)
     }
 }

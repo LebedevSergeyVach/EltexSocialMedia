@@ -11,10 +11,10 @@
         android:icon="@drawable/ic_calendar_24"
         android:title="@string/events" />
 
-    <item
-        android:id="@+id/usersFragment"
-        android:icon="@drawable/ic_participate_24"
-        android:title="@string/users" />
+<!--    <item-->
+<!--        android:id="@+id/usersFragment"-->
+<!--        android:icon="@drawable/ic_participate_24"-->
+<!--        android:title="@string/users" />-->
 
     <item
         android:id="@+id/userFragment"

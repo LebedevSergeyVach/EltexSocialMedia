@@ -66,30 +66,12 @@ class PostAdapter(
         }
 
         binding.menu.setOnClickListener { view: View ->
-            PopupMenu(view.context, view).apply {
-                inflate(R.menu.menu_post)
+            showPopupMenu(view, viewHolder.adapterPosition)
+        }
 
-                setOnMenuItemClickListener { menuItem: MenuItem ->
-                    when (menuItem.itemId) {
-                        R.id.delete_post -> {
-                            listener.onDeleteClicked(getItem(viewHolder.adapterPosition))
-                            context.singleVibration(75L)
-                            true
-                        }
-
-                        R.id.update_post -> {
-                            listener.onUpdateClicked(getItem(viewHolder.adapterPosition))
-                            true
-                        }
-
-                        else -> {
-                            false
-                        }
-                    }
-                }
-
-                show()
-            }
+        binding.cardPost.setOnLongClickListener { view: View ->
+            showPopupMenu(view, viewHolder.adapterPosition)
+            true
         }
 
         return viewHolder
@@ -125,6 +107,39 @@ class PostAdapter(
             }
         } else {
             onBindViewHolder(holder, position)
+        }
+    }
+
+    /**
+     * Показывает PopupMenu с действиями для поста.
+     *
+     * @param view View, к которому привязано меню.
+     * @param position Позиция поста в списке.
+     */
+    private fun showPopupMenu(view: View, position: Int) {
+        PopupMenu(view.context, view).apply {
+            inflate(R.menu.menu_post)
+
+            setOnMenuItemClickListener { menuItem: MenuItem ->
+                when (menuItem.itemId) {
+                    R.id.delete_post -> {
+                        listener.onDeleteClicked(getItem(position))
+                        context.singleVibration(75L)
+                        true
+                    }
+
+                    R.id.update_post -> {
+                        listener.onUpdateClicked(getItem(position))
+                        true
+                    }
+
+                    else -> {
+                        false
+                    }
+                }
+            }
+
+            show()
         }
     }
 }

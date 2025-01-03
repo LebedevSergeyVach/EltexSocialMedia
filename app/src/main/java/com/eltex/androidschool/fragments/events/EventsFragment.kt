@@ -27,6 +27,7 @@ import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentEventsBinding
 
 import com.eltex.androidschool.adapter.events.EventAdapter
+import com.eltex.androidschool.databinding.FragmentPostsBinding
 import com.eltex.androidschool.fragments.users.UserFragment
 import com.eltex.androidschool.ui.common.OffsetDecoration
 
@@ -164,7 +165,7 @@ class EventsFragment : Fragment() {
         requireActivity().supportFragmentManager.setFragmentResultListener(
             NewOrUpdateEventFragment.EVENT_CREATED_OR_UPDATED_KEY, viewLifecycleOwner
         ) { _, _ ->
-            viewModel.load()
+            scrollToTopAndRefresh(binding = binding)
         }
 
         viewModel.state
@@ -196,5 +197,20 @@ class EventsFragment : Fragment() {
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
         return binding.root
+    }
+
+    /**
+     * Прокручивает RecyclerView на самый верх.
+     */
+    fun scrollToTop(binding: FragmentEventsBinding) {
+        binding.list.smoothScrollToPosition(0)
+    }
+
+    /**
+     * Прокручивает RecyclerView на самый верх и обновляет данные.
+     */
+    fun scrollToTopAndRefresh(binding: FragmentEventsBinding) {
+        viewModel.load()
+        binding.list.smoothScrollToPosition(0)
     }
 }

@@ -3,7 +3,10 @@
 package com.eltex.androidschool.utils
 
 import android.annotation.SuppressLint
+
 import android.content.Context
+import android.provider.Settings
+
 import android.os.Vibrator
 import android.os.VibrationEffect
 
@@ -12,7 +15,6 @@ import android.os.VibrationEffect
  *
  * @param milliseconds Длительность вибрации в миллисекундах (по умолчанию 50 мс).
  */
-@SuppressLint("MissingPermission")
 fun Context.singleVibration(
     milliseconds: Long = 50
 ) {
@@ -53,6 +55,40 @@ fun Context.doubleVibration(
     }
 }
 
+/**
+ * Вызывает простую вибрацию на определенное количество миллисекунд, только если вибрация включена в системе.
+ *
+ * @param milliseconds Длительность вибрации в миллисекундах (по умолчанию 50 мс).
+ */
+@Suppress("DEPRECATION")
+fun Context.singleVibrationWithSystemCheck(
+    milliseconds: Long = 50
+) {
+    val isVibrationEnabled = Settings.System.getInt(
+        this.contentResolver,
+        Settings.System.HAPTIC_FEEDBACK_ENABLED,
+        0
+    ) == 1
+
+    if (isVibrationEnabled) {
+        val vibrator = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (vibrator.hasVibrator()) {
+            vibrator.vibrate(milliseconds)
+        }
+    }
+}
+
+/**
+ * Вызывает вибрацию с заданным шаблоном и количеством повторений.
+ *
+ * @param pattern Массив, содержащий чередующиеся значения пауз и длительностей вибрации.
+ *               Например, [100, 200, 300, 400] означает:
+ *               - пауза 100 мс,
+ *               - вибрация 200 мс,
+ *               - пауза 300 мс,
+ *               - вибрация 400 мс.
+ * @param repeat Количество повторений шаблона. По умолчанию -1, что означает бесконечное повторение.
+ */
 fun Context.vibrateWithPattern(pattern: LongArray, repeat: Int = -1) {
     val vibrator = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     if (vibrator.hasVibrator()) {
@@ -60,6 +96,13 @@ fun Context.vibrateWithPattern(pattern: LongArray, repeat: Int = -1) {
     }
 }
 
+/**
+ * Вызывает вибрацию с заданной длительностью и стандартной амплитудой.
+ * Этот метод использует API VibrationEffect, доступный начиная с Android 8.0 (API 26).
+ *
+ * @param duration Длительность вибрации в миллисекундах.
+ */
+@SuppressLint("NewApi")
 fun Context.vibrateWithEffect(duration: Long) {
     val vibrator = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     if (vibrator.hasVibrator()) {
@@ -68,6 +111,19 @@ fun Context.vibrateWithEffect(duration: Long) {
     }
 }
 
+/**
+ * Вызывает вибрацию с заданным шаблоном и количеством повторений, используя API VibrationEffect.
+ * Этот метод доступен начиная с Android 8.0 (API 26).
+ *
+ * @param pattern Массив, содержащий чередующиеся значения пауз и длительностей вибрации.
+ *               Например, [100, 200, 300, 400] означает:
+ *               - пауза 100 мс,
+ *               - вибрация 200 мс,
+ *               - пауза 300 мс,
+ *               - вибрация 400 мс.
+ * @param repeat Количество повторений шаблона. По умолчанию -1, что означает бесконечное повторение.
+ */
+@SuppressLint("NewApi")
 fun Context.vibrateWithEffectPattern(pattern: LongArray, repeat: Int = -1) {
     val vibrator = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
     if (vibrator.hasVibrator()) {

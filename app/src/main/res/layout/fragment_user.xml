@@ -93,18 +93,17 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-
     <com.google.android.material.progressindicator.LinearProgressIndicator
         android:id="@+id/progressLiner"
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="120dp"
         android:indeterminate="true"
-        android:paddingStart="100dp"
 
-        android:paddingEnd="100dp"
+        android:paddingStart="80dp"
+        android:paddingEnd="80dp"
 
         app:indicatorColor="@color/active_element"
 
@@ -113,7 +112,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 
-        app:trackThickness="4dp" />
+        app:trackThickness="8dp" />
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressBar"
@@ -125,6 +124,8 @@
 
         android:indeterminate="true"
 
+        android:padding="8dp"
+
         app:indicatorColor="@color/active_element"
 
         app:layout_constraintBottom_toBottomOf="parent"
@@ -132,7 +133,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 
-        app:trackThickness="4dp" />
+        app:trackThickness="6dp" />
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardErrorText"

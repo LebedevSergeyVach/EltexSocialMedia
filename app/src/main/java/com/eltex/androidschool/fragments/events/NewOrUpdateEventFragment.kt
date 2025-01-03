@@ -44,12 +44,15 @@ import com.eltex.androidschool.repository.events.NetworkEventRepository
 
 import com.eltex.androidschool.utils.Logger
 import com.eltex.androidschool.utils.getErrorText
+import com.eltex.androidschool.utils.showMaterialDialog
+import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
 import com.eltex.androidschool.utils.vibrateWithEffect
 
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 import com.eltex.androidschool.viewmodel.events.NewEventState
 import com.eltex.androidschool.viewmodel.events.NewEventViewModel
+
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
@@ -140,6 +143,23 @@ class NewOrUpdateEventFragment : Fragment() {
         }
 
         binding.optionSwitch.setOnCheckedChangeListener { _, isChecked ->
+            requireContext().singleVibrationWithSystemCheck(35)
+
+            binding.link.animate()
+                .alpha(0f)
+                .setDuration(200)
+                .withEndAction {
+                    binding.link.hint =
+                        if (isChecked) {
+                            getString(R.string.new_event_link_hint)
+                        } else {
+                            getString(R.string.new_event_address_hint)
+                        }
+
+                    binding.link.animate().alpha(1f).setDuration(200).start()
+                }
+                .start()
+
             binding.optionText.animate()
                 .alpha(0f)
                 .setDuration(200)
@@ -157,15 +177,53 @@ class NewOrUpdateEventFragment : Fragment() {
         }
 
         binding.cardOption.setOnClickListener {
+            requireContext().singleVibrationWithSystemCheck(35)
+
             binding.optionSwitch.isChecked = !binding.optionSwitch.isChecked
         }
 
         binding.selectDateTimeButton.setOnClickListener {
+            requireContext().singleVibrationWithSystemCheck(35)
+
             showDatePicker(binding)
         }
 
         binding.cardData.setOnClickListener {
+            requireContext().singleVibrationWithSystemCheck(35)
+
             showDatePicker(binding)
+        }
+
+        binding.cardOption.setOnLongClickListener {
+            DisplayingВialogWindowWithInformation(
+                title = getString(R.string.option_switch_title),
+                message = getString(R.string.option_switch_description),
+            )
+            true
+        }
+
+        binding.optionSwitch.setOnLongClickListener {
+            DisplayingВialogWindowWithInformation(
+                title = getString(R.string.option_switch_title),
+                message = getString(R.string.option_switch_description),
+            )
+            true
+        }
+
+        binding.cardData.setOnLongClickListener {
+            DisplayingВialogWindowWithInformation(
+                title = getString(R.string.date_picker_title),
+                message = getString(R.string.date_picker_description),
+            )
+            true
+        }
+
+        binding.selectDateTimeButton.setOnLongClickListener {
+            DisplayingВialogWindowWithInformation(
+                title = getString(R.string.date_picker_title),
+                message = getString(R.string.date_picker_description),
+            )
+            true
         }
 
         if (isUpdate && date.isNotEmpty()) {
@@ -380,4 +438,25 @@ class NewOrUpdateEventFragment : Fragment() {
             }
         }
     }
+
+    /**
+     * Показывает всплывающее диалоговое информационное окно.
+     *
+     *
+     * @param title - Заголовок диалога.
+     * @param message - Основной текст диалога.
+     * @param buttonText - Текст кнопки (по умолчанию "Спасибо").
+     */
+    private fun DisplayingВialogWindowWithInformation(
+        title: String,
+        message: String,
+        buttonText: String = getString(R.string.thanks)
+    ) {
+        requireContext().showMaterialDialog(
+            title = title,
+            message = message,
+            buttonText = buttonText
+        )
+    }
+
 }

@@ -20,7 +20,8 @@
     <string name="create_event">Создать событие</string>
     <string name="update_event_title">⛄️ Обновление события</string>
     <string name="new_event_content_hint">Напишите описание для Вашего нового события!</string>
-    <string name="new_event_link_hint">Вставте ссылку для Вашего нового события!</string>
+    <string name="new_event_link_hint">Вставьте ссылку Вашего события!</string>
+    <string name="new_event_address_hint">Вставьте адрес Вашего события!</string>
     <string name="new_event_data_hint">Когда пройдет Ваше событие?</string>
     <string name="new_event_options_hint">Как пройдешь Ваше событие? Online или Offline?</string>
     <string name="delete_event">Удалить событие</string>
@@ -53,6 +54,13 @@
     <string name="select_date">Выберите дату</string>
     <string name="select_time">Выберите время</string>
     <string name="select_date_and_time">Дата и время</string>
+    <string name="thanks">Спасибо</string>
+    <string name="thanks_">Спасибо!</string>
+
+    <string name="option_switch_title">Переключатель события</string>
+    <string name="option_switch_description">Этот переключатель позволяет выбрать, будет ли событие онлайн или оффлайн. Если переключатель включен, событие будет онлайн, иначе — оффлайн.</string>
+    <string name="date_picker_title">Выбор даты и времени</string>
+    <string name="date_picker_description">Этот элемент позволяет выбрать дату и время проведения события. Нажмите на кнопку, чтобы открыть календарь и выбрать дату, а затем время.</string>
 
     Новый год
     <string name="app_name_new_year">️❄️ Академия Eltex</string>
