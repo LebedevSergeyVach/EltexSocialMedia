@@ -73,7 +73,6 @@ class PostViewHolder(
 
         updateLike(post.likedByMe)
 
-        // Проверяем, совпадает ли authorId поста с текущим пользователем
         binding.menu.isVisible = post.authorId == currentUserId
 
         binding.share.setOnClickListener {

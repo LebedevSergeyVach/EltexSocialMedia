@@ -13,6 +13,7 @@ import android.view.MotionEvent
 import android.view.View
 
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
@@ -64,7 +65,7 @@ class EventViewHolder(
      * @param event Событие, данные которого нужно отобразить.
      */
     @SuppressLint("SetTextI18n")
-    fun bindEvent(event: EventUiModel) {
+    fun bindEvent(event: EventUiModel, currentUserId: Long) {
         binding.author.text = event.author
         binding.initial.text = event.author.take(1)
         binding.published.text = event.published
@@ -80,6 +81,8 @@ class EventViewHolder(
 
         updateLike(event.likedByMe)
         updateParticipate(event.participatedByMe)
+
+        binding.menu.isVisible = event.authorId == currentUserId
 
         binding.share.setOnClickListener {
             context.toast(R.string.shared)

@@ -61,6 +61,9 @@
     <string name="date_picker_title">Date and time selection</string>
     <string name="date_picker_description">This element allows you to select the date and time of the event. Click on the button to open the calendar and select the date and then the time.</string>
 
+    <string name="no_posts">There are no posts yet</string>
+    <string name="no_events">There are no events yet</string>
+
     NEW YEAR
     <string name="app_name_new_year">❄️ Eltex Academy</string>
 </resources>

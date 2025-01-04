@@ -85,7 +85,10 @@ class PostAdapter(
      * @param position Позиция элемента в списке.
      */
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
-        holder.bindPost(getItem(position), currentUserId)
+        holder.bindPost(
+            post = getItem(position),
+            currentUserId = currentUserId
+        )
     }
 
     /**

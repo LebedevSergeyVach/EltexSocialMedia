@@ -25,7 +25,8 @@ import com.eltex.androidschool.utils.singleVibration
  */
 class EventAdapter(
     private val listener: EventListener,
-    private val context: Context
+    private val context: Context,
+    private val currentUserId: Long
 ) : ListAdapter<EventUiModel, EventViewHolder>(EventItemCallback()) {
 
     /**
@@ -89,7 +90,10 @@ class EventAdapter(
      * @param position Позиция элемента в списке.
      */
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
-        holder.bindEvent(getItem(position))
+        holder.bindEvent(
+            event = getItem(position),
+            currentUserId = currentUserId
+        )
     }
 
     /**

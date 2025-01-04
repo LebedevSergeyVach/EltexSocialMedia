@@ -62,6 +62,9 @@
     <string name="date_picker_title">Выбор даты и времени</string>
     <string name="date_picker_description">Этот элемент позволяет выбрать дату и время проведения события. Нажмите на кнопку, чтобы открыть календарь и выбрать дату, а затем время.</string>
 
+    <string name="no_posts">Постов пока нет</string>
+    <string name="no_events">Событий пока нет</string>
+
     Новый год
     <string name="app_name_new_year">️❄️ Академия Eltex</string>
 </resources>

@@ -19,6 +19,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import com.eltex.androidschool.BuildConfig
 
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.launchIn
@@ -27,7 +28,6 @@ import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentEventsBinding
 
 import com.eltex.androidschool.adapter.events.EventAdapter
-import com.eltex.androidschool.databinding.FragmentPostsBinding
 import com.eltex.androidschool.fragments.users.UserFragment
 import com.eltex.androidschool.ui.common.OffsetDecoration
 
@@ -137,7 +137,9 @@ class EventsFragment : Fragment() {
                         )
                 }
             },
-            context = requireContext()
+
+            context = requireContext(),
+            currentUserId = BuildConfig.USER_ID
         )
 
         binding.list.adapter = adapter
@@ -175,6 +177,7 @@ class EventsFragment : Fragment() {
 
                 val errorText: CharSequence? =
                     eventState.statusEvent.throwableOrNull?.getErrorText(requireContext())
+
                 binding.errorText.text = errorText
 
                 binding.progressBar.isVisible = eventState.isEmptyLoading
@@ -202,14 +205,14 @@ class EventsFragment : Fragment() {
     /**
      * Прокручивает RecyclerView на самый верх.
      */
-    fun scrollToTop(binding: FragmentEventsBinding) {
+    private fun scrollToTop(binding: FragmentEventsBinding) {
         binding.list.smoothScrollToPosition(0)
     }
 
     /**
      * Прокручивает RecyclerView на самый верх и обновляет данные.
      */
-    fun scrollToTopAndRefresh(binding: FragmentEventsBinding) {
+    private fun scrollToTopAndRefresh(binding: FragmentEventsBinding) {
         viewModel.load()
         binding.list.smoothScrollToPosition(0)
     }

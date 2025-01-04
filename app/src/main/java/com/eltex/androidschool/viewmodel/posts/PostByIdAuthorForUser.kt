@@ -2,37 +2,71 @@ package com.eltex.androidschool.viewmodel.posts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.eltex.androidschool.BuildConfig
-import com.eltex.androidschool.data.posts.PostData
-import com.eltex.androidschool.repository.posts.PostRepository
-import com.eltex.androidschool.ui.posts.PostUiModel
-import com.eltex.androidschool.ui.posts.PostUiModelMapper
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.cancel
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+import com.eltex.androidschool.BuildConfig
+
+import com.eltex.androidschool.data.posts.PostData
+import com.eltex.androidschool.repository.posts.PostRepository
+import com.eltex.androidschool.ui.posts.PostUiModel
+import com.eltex.androidschool.ui.posts.PostUiModelMapper
+
+/**
+ * ViewModel для управления состоянием постов конкретного автора.
+ * Загружает посты, обрабатывает лайки и удаление постов.
+ *
+ * @property repository Репозиторий для работы с постами.
+ * @property userId Идентификатор пользователя, чьи посты загружаются (по умолчанию используется `BuildConfig.USER_ID`).
+ * @see ViewModel
+ */
 class PostByIdAuthorForUser(
     private val repository: PostRepository,
     private val userId: Long = BuildConfig.USER_ID,
 ) : ViewModel() {
+
+    /**
+     * Маппер для преобразования данных поста в UI-модель.
+     *
+     * @see PostUiModelMapper Класс, отвечающий за преобразование данных в UI-модель.
+     */
     private val mapper = PostUiModelMapper()
+
+    /**
+     * Flow, хранящий текущее состояние постов.
+     *
+     * @see PostState Состояние, которое хранится в этом Flow.
+     */
     private val _state = MutableStateFlow(PostState())
 
+    /**
+     * Публичный Flow, который предоставляет доступ к текущему состоянию постов.
+     *
+     * @see PostState Состояние, которое предоставляется этим Flow.
+     */
     val state: StateFlow<PostState> = _state.asStateFlow()
 
+    /**
+     * Инициализатор ViewModel.
+     * Подписывается на изменения в Flow репозитория и обновляет состояние постов.
+     */
     init {
         loadPostsByAuthor(userId)
     }
 
     /**
-     * Загружает посты конкретного автора.
+     * Загружает посты конкретного автора и обновляет состояние.
      *
      * @param authorId Идентификатор автора, чьи посты нужно загрузить.
+     * @see PostRepository.getPosts
      */
     fun loadPostsByAuthor(authorId: Long) {
         _state.update { statePost: PostState ->
@@ -72,10 +106,11 @@ class PostByIdAuthorForUser(
     }
 
     /**
-     * Помечает пост с указанным идентификатором как "лайкнутый" или "нелайкнутый".
+     * Обрабатывает лайк поста и обновляет состояние.
      *
-     * @param postId Идентификатор поста, который нужно лайкнуть.
-     * @param likedByMe Флаг, указывающий, лайкнул ли текущий пользователь этот пост.
+     * @param postId Идентификатор поста.
+     * @param likedByMe Флаг, указывающий, лайкнул ли текущий пользователь пост.
+     * @see PostRepository.likeById
      */
     fun likeById(postId: Long, likedByMe: Boolean) {
         viewModelScope.launch {
@@ -112,9 +147,10 @@ class PostByIdAuthorForUser(
     }
 
     /**
-     * Удаляет пост по его идентификатору.
+     * Удаляет пост по его идентификатору и обновляет состояние.
      *
-     * @param postId Идентификатор поста, который нужно удалить.
+     * @param postId Идентификатор поста.
+     * @see PostRepository.deleteById
      */
     fun deleteById(postId: Long) {
         viewModelScope.launch {
@@ -140,7 +176,9 @@ class PostByIdAuthorForUser(
     }
 
     /**
-     * Обрабатывает ошибку и сбрасывает состояние загрузки.
+     * Сбрасывает состояние ошибки и возвращает состояние в `Idle`.
+     *
+     * @see StatusPost
      */
     fun consumerError() {
         _state.update { postState: PostState ->
