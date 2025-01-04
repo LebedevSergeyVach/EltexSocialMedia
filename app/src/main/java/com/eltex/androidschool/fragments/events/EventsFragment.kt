@@ -36,6 +36,7 @@ import com.eltex.androidschool.repository.events.NetworkEventRepository
 import com.eltex.androidschool.ui.events.EventUiModel
 
 import com.eltex.androidschool.utils.getErrorText
+import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
 
 import com.eltex.androidschool.viewmodel.events.EventState
@@ -154,6 +155,7 @@ class EventsFragment : Fragment() {
 
         binding.swiperRefresh.setOnRefreshListener {
             viewModel.load()
+            requireContext().singleVibrationWithSystemCheck(35)
         }
 
         binding.swiperRefresh.setColorSchemeColors(

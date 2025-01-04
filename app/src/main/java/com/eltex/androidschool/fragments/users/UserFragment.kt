@@ -47,6 +47,7 @@ import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.ui.posts.PostUiModel
 
 import com.eltex.androidschool.utils.getErrorText
+import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
 
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
@@ -117,20 +118,14 @@ class UserFragment : Fragment() {
             }
         }
 
-        userViewModel.getUserById(userId)
-        postViewModel.loadPostsByAuthor(userId)
-        eventViewModel.loadEventsByAuthor(userId)
+        loadingDataFromTheViewModel(userId, postViewModel, eventViewModel)
 
         binding.swiperRefresh.setOnRefreshListener {
-            userViewModel.getUserById(userId)
-            postViewModel.loadPostsByAuthor(userId)
-            eventViewModel.loadEventsByAuthor(userId)
+            loadingDataFromTheViewModel(userId, postViewModel, eventViewModel)
         }
 
         binding.retryButton.setOnClickListener {
-            userViewModel.getUserById(userId)
-            postViewModel.loadPostsByAuthor(userId)
-            eventViewModel.loadEventsByAuthor(userId)
+            loadingDataFromTheViewModel(userId, postViewModel, eventViewModel)
         }
 
         binding.swiperRefresh.setColorSchemeColors(
@@ -353,5 +348,28 @@ class UserFragment : Fragment() {
         )
 
         return binding.root
+    }
+
+    /**
+     * Загружает данные о пользователе, его постах и событиях из ViewModel.
+     * Используется для инициализации данных при создании фрагмента или обновлении данных.
+     *
+     * @param userId Идентификатор пользователя, для которого загружаются данные.
+     * @param postViewModel ViewModel для управления постами пользователя.
+     * @param eventViewModel ViewModel для управления событиями пользователя.
+     * @see UserViewModel.getUserById
+     * @see PostByIdAuthorForUser.loadPostsByAuthor
+     * @see EventByIdAuthorForUser.loadEventsByAuthor
+     */
+    private fun loadingDataFromTheViewModel(
+        userId: Long,
+        postViewModel: PostByIdAuthorForUser,
+        eventViewModel: EventByIdAuthorForUser
+    ) {
+        requireContext().singleVibrationWithSystemCheck(35)
+
+        userViewModel.getUserById(userId)
+        postViewModel.loadPostsByAuthor(userId)
+        eventViewModel.loadEventsByAuthor(userId)
     }
 }

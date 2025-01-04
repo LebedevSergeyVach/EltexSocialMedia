@@ -11,6 +11,7 @@ import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.CardPostBinding
 import com.eltex.androidschool.ui.posts.PostUiModel
 import com.eltex.androidschool.utils.singleVibration
+import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 
 /**
  * Адаптер для отображения списка постов в RecyclerView.
@@ -63,6 +64,10 @@ class PostAdapter(
         }
 
         binding.avatar.setOnClickListener {
+            listener.onGetUserClicked(getItem(viewHolder.adapterPosition))
+        }
+
+        binding.author.setOnClickListener {
             listener.onGetUserClicked(getItem(viewHolder.adapterPosition))
         }
 
@@ -121,6 +126,8 @@ class PostAdapter(
      * @param position Позиция поста в списке.
      */
     private fun showPopupMenu(view: View, position: Int) {
+        context.singleVibrationWithSystemCheck(35)
+
         PopupMenu(view.context, view).apply {
             inflate(R.menu.menu_post)
 

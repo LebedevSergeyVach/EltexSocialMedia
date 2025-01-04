@@ -11,6 +11,7 @@ import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.CardEventBinding
 import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.utils.singleVibration
+import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 
 /**
  * Адаптер для отображения списка событий в RecyclerView.
@@ -71,6 +72,10 @@ class EventAdapter(
             listener.onGetUserClicked(getItem(viewHolder.adapterPosition))
         }
 
+        binding.author.setOnClickListener {
+            listener.onGetUserClicked(getItem(viewHolder.adapterPosition))
+        }
+
         binding.menu.setOnClickListener { view: View ->
             showPopupMenu(view, viewHolder.adapterPosition)
         }
@@ -126,6 +131,8 @@ class EventAdapter(
      * @param position Позиция поста в списке.
      */
     private fun showPopupMenu(view: View, position: Int) {
+        context.singleVibrationWithSystemCheck(35)
+
         PopupMenu(view.context, view).apply {
             inflate(R.menu.menu_event)
 

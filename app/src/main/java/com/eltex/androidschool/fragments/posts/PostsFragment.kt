@@ -37,6 +37,7 @@ import com.eltex.androidschool.repository.posts.NetworkPostRepository
 import com.eltex.androidschool.ui.posts.PostUiModel
 
 import com.eltex.androidschool.utils.getErrorText
+import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
 
 import com.eltex.androidschool.viewmodel.posts.PostState
@@ -147,6 +148,7 @@ class PostsFragment : Fragment() {
 
         binding.swiperRefresh.setOnRefreshListener {
             viewModel.load()
+            requireContext().singleVibrationWithSystemCheck(35)
         }
 
         binding.swiperRefresh.setColorSchemeColors(
