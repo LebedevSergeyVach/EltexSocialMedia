@@ -24,7 +24,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.viewModelFactory
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
 
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -118,7 +117,7 @@ class UserFragment : Fragment() {
             }
         }
 
-        loadingDataFromTheViewModel(userId, postViewModel, eventViewModel)
+        loadingDataFromTheViewModel(userId, postViewModel, eventViewModel, false)
 
         binding.swiperRefresh.setOnRefreshListener {
             loadingDataFromTheViewModel(userId, postViewModel, eventViewModel)
@@ -279,28 +278,6 @@ class UserFragment : Fragment() {
         postViewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { postState: PostState ->
-                binding.errorGroup.isVisible = postState.isEmptyError
-
-                val errorText: CharSequence? =
-                    postState.statusPost.throwableOrNull?.getErrorText(requireContext())
-
-                binding.errorText.text = errorText
-
-                binding.progressBar.isVisible = postState.isEmptyLoading
-                binding.progressLiner.isVisible = postState.isEmptyLoading
-
-                binding.swiperRefresh.isRefreshing = postState.isRefreshing
-
-                if (postState.isRefreshError && errorText == getString(R.string.network_error)) {
-                    requireContext().toast(R.string.network_error)
-
-                    postViewModel.consumerError()
-                } else if (postState.isRefreshError && errorText == getString(R.string.unknown_error)) {
-                    requireContext().toast(R.string.unknown_error)
-
-                    postViewModel.consumerError()
-                }
-
                 postAdapter.submitList(postState.posts)
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
@@ -308,28 +285,6 @@ class UserFragment : Fragment() {
         eventViewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { eventState: EventState ->
-                binding.errorGroup.isVisible = eventState.isEmptyError
-
-                val errorText: CharSequence? =
-                    eventState.statusEvent.throwableOrNull?.getErrorText(requireContext())
-
-                binding.errorText.text = errorText
-
-                binding.progressBar.isVisible = eventState.isEmptyLoading
-                binding.progressLiner.isVisible = eventState.isEmptyLoading
-
-                binding.swiperRefresh.isRefreshing = eventState.isRefreshing
-
-                if (eventState.isRefreshError && errorText == getString(R.string.network_error)) {
-                    requireContext().toast(R.string.network_error)
-
-                    eventViewModel.consumerError()
-                } else if (eventState.isRefreshError && errorText == getString(R.string.unknown_error)) {
-                    requireContext().toast(R.string.unknown_error)
-
-                    eventViewModel.consumerError()
-                }
-
                 eventAdapter.submitList(eventState.events)
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
@@ -357,6 +312,7 @@ class UserFragment : Fragment() {
      * @param userId Идентификатор пользователя, для которого загружаются данные.
      * @param postViewModel ViewModel для управления постами пользователя.
      * @param eventViewModel ViewModel для управления событиями пользователя.
+     * @param causeVibration Вызов вибрации (По умолчанию = true).
      * @see UserViewModel.getUserById
      * @see PostByIdAuthorForUser.loadPostsByAuthor
      * @see EventByIdAuthorForUser.loadEventsByAuthor
@@ -364,9 +320,10 @@ class UserFragment : Fragment() {
     private fun loadingDataFromTheViewModel(
         userId: Long,
         postViewModel: PostByIdAuthorForUser,
-        eventViewModel: EventByIdAuthorForUser
+        eventViewModel: EventByIdAuthorForUser,
+        causeVibration: Boolean = true
     ) {
-        requireContext().singleVibrationWithSystemCheck(35)
+        if (causeVibration) requireContext().singleVibrationWithSystemCheck(35)
 
         userViewModel.getUserById(userId)
         postViewModel.loadPostsByAuthor(userId)

@@ -42,6 +42,10 @@ class UserViewModel(
      */
     val state: StateFlow<UserState> = _state.asStateFlow()
 
+    init {
+        getUserById(userId = 0L)
+    }
+
     /**
      * Загружает пользователя по его идентификатору.
      *
