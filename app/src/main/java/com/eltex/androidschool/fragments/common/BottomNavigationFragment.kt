@@ -15,10 +15,6 @@ import androidx.navigation.ui.setupWithNavController
 import com.eltex.androidschool.R
 
 import com.eltex.androidschool.databinding.FragmentBottomNavigationBinding
-import com.eltex.androidschool.databinding.FragmentEventsBinding
-import com.eltex.androidschool.databinding.FragmentPostsBinding
-import com.eltex.androidschool.fragments.events.EventsFragment
-import com.eltex.androidschool.fragments.posts.PostsFragment
 
 /**
  * Фрагмент, отвечающий за отображение нижней навигационной панели.

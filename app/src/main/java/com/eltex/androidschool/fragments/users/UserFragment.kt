@@ -141,7 +141,7 @@ class UserFragment : Fragment() {
 
         if (userId != BuildConfig.USER_ID) {
             val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
-            toolbar.title = getString(R.string.account)
+            toolbar.title = getString(R.string.profile)
         }
 
         val postAdapter = PostAdapter(

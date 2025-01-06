@@ -42,6 +42,7 @@
     <string name="user">User</string>
     <string name="users">Users</string>
     <string name="account">Account</string>
+    <string name="profile">Profile</string>
 
     <string name="retry">Retry</string>
     <string name="network_error">Network error</string>
