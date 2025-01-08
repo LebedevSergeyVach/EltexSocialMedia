@@ -22,12 +22,9 @@ import com.eltex.androidschool.R
 import com.github.jinatonic.confetti.CommonConfetti
 
 import com.eltex.androidschool.databinding.CardEventBinding
-import com.eltex.androidschool.data.events.EventData
 import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
-
-import java.util.Locale
 
 /**
  * ViewHolder для отображения элемента списка событий.
@@ -111,7 +108,12 @@ class EventViewHolder(
                 context.toast(R.string.app_not_found, false)
             }
 
-            buttonClickAnimation(binding.share, condition = true, confetti = true)
+            buttonClickAnimation(
+                button = binding.share,
+                condition = true,
+                confetti = true,
+                causeVibration = true
+            )
         }
     }
 
@@ -125,7 +127,12 @@ class EventViewHolder(
         payload.likeByMe?.let { likeByMe: Boolean ->
             updateLike(likeByMe)
 
-            buttonClickAnimation(binding.like, likeByMe, true)
+            buttonClickAnimation(
+                button = binding.like,
+                condition = likeByMe,
+                confetti = likeByMe,
+                causeVibration = true
+            )
         }
 
         payload.likes?.let { likes: Int ->
@@ -135,7 +142,12 @@ class EventViewHolder(
         payload.participateByMe?.let { participateByMe: Boolean ->
             updateParticipate(participateByMe)
 
-            buttonClickAnimation(binding.participate, participateByMe, true)
+            buttonClickAnimation(
+                button = binding.participate,
+                condition = participateByMe,
+                confetti = participateByMe,
+                causeVibration = true
+            )
         }
 
         payload.participates?.let { participates: Int ->

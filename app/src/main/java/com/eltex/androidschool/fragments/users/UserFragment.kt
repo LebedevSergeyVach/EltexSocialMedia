@@ -22,6 +22,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.viewModelFactory
+
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 
@@ -71,16 +72,6 @@ import com.google.android.material.tabs.TabLayoutMediator
  */
 class UserFragment : Fragment() {
 
-    private val userViewModel by viewModels<UserViewModel> {
-        viewModelFactory {
-            addInitializer(UserViewModel::class) {
-                UserViewModel(
-                    NetworkUserRepository()
-                )
-            }
-        }
-    }
-
     val toolbarViewModel by activityViewModels<ToolBarViewModel>()
 
     companion object {
@@ -96,6 +87,17 @@ class UserFragment : Fragment() {
 
         val userId: Long = arguments?.getLong(USER_ID) ?: BuildConfig.USER_ID
         val icProfile: Boolean = arguments?.getBoolean(IC_PROFILE) ?: true
+
+        val userViewModel by viewModels<UserViewModel> {
+            viewModelFactory {
+                addInitializer(UserViewModel::class) {
+                    UserViewModel(
+                        repository = NetworkUserRepository(),
+                        userId = userId
+                    )
+                }
+            }
+        }
 
         val postViewModel by viewModels<PostByIdAuthorForUser> {
             viewModelFactory {
@@ -119,14 +121,22 @@ class UserFragment : Fragment() {
             }
         }
 
-        loadingDataFromTheViewModel(userId, postViewModel, eventViewModel, false)
-
         binding.swiperRefresh.setOnRefreshListener {
-            loadingDataFromTheViewModel(userId, postViewModel, eventViewModel)
+            loadingDataFromTheViewModel(
+                userId = userId,
+                userViewModel = userViewModel,
+                postViewModel = postViewModel,
+                eventViewModel = eventViewModel
+            )
         }
 
         binding.retryButton.setOnClickListener {
-            loadingDataFromTheViewModel(userId, postViewModel, eventViewModel)
+            loadingDataFromTheViewModel(
+                userId = userId,
+                userViewModel = userViewModel,
+                postViewModel = postViewModel,
+                eventViewModel = eventViewModel
+            )
         }
 
         binding.swiperRefresh.setColorSchemeColors(
@@ -330,15 +340,18 @@ class UserFragment : Fragment() {
      * Используется для инициализации данных при создании фрагмента или обновлении данных.
      *
      * @param userId Идентификатор пользователя, для которого загружаются данные.
+     * @param userViewModel ViewModel связанная с данными о пользователе.
      * @param postViewModel ViewModel для управления постами пользователя.
      * @param eventViewModel ViewModel для управления событиями пользователя.
      * @param causeVibration Вызов вибрации (По умолчанию = true).
+     *
      * @see UserViewModel.getUserById
      * @see PostByIdAuthorForUser.loadPostsByAuthor
      * @see EventByIdAuthorForUser.loadEventsByAuthor
      */
     private fun loadingDataFromTheViewModel(
         userId: Long,
+        userViewModel: UserViewModel,
         postViewModel: PostByIdAuthorForUser,
         eventViewModel: EventByIdAuthorForUser,
         causeVibration: Boolean = true

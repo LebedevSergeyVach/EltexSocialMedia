@@ -32,6 +32,6 @@
 
     <!-- Кастомный стиль для TextView -->
     <style name="CustomTextViewStyle">
-        <item name="android:textColorHighlight">@color/active_element</item>
+        <item name="android:textColorHighlight">@color/confetti_blue</item>
     </style>
 </resources>

@@ -20,12 +20,14 @@ import com.eltex.androidschool.repository.users.UserRepository
  * Этот ViewModel отвечает за загрузку данных пользователей и управление их состоянием.
  *
  * @param repository Репозиторий, который предоставляет данные о пользователях.
+ * @param userId Идентификатор пользователя.
  *
  * @see UserRepository Интерфейс репозитория, который используется в этом ViewModel.
  * @see UserState Состояние, которое управляется этим ViewModel.
  */
 class UserViewModel(
     private val repository: UserRepository,
+    private val userId: Long,
 ) : ViewModel() {
 
     /**
@@ -43,7 +45,7 @@ class UserViewModel(
     val state: StateFlow<UserState> = _state.asStateFlow()
 
     init {
-        getUserById(userId = 0L)
+        getUserById(userId = userId)
     }
 
     /**

@@ -91,11 +91,11 @@ class EventsFragment : Fragment() {
                     viewModel.likeById(event.id, event.likedByMe)
                 }
 
-                override fun onShareClicked(event: EventUiModel) {}
-
                 override fun onParticipateClicked(event: EventUiModel) {
                     viewModel.participateById(event.id, event.participatedByMe)
                 }
+
+                override fun onShareClicked(event: EventUiModel) {}
 
                 override fun onDeleteClicked(event: EventUiModel) {
                     viewModel.deleteById(event.id)
