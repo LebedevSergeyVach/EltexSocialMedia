@@ -11,6 +11,7 @@ import android.text.SpannableString
 
 import android.view.MotionEvent
 import android.view.View
+import androidx.core.content.ContentProviderCompat.requireContext
 
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -23,6 +24,7 @@ import com.github.jinatonic.confetti.CommonConfetti
 
 import com.eltex.androidschool.databinding.CardPostBinding
 import com.eltex.androidschool.ui.posts.PostUiModel
+import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
 
 /**
@@ -132,13 +134,21 @@ class PostViewHolder(
      * Выполняет анимацию при клике на кнопку.
      *
      * @param button Кнопка, на которую был клик.
-     * @param condition Условие для выполнения анимации увеличения.
-     * @param confetti Условие для выполнения анимации конфетти.
+     * @param condition Условие для выполнения анимации увеличения (По умолчанию = false).
+     * @param confetti Условие для выполнения анимации конфетти (По умолчанию = false).
+     * @param causeVibration Вызов вибрации (По умолчанию = false).
      *
      * @sample PostViewHolder.buttonClickAnimation
      */
     @SuppressLint("ResourceType")
-    private fun buttonClickAnimation(button: View, condition: Boolean, confetti: Boolean) {
+    private fun buttonClickAnimation(
+        button: View,
+        condition: Boolean = false,
+        confetti: Boolean = false,
+        causeVibration: Boolean = false
+    ) {
+        if (causeVibration) context.singleVibrationWithSystemCheck(35)
+
         if (condition) {
             val animator =
                 AnimatorInflater.loadAnimator(binding.root.context, R.anim.scale_animation)

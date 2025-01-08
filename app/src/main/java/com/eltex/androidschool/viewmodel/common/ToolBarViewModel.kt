@@ -1,13 +1,15 @@
 package com.eltex.androidschool.viewmodel.common
 
 import androidx.lifecycle.ViewModel
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
 /**
  * ViewModel для управления состоянием панели инструментов.
  *
- * Этот ViewModel отвечает за управление видимостью кнопки сохранения и обработку событий, связанных с ней.
+ * Этот ViewModel отвечает за управление видимостью кнопок сохранения и настроек,
+ * а также за обработку событий, связанных с этими кнопками.
  *
  * @see ViewModel Базовый класс для ViewModel, использующих функции библиотеки поддержки.
  */
@@ -30,6 +32,14 @@ class ToolBarViewModel : ViewModel() {
     val saveClicked = _saveClicked.asStateFlow()
 
     /**
+     * Состояние видимости кнопки настроек.
+     *
+     * @property settingsVisible Поток состояния видимости кнопки настроек.
+     */
+    private val _settingsVisible = MutableStateFlow(false)
+    val settingsVisible = _settingsVisible.asStateFlow()
+
+    /**
      * Устанавливает видимость кнопки сохранения.
      *
      * @param visible Видимость кнопки сохранения.
@@ -45,5 +55,14 @@ class ToolBarViewModel : ViewModel() {
      */
     fun onSaveClicked(pending: Boolean) {
         _saveClicked.value = pending
+    }
+
+    /**
+     * Устанавливает видимость кнопки настроек.
+     *
+     * @param visible Видимость кнопки настроек.
+     */
+    fun setSettingsVisible(visible: Boolean) {
+        _settingsVisible.value = visible
     }
 }

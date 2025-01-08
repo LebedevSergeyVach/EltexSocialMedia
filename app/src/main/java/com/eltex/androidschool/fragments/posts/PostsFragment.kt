@@ -120,7 +120,8 @@ class PostsFragment : Fragment() {
                         .navigate(
                             R.id.action_BottomNavigationFragment_to_userFragment,
                             bundleOf(
-                                UserFragment.USER_ID to post.authorId
+                                UserFragment.USER_ID to post.authorId,
+                                UserFragment.IC_PROFILE to false
                             ),
                             NavOptions.Builder()
                                 .setEnterAnim(R.anim.slide_in_right)

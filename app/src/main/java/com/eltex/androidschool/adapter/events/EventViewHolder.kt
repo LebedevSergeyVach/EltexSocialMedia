@@ -24,6 +24,7 @@ import com.github.jinatonic.confetti.CommonConfetti
 import com.eltex.androidschool.databinding.CardEventBinding
 import com.eltex.androidschool.data.events.EventData
 import com.eltex.androidschool.ui.events.EventUiModel
+import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
 
 import java.util.Locale
@@ -164,13 +165,21 @@ class EventViewHolder(
      * Выполняет анимацию при клике на кнопку.
      *
      * @param button Кнопка, на которую был клик.
-     * @param condition Условие для выполнения анимации увеличения.
-     * @param confetti Условие для выполнения анимации конфетти.
+     * @param condition Условие для выполнения анимации увеличения (По умолчанию = false).
+     * @param confetti Условие для выполнения анимации конфетти (По умолчанию = false).
+     * @param causeVibration Вызов вибрации (По умолчанию = false).
      *
      * @sample EventViewHolder.buttonClickAnimation
      */
     @SuppressLint("ResourceType")
-    private fun buttonClickAnimation(button: View, condition: Boolean, confetti: Boolean) {
+    private fun buttonClickAnimation(
+        button: View,
+        condition: Boolean = false,
+        confetti: Boolean = false,
+        causeVibration: Boolean = false
+    ) {
+        if (causeVibration) context.singleVibrationWithSystemCheck(35)
+
         if (condition) {
             val animator =
                 AnimatorInflater.loadAnimator(binding.root.context, R.anim.scale_animation)
