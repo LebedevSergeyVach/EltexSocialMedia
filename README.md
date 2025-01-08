@@ -19,6 +19,8 @@ To work with requests to the server and process the received data in JSON format
 
 The project uses several types of architecture patterns and paradigms: **Builder**, **Observable**, **Observer**, **Adapter**, **Dependency Injection**, **Single Activity Architecture**, **Modular Architecture** and **Reactive Programming**.
 
+Basic settings for the application's appearance are implemented, such as: language selection (Russian, English, system) and theme selection (dark, light, system).
+
 <details open="open">
     <summary><h2>🚀 The stack of technologies used</h2></summary>
     <div align="left">
@@ -72,6 +74,8 @@ The project uses several types of architecture patterns and paradigms: **Builder
 Для работы с запросами на сервер и обработкой полученных данных в формате JSON используется библиотеки **[Retrofit2](https://github.com/square/retrofit)** и **[OkHttp3](https://github.com/square/okhttp)** от **[Square](https://github.com/square)** + **[RxJava3](https://github.com/ReactiveX/RxJava)** от **[ReactiveX](https://github.com/ReactiveX)** для реализации реактивного программировая, вместо накапливающихся Callback - ов. Проект переписан с реактивного программирования на **[Retrofit2](https://github.com/square/retrofit)** + **[RxJava3](https://github.com/ReactiveX/RxJava)** на стандартные **[Retrofit2](https://github.com/square/retrofit)** + **[Coroutines](https://github.com/Kotlin/kotlinx.coroutines)** (suspend).
 
 В проекте используется несколько типов архитектурных паттернов и парадигм: **Строитель**, **Наблюдаемый**, **Наблюдатель**, **Адаптер**, **Внедрение зависимостей**, **Архитектура с одной активностью**, **Модульная архитектура** and **Реактивное программирование**.
+
+Реализованы базовые настройки внешнего вида приложения, такие как: выбор языка (Русский, Английский, системный) и выбор темы (темная, светлая, системная).
 
 <details open="open">
     <summary><h2>🚀 Стек используемых технологий</h2></summary>
