@@ -127,7 +127,8 @@ class EventsFragment : Fragment() {
                         .navigate(
                             R.id.action_BottomNavigationFragment_to_userFragment,
                             bundleOf(
-                                UserFragment.USER_ID to event.authorId
+                                UserFragment.USER_ID to event.authorId,
+                                UserFragment.IC_PROFILE to false
                             ),
                             NavOptions.Builder()
                                 .setEnterAnim(R.anim.slide_in_right)

@@ -55,6 +55,29 @@
         android:id="@+id/userFragment"
         android:name="com.eltex.androidschool.fragments.users.UserFragment"
         android:label="@string/account"
-        tools:layout="@layout/fragment_user" />
+        tools:layout="@layout/fragment_user">
 
+        <action
+            android:id="@+id/action_userFragment_to_newOrUpdatePostFragment"
+            app:destination="@id/newOrUpdatePostFragment" />
+        <action
+            android:id="@+id/action_userFragment_to_newOrUpdateEventFragment"
+            app:destination="@id/newOrUpdateEventFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.eltex.androidschool.fragments.settings.SettingsFragment"
+        android:label="@string/settings"
+        tools:layout="@layout/fragment_settings" />
+
+    <!-- Глобальное действие для перехода к SettingsFragment -->
+    <action
+        android:id="@+id/action_global_settingsFragment"
+        app:destination="@id/settingsFragment"
+
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
 </navigation>

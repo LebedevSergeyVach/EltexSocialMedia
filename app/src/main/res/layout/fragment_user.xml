@@ -30,7 +30,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
 
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
 
                 android:importantForAccessibility="no"
                 android:src="@drawable/avatar_background"
@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
 
                 app:cardCornerRadius="20dp"
 
@@ -88,45 +88,13 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!--            <androidx.recyclerview.widget.RecyclerView-->
-            <!--                android:id="@+id/postsRecyclerView"-->
-
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="0dp"-->
-
-            <!--                android:layout_marginTop="15dp"-->
-            <!--                android:layout_marginBottom="10dp"-->
-
-            <!--                app:layout_constraintBottom_toBottomOf="@id/viewPager"-->
-            <!--                app:layout_constraintEnd_toEndOf="@id/viewPager"-->
-            <!--                app:layout_constraintStart_toStartOf="@id/viewPager"-->
-            <!--                app:layout_constraintTop_toTopOf="@id/viewPager"-->
-
-            <!--                tools:listitem="@layout/card_post" />-->
-
-            <!--            <androidx.recyclerview.widget.RecyclerView-->
-            <!--                android:id="@+id/eventsRecyclerView"-->
-
-            <!--                android:layout_width="0dp"-->
-            <!--                android:layout_height="0dp"-->
-
-            <!--                android:layout_marginTop="15dp"-->
-            <!--                android:layout_marginBottom="10dp"-->
-
-            <!--                app:layout_constraintBottom_toBottomOf="@id/viewPager"-->
-            <!--                app:layout_constraintEnd_toEndOf="@id/viewPager"-->
-            <!--                app:layout_constraintStart_toStartOf="@id/viewPager"-->
-            <!--                app:layout_constraintTop_toTopOf="@id/viewPager"-->
-
-            <!--                tools:listitem="@layout/card_event" />-->
-
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/tabLayout"
 
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
 
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
 
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

@@ -68,6 +68,8 @@ class PostAdapter(
         }
 
         binding.author.setOnClickListener {
+            context.singleVibrationWithSystemCheck(35)
+
             listener.onGetUserClicked(getItem(viewHolder.adapterPosition))
         }
 

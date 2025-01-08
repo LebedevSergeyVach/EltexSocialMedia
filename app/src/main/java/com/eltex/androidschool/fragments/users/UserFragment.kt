@@ -85,6 +85,7 @@ class UserFragment : Fragment() {
 
     companion object {
         const val USER_ID = "USER_ID"
+        const val IC_PROFILE = "IC_PROFILE"
     }
 
     override fun onCreateView(
@@ -94,6 +95,7 @@ class UserFragment : Fragment() {
         val binding = FragmentUserBinding.inflate(layoutInflater)
 
         val userId: Long = arguments?.getLong(USER_ID) ?: BuildConfig.USER_ID
+        val icProfile: Boolean = arguments?.getBoolean(IC_PROFILE) ?: true
 
         val postViewModel by viewModels<PostByIdAuthorForUser> {
             viewModelFactory {
@@ -141,7 +143,7 @@ class UserFragment : Fragment() {
 
         if (userId != BuildConfig.USER_ID) {
             val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
-            toolbar.title = getString(R.string.account)
+            toolbar.title = getString(R.string.profile)
         }
 
         val postAdapter = PostAdapter(
@@ -157,21 +159,39 @@ class UserFragment : Fragment() {
                 }
 
                 override fun onUpdateClicked(post: PostUiModel) {
-                    requireParentFragment().requireParentFragment().findNavController()
-                        .navigate(
-                            R.id.action_BottomNavigationFragment_to_newOrUpdatePostFragment,
-                            bundleOf(
-                                NewOrUpdatePostFragment.POST_ID to post.id,
-                                NewOrUpdatePostFragment.POST_CONTENT to post.content,
-                                NewOrUpdatePostFragment.IS_UPDATE to true,
-                            ),
-                            NavOptions.Builder()
-                                .setEnterAnim(R.anim.slide_in_right)
-                                .setExitAnim(R.anim.slide_out_left)
-                                .setPopEnterAnim(R.anim.slide_in_left)
-                                .setPopExitAnim(R.anim.slide_out_right)
-                                .build()
-                        )
+                    if (icProfile) {
+                        requireParentFragment().requireParentFragment().findNavController()
+                            .navigate(
+                                R.id.action_BottomNavigationFragment_to_newOrUpdatePostFragment,
+                                bundleOf(
+                                    NewOrUpdatePostFragment.POST_ID to post.id,
+                                    NewOrUpdatePostFragment.POST_CONTENT to post.content,
+                                    NewOrUpdatePostFragment.IS_UPDATE to true,
+                                ),
+                                NavOptions.Builder()
+                                    .setEnterAnim(R.anim.slide_in_right)
+                                    .setExitAnim(R.anim.slide_out_left)
+                                    .setPopEnterAnim(R.anim.slide_in_left)
+                                    .setPopExitAnim(R.anim.slide_out_right)
+                                    .build()
+                            )
+                    } else {
+                        requireParentFragment().findNavController()
+                            .navigate(
+                                R.id.action_userFragment_to_newOrUpdatePostFragment,
+                                bundleOf(
+                                    NewOrUpdatePostFragment.POST_ID to post.id,
+                                    NewOrUpdatePostFragment.POST_CONTENT to post.content,
+                                    NewOrUpdatePostFragment.IS_UPDATE to true,
+                                ),
+                                NavOptions.Builder()
+                                    .setEnterAnim(R.anim.slide_in_right)
+                                    .setExitAnim(R.anim.slide_out_left)
+                                    .setPopEnterAnim(R.anim.slide_in_left)
+                                    .setPopExitAnim(R.anim.slide_out_right)
+                                    .build()
+                            )
+                    }
                 }
 
                 override fun onGetUserClicked(post: PostUiModel) {}
@@ -293,8 +313,8 @@ class UserFragment : Fragment() {
             object : LifecycleEventObserver {
                 override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
                     when (event) {
-                        Lifecycle.Event.ON_START -> toolbarViewModel.setSaveVisible(false)
-                        Lifecycle.Event.ON_STOP -> toolbarViewModel.setSaveVisible(false)
+                        Lifecycle.Event.ON_START -> toolbarViewModel.setSettingsVisible(userId == BuildConfig.USER_ID)
+                        Lifecycle.Event.ON_STOP -> toolbarViewModel.setSettingsVisible(false)
                         Lifecycle.Event.ON_DESTROY -> source.lifecycle.removeObserver(this)
                         else -> Unit
                     }

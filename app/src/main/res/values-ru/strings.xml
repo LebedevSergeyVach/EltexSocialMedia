@@ -43,6 +43,7 @@
     <string name="user">Пользователь</string>
     <string name="users">Пользователи</string>
     <string name="account">Аккаунт</string>
+    <string name="profile">Профиль</string>
 
     <string name="retry">Повторить</string>
     <string name="network_error">Ошибка сети</string>
@@ -56,6 +57,19 @@
     <string name="select_date_and_time">Дата и время</string>
     <string name="thanks">Спасибо</string>
     <string name="thanks_">Спасибо!</string>
+
+    <string name="settings">Настройки</string>
+    <string name="сhanging_the_application_language">Смена языка приложения</string>
+    <string name="changing_the_app_theme">Смена темы приложения</string>
+    <string name="choose_language">Выбрать язык</string>
+    <string name="choose_theme">Выбрать тему</string>
+    <string name="light_theme">Светлая тема</string>
+    <string name="dark_theme">Темная тема</string>
+    <string name="system_theme">Системная тема</string>
+    <string name="russian">Русский</string>
+    <string name="english">Английский</string>
+    <string name="system_language">Системный язык</string>
+    <string name="application_appearance">Внешний вид приложения</string>
 
     <string name="option_switch_title">Переключатель события</string>
     <string name="option_switch_description">Этот переключатель позволяет выбрать, будет ли событие онлайн или оффлайн. Если переключатель включен, событие будет онлайн, иначе — оффлайн.</string>

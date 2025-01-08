@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 
 import android.view.LayoutInflater
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 
@@ -12,9 +13,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.NavHostFragment
 
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.eltex.androidschool.BuildConfig
 
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -22,6 +26,8 @@ import kotlinx.coroutines.flow.onEach
 import com.eltex.androidschool.R
 
 import com.eltex.androidschool.databinding.FragmentToolbarBinding
+import com.eltex.androidschool.utils.Logger
+import com.eltex.androidschool.utils.toast
 
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 
@@ -68,15 +74,43 @@ class ToolbarFragment : Fragment() {
 
         val toolBarViewModel by activityViewModels<ToolBarViewModel>()
 
+        val menu = binding.toolbar.menu
+        requireActivity().menuInflater.inflate(R.menu.menu_settings, menu)
+
         val newPostItem = binding.toolbar.menu.findItem(R.id.save_post)
+
+        val settingsItem = binding.toolbar.menu.findItem(R.id.settings)
 
         toolBarViewModel.saveVisible.onEach { display: Boolean ->
             newPostItem.isVisible = display
         }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
+        toolBarViewModel.settingsVisible.onEach { display: Boolean ->
+            settingsItem.isVisible = display
+        }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
         newPostItem.setOnMenuItemClickListener {
             toolBarViewModel.onSaveClicked(true)
+            true
+        }
+
+        settingsItem.setOnMenuItemClickListener {
+            try {
+                val navControllerForSettings =
+                    (childFragmentManager.findFragmentById(R.id.toolbarContainer) as NavHostFragment).navController
+
+                navControllerForSettings.navigate(
+                    R.id.action_global_settingsFragment
+                )
+            } catch (e: Exception) {
+                requireContext().toast(R.string.unknown_error)
+
+                if (BuildConfig.DEBUG) {
+                    Logger.e("Navigation error: ${e.message}")
+                }
+            }
             true
         }
 
