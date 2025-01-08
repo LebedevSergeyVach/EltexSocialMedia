@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentSettingsBinding
+import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import java.util.Locale
 
 /**
@@ -92,6 +93,8 @@ class SettingsFragment : Fragment() {
      * @param view View, к которому привязан PopupMenu.
      */
     private fun showLanguagePopupMenu(view: View) {
+        requireContext().singleVibrationWithSystemCheck(35L)
+
         val popupMenu = PopupMenu(requireContext(), view)
 
         popupMenu.menuInflater.inflate(R.menu.language_menu, popupMenu.menu)
@@ -114,6 +117,8 @@ class SettingsFragment : Fragment() {
      * @param view View, к которому привязан PopupMenu.
      */
     private fun showThemePopupMenu(view: View) {
+        requireContext().singleVibrationWithSystemCheck(35L)
+
         val popupMenu = PopupMenu(requireContext(), view)
 
         popupMenu.menuInflater.inflate(R.menu.theme_menu, popupMenu.menu)

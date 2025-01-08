@@ -11,7 +11,6 @@ import android.text.SpannableString
 
 import android.view.MotionEvent
 import android.view.View
-import androidx.core.content.ContentProviderCompat.requireContext
 
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -99,7 +98,12 @@ class PostViewHolder(
                 context.toast(R.string.app_not_found, false)
             }
 
-            buttonClickAnimation(binding.share, condition = true, confetti = true)
+            buttonClickAnimation(
+                button = binding.share,
+                condition = true,
+                confetti = true,
+                causeVibration = true
+            )
         }
     }
 
@@ -113,7 +117,12 @@ class PostViewHolder(
         payload.likeByMe?.let { likeByMe: Boolean ->
             updateLike(likeByMe)
 
-            buttonClickAnimation(binding.like, likeByMe, true)
+            buttonClickAnimation(
+                button = binding.like,
+                condition = likeByMe,
+                confetti = likeByMe,
+                causeVibration = true
+            )
         }
 
         payload.likes?.let { likes: Int ->

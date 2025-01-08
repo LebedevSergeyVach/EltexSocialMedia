@@ -73,8 +73,6 @@ class EventAdapter(
         }
 
         binding.author.setOnClickListener {
-            context.singleVibrationWithSystemCheck(35)
-
             listener.onGetUserClicked(getItem(viewHolder.adapterPosition))
         }
 
