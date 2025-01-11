@@ -70,11 +70,14 @@
     <string name="english">Английский</string>
     <string name="system_language">Системный язык</string>
     <string name="application_appearance">Внешний вид приложения</string>
+    <string name="vibration_response_app">Виброотклик приложения</string>
+    <string name="vibration_on">Вибрация включена</string>
+    <string name="vibration_off">Вибрация отключена</string>
 
     <string name="option_switch_title">Переключатель события</string>
-    <string name="option_switch_description">Этот переключатель позволяет выбрать, будет ли событие онлайн или оффлайн. Если переключатель включен, событие будет онлайн, иначе — оффлайн.</string>
+    <string name="option_switch_description">Этот переключатель позволяет выбрать, будет ли событие онлайн или оффлайн. Если переключатель включен, событие будет онлайн и Вам необходимо указать ссылку проведения события, иначе — оффлайн и Вам будет необходимо указать адрес проведения события.</string>
     <string name="date_picker_title">Выбор даты и времени</string>
-    <string name="date_picker_description">Этот элемент позволяет выбрать дату и время проведения события. Нажмите на кнопку, чтобы открыть календарь и выбрать дату, а затем время.</string>
+    <string name="date_picker_description">Этот элемент позволяет выбрать дату и время проведения события. Нажмите на кнопку, чтобы открыть календарь и выбрать дату, а затем время. Дата и время у пользователей приложения будет отображаться в зависимости от их локальной даты и времени их смартфона.</string>
 
     <string name="no_posts">Постов пока нет</string>
     <string name="no_events">Событий пока нет</string>

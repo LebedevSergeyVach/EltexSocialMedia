@@ -22,6 +22,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.viewModelFactory
+import androidx.navigation.NavController
 
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -29,19 +30,20 @@ import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
-import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
+import com.eltex.androidschool.BuildConfig
+import com.eltex.androidschool.databinding.FragmentUserBinding
+
 import com.eltex.androidschool.adapter.events.EventAdapter
 import com.eltex.androidschool.adapter.posts.PostAdapter
 import com.eltex.androidschool.adapter.users.UserPagerAdapter
 
-import com.eltex.androidschool.databinding.FragmentUserBinding
 import com.eltex.androidschool.fragments.events.NewOrUpdateEventFragment
 import com.eltex.androidschool.fragments.posts.NewOrUpdatePostFragment
 import com.eltex.androidschool.repository.events.NetworkEventRepository
-
 import com.eltex.androidschool.repository.posts.NetworkPostRepository
 import com.eltex.androidschool.repository.users.NetworkUserRepository
+
 import com.eltex.androidschool.ui.common.OffsetDecoration
 import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.ui.posts.PostUiModel
@@ -57,6 +59,7 @@ import com.eltex.androidschool.viewmodel.posts.PostState
 import com.eltex.androidschool.viewmodel.posts.PostByIdAuthorForUser
 import com.eltex.androidschool.viewmodel.users.UserState
 import com.eltex.androidschool.viewmodel.users.UserViewModel
+
 import com.google.android.material.tabs.TabLayoutMediator
 
 /**
@@ -147,7 +150,7 @@ class UserFragment : Fragment() {
             ContextCompat.getColor(requireContext(), R.color.background_color_of_the_refresh_circle)
         )
 
-        binding.viewPager.addItemDecoration(
+        binding.viewPagerPostsAndEvents.addItemDecoration(
             OffsetDecoration(resources.getDimensionPixelSize(R.dimen.list_offset))
         )
 
@@ -170,37 +173,18 @@ class UserFragment : Fragment() {
 
                 override fun onUpdateClicked(post: PostUiModel) {
                     if (icProfile) {
-                        requireParentFragment().requireParentFragment().findNavController()
-                            .navigate(
-                                R.id.action_BottomNavigationFragment_to_newOrUpdatePostFragment,
-                                bundleOf(
-                                    NewOrUpdatePostFragment.POST_ID to post.id,
-                                    NewOrUpdatePostFragment.POST_CONTENT to post.content,
-                                    NewOrUpdatePostFragment.IS_UPDATE to true,
-                                ),
-                                NavOptions.Builder()
-                                    .setEnterAnim(R.anim.slide_in_right)
-                                    .setExitAnim(R.anim.slide_out_left)
-                                    .setPopEnterAnim(R.anim.slide_in_left)
-                                    .setPopExitAnim(R.anim.slide_out_right)
-                                    .build()
-                            )
+                        navigateToUpdatePost(
+                            navController = requireParentFragment().requireParentFragment()
+                                .findNavController(),
+                            actionId = R.id.action_BottomNavigationFragment_to_newOrUpdatePostFragment,
+                            post = post
+                        )
                     } else {
-                        requireParentFragment().findNavController()
-                            .navigate(
-                                R.id.action_userFragment_to_newOrUpdatePostFragment,
-                                bundleOf(
-                                    NewOrUpdatePostFragment.POST_ID to post.id,
-                                    NewOrUpdatePostFragment.POST_CONTENT to post.content,
-                                    NewOrUpdatePostFragment.IS_UPDATE to true,
-                                ),
-                                NavOptions.Builder()
-                                    .setEnterAnim(R.anim.slide_in_right)
-                                    .setExitAnim(R.anim.slide_out_left)
-                                    .setPopEnterAnim(R.anim.slide_in_left)
-                                    .setPopExitAnim(R.anim.slide_out_right)
-                                    .build()
-                            )
+                        navigateToUpdatePost(
+                            navController = requireParentFragment().findNavController(),
+                            actionId = R.id.action_userFragment_to_newOrUpdatePostFragment,
+                            post = post
+                        )
                     }
                 }
 
@@ -228,24 +212,20 @@ class UserFragment : Fragment() {
                 }
 
                 override fun onUpdateClicked(event: EventUiModel) {
-                    requireParentFragment().requireParentFragment().findNavController()
-                        .navigate(
-                            R.id.action_BottomNavigationFragment_to_newOrUpdateEventFragment,
-                            bundleOf(
-                                NewOrUpdateEventFragment.EVENT_ID to event.id,
-                                NewOrUpdateEventFragment.EVENT_CONTENT to event.content,
-                                NewOrUpdateEventFragment.EVENT_LINK to event.link,
-                                NewOrUpdateEventFragment.EVENT_DATE to event.dataEvent,
-                                NewOrUpdateEventFragment.EVENT_OPTION to event.optionConducting,
-                                NewOrUpdateEventFragment.IS_UPDATE to true,
-                            ),
-                            NavOptions.Builder()
-                                .setEnterAnim(R.anim.slide_in_right)
-                                .setExitAnim(R.anim.slide_out_left)
-                                .setPopEnterAnim(R.anim.slide_in_left)
-                                .setPopExitAnim(R.anim.slide_out_right)
-                                .build()
+                    if (icProfile) {
+                        navigateToUpdateEvent(
+                            navController = requireParentFragment().requireParentFragment()
+                                .findNavController(),
+                            actionId = R.id.action_BottomNavigationFragment_to_newOrUpdateEventFragment,
+                            event = event
                         )
+                    } else {
+                        navigateToUpdateEvent(
+                            navController = requireParentFragment().findNavController(),
+                            actionId = R.id.action_userFragment_to_newOrUpdateEventFragment,
+                            event = event
+                        )
+                    }
                 }
 
                 override fun onGetUserClicked(event: EventUiModel) {}
@@ -258,9 +238,9 @@ class UserFragment : Fragment() {
         val offset = resources.getDimensionPixelSize(R.dimen.list_offset)
         val pagerAdapter = UserPagerAdapter(postAdapter, eventAdapter, offset)
 
-        binding.viewPager.adapter = pagerAdapter
+        binding.viewPagerPostsAndEvents.adapter = pagerAdapter
 
-        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+        TabLayoutMediator(binding.tabLayout, binding.viewPagerPostsAndEvents) { tab, position ->
             tab.text = when (position) {
                 0 -> getString(R.string.posts)
                 1 -> getString(R.string.events)
@@ -281,7 +261,7 @@ class UserFragment : Fragment() {
                 binding.nameUser.isVisible = !userState.isEmptyError && !userState.isEmptyLoading
 
                 binding.tabLayout.isVisible = !userState.isEmptyError && !userState.isEmptyLoading
-                binding.viewPager.isVisible = !userState.isEmptyError && !userState.isEmptyLoading
+                binding.viewPagerPostsAndEvents.isVisible = !userState.isEmptyError && !userState.isEmptyLoading
 
                 val errorText: CharSequence? =
                     userState.statusUser.throwableOrNull?.getErrorText(requireContext())
@@ -361,5 +341,80 @@ class UserFragment : Fragment() {
         userViewModel.getUserById(userId)
         postViewModel.loadPostsByAuthor(userId)
         eventViewModel.loadEventsByAuthor(userId)
+    }
+
+    /**
+     * Выполняет навигацию к фрагменту редактирования поста.
+     *
+     * Эта функция упрощает навигацию к экрану редактирования поста, используя переданный `NavController`
+     * и идентификатор действия (`actionId`). Она также передает данные поста в целевой фрагмент.
+     *
+     * @param navController Контроллер навигации, который будет использоваться для перехода.
+     * @param actionId Идентификатор действия (action ID) для навигации. Это может быть, например,
+     *                 `R.id.action_BottomNavigationFragment_to_newOrUpdatePostFragment`.
+     * @param post Объект [PostUiModel], содержащий данные поста, которые будут переданы в целевой фрагмент.
+     *
+     * @see NavController Контроллер навигации, используемый для перехода между фрагментами.
+     * @see bundleOf Функция для создания пакета данных, передаваемых в целевой фрагмент.
+     * @see NavOptions.Builder Класс для настройки анимации перехода.
+     */
+    private fun navigateToUpdatePost(
+        navController: NavController,
+        actionId: Int,
+        post: PostUiModel
+    ) {
+        navController.navigate(
+            actionId,
+            bundleOf(
+                NewOrUpdatePostFragment.POST_ID to post.id,
+                NewOrUpdatePostFragment.POST_CONTENT to post.content,
+                NewOrUpdatePostFragment.IS_UPDATE to true,
+            ),
+            NavOptions.Builder()
+                .setEnterAnim(R.anim.slide_in_right)
+                .setExitAnim(R.anim.slide_out_left)
+                .setPopEnterAnim(R.anim.slide_in_left)
+                .setPopExitAnim(R.anim.slide_out_right)
+                .build()
+        )
+    }
+
+    /**
+     * Выполняет навигацию к фрагменту редактирования события.
+     *
+     * Эта функция упрощает навигацию к экрану редактирования события, используя переданный `NavController`
+     * и идентификатор действия (`actionId`). Она также передает данные события в целевой фрагмент.
+     *
+     * @param navController Контроллер навигации, который будет использоваться для перехода.
+     * @param actionId Идентификатор действия (action ID) для навигации. Это может быть, например,
+     *                 `R.id.action_BottomNavigationFragment_to_newOrUpdateEventFragment`.
+     * @param event Объект [EventUiModel], содержащий данные поста, которые будут переданы в целевой фрагмент.
+     *
+     * @see NavController Контроллер навигации, используемый для перехода между фрагментами.
+     * @see bundleOf Функция для создания пакета данных, передаваемых в целевой фрагмент.
+     * @see NavOptions.Builder Класс для настройки анимации перехода.
+     */
+    private fun navigateToUpdateEvent(
+        navController: NavController,
+        actionId: Int,
+        event: EventUiModel
+    ) {
+        navController.navigate(
+            actionId,
+            bundleOf(
+                NewOrUpdateEventFragment.EVENT_ID to event.id,
+                NewOrUpdateEventFragment.EVENT_CONTENT to event.content,
+                NewOrUpdateEventFragment.EVENT_LINK to event.link,
+                NewOrUpdateEventFragment.EVENT_DATE to event.dataEvent,
+                NewOrUpdateEventFragment.EVENT_OPTION to event.optionConducting,
+                NewOrUpdateEventFragment.IS_UPDATE to true,
+            ),
+            NavOptions.Builder()
+                .setEnterAnim(R.anim.slide_in_right)
+                .setExitAnim(R.anim.slide_out_left)
+                .setPopEnterAnim(R.anim.slide_in_left)
+                .setPopExitAnim(R.anim.slide_out_right)
+                .build()
+        )
     }
 }

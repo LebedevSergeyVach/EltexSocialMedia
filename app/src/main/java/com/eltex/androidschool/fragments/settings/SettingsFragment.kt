@@ -61,6 +61,8 @@ class SettingsFragment : Fragment() {
         }
 
         binding.textVersionApplication.text = getAppVersionName(requireContext())
+
+        initVibrationSwitch()
     }
 
     /**
@@ -198,5 +200,40 @@ class SettingsFragment : Fragment() {
         } catch (e: Exception) {
             getString(R.string.unknown_error)
         }
+    }
+
+    private fun initVibrationSwitch() {
+        val sharedPreferences = requireContext().getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
+        val isVibrationEnabled = sharedPreferences.getBoolean("VibrationEnabled", true) // По умолчанию вибрация включена
+
+        // Устанавливаем начальное состояние переключателя
+        binding.vibrationOptionSwitch.isChecked = isVibrationEnabled
+        updateVibrationText(isVibrationEnabled)
+
+        // Обработчик изменения состояния переключателя
+        binding.vibrationOptionSwitch.setOnCheckedChangeListener { _, isChecked ->
+            sharedPreferences.edit().putBoolean("VibrationEnabled", isChecked).apply()
+            updateVibrationText(isChecked)
+        }
+    }
+
+    private fun updateVibrationText(isEnabled: Boolean) {
+        val text = if (isEnabled) {
+            getString(R.string.vibration_on)
+        } else {
+            getString(R.string.vibration_off)
+        }
+
+        binding.textSettingsVibration.animate()
+            .alpha(0f)
+            .setDuration(200)
+            .withEndAction {
+                binding.textSettingsVibration.text = text
+                binding.textSettingsVibration.animate()
+                    .alpha(1f)
+                    .setDuration(200)
+                    .start()
+            }
+            .start()
     }
 }
