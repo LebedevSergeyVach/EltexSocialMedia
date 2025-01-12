@@ -42,6 +42,9 @@ Basic settings for the application's appearance are implemented, such as: langua
     </div>
 </details>
 
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Version](https://img.shields.io/badge/Version-0.13.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.13.0)
+
 ---
 
 ### [Anatoly Spitchenko](https://gitflic.ru/user/onotole) - Android developer and Course Teacher
@@ -97,6 +100,9 @@ Basic settings for the application's appearance are implemented, such as: langua
         <img width="12" />
     </div>
 </details>
+
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Version](https://img.shields.io/badge/Version-0.13.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.13.0)
 
 ---
 
