@@ -77,34 +77,60 @@ class PostViewHolder(
         binding.menu.isVisible = post.authorId == currentUserId
 
         binding.share.setOnClickListener {
-            context.toast(R.string.shared)
-
-            val intent = Intent.createChooser(
-                Intent(Intent.ACTION_SEND)
-                    .putExtra(
-                        Intent.EXTRA_TEXT,
-                        context.getString(R.string.author) + ":\n" + post.author
-                                + "\n\n" + context.getString(R.string.published) + ":\n"
-                                + post.published
-                                + "\n\n" + context.getString(R.string.post) + ":\n" + post.content
-                    )
-                    .setType("text/plain"),
-                null
-            )
-
-            runCatching {
-                context.startActivity(intent)
-            }.onFailure {
-                context.toast(R.string.app_not_found, false)
-            }
-
-            buttonClickAnimation(
-                button = binding.share,
-                condition = true,
-                confetti = true,
-                causeVibration = true
-            )
+            sharePost(post)
         }
+
+
+        binding.cardPost.setOnLongClickListener {
+            sharePost(post)
+            true
+        }
+    }
+
+    /**
+     * Отправляет пост через сторонние приложения, поддерживающие обмен текстом.
+     *
+     * Этот метод создает интент для отправки текста поста (автор, дата публикации и содержимое) через любое приложение,
+     * которое поддерживает действие `Intent.ACTION_SEND`. Если подходящее приложение не найдено, пользователю будет показано
+     * соответствующее уведомление. После успешного запуска интента выполняется анимация кнопки "поделиться" с эффектом конфетти
+     * и вибрацией.
+     *
+     * @param post Объект `PostUiModel`, содержащий данные поста, которые будут переданы в интент. Включает автора, дату публикации
+     *             и содержимое поста.
+     *
+     * @see Intent.ACTION_SEND Стандартное действие для отправки данных через другие приложения.
+     * @see Intent.createChooser Создает диалог выбора приложения для отправки данных.
+     * @see runCatching Обрабатывает возможные исключения при запуске интента.
+     * @see buttonClickAnimation Выполняет анимацию кнопки с эффектом конфетти и вибрацией.
+     */
+    private fun sharePost(post: PostUiModel) {
+        context.toast(R.string.shared)
+
+        val intent = Intent.createChooser(
+            Intent(Intent.ACTION_SEND)
+                .putExtra(
+                    Intent.EXTRA_TEXT,
+                    context.getString(R.string.author) + ":\n" + post.author
+                            + "\n\n" + context.getString(R.string.published) + ":\n"
+                            + post.published
+                            + "\n\n" + context.getString(R.string.post) + ":\n" + post.content
+                )
+                .setType("text/plain"),
+            null
+        )
+
+        runCatching {
+            context.startActivity(intent)
+        }.onFailure {
+            context.toast(R.string.app_not_found, false)
+        }
+
+        buttonClickAnimation(
+            button = binding.share,
+            condition = true,
+            confetti = true,
+            causeVibration = true
+        )
     }
 
     /**

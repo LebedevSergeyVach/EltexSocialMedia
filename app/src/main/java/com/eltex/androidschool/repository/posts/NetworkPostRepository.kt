@@ -69,4 +69,13 @@ class NetworkPostRepository : PostRepository {
      */
     suspend fun getPostById(postId: Long) =
         PostsApi.INSTANCE.getPostById(postId = postId)
+
+    /**
+     * Получает посты определенного польщователя по его идентификатору.
+     *
+     * @param authorId Идентификатор пользователя, который нужно получить.
+     * @return List<[PostData]> Посты, соответствующий указанному идентификатору пользователя.
+     */
+    override suspend fun getPostsByAuthorId(authorId: Long) =
+        PostsApi.INSTANCE.getAllPostsByAuthorId(authorId = authorId)
 }

@@ -129,6 +129,17 @@ class EventsFragment : Fragment() {
                             .requireView().findViewById<BottomNavigationView>(R.id.bottomNavigation)
 
                         bottomNav.selectedItemId = R.id.userFragment
+
+                        findNavController().navigate(
+                            R.id.userFragment,
+                            null,
+                            NavOptions.Builder()
+                                .setEnterAnim(R.anim.slide_in_right)
+                                .setExitAnim(R.anim.slide_out_left)
+                                .setPopEnterAnim(R.anim.slide_in_left)
+                                .setPopExitAnim(R.anim.slide_out_right)
+                                .build()
+                        )
                     } else {
                         requireParentFragment().requireParentFragment().findNavController()
                             .navigate(

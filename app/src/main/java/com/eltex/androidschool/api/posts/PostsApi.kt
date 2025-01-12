@@ -72,6 +72,15 @@ interface PostsApi {
     suspend fun getPostById(@Path("id") postId: Long): PostData
 
     /**
+     * Получает посты определенного польщователя по его идентификатору.
+     *
+     * @param authorId Идентификатор пользователя, который нужно получить.
+     * @return List<[PostData]> Посты, соответствующий указанному идентификатору пользователя.
+     */
+    @GET("api/{authorId}/wall")
+    suspend fun getAllPostsByAuthorId(@Path("authorId") authorId: Long): List<PostData>
+
+    /**
      * Объект-компаньон для создания экземпляра [PostsApi].
      *
      * Использует ленивую инициализацию для создания экземпляра Retrofit и его настройки.

@@ -38,4 +38,9 @@
     <color name="confetti_green">#8BC34A</color>
     <color name="confetti_orange">#FF9800</color>
     <color name="confetti_yellow">#FFEB3B</color>
+
+    <!-- Акцентные цвета для AMOLED-темы -->
+    <color name="amoled_accent">#00FF00</color> <!-- Например, зеленый -->
+    <color name="amoled_accent_dark">#00CC00</color>
+    <color name="amoled_accent_light">#00FF80</color>
 </resources>

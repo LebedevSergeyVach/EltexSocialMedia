@@ -64,6 +64,7 @@
     <string name="choose_theme">Choose a theme</string>
     <string name="light_theme">Light theme</string>
     <string name="dark_theme">Dark theme</string>
+    <string name="amoled_theme">AMOLED Theme</string>
     <string name="system_theme">System theme</string>
     <string name="russian">Russian</string>
     <string name="english">English</string>

@@ -36,7 +36,8 @@ import com.eltex.androidschool.utils.toast
  */
 @SuppressLint("ClickableViewAccessibility")
 class EventViewHolder(
-    private val binding: CardEventBinding, private val context: Context
+    private val binding: CardEventBinding,
+    private val context: Context
 ) : ViewHolder(binding.root) {
     private var lastClickTime: Long = 0
 
@@ -83,38 +84,64 @@ class EventViewHolder(
         binding.menu.isVisible = event.authorId == currentUserId
 
         binding.share.setOnClickListener {
-            context.toast(R.string.shared)
-
-            val intent = Intent.createChooser(
-                Intent(Intent.ACTION_SEND)
-                    .putExtra(
-                        Intent.EXTRA_TEXT,
-                        context.getString(R.string.author) + ":\n" + event.author
-                                + "\n\n" + context.getString(R.string.published) + ":\n"
-                                + event.published
-                                + "\n\n" + context.getString(R.string.data_event) + ":\n"
-                                + event.dataEvent
-                                + "\n\n" + event.optionConducting
-                                + "\n\n" + context.getString(R.string.event) + ":\n" + event.content
-                                + "\n\n" + context.getString(R.string.link) + ":\n" + event.link
-                    )
-                    .setType("text/plain"),
-                null
-            )
-
-            runCatching {
-                context.startActivity(intent)
-            }.onFailure {
-                context.toast(R.string.app_not_found, false)
-            }
-
-            buttonClickAnimation(
-                button = binding.share,
-                condition = true,
-                confetti = true,
-                causeVibration = true
-            )
+            shareEvent(event)
         }
+
+        binding.cardEvent.setOnLongClickListener {
+            shareEvent(event)
+
+            true
+        }
+    }
+
+    /**
+     * Отправляет событие через сторонние приложения, поддерживающие обмен текстом.
+     *
+     * Этот метод создает интент для отправки текста события (автор, дата публикации и содержимое) через любое приложение,
+     * которое поддерживает действие `Intent.ACTION_SEND`. Если подходящее приложение не найдено, пользователю будет показано
+     * соответствующее уведомление. После успешного запуска интента выполняется анимация кнопки "поделиться" с эффектом конфетти
+     * и вибрацией.
+     *
+     * @param event Объект `EventUiModel`, содержащий данные поста, которые будут переданы в интент. Включает автора, дату публикации
+     *             и содержимое поста.
+     *
+     * @see Intent.ACTION_SEND Стандартное действие для отправки данных через другие приложения.
+     * @see Intent.createChooser Создает диалог выбора приложения для отправки данных.
+     * @see runCatching Обрабатывает возможные исключения при запуске интента.
+     * @see buttonClickAnimation Выполняет анимацию кнопки с эффектом конфетти и вибрацией.
+     */
+    private fun shareEvent(event: EventUiModel) {
+        context.toast(R.string.shared)
+
+        val intent = Intent.createChooser(
+            Intent(Intent.ACTION_SEND)
+                .putExtra(
+                    Intent.EXTRA_TEXT,
+                    context.getString(R.string.author) + ":\n" + event.author
+                            + "\n\n" + context.getString(R.string.published) + ":\n"
+                            + event.published
+                            + "\n\n" + context.getString(R.string.data_event) + ":\n"
+                            + event.dataEvent
+                            + "\n\n" + event.optionConducting
+                            + "\n\n" + context.getString(R.string.event) + ":\n" + event.content
+                            + "\n\n" + context.getString(R.string.link) + ":\n" + event.link
+                )
+                .setType("text/plain"),
+            null
+        )
+
+        runCatching {
+            context.startActivity(intent)
+        }.onFailure {
+            context.toast(R.string.app_not_found, false)
+        }
+
+        buttonClickAnimation(
+            button = binding.share,
+            condition = true,
+            confetti = true,
+            causeVibration = true
+        )
     }
 
     /**

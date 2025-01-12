@@ -11,7 +11,6 @@
         <item name="postSplashScreenTheme">@style/Theme.MyApp</item>
     </style>
 
-
     <style name="CustomBottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
         <item name="itemIconTint">@drawable/bottom_navigation_icon_selector</item>
         <item name="itemTextColor">@drawable/bottom_navigation_text_selector</item>

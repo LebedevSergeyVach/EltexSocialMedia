@@ -261,7 +261,8 @@ class UserFragment : Fragment() {
                 binding.nameUser.isVisible = !userState.isEmptyError && !userState.isEmptyLoading
 
                 binding.tabLayout.isVisible = !userState.isEmptyError && !userState.isEmptyLoading
-                binding.viewPagerPostsAndEvents.isVisible = !userState.isEmptyError && !userState.isEmptyLoading
+                binding.viewPagerPostsAndEvents.isVisible =
+                    !userState.isEmptyError && !userState.isEmptyLoading
 
                 val errorText: CharSequence? =
                     userState.statusUser.throwableOrNull?.getErrorText(requireContext())
@@ -303,8 +304,14 @@ class UserFragment : Fragment() {
             object : LifecycleEventObserver {
                 override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
                     when (event) {
-                        Lifecycle.Event.ON_START -> toolbarViewModel.setSettingsVisible(userId == BuildConfig.USER_ID)
-                        Lifecycle.Event.ON_STOP -> toolbarViewModel.setSettingsVisible(false)
+                        Lifecycle.Event.ON_START -> toolbarViewModel.setSettingsAndAllUsersVisible(
+                            userId == BuildConfig.USER_ID
+                        )
+
+                        Lifecycle.Event.ON_STOP -> toolbarViewModel.setSettingsAndAllUsersVisible(
+                            false
+                        )
+
                         Lifecycle.Event.ON_DESTROY -> source.lifecycle.removeObserver(this)
                         else -> Unit
                     }

@@ -1,64 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.users.UsersFragment">
 
-    <androidx.constraintlayout.widget.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragments.posts.PostsFragment">
 
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swiperRefresh"
 
-        <ImageView
-            android:id="@+id/splash_icon"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
 
-            android:layout_width="380dp"
-            android:layout_height="380dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
-            android:layout_centerInParent="true"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
 
-            android:layout_marginBottom="150dp"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
 
-            android:src="@drawable/snowflake"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
 
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_user_name"
+            tools:listitem="@layout/card_user" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <com.google.android.material.progressindicator.LinearProgressIndicator
+        android:id="@+id/progressLiner"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="120dp"
+        android:indeterminate="true"
+
+        android:paddingStart="80dp"
+        android:paddingEnd="80dp"
+
+        app:indicatorColor="@color/active_element"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:trackThickness="8dp" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressBar"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/background_progress_bar"
+
+        android:indeterminate="true"
+
+        android:padding="8dp"
+
+        app:indicatorColor="@color/active_element"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:trackThickness="6dp" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardErrorText"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:cardCornerRadius="20dp"
+
+        app:layout_constraintBottom_toTopOf="@id/retryButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <TextView
+            android:id="@+id/errorText"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_marginTop="40dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:textSize="24sp"
 
-            app:cardCornerRadius="20dp"
+            android:textStyle="bold"
+            tools:text="ERROR NETWORK" />
 
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/splash_icon">
 
-            <TextView
-                android:id="@+id/splash_text"
+    </com.google.android.material.card.MaterialCardView>
 
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/retryButton"
 
-                android:layout_below="@id/splash_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
 
-                android:padding="14dp"
+        android:layout_marginTop="15dp"
 
-                android:text="@string/app_name"
+        android:background="?colorOnPrimary"
+        android:backgroundTint="@color/active_element"
 
-                android:textSize="30sp"
-                android:textStyle="bold" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardErrorText"
 
-        </com.google.android.material.card.MaterialCardView>
+        app:srcCompat="@drawable/ic_update_24" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/errorGroup"
 
-</FrameLayout>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:constraint_referenced_ids="retryButton, cardErrorText,"
+
+        tools:visibility="gone" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
