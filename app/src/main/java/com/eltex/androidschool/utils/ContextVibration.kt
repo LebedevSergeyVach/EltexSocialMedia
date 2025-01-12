@@ -9,6 +9,7 @@ import android.provider.Settings
 
 import android.os.Vibrator
 import android.os.VibrationEffect
+import com.eltex.androidschool.BuildConfig
 
 /**
  * Вызывает простую вибрацию на определенное количество миллисекунд.
@@ -81,6 +82,10 @@ fun Context.singleVibrationWithSystemCheck(
         ) == 1
 
         if (isVibrationEnabledInSystem) {
+            if (BuildConfig.DEBUG) {
+                Logger.i("Произошла вибрация singleVibrationWithSystemCheck($milliseconds)")
+            }
+
             val vibrator = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
             if (vibrator.hasVibrator()) {
                 vibrator.vibrate(milliseconds)
