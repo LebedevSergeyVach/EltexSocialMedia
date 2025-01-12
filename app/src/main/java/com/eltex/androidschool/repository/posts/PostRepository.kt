@@ -42,4 +42,12 @@ interface PostRepository {
      * @return [PostData] Обновленный или сохраненный пост.
      */
     suspend fun save(postId: Long, content: String): PostData
+
+    /**
+     * Получает посты определенного польщователя по его идентификатору.
+     *
+     * @param authorId Идентификатор пользователя, который нужно получить.
+     * @return List<[PostData]> Посты, соответствующий указанному идентификатору пользователя.
+     */
+    suspend fun getPostsByAuthorId(authorId: Long): List<PostData>
 }

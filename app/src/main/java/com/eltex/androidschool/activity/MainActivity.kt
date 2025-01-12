@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity(R.layout.main_activity) {
      *
      * @param languageCode Код языка (например, "ru" или "en"). Если null, используется системный язык.
      */
+    @Suppress("DEPRECATION")
     private fun setLocale(languageCode: String?) {
         val locale = if (languageCode != null) {
             Locale(languageCode)

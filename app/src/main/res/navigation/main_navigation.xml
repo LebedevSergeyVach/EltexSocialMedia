@@ -54,7 +54,6 @@
     <fragment
         android:id="@+id/userFragment"
         android:name="com.eltex.androidschool.fragments.users.UserFragment"
-        android:label="@string/account"
         tools:layout="@layout/fragment_user">
 
         <action
@@ -75,6 +74,26 @@
     <action
         android:id="@+id/action_global_settingsFragment"
         app:destination="@id/settingsFragment"
+
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
+
+    <fragment
+        android:id="@+id/usersFragment"
+        android:name="com.eltex.androidschool.fragments.users.UsersFragment"
+        android:label="@string/users"
+        tools:layout="@layout/fragment_users" >
+
+        <action
+            android:id="@+id/action_usersFragment_to_userFragment2"
+            app:destination="@id/userFragment" />
+    </fragment>
+
+    <action
+        android:id="@+id/action_global_usersFragment"
+        app:destination="@id/usersFragment"
 
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"

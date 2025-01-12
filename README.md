@@ -19,7 +19,7 @@ To work with requests to the server and process the received data in JSON format
 
 The project uses several types of architecture patterns and paradigms: **Builder**, **Observable**, **Observer**, **Adapter**, **Dependency Injection**, **Single Activity Architecture**, **Modular Architecture** and **Reactive Programming**.
 
-Basic settings for the application's appearance are implemented, such as: language selection (Russian, English, system) and theme selection (dark, light, system).
+Basic settings for the application's appearance are implemented, such as: language selection (Russian, English, system) and theme selection (dark, light, system). The ability to turn on and off the vibration response in the app has also been added.
 
 <details open="open">
     <summary><h2>🚀 The stack of technologies used</h2></summary>
@@ -75,7 +75,7 @@ Basic settings for the application's appearance are implemented, such as: langua
 
 В проекте используется несколько типов архитектурных паттернов и парадигм: **Строитель**, **Наблюдаемый**, **Наблюдатель**, **Адаптер**, **Внедрение зависимостей**, **Архитектура с одной активностью**, **Модульная архитектура** and **Реактивное программирование**.
 
-Реализованы базовые настройки внешнего вида приложения, такие как: выбор языка (Русский, Английский, системный) и выбор темы (темная, светлая, системная).
+Реализованы базовые настройки внешнего вида приложения, такие как: выбор языка (Русский, Английский, системный) и выбор темы (темная, светлая, системная). Также добавлена возможность включения и отключения виброотклика в приложении.
 
 <details open="open">
     <summary><h2>🚀 Стек используемых технологий</h2></summary>

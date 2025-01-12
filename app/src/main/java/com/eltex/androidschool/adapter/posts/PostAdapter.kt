@@ -12,6 +12,7 @@ import com.eltex.androidschool.databinding.CardPostBinding
 import com.eltex.androidschool.ui.posts.PostUiModel
 import com.eltex.androidschool.utils.singleVibration
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
+import com.eltex.androidschool.utils.toast
 
 /**
  * Адаптер для отображения списка постов в RecyclerView.
@@ -73,11 +74,6 @@ class PostAdapter(
 
         binding.menu.setOnClickListener { view: View ->
             showPopupMenu(view, viewHolder.adapterPosition)
-        }
-
-        binding.cardPost.setOnLongClickListener { view: View ->
-            showPopupMenu(view, viewHolder.adapterPosition)
-            true
         }
 
         return viewHolder

@@ -9,6 +9,7 @@ import android.provider.Settings
 
 import android.os.Vibrator
 import android.os.VibrationEffect
+import com.eltex.androidschool.BuildConfig
 
 /**
  * Вызывает простую вибрацию на определенное количество миллисекунд.
@@ -40,23 +41,29 @@ fun Context.doubleVibration(
     secondsVibrationMilliseconds: Long = 150,
     repetitionOfActions: Int = -1
 ) {
-    val vibrator = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-    if (vibrator.hasVibrator()) {
-        val pattern = longArrayOf(
-            firstPauseMilliseconds,
-            firstVibrationMilliseconds,
-            secondsPauseMilliseconds,
-            secondsVibrationMilliseconds
-        )
-        vibrator.vibrate(
-            pattern,
-            repetitionOfActions
-        )
+    val sharedPreferences = getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
+    val isVibrationEnabledInApp = sharedPreferences.getBoolean("VibrationEnabled", true)
+
+    if (isVibrationEnabledInApp) {
+        val vibrator = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (vibrator.hasVibrator()) {
+            val pattern = longArrayOf(
+                firstPauseMilliseconds,
+                firstVibrationMilliseconds,
+                secondsPauseMilliseconds,
+                secondsVibrationMilliseconds
+            )
+            vibrator.vibrate(
+                pattern,
+                repetitionOfActions
+            )
+        }
     }
 }
 
 /**
- * Вызывает простую вибрацию на определенное количество миллисекунд, только если вибрация включена в системе.
+ * Вызывает простую вибрацию на определенное количество миллисекунд,
+ * только если вибрация включена в системе и в настройках приложения.
  *
  * @param milliseconds Длительность вибрации в миллисекундах (по умолчанию 50 мс).
  */
@@ -64,16 +71,25 @@ fun Context.doubleVibration(
 fun Context.singleVibrationWithSystemCheck(
     milliseconds: Long = 50
 ) {
-    val isVibrationEnabled = Settings.System.getInt(
-        this.contentResolver,
-        Settings.System.HAPTIC_FEEDBACK_ENABLED,
-        0
-    ) == 1
+    val sharedPreferences = getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
+    val isVibrationEnabledInApp = sharedPreferences.getBoolean("VibrationEnabled", true)
 
-    if (isVibrationEnabled) {
-        val vibrator = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        if (vibrator.hasVibrator()) {
-            vibrator.vibrate(milliseconds)
+    if (isVibrationEnabledInApp) {
+        val isVibrationEnabledInSystem = Settings.System.getInt(
+            this.contentResolver,
+            Settings.System.HAPTIC_FEEDBACK_ENABLED,
+            0
+        ) == 1
+
+        if (isVibrationEnabledInSystem) {
+            if (BuildConfig.DEBUG) {
+                Logger.i("Произошла вибрация singleVibrationWithSystemCheck($milliseconds)")
+            }
+
+            val vibrator = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+            if (vibrator.hasVibrator()) {
+                vibrator.vibrate(milliseconds)
+            }
         }
     }
 }
@@ -90,9 +106,14 @@ fun Context.singleVibrationWithSystemCheck(
  * @param repeat Количество повторений шаблона. По умолчанию -1, что означает бесконечное повторение.
  */
 fun Context.vibrateWithPattern(pattern: LongArray, repeat: Int = -1) {
-    val vibrator = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-    if (vibrator.hasVibrator()) {
-        vibrator.vibrate(pattern, repeat)
+    val sharedPreferences = getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
+    val isVibrationEnabledInApp = sharedPreferences.getBoolean("VibrationEnabled", true)
+
+    if (isVibrationEnabledInApp) {
+        val vibrator = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (vibrator.hasVibrator()) {
+            vibrator.vibrate(pattern, repeat)
+        }
     }
 }
 
@@ -104,10 +125,15 @@ fun Context.vibrateWithPattern(pattern: LongArray, repeat: Int = -1) {
  */
 @SuppressLint("NewApi")
 fun Context.vibrateWithEffect(duration: Long) {
-    val vibrator = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-    if (vibrator.hasVibrator()) {
-        val effect = VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE)
-        vibrator.vibrate(effect)
+    val sharedPreferences = getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
+    val isVibrationEnabledInApp = sharedPreferences.getBoolean("VibrationEnabled", true)
+
+    if (isVibrationEnabledInApp) {
+        val vibrator = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (vibrator.hasVibrator()) {
+            val effect = VibrationEffect.createOneShot(duration, VibrationEffect.DEFAULT_AMPLITUDE)
+            vibrator.vibrate(effect)
+        }
     }
 }
 
@@ -125,9 +151,14 @@ fun Context.vibrateWithEffect(duration: Long) {
  */
 @SuppressLint("NewApi")
 fun Context.vibrateWithEffectPattern(pattern: LongArray, repeat: Int = -1) {
-    val vibrator = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-    if (vibrator.hasVibrator()) {
-        val effect = VibrationEffect.createWaveform(pattern, repeat)
-        vibrator.vibrate(effect)
+    val sharedPreferences = getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
+    val isVibrationEnabledInApp = sharedPreferences.getBoolean("VibrationEnabled", true)
+
+    if (isVibrationEnabledInApp) {
+        val vibrator = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (vibrator.hasVibrator()) {
+            val effect = VibrationEffect.createWaveform(pattern, repeat)
+            vibrator.vibrate(effect)
+        }
     }
 }

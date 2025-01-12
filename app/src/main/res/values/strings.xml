@@ -64,16 +64,20 @@
     <string name="choose_theme">Choose a theme</string>
     <string name="light_theme">Light theme</string>
     <string name="dark_theme">Dark theme</string>
+    <string name="amoled_theme">AMOLED Theme</string>
     <string name="system_theme">System theme</string>
     <string name="russian">Russian</string>
     <string name="english">English</string>
     <string name="system_language">System language</string>
     <string name="application_appearance">Application appearance</string>
+    <string name="vibration_response_app">Vibration response app</string>
+    <string name="vibration_on">Vibration is enabled</string>
+    <string name="vibration_off">Vibration is turned off</string>
 
     <string name="option_switch_title">Event Switch</string>
-    <string name="option_switch_description">This switch allows you to select whether the event will be online or offline. If the switch is on, the event will be online, otherwise it will be offline.</string>
+    <string name="option_switch_description">This switch allows you to select whether the event will be online or offline. If the switch is on, the event will be online and you will need to specify the event link, otherwise it will be offline and you will need to specify the event address.</string>
     <string name="date_picker_title">Date and time selection</string>
-    <string name="date_picker_description">This element allows you to select the date and time of the event. Click on the button to open the calendar and select the date and then the time.</string>
+    <string name="date_picker_description">This element allows you to select the date and time of the event. Click on the button to open the calendar and select the date and then the time. The date and time of the app users will be displayed depending on their local date and time on their smartphone.</string>
 
     <string name="no_posts">There are no posts yet</string>
     <string name="no_events">There are no events yet</string>

@@ -18,11 +18,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_margin="@dimen/common_spacing"
-
         android:layout_weight="1"
 
-        android:padding="@dimen/common_spacing"
+        android:padding="@dimen/padding_title_for_settings_24dp"
 
         android:text="@string/application_appearance"
         android:textSize="24sp"
@@ -81,7 +79,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_settings_language_1"
+        android:id="@+id/card_settings_theme"
 
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -123,6 +121,81 @@
                 android:backgroundTint="@color/active_element"
                 android:text="@string/choose_theme"
                 android:textColor="@color/black_white_theme" />
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/text_name_vibration"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_weight="1"
+
+        android:padding="@dimen/padding_title_for_settings_24dp"
+        android:layout_marginTop="20dp"
+
+        android:text="@string/vibration_response_app"
+        android:textSize="24sp"
+
+        android:textStyle="bold"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_settings_theme" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/card_settings_vibration"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_margin="@dimen/common_spacing"
+
+        app:cardCornerRadius="20dp"
+        app:cardElevation="2dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/text_name_vibration">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/common_spacing">
+
+            <TextView
+                android:id="@+id/text_settings_vibration"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                android:text="@string/vibration_on"
+
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.materialswitch.MaterialSwitch
+                android:id="@+id/vibration_option_switch"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:backgroundTint="@color/active_element"
+
+                android:checked="false"
+                android:textOff="@string/offline"
+
+                android:textOn="@string/online"
+
+                app:thumbTint="@drawable/switch_thumb_tint"
+                app:trackTint="@drawable/switch_track_tint"
+
+                app:useMaterialThemeColors="true" />
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>

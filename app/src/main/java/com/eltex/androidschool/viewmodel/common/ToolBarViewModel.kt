@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 /**
  * ViewModel для управления состоянием панели инструментов.
  *
- * Этот ViewModel отвечает за управление видимостью кнопок сохранения и настроек,
+ * Этот ViewModel отвечает за управление видимостью кнопок сохранения, настроек и списка всех пользователей,
  * а также за обработку событий, связанных с этими кнопками.
  *
  * @see ViewModel Базовый класс для ViewModel, использующих функции библиотеки поддержки.
@@ -40,6 +40,14 @@ class ToolBarViewModel : ViewModel() {
     val settingsVisible = _settingsVisible.asStateFlow()
 
     /**
+     * Состояние видимости кнопки списка всех пользователей.
+     *
+     * @property allUsersVisible Поток состояния видимости кнопки списка всех пользователей.
+     */
+    private val _allUsersVisible = MutableStateFlow(false)
+    val allUsersVisible = _allUsersVisible.asStateFlow()
+
+    /**
      * Устанавливает видимость кнопки сохранения.
      *
      * @param visible Видимость кнопки сохранения.
@@ -63,6 +71,25 @@ class ToolBarViewModel : ViewModel() {
      * @param visible Видимость кнопки настроек.
      */
     fun setSettingsVisible(visible: Boolean) {
+        _settingsVisible.value = visible
+    }
+
+    /**
+     * Устанавливает видимость кнопки списка всех пользователей.
+     *
+     * @param visible Видимость кнопки списка всех пользователей.
+     */
+    fun setAllUsersVisible(visible: Boolean) {
+        _allUsersVisible.value = visible
+    }
+
+    /**
+     * Устанавливает видимость кнопок настроек и списка всех пользователей.
+     *
+     * @param visible Видимость кнопок настроек и списка всех пользователей.
+     */
+    fun setSettingsAndAllUsersVisible(visible: Boolean) {
+        _allUsersVisible.value = visible
         _settingsVisible.value = visible
     }
 }

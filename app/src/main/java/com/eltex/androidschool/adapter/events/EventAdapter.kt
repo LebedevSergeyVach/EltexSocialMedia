@@ -54,7 +54,10 @@ class EventAdapter(
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = CardEventBinding.inflate(layoutInflater, parent, false)
 
-        val viewHolder = EventViewHolder(binding, parent.context)
+        val viewHolder = EventViewHolder(
+            binding = binding,
+            context = parent.context
+        )
 
         binding.like.setOnClickListener {
             listener.onLikeClicked(getItem(viewHolder.adapterPosition))
@@ -78,11 +81,6 @@ class EventAdapter(
 
         binding.menu.setOnClickListener { view: View ->
             showPopupMenu(view, viewHolder.adapterPosition)
-        }
-
-        binding.cardEvent.setOnLongClickListener { view: View ->
-            showPopupMenu(view, viewHolder.adapterPosition)
-            true
         }
 
         return viewHolder

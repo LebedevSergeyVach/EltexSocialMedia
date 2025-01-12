@@ -77,14 +77,10 @@ class PostByIdAuthorForUser(
 
         viewModelScope.launch {
             try {
-                val posts: List<PostData> = repository.getPosts()
-
-                val filteredPosts = posts.filter { post: PostData ->
-                    post.authorId == authorId
-                }
+                val posts: List<PostData> = repository.getPostsByAuthorId(authorId = authorId)
 
                 val postsUiModels: List<PostUiModel> = withContext(Dispatchers.Default) {
-                    filteredPosts.map { post: PostData ->
+                    posts.map { post: PostData ->
                         mapper.map(post)
                     }
                 }

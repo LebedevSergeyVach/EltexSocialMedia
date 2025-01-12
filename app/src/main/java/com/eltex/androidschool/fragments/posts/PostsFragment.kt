@@ -42,6 +42,7 @@ import com.eltex.androidschool.utils.toast
 
 import com.eltex.androidschool.viewmodel.posts.PostState
 import com.eltex.androidschool.viewmodel.posts.PostViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 /**
  * Фрагмент, отображающий список постов.
@@ -116,13 +117,15 @@ class PostsFragment : Fragment() {
                 }
 
                 override fun onGetUserClicked(post: PostUiModel) {
-                    requireParentFragment().requireParentFragment().findNavController()
-                        .navigate(
-                            R.id.action_BottomNavigationFragment_to_userFragment,
-                            bundleOf(
-                                UserFragment.USER_ID to post.authorId,
-                                UserFragment.IC_PROFILE to false
-                            ),
+                    if (post.authorId == BuildConfig.USER_ID) {
+                        val bottomNav = requireParentFragment().requireParentFragment()
+                            .requireView().findViewById<BottomNavigationView>(R.id.bottomNavigation)
+
+                        bottomNav.selectedItemId = R.id.userFragment
+
+                        findNavController().navigate(
+                            R.id.userFragment,
+                            null,
                             NavOptions.Builder()
                                 .setEnterAnim(R.anim.slide_in_right)
                                 .setExitAnim(R.anim.slide_out_left)
@@ -130,6 +133,22 @@ class PostsFragment : Fragment() {
                                 .setPopExitAnim(R.anim.slide_out_right)
                                 .build()
                         )
+                    } else {
+                        requireParentFragment().requireParentFragment().findNavController()
+                            .navigate(
+                                R.id.action_BottomNavigationFragment_to_userFragment,
+                                bundleOf(
+                                    UserFragment.USER_ID to post.authorId,
+                                    UserFragment.IC_PROFILE to false
+                                ),
+                                NavOptions.Builder()
+                                    .setEnterAnim(R.anim.slide_in_right)
+                                    .setExitAnim(R.anim.slide_out_left)
+                                    .setPopEnterAnim(R.anim.slide_in_left)
+                                    .setPopExitAnim(R.anim.slide_out_right)
+                                    .build()
+                            )
+                    }
                 }
             },
 

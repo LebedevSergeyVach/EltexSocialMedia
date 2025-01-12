@@ -2,16 +2,23 @@ package com.eltex.androidschool.fragments.settings
 
 import android.content.Context
 import android.content.res.Configuration
+
 import android.os.Bundle
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import android.widget.PopupMenu
+
 import androidx.appcompat.app.AppCompatDelegate
+
 import androidx.fragment.app.Fragment
+
 import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentSettingsBinding
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
+
 import java.util.Locale
 
 /**
@@ -23,8 +30,6 @@ import java.util.Locale
  * @see Fragment Базовый класс для фрагментов, использующих функции библиотеки поддержки.
  */
 class SettingsFragment : Fragment() {
-
-    private lateinit var binding: FragmentSettingsBinding
 
     /**
      * Создает и возвращает представление для этого фрагмента.
@@ -38,35 +43,33 @@ class SettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        val binding = FragmentSettingsBinding.inflate(inflater, container, false)
+
+        updateButtonTexts(binding = binding)
+
+        binding.chooseButtonSettingsLanguage.setOnClickListener {
+            showLanguagePopupMenu(it, binding = binding)
+        }
+
+        binding.chooseButtonSettingsTheme.setOnClickListener {
+            showThemePopupMenu(it, binding = binding)
+        }
+
+        binding.textVersionApplication.text = getAppVersionName(requireContext())
+
+        initVibrationSwitch(binding = binding)
+
         return binding.root
     }
 
     /**
-     * Вызывается после создания представления фрагмента.
-     *
-     * @param view Представление, возвращенное onCreateView.
-     * @param savedInstanceState Сохраненное состояние фрагмента, если оно есть.
-     */
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        updateButtonTexts()
-
-        binding.chooseButtonSettingsLanguage.setOnClickListener {
-            showLanguagePopupMenu(it)
-        }
-
-        binding.chooseButtonSettingsTheme.setOnClickListener {
-            showThemePopupMenu(it)
-        }
-
-        binding.textVersionApplication.text = getAppVersionName(requireContext())
-    }
-
-    /**
      * Обновляет текст кнопок в зависимости от текущих настроек языка и темы.
+     *
+     * @param binding Binding для макета фрагмента настроек.
+     *
+     * @see SharedPreferences Хранилище для сохранения настроек приложения.
      */
-    private fun updateButtonTexts() {
+    private fun updateButtonTexts(binding: FragmentSettingsBinding) {
         val sharedPreferences =
             requireContext().getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
         val languageCode = sharedPreferences.getString("Language", null)
@@ -91,8 +94,12 @@ class SettingsFragment : Fragment() {
      * Показывает PopupMenu для выбора языка.
      *
      * @param view View, к которому привязан PopupMenu.
+     * @param binding Binding для макета фрагмента настроек.
+     *
+     * @see PopupMenu Меню для выбора языка.
+     * @see setLocale Метод для установки выбранного языка.
      */
-    private fun showLanguagePopupMenu(view: View) {
+    private fun showLanguagePopupMenu(view: View, binding: FragmentSettingsBinding) {
         requireContext().singleVibrationWithSystemCheck(35L)
 
         val popupMenu = PopupMenu(requireContext(), view)
@@ -101,9 +108,9 @@ class SettingsFragment : Fragment() {
 
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.language_ru -> setLocale("ru")
-                R.id.language_en -> setLocale("en")
-                R.id.language_system -> setLocale(null)
+                R.id.language_ru -> setLocale("ru", binding = binding)
+                R.id.language_en -> setLocale("en", binding = binding)
+                R.id.language_system -> setLocale(null, binding = binding)
             }
             true
         }
@@ -115,19 +122,32 @@ class SettingsFragment : Fragment() {
      * Показывает PopupMenu для выбора темы.
      *
      * @param view View, к которому привязан PopupMenu.
+     * @param binding Binding для макета фрагмента настроек.
+     *
+     * @see PopupMenu Меню для выбора темы.
+     * @see setTheme Метод для установки выбранной темы.
      */
-    private fun showThemePopupMenu(view: View) {
+    private fun showThemePopupMenu(view: View, binding: FragmentSettingsBinding) {
         requireContext().singleVibrationWithSystemCheck(35L)
 
         val popupMenu = PopupMenu(requireContext(), view)
 
-        popupMenu.menuInflater.inflate(R.menu.theme_menu, popupMenu.menu)
+        popupMenu.menuInflater.inflate(R.menu.menu_theme, popupMenu.menu)
 
         popupMenu.setOnMenuItemClickListener { menuItem ->
             when (menuItem.itemId) {
-                R.id.theme_light -> setTheme(AppCompatDelegate.MODE_NIGHT_NO)
-                R.id.theme_dark -> setTheme(AppCompatDelegate.MODE_NIGHT_YES)
-                R.id.theme_system -> setTheme(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+                R.id.theme_light -> setTheme(
+                    AppCompatDelegate.MODE_NIGHT_NO, binding = binding
+                )
+
+                R.id.theme_dark -> setTheme(
+                    AppCompatDelegate.MODE_NIGHT_YES, binding = binding
+                )
+
+                R.id.theme_system -> setTheme(
+                    AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,
+                    binding = binding
+                )
             }
             true
         }
@@ -139,9 +159,13 @@ class SettingsFragment : Fragment() {
      * Устанавливает язык приложения.
      *
      * @param languageCode Код языка (например, "ru" или "en"). Если null, используется системный язык.
+     * @param binding Binding для макета фрагмента настроек.
+     *
+     * @see Locale Класс для работы с локализацией.
+     * @see Configuration Класс для управления конфигурацией ресурсов.
      */
     @Suppress("DEPRECATION")
-    private fun setLocale(languageCode: String?) {
+    private fun setLocale(languageCode: String?, binding: FragmentSettingsBinding) {
         val locale = if (languageCode != null) {
             Locale(languageCode)
         } else {
@@ -162,7 +186,7 @@ class SettingsFragment : Fragment() {
 
         sharedPreferences.edit().putString("Language", languageCode).apply()
 
-        updateButtonTexts()
+        updateButtonTexts(binding = binding)
 
         requireActivity().recreate()
     }
@@ -171,8 +195,11 @@ class SettingsFragment : Fragment() {
      * Устанавливает тему приложения.
      *
      * @param themeMode Режим темы (AppCompatDelegate.MODE_NIGHT_NO, MODE_NIGHT_YES, MODE_NIGHT_FOLLOW_SYSTEM).
+     * @param binding Binding для макета фрагмента настроек.``
+     *
+     * @see AppCompatDelegate Класс для управления темой приложения.
      */
-    private fun setTheme(themeMode: Int) {
+    private fun setTheme(themeMode: Int, binding: FragmentSettingsBinding) {
         AppCompatDelegate.setDefaultNightMode(themeMode)
 
         val sharedPreferences =
@@ -180,7 +207,7 @@ class SettingsFragment : Fragment() {
 
         sharedPreferences.edit().putInt("Theme", themeMode).apply()
 
-        updateButtonTexts()
+        updateButtonTexts(binding = binding)
 
         requireActivity().recreate()
     }
@@ -190,6 +217,8 @@ class SettingsFragment : Fragment() {
      *
      * @param context Контекст приложения.
      * @return Имя версии приложения (например, "1.0.0").
+     *
+     * @throws Exception Может быть выброшено, если не удалось получить информацию о версии.
      */
     private fun getAppVersionName(context: Context): String {
         return try {
@@ -198,5 +227,58 @@ class SettingsFragment : Fragment() {
         } catch (e: Exception) {
             getString(R.string.unknown_error)
         }
+    }
+
+    /**
+     * Инициализирует переключатель вибрации.
+     *
+     * @param binding Binding для макета фрагмента настроек.
+     *
+     * @see SharedPreferences Хранилище для сохранения настроек вибрации.
+     */
+    private fun initVibrationSwitch(binding: FragmentSettingsBinding) {
+        val sharedPreferences =
+            requireContext().getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
+        val isVibrationEnabled = sharedPreferences.getBoolean("VibrationEnabled", true)
+
+        binding.vibrationOptionSwitch.isChecked = isVibrationEnabled
+        updateVibrationText(isVibrationEnabled, binding = binding)
+
+        binding.vibrationOptionSwitch.setOnCheckedChangeListener { _, isChecked ->
+            requireContext().singleVibrationWithSystemCheck(35)
+
+            sharedPreferences.edit().putBoolean("VibrationEnabled", isChecked).apply()
+            updateVibrationText(isChecked, binding = binding)
+        }
+
+        binding.cardSettingsVibration.setOnClickListener {
+            binding.vibrationOptionSwitch.isChecked = !binding.vibrationOptionSwitch.isChecked
+        }
+    }
+
+    /**
+     * Обновляет текст, отображающий состояние вибрации.
+     *
+     * @param isEnabled Состояние вибрации (включена/выключена).
+     * @param binding Binding для макета фрагмента настроек.
+     */
+    private fun updateVibrationText(isEnabled: Boolean, binding: FragmentSettingsBinding) {
+        val text = if (isEnabled) {
+            getString(R.string.vibration_on)
+        } else {
+            getString(R.string.vibration_off)
+        }
+
+        binding.textSettingsVibration.animate()
+            .alpha(0f)
+            .setDuration(200)
+            .withEndAction {
+                binding.textSettingsVibration.text = text
+                binding.textSettingsVibration.animate()
+                    .alpha(1f)
+                    .setDuration(200)
+                    .start()
+            }
+            .start()
     }
 }

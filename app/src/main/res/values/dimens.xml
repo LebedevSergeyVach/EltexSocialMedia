@@ -17,4 +17,5 @@
     <dimen name="splash_icon_app">300dp</dimen>
 
     <dimen name="duration_animation_fragments">500</dimen>
+    <dimen name="padding_title_for_settings_24dp">24dp</dimen>
 </resources>

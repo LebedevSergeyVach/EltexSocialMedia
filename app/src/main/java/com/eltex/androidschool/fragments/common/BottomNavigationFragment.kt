@@ -81,6 +81,8 @@ class BottomNavigationFragment : Fragment() {
                     binding.news.animate()
                         .scaleX(1F)
                         .scaleY(1F)
+                        .setDuration(200)
+                        .start()
                 }
 
                 R.id.eventsFragment -> {
@@ -88,18 +90,16 @@ class BottomNavigationFragment : Fragment() {
                     binding.news.animate()
                         .scaleX(1F)
                         .scaleY(1F)
-                }
-
-                R.id.usersFragment -> {
-                    binding.news.animate()
-                        .scaleX(0F)
-                        .scaleY(0F)
+                        .setDuration(200)
+                        .start()
                 }
 
                 R.id.userFragment -> {
                     binding.news.animate()
                         .scaleX(0F)
                         .scaleY(0F)
+                        .setDuration(200)
+                        .start()
                 }
             }
         }

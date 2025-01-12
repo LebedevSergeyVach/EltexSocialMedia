@@ -41,6 +41,7 @@ import com.eltex.androidschool.utils.toast
 
 import com.eltex.androidschool.viewmodel.events.EventState
 import com.eltex.androidschool.viewmodel.events.EventViewModel
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 /**
@@ -123,13 +124,15 @@ class EventsFragment : Fragment() {
                 }
 
                 override fun onGetUserClicked(event: EventUiModel) {
-                    requireParentFragment().requireParentFragment().findNavController()
-                        .navigate(
-                            R.id.action_BottomNavigationFragment_to_userFragment,
-                            bundleOf(
-                                UserFragment.USER_ID to event.authorId,
-                                UserFragment.IC_PROFILE to false
-                            ),
+                    if (event.authorId == BuildConfig.USER_ID) {
+                        val bottomNav = requireParentFragment().requireParentFragment()
+                            .requireView().findViewById<BottomNavigationView>(R.id.bottomNavigation)
+
+                        bottomNav.selectedItemId = R.id.userFragment
+
+                        findNavController().navigate(
+                            R.id.userFragment,
+                            null,
                             NavOptions.Builder()
                                 .setEnterAnim(R.anim.slide_in_right)
                                 .setExitAnim(R.anim.slide_out_left)
@@ -137,6 +140,22 @@ class EventsFragment : Fragment() {
                                 .setPopExitAnim(R.anim.slide_out_right)
                                 .build()
                         )
+                    } else {
+                        requireParentFragment().requireParentFragment().findNavController()
+                            .navigate(
+                                R.id.action_BottomNavigationFragment_to_userFragment,
+                                bundleOf(
+                                    UserFragment.USER_ID to event.authorId,
+                                    UserFragment.IC_PROFILE to false
+                                ),
+                                NavOptions.Builder()
+                                    .setEnterAnim(R.anim.slide_in_right)
+                                    .setExitAnim(R.anim.slide_out_left)
+                                    .setPopEnterAnim(R.anim.slide_in_left)
+                                    .setPopExitAnim(R.anim.slide_out_right)
+                                    .build()
+                            )
+                    }
                 }
             },
 
