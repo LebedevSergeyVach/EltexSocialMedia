@@ -21,15 +21,35 @@ fun Context.toast(
     @StringRes res: Int,
     short: Boolean = true
 ) {
-//    Toast.makeText(
-//        this, res, if (short) Toast.LENGTH_SHORT else Toast.LENGTH_LONG
-//    ).show()
-
     val inflater = LayoutInflater.from(this)
     val layout = inflater.inflate(R.layout.custom_toast, null)
 
     val textView = layout.findViewById<TextView>(R.id.toast_text)
     textView.text = getString(res)
+
+    val toast = Toast(this)
+    toast.duration = if (short) Toast.LENGTH_SHORT else Toast.LENGTH_LONG
+    toast.view = layout
+    toast.show()
+}
+
+/**
+ * Перегружнный метод `fun Context.toast(@StringRes res: Int, short: Boolean = true)`
+ * Создаёт и показывает кастомный Toast
+ *
+ * @param res – Строковый ресурс, который показываем
+ * @param short - если true, то Toast.LENGTH_SHORT, иначе Toast.LENGTH_LONG
+ */
+@SuppressLint("InflateParams")
+fun Context.toast(
+    res: String,
+    short: Boolean = true
+) {
+    val inflater = LayoutInflater.from(this)
+    val layout = inflater.inflate(R.layout.custom_toast, null)
+
+    val textView = layout.findViewById<TextView>(R.id.toast_text)
+    textView.text = res
 
     val toast = Toast(this)
     toast.duration = if (short) Toast.LENGTH_SHORT else Toast.LENGTH_LONG
