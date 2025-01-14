@@ -21,6 +21,11 @@ The project uses several types of architecture patterns and paradigms: **Builder
 
 Basic settings for the application's appearance are implemented, such as: language selection (Russian, English, system) and theme selection (dark, light, system). The ability to turn on and off the vibration response in the app has also been added.
 
+#### Documentation for the project [**documentation**](documentation/documentation.md).
+
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Version](https://img.shields.io/badge/Version-0.13.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.13.0)
+
 <details open="open">
     <summary><h2>🚀 The stack of technologies used</h2></summary>
     <div align="left">
@@ -76,6 +81,11 @@ Basic settings for the application's appearance are implemented, such as: langua
 В проекте используется несколько типов архитектурных паттернов и парадигм: **Строитель**, **Наблюдаемый**, **Наблюдатель**, **Адаптер**, **Внедрение зависимостей**, **Архитектура с одной активностью**, **Модульная архитектура** and **Реактивное программирование**.
 
 Реализованы базовые настройки внешнего вида приложения, такие как: выбор языка (Русский, Английский, системный) и выбор темы (темная, светлая, системная). Также добавлена возможность включения и отключения виброотклика в приложении.
+
+#### Документация к проеку [**documentation**](documentation/documentation.md).
+
+[![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+[![Version](https://img.shields.io/badge/Version-0.13.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.13.0)
 
 <details open="open">
     <summary><h2>🚀 Стек используемых технологий</h2></summary>
