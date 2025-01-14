@@ -1,6 +1,7 @@
 [versions]
 adapterRxjava3 = "2.11.0"
 agp = "8.8.0"
+arrowCore = "1.2.4"
 confetti = "1.1.2"
 constraintlayoutVersion = "2.2.0"
 converterKotlinxSerialization = "latest.version"
@@ -57,6 +58,7 @@ androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref =
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomRuntime" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomRuntime" }
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
+arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrowCore" }
 confetti = { module = "com.github.jinatonic.confetti:confetti", version.ref = "confetti" }
 converter-kotlinx-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "converterKotlinxSerialization" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
