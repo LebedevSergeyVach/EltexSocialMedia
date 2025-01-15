@@ -13,6 +13,8 @@ import com.eltex.androidschool.adapter.posts.PostAdapter
 import com.eltex.androidschool.databinding.LayoutPostListBinding
 import com.eltex.androidschool.databinding.LayoutEventListBinding
 import com.eltex.androidschool.ui.common.OffsetDecoration
+import com.eltex.androidschool.viewmodel.posts.postswall.PostWallViewModel
+import com.eltex.androidschool.viewmodel.posts.postswall.PostWallMessage
 
 /**
  * Адаптер для управления вкладками с постами и событиями в `ViewPager2`.
@@ -21,12 +23,15 @@ import com.eltex.androidschool.ui.common.OffsetDecoration
  * @property postAdapter Адаптер для отображения списка постов.
  * @property eventAdapter Адаптер для отображения списка событий.
  * @property offset Величина отступа между элементами в `RecyclerView`.
+ * @property viewModel ViewModel для управления состоянием постов.
  * @see RecyclerView.Adapter
  */
 class UserPagerAdapter(
     private val postAdapter: PostAdapter,
     private val eventAdapter: EventAdapter,
-    private val offset: Int
+    private val offset: Int,
+    private val adapter: PostAdapter,
+    private val viewModel: PostWallViewModel,
 ) : RecyclerView.Adapter<UserPagerAdapter.ViewHolder>() {
 
     /**
@@ -54,11 +59,29 @@ class UserPagerAdapter(
                     parent,
                     false
                 )
+
+                binding.postsRecyclerView.addOnChildAttachStateChangeListener(
+                    object : RecyclerView.OnChildAttachStateChangeListener {
+                        override fun onChildViewAttachedToWindow(view: View) {
+                            val itemsCount = adapter.itemCount
+                            val adapterPosition =
+                                binding.postsRecyclerView.getChildAdapterPosition(view)
+
+                            if (itemsCount - 2 <= adapterPosition) {
+                                viewModel.accept(message = PostWallMessage.LoadNextPage)
+                            }
+                        }
+
+                        override fun onChildViewDetachedFromWindow(view: View) = Unit
+                    }
+                )
+
                 binding.postsRecyclerView.adapter = postAdapter
                 binding.postsRecyclerView.layoutManager = LinearLayoutManager(parent.context)
                 binding.postsRecyclerView.addItemDecoration(OffsetDecoration(offset))
 
-                postAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+                postAdapter.registerAdapterDataObserver(object :
+                    RecyclerView.AdapterDataObserver() {
                     override fun onChanged() {
                         checkIfEmpty(binding)
                     }
@@ -75,6 +98,7 @@ class UserPagerAdapter(
                 checkIfEmpty(binding)
 
                 ViewHolder(binding.root)
+
             }
 
             1 -> {
@@ -87,7 +111,8 @@ class UserPagerAdapter(
                 binding.eventsRecyclerView.layoutManager = LinearLayoutManager(parent.context)
                 binding.eventsRecyclerView.addItemDecoration(OffsetDecoration(offset))
 
-                eventAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+                eventAdapter.registerAdapterDataObserver(object :
+                    RecyclerView.AdapterDataObserver() {
                     override fun onChanged() {
                         checkIfEmpty(binding)
                     }

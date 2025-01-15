@@ -3,6 +3,8 @@ package com.eltex.androidschool.viewmodel.posts
 import com.eltex.androidschool.TestCoroutinesRule
 import com.eltex.androidschool.data.posts.PostData
 import com.eltex.androidschool.repository.TestPostRepository
+import com.eltex.androidschool.viewmodel.posts.newposts.NewPostState
+import com.eltex.androidschool.viewmodel.posts.newposts.NewPostViewModel
 
 import org.junit.Assert.assertEquals
 import org.junit.Rule

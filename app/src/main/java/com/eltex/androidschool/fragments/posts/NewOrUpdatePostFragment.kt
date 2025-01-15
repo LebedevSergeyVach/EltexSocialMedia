@@ -31,8 +31,8 @@ import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.toast
 import com.eltex.androidschool.utils.vibrateWithEffect
 
-import com.eltex.androidschool.viewmodel.posts.NewPostState
-import com.eltex.androidschool.viewmodel.posts.NewPostViewModel
+import com.eltex.androidschool.viewmodel.posts.newposts.NewPostState
+import com.eltex.androidschool.viewmodel.posts.newposts.NewPostViewModel
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 
 import kotlinx.coroutines.flow.filter

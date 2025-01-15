@@ -1,4 +1,4 @@
-package com.eltex.androidschool.viewmodel.posts
+package com.eltex.androidschool.viewmodel.posts.newposts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 
 import com.eltex.androidschool.data.posts.PostData
 import com.eltex.androidschool.repository.posts.PostRepository
+import com.eltex.androidschool.viewmodel.status.StatusLoad
 
 /**
  * ViewModel для управления созданием и обновлением постов.
@@ -54,7 +55,7 @@ class NewPostViewModel(
     fun save(content: String) {
         _state.update { newPostState: NewPostState ->
             newPostState.copy(
-                statusPost = StatusPost.Loading
+                statusPost = StatusLoad.Loading
             )
         }
 
@@ -67,14 +68,14 @@ class NewPostViewModel(
 
                 _state.update { newPostState: NewPostState ->
                     newPostState.copy(
-                        statusPost = StatusPost.Idle,
+                        statusPost = StatusLoad.Idle,
                         post = post,
                     )
                 }
             } catch (e: Exception) {
                 _state.update { newPostState: NewPostState ->
                     newPostState.copy(
-                        statusPost = StatusPost.Error(exception = e)
+                        statusPost = StatusLoad.Error(exception = e)
                     )
                 }
             }
@@ -87,7 +88,7 @@ class NewPostViewModel(
     fun consumerError() {
         _state.update { newPostState: NewPostState ->
             newPostState.copy(
-                statusPost = StatusPost.Idle
+                statusPost = StatusLoad.Idle
             )
         }
     }

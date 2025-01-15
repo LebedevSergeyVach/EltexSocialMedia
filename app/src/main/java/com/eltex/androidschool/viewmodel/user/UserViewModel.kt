@@ -1,4 +1,4 @@
-package com.eltex.androidschool.viewmodel.users
+package com.eltex.androidschool.viewmodel.user
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 
 import com.eltex.androidschool.data.users.UserData
 import com.eltex.androidschool.repository.users.UserRepository
+import com.eltex.androidschool.viewmodel.status.StatusLoad
 
 /**
  * ViewModel для управления состоянием пользователей.
@@ -56,7 +57,7 @@ class UserViewModel(
     fun getUserById(userId: Long) {
         _state.update { stateUser: UserState ->
             stateUser.copy(
-                statusUser = StatusUser.Loading
+                statusUser = StatusLoad.Loading
             )
         }
 
@@ -66,14 +67,14 @@ class UserViewModel(
 
                 _state.update { stateUser: UserState ->
                     stateUser.copy(
-                        statusUser = StatusUser.Idle,
+                        statusUser = StatusLoad.Idle,
                         users = listOf(user)
                     )
                 }
             } catch (e: Exception) {
                 _state.update { stateUser: UserState ->
                     stateUser.copy(
-                        statusUser = StatusUser.Error(exception = e)
+                        statusUser = StatusLoad.Error(exception = e)
                     )
                 }
             }
@@ -86,7 +87,7 @@ class UserViewModel(
     fun consumerError() {
         _state.update { stateUser: UserState ->
             stateUser.copy(
-                statusUser = StatusUser.Idle
+                statusUser = StatusLoad.Idle
             )
         }
     }

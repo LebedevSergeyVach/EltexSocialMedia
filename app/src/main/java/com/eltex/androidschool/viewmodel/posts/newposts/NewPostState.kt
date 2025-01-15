@@ -1,6 +1,7 @@
-package com.eltex.androidschool.viewmodel.posts
+package com.eltex.androidschool.viewmodel.posts.newposts
 
 import com.eltex.androidschool.data.posts.PostData
+import com.eltex.androidschool.viewmodel.status.StatusLoad
 
 /**
  * Состояние ViewModel для создания или обновления поста.
@@ -10,5 +11,5 @@ import com.eltex.androidschool.data.posts.PostData
  */
 data class NewPostState(
     val post: PostData? = null,
-    val statusPost: StatusPost = StatusPost.Idle,
+    val statusPost: StatusLoad = StatusLoad.Idle,
 )

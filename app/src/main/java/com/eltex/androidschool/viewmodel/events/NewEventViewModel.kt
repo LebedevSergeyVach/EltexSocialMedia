@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 
 import com.eltex.androidschool.data.events.EventData
 import com.eltex.androidschool.repository.events.EventRepository
+import com.eltex.androidschool.viewmodel.status.StatusLoad
 import kotlinx.coroutines.cancel
 
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -56,7 +57,7 @@ class NewEventViewModel(
     fun save(content: String, link: String, option: String, data: String) {
         _state.update { newEventState: NewEventState ->
             newEventState.copy(
-                statusEvent = StatusEvent.Loading
+                statusEvent = StatusLoad.Loading
             )
         }
 
@@ -72,14 +73,14 @@ class NewEventViewModel(
 
                 _state.update { newEventState: NewEventState ->
                     newEventState.copy(
-                        statusEvent = StatusEvent.Idle,
+                        statusEvent = StatusLoad.Idle,
                         event = event,
                     )
                 }
             } catch (e: Exception) {
                 _state.update { newEventState: NewEventState ->
                     newEventState.copy(
-                        statusEvent = StatusEvent.Error(exception = e)
+                        statusEvent = StatusLoad.Error(exception = e)
                     )
                 }
             }
@@ -92,7 +93,7 @@ class NewEventViewModel(
     fun consumerError() {
         _state.update { newEventState: NewEventState ->
             newEventState.copy(
-                statusEvent = StatusEvent.Idle
+                statusEvent = StatusLoad.Idle
             )
         }
     }

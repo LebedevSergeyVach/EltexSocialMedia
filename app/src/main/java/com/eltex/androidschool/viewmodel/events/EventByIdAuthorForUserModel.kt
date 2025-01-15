@@ -19,6 +19,7 @@ import com.eltex.androidschool.data.events.EventData
 import com.eltex.androidschool.repository.events.EventRepository
 import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.ui.events.EventUiModelMapper
+import com.eltex.androidschool.viewmodel.status.StatusLoad
 
 /**
  * ViewModel для управления состоянием событий конкретного автора.
@@ -28,7 +29,7 @@ import com.eltex.androidschool.ui.events.EventUiModelMapper
  * @property userId Идентификатор пользователя, чьи события загружаются (по умолчанию используется `BuildConfig.USER_ID`).
  * @see ViewModel
  */
-class EventByIdAuthorForUser(
+class EventByIdAuthorForUserModel(
     private val repository: EventRepository,
     private val userId: Long = BuildConfig.USER_ID,
 ) : ViewModel() {
@@ -71,7 +72,7 @@ class EventByIdAuthorForUser(
     fun loadEventsByAuthor(authorId: Long) {
         _state.update { stateEvent: EventState ->
             stateEvent.copy(
-                statusEvent = StatusEvent.Loading
+                statusEvent = StatusLoad.Loading
             )
         }
 
@@ -91,14 +92,14 @@ class EventByIdAuthorForUser(
 
                 _state.update { stateEvent: EventState ->
                     stateEvent.copy(
-                        statusEvent = StatusEvent.Idle,
+                        statusEvent = StatusLoad.Idle,
                         events = eventsUiModels,
                     )
                 }
             } catch (e: Exception) {
                 _state.update { stateEvent: EventState ->
                     stateEvent.copy(
-                        statusEvent = StatusEvent.Error(exception = e)
+                        statusEvent = StatusLoad.Error(exception = e)
                     )
                 }
             }
@@ -132,14 +133,14 @@ class EventByIdAuthorForUser(
 
                 _state.update { stateEvent: EventState ->
                     stateEvent.copy(
-                        statusEvent = StatusEvent.Idle,
+                        statusEvent = StatusLoad.Idle,
                         events = eventsUiModel,
                     )
                 }
             } catch (e: Exception) {
                 _state.update { stateEvent: EventState ->
                     stateEvent.copy(
-                        statusEvent = StatusEvent.Error(exception = e)
+                        statusEvent = StatusLoad.Error(exception = e)
                     )
                 }
             }
@@ -173,14 +174,14 @@ class EventByIdAuthorForUser(
 
                 _state.update { stateEvent: EventState ->
                     stateEvent.copy(
-                        statusEvent = StatusEvent.Idle,
+                        statusEvent = StatusLoad.Idle,
                         events = eventsUiModel,
                     )
                 }
             } catch (e: Exception) {
                 _state.update { stateEvent: EventState ->
                     stateEvent.copy(
-                        statusEvent = StatusEvent.Error(exception = e)
+                        statusEvent = StatusLoad.Error(exception = e)
                     )
                 }
             }
@@ -200,7 +201,7 @@ class EventByIdAuthorForUser(
 
                 _state.update { stateEvent: EventState ->
                     stateEvent.copy(
-                        statusEvent = StatusEvent.Idle,
+                        statusEvent = StatusLoad.Idle,
                         events = _state.value.events.orEmpty().filter { event: EventUiModel ->
                             event.id != eventId
                         }
@@ -209,7 +210,7 @@ class EventByIdAuthorForUser(
             } catch (e: Exception) {
                 _state.update { stateEvent: EventState ->
                     stateEvent.copy(
-                        statusEvent = StatusEvent.Error(exception = e)
+                        statusEvent = StatusLoad.Error(exception = e)
                     )
                 }
             }
@@ -224,7 +225,7 @@ class EventByIdAuthorForUser(
     fun consumerError() {
         _state.update { stateEvent: EventState ->
             stateEvent.copy(
-                statusEvent = StatusEvent.Idle
+                statusEvent = StatusLoad.Idle
             )
         }
     }

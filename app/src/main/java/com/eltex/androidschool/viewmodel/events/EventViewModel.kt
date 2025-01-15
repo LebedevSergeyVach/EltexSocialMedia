@@ -17,6 +17,7 @@ import com.eltex.androidschool.data.events.EventData
 import com.eltex.androidschool.repository.events.EventRepository
 import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.ui.events.EventUiModelMapper
+import com.eltex.androidschool.viewmodel.status.StatusLoad
 
 /**
  * ViewModel для управления состоянием событий и взаимодействия с репозиторием.
@@ -67,7 +68,7 @@ class EventViewModel(
     fun load() {
         _state.update { stateEvent: EventState ->
             stateEvent.copy(
-                statusEvent = StatusEvent.Loading
+                statusEvent = StatusLoad.Loading
             )
         }
 
@@ -83,14 +84,14 @@ class EventViewModel(
 
                 _state.update { stateEvent: EventState ->
                     stateEvent.copy(
-                        statusEvent = StatusEvent.Idle,
+                        statusEvent = StatusLoad.Idle,
                         events = eventsUiModels,
                     )
                 }
             } catch (e: Exception) {
                 _state.update { stateEvent: EventState ->
                     stateEvent.copy(
-                        statusEvent = StatusEvent.Error(exception = e)
+                        statusEvent = StatusLoad.Error(exception = e)
                     )
                 }
             }
@@ -124,14 +125,14 @@ class EventViewModel(
 
                 _state.update { stateEvent: EventState ->
                     stateEvent.copy(
-                        statusEvent = StatusEvent.Idle,
+                        statusEvent = StatusLoad.Idle,
                         events = eventsUiModel,
                     )
                 }
             } catch (e: Exception) {
                 _state.update { stateEvent: EventState ->
                     stateEvent.copy(
-                        statusEvent = StatusEvent.Error(exception = e)
+                        statusEvent = StatusLoad.Error(exception = e)
                     )
                 }
             }
@@ -164,14 +165,14 @@ class EventViewModel(
 
                 _state.update { stateEvent: EventState ->
                     stateEvent.copy(
-                        statusEvent = StatusEvent.Idle,
+                        statusEvent = StatusLoad.Idle,
                         events = eventsUiModel,
                     )
                 }
             } catch (e: Exception) {
                 _state.update { stateEvent: EventState ->
                     stateEvent.copy(
-                        statusEvent = StatusEvent.Error(exception = e)
+                        statusEvent = StatusLoad.Error(exception = e)
                     )
                 }
             }
@@ -190,7 +191,7 @@ class EventViewModel(
 
                 _state.update { stateEvent: EventState ->
                     stateEvent.copy(
-                        statusEvent = StatusEvent.Idle,
+                        statusEvent = StatusLoad.Idle,
                         events = _state.value.events.orEmpty().filter { event: EventUiModel ->
                             event.id != eventId
                         }
@@ -199,7 +200,7 @@ class EventViewModel(
             } catch (e: Exception) {
                 _state.update { stateEvent: EventState ->
                     stateEvent.copy(
-                        statusEvent = StatusEvent.Error(exception = e)
+                        statusEvent = StatusLoad.Error(exception = e)
                     )
                 }
             }
@@ -212,7 +213,7 @@ class EventViewModel(
     fun consumerError() {
         _state.update { stateEvent: EventState ->
             stateEvent.copy(
-                statusEvent = StatusEvent.Idle
+                statusEvent = StatusLoad.Idle
             )
         }
     }
