@@ -26,6 +26,8 @@ import androidx.navigation.NavController
 
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
 
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -38,6 +40,7 @@ import com.eltex.androidschool.adapter.events.EventAdapter
 import com.eltex.androidschool.adapter.posts.PostAdapter
 import com.eltex.androidschool.adapter.users.UserPagerAdapter
 import com.eltex.androidschool.effecthandler.posts.PostWallEffectHandler
+import com.eltex.androidschool.viewmodel.common.SharedViewModel
 
 import com.eltex.androidschool.fragments.events.NewOrUpdateEventFragment
 import com.eltex.androidschool.fragments.posts.NewOrUpdatePostFragment
@@ -81,7 +84,28 @@ import com.google.android.material.tabs.TabLayoutMediator
  */
 class UserFragment : Fragment() {
 
-    val toolbarViewModel by activityViewModels<ToolBarViewModel>()
+    /**
+     * ViewModel для управления состоянием панели инструментов (Toolbar).
+     *
+     * Этот ViewModel используется для управления видимостью и состоянием элементов Toolbar в зависимости от текущего фрагмента.
+     * Он предоставляет методы для скрытия или отображения кнопок настроек и списка пользователей.
+     *
+     * @see ToolBarViewModel ViewModel, который управляет состоянием Toolbar.
+     * @see activityViewModels Делегат для получения ViewModel, привязанного к активности.
+     */
+    private val toolbarViewModel by activityViewModels<ToolBarViewModel>()
+
+    /**
+     * ViewModel для обмена данными между фрагментами.
+     *
+     * Этот ViewModel используется для хранения и передачи данных между фрагментами, которые не имеют прямого
+     * взаимодействия друг с другом. В частности, он используется для отслеживания текущей вкладки в `ViewPager2`
+     * и передачи этой информации в `BottomNavigationFragment` для управления поведением кнопки создания нового поста или события.
+     *
+     * @see SharedViewModel ViewModel, который хранит текущую вкладку в `ViewPager2`.
+     * @see activityViewModels Делегат для получения ViewModel, привязанного к активности.
+     */
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     companion object {
         const val USER_ID = "USER_ID"
@@ -97,6 +121,19 @@ class UserFragment : Fragment() {
         val userId: Long = arguments?.getLong(USER_ID) ?: BuildConfig.USER_ID
         val icProfile: Boolean = arguments?.getBoolean(IC_PROFILE) ?: true
 
+        /**
+         * ViewModel для управления данными о пользователе.
+         *
+         * Этот ViewModel отвечает за загрузку и управление данными о конкретном пользователе, включая его имя, аватар и другую информацию.
+         * Он использует `NetworkUserRepository` для получения данных из сети.
+         *
+         * @param repository Репозиторий для работы с данными пользователя.
+         * @param userId Идентификатор пользователя, для которого загружаются данные.
+         *
+         * @see UserViewModel ViewModel, который управляет данными о пользователе.
+         * @see viewModels Делегат для получения ViewModel, привязанного к фрагменту.
+         * @see NetworkUserRepository Репозиторий для работы с данными пользователя.
+         */
         val userViewModel by viewModels<UserViewModel> {
             viewModelFactory {
                 addInitializer(UserViewModel::class) {
@@ -108,6 +145,24 @@ class UserFragment : Fragment() {
             }
         }
 
+        /**
+         * ViewModel для управления постами пользователя.
+         *
+         * Этот ViewModel отвечает за загрузку, отображение и управление постами пользователя. Он использует `PostWallStore`
+         * для управления состоянием постов, включая лайки, удаление и обновление.
+         *
+         * @param postWallStore Хранилище для управления состоянием постов.
+         * @param reducer Редуктор для обработки сообщений и обновления состояния.
+         * @param effectHandler Обработчик эффектов для выполнения побочных действий, таких как запросы к сети.
+         * @param initMessages Начальные сообщения для инициализации состояния (например, обновление списка постов).
+         * @param initState Начальное состояние для постов.
+         *
+         * @see PostWallViewModel ViewModel, который управляет постами пользователя.
+         * @see viewModels Делегат для получения ViewModel, привязанного к фрагменту.
+         * @see PostWallStore Хранилище для управления состоянием постов.
+         * @see PostWallReducer Редуктор для обработки сообщений.
+         * @see PostWallEffectHandler Обработчик эффектов для выполнения побочных действий.
+         */
         val postViewModel by viewModels<PostWallViewModel> {
             viewModelFactory {
                 addInitializer(PostWallViewModel::class) {
@@ -126,6 +181,19 @@ class UserFragment : Fragment() {
             }
         }
 
+        /**
+         * ViewModel для управления событиями пользователя.
+         *
+         * Этот ViewModel отвечает за загрузку, отображение и управление событиями пользователя. Он использует `NetworkEventRepository`
+         * для получения данных о событиях из сети и управления состоянием событий, включая лайки, участие и удаление.
+         *
+         * @param repository Репозиторий для работы с данными о событиях.
+         * @param userId Идентификатор пользователя, для которого загружаются события.
+         *
+         * @see EventWallViewModel ViewModel, который управляет событиями пользователя.
+         * @see viewModels Делегат для получения ViewModel, привязанного к фрагменту.
+         * @see NetworkEventRepository Репозиторий для работы с данными о событиях.
+         */
         val eventViewModel by viewModels<EventWallViewModel> {
             viewModelFactory {
                 addInitializer(EventWallViewModel::class) {
@@ -267,6 +335,38 @@ class UserFragment : Fragment() {
             }
         }.attach()
 
+        binding.viewPagerPostsAndEvents.registerOnPageChangeCallback(
+            object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+
+                    sharedViewModel.currentTab.value = position
+                }
+            }
+        )
+
+        requireActivity().supportFragmentManager.setFragmentResultListener(
+            NewOrUpdatePostFragment.POST_CREATED_OR_UPDATED_KEY, viewLifecycleOwner
+        ) { _, _ ->
+            scrollToTopAndRefresh(
+                binding = binding,
+                postViewModel = postViewModel,
+                eventViewModel = eventViewModel,
+                userId = userId
+            )
+        }
+
+        requireActivity().supportFragmentManager.setFragmentResultListener(
+            NewOrUpdateEventFragment.EVENT_CREATED_OR_UPDATED_KEY, viewLifecycleOwner
+        ) { _, _ ->
+            scrollToTopAndRefresh(
+                binding = binding,
+                postViewModel = postViewModel,
+                eventViewModel = eventViewModel,
+                userId = userId
+            )
+        }
+
         userViewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { userState: UserState ->
@@ -301,6 +401,12 @@ class UserFragment : Fragment() {
                 userState.users?.firstOrNull()?.let { user ->
                     binding.nameUser.text = user.name
                     binding.initial.text = user.name.take(2)
+
+                    if (userId != BuildConfig.USER_ID) {
+                        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
+
+                        toolbar.title = user.name + " / " + user.login
+                    }
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
@@ -442,5 +548,56 @@ class UserFragment : Fragment() {
                 .setPopExitAnim(R.anim.slide_out_right)
                 .build()
         )
+    }
+
+    /**
+     * Прокручивает RecyclerView на самый верх и обновляет данные в зависимости от текущей вкладки.
+     *
+     * Эта функция обновляет список постов или событий в зависимости от текущей вкладки в `ViewPager2`
+     * и прокручивает соответствующий `RecyclerView` на самый верх. Если выбрана вкладка с постами,
+     * обновляется список постов, а если выбрана вкладка с событиями — обновляется список событий.
+     *
+     * @param binding Привязка для макета фрагмента, содержащего `ViewPager2` и `RecyclerView`.
+     * @param postViewModel ViewModel для управления состоянием постов.
+     * @param eventViewModel ViewModel для управления состоянием событий.
+     * @param userId Идентификатор пользователя, для которого загружаются данные.
+     *
+     * @see FragmentUserBinding Привязка для макета фрагмента.
+     * @see PostWallViewModel ViewModel для управления постами.
+     * @see EventWallViewModel ViewModel для управления событиями.
+     * @see RecyclerView Компонент для отображения списка постов или событий.
+     * @see ViewPager2 Компонент для отображения вкладок с постами и событиями.
+     *
+     * @throws IllegalStateException Может быть выброшено, если `ViewPager2` не содержит ожидаемых вкладок.
+     */
+    private fun scrollToTopAndRefresh(
+        binding: FragmentUserBinding,
+        postViewModel: PostWallViewModel,
+        eventViewModel: EventWallViewModel,
+        userId: Long
+    ) {
+        binding.viewPagerPostsAndEvents.currentItem.let { currentItem ->
+            when (currentItem) {
+                0 -> {
+                    postViewModel.accept(message = PostWallMessage.Refresh)
+
+                    val postRecyclerView = binding.viewPagerPostsAndEvents
+                        .getChildAt(0)?.findViewById<RecyclerView>(R.id.postsRecyclerView)
+
+                    postRecyclerView?.smoothScrollToPosition(0)
+                }
+
+                1 -> {
+                    eventViewModel.loadEventsByAuthor(userId)
+
+                    val eventRecyclerView = binding.viewPagerPostsAndEvents
+                        .getChildAt(1)?.findViewById<RecyclerView>(R.id.eventsRecyclerView)
+
+                    eventRecyclerView?.smoothScrollToPosition(0)
+                }
+
+                else -> {}
+            }
+        }
     }
 }

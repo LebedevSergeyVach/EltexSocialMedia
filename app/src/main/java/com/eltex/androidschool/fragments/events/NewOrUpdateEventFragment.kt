@@ -195,7 +195,7 @@ class NewOrUpdateEventFragment : Fragment() {
         }
 
         binding.cardOption.setOnLongClickListener {
-            DisplayingВialogWindowWithInformation(
+            displayingDialogWindowWithInformation(
                 title = getString(R.string.option_switch_title),
                 message = getString(R.string.option_switch_description),
             )
@@ -203,7 +203,7 @@ class NewOrUpdateEventFragment : Fragment() {
         }
 
         binding.optionSwitch.setOnLongClickListener {
-            DisplayingВialogWindowWithInformation(
+            displayingDialogWindowWithInformation(
                 title = getString(R.string.option_switch_title),
                 message = getString(R.string.option_switch_description),
             )
@@ -211,7 +211,7 @@ class NewOrUpdateEventFragment : Fragment() {
         }
 
         binding.cardData.setOnLongClickListener {
-            DisplayingВialogWindowWithInformation(
+            displayingDialogWindowWithInformation(
                 title = getString(R.string.date_picker_title),
                 message = getString(R.string.date_picker_description),
             )
@@ -219,7 +219,7 @@ class NewOrUpdateEventFragment : Fragment() {
         }
 
         binding.selectDateTimeButton.setOnLongClickListener {
-            DisplayingВialogWindowWithInformation(
+            displayingDialogWindowWithInformation(
                 title = getString(R.string.date_picker_title),
                 message = getString(R.string.date_picker_description),
             )
@@ -442,12 +442,11 @@ class NewOrUpdateEventFragment : Fragment() {
     /**
      * Показывает всплывающее диалоговое информационное окно.
      *
-     *
      * @param title - Заголовок диалога.
      * @param message - Основной текст диалога.
      * @param buttonText - Текст кнопки (по умолчанию "Спасибо").
      */
-    private fun DisplayingВialogWindowWithInformation(
+    private fun displayingDialogWindowWithInformation(
         title: String,
         message: String,
         buttonText: String = getString(R.string.thanks)

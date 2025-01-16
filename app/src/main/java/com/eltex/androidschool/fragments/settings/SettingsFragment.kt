@@ -14,9 +14,11 @@ import android.widget.PopupMenu
 import androidx.appcompat.app.AppCompatDelegate
 
 import androidx.fragment.app.Fragment
+import com.eltex.androidschool.BuildConfig
 
 import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentSettingsBinding
+import com.eltex.androidschool.utils.Logger
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 
 import java.util.Locale
@@ -186,6 +188,11 @@ class SettingsFragment : Fragment() {
 
         sharedPreferences.edit().putString("Language", languageCode).apply()
 
+        if (BuildConfig.DEBUG) {
+            Logger.d("System locale: ${Locale.getDefault()}")
+            Logger.d("Updated configuration locale: ${resources.configuration.locale}")
+        }
+
         updateButtonTexts(binding = binding)
 
         requireActivity().recreate()
@@ -223,7 +230,7 @@ class SettingsFragment : Fragment() {
     private fun getAppVersionName(context: Context): String {
         return try {
             val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-            getString(R.string.app_name_new_year) + " " + packageInfo.versionName.toString()
+            getString(R.string.app_name) + " " + packageInfo.versionName.toString()
         } catch (e: Exception) {
             getString(R.string.unknown_error)
         }

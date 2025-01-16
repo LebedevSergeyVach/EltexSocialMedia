@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Eltex Academy</string>
+    <string name="app_name_icon" translatable="false">Eltex Academy</string>
 
     <string name="app_not_found">Application not found</string>
     <string name="not_implemented">Not implemented</string>
@@ -7,17 +8,17 @@
     <string name="shared">Shared</string>
 
     <string name="create_post">Create post</string>
-    <string name="new_post_title">☃️ New Post</string>
+    <string name="new_post_title">New Post</string>
     <string name="save_post">Save post</string>
-    <string name="update_post_title">⛄️ Updating the post</string>
+    <string name="update_post_title">Updating the post</string>
     <string name="new_post_content_hint">Write content for your new post!</string>
     <string name="delete_post">Delete post</string>
     <string name="update_post">Update post</string>
 
-    <string name="new_event_title">☃️ New event</string>
+    <string name="new_event_title">New event</string>
     <string name="save_event">Save event</string>
     <string name="create_event">Create event</string>
-    <string name="update_event_title">⛄️ Updating the event</string>
+    <string name="update_event_title">Updating the event</string>
     <string name="new_event_content_hint">Write a description for your new event!</string>
     <string name="new_event_link_hint">Insert the link of your event!</string>
     <string name="new_event_address_hint">Insert the address of your event!</string>
@@ -81,7 +82,4 @@
 
     <string name="no_posts">There are no posts yet</string>
     <string name="no_events">There are no events yet</string>
-
-    NEW YEAR
-    <string name="app_name_new_year">❄️ Eltex Academy</string>
 </resources>

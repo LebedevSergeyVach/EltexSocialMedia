@@ -49,7 +49,6 @@ import kotlinx.coroutines.flow.onEach
  */
 class UsersFragment : Fragment() {
 
-
     /**
      * ViewModel для управления состоянием списка пользователей.
      *

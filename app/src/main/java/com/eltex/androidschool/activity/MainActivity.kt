@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatDelegate
 
 import com.eltex.androidschool.R
 import com.eltex.androidschool.ui.common.EdgeToEdgeHelper
+import com.eltex.androidschool.utils.LocaleContextWrapper
 
 import java.util.Locale
 
@@ -57,6 +58,7 @@ class MainActivity : AppCompatActivity(R.layout.main_activity) {
         } else {
             Locale.getDefault()
         }
+
         Locale.setDefault(locale)
 
         val resources = resources
@@ -64,5 +66,18 @@ class MainActivity : AppCompatActivity(R.layout.main_activity) {
         configuration.setLocale(locale)
 
         resources.updateConfiguration(configuration, resources.displayMetrics)
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        val sharedPreferences = newBase.getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
+        val languageCode = sharedPreferences.getString("Language", null)
+
+        val locale = if (languageCode != null) {
+            Locale(languageCode)
+        } else {
+            Locale.getDefault()
+        }
+
+        super.attachBaseContext(LocaleContextWrapper.wrap(newBase, locale))
     }
 }
