@@ -1,9 +1,6 @@
 package com.eltex.androidschool.repository.posts
 
 import com.eltex.androidschool.data.posts.PostData
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
 
 /**
  * Интерфейс репозитория для работы с постами.

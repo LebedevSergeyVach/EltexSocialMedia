@@ -3,6 +3,8 @@ package com.eltex.androidschool.viewmodel.events
 import com.eltex.androidschool.TestCoroutinesRule
 import com.eltex.androidschool.data.events.EventData
 import com.eltex.androidschool.repository.TestEventRepository
+import com.eltex.androidschool.viewmodel.events.newevent.NewEventState
+import com.eltex.androidschool.viewmodel.events.newevent.NewEventViewModel
 
 import org.junit.Assert.assertEquals
 import org.junit.Rule

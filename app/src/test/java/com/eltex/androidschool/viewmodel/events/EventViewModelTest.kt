@@ -6,6 +6,8 @@ import com.eltex.androidschool.TestUtils.loading
 import com.eltex.androidschool.repository.TestEventRepository
 import com.eltex.androidschool.data.events.EventData
 import com.eltex.androidschool.ui.events.EventUiModelMapper
+import com.eltex.androidschool.viewmodel.events.eventwall.EventState
+import com.eltex.androidschool.viewmodel.events.events.EventViewModel
 
 import org.junit.Assert.assertEquals
 import org.junit.Rule

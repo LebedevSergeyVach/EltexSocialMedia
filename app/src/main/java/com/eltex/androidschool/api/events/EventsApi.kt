@@ -8,6 +8,7 @@ import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Path
+import retrofit2.http.Query
 
 /**
  * Интерфейс для работы с API событий.
@@ -88,6 +89,25 @@ interface EventsApi {
      */
     @GET("api/events/{id}")
     suspend fun getEventById(@Path("id") eventId: Long): EventData
+
+    /**
+     * Получает список событий, которые были опубликованы до указанного идентификатора.
+     *
+     * @param id Идентификатор события, начиная с которого нужно загрузить предыдущие события.
+     * @param count Количество событий, которые нужно загрузить.
+     * @return [List]<[EventData]> Список событий.
+     */
+    @GET("api/events/{id}/before")
+    suspend fun getBeforeEvents(@Path("id") id: Long, @Query("count") count: Int): List<EventData>
+
+    /**
+     * Получает последние события.
+     *
+     * @param count Количество событий, которые нужно загрузить.
+     * @return [List]<[EventData]> Список последних событий.
+     */
+    @GET("api/events/latest")
+    suspend fun getLatestEvents(@Query("count") count: Int): List<EventData>
 
     /**
      * Объект-компаньон для создания экземпляра [EventsApi].

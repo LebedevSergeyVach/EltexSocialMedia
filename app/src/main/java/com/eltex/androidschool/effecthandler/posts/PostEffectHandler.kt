@@ -58,7 +58,8 @@ class PostEffectHandler(
                 PostMessage.NextPageLoaded(
                     try {
                         repository.getBeforePosts(
-                            id = postEffect.id, count = postEffect.count
+                            id = postEffect.id,
+                            count = postEffect.count
                         )
                             .map(mapper::map)
                             .right()
@@ -81,7 +82,9 @@ class PostEffectHandler(
             .mapLatest { postEffect: PostEffect.LoadInitialPage ->
                 PostMessage.InitialLoaded(
                     try {
-                        repository.getLatestPosts(count = postEffect.count)
+                        repository.getLatestPosts(
+                            count = postEffect.count
+                        )
                             .map(mapper::map)
                             .right()
                     } catch (e: Exception) {
@@ -132,7 +135,11 @@ class PostEffectHandler(
                     repository.deleteById(postId = postEffect.post.id)
                 } catch (e: Exception) {
                     if (e is CancellationException) throw e
-                    PostMessage.DeleteError(PostWithError(post = postEffect.post, throwable = e))
+                    PostMessage.DeleteError(
+                        PostWithError(
+                            post = postEffect.post, throwable = e
+                        )
+                    )
                 }
             }
             .filterIsInstance<PostMessage.DeleteError>()

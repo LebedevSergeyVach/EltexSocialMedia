@@ -1,4 +1,4 @@
-package com.eltex.androidschool.viewmodel.users
+package com.eltex.androidschool.viewmodel.status
 
 /**
  * Интерфейс для описания состояния загрузки данных.
@@ -9,27 +9,25 @@ package com.eltex.androidschool.viewmodel.users
  * - `Error`: Произошла ошибка при загрузке данных.
  *
  * @property throwableOrNull Возвращает исключение, если состояние `Error`, иначе `null`.
- *
- * @see UsersState Состояние списка пользователей, использующее этот интерфейс.
  */
-interface StatusUsers {
+interface StatusLoad {
     val throwableOrNull: Throwable?
         get() = (this as? Error)?.exception
 
     /**
      * Состояние, когда данные не загружаются.
      */
-    data object Idle : StatusUsers
+    data object Idle : StatusLoad
 
     /**
      * Состояние, когда данные загружаются.
      */
-    data object Loading : StatusUsers
+    data object Loading : StatusLoad
 
     /**
      * Состояние, когда произошла ошибка при загрузке данных.
      *
      * @property exception Исключение, вызвавшее ошибку.
      */
-    data class Error(val exception: Exception) : StatusUsers
+    data class Error(val exception: Exception) : StatusLoad
 }

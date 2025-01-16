@@ -37,9 +37,11 @@ import com.eltex.androidschool.databinding.FragmentUserBinding
 import com.eltex.androidschool.adapter.events.EventAdapter
 import com.eltex.androidschool.adapter.posts.PostAdapter
 import com.eltex.androidschool.adapter.users.UserPagerAdapter
+import com.eltex.androidschool.effecthandler.posts.PostWallEffectHandler
 
 import com.eltex.androidschool.fragments.events.NewOrUpdateEventFragment
 import com.eltex.androidschool.fragments.posts.NewOrUpdatePostFragment
+import com.eltex.androidschool.reducer.posts.PostWallReducer
 import com.eltex.androidschool.repository.events.NetworkEventRepository
 import com.eltex.androidschool.repository.posts.NetworkPostRepository
 import com.eltex.androidschool.repository.users.NetworkUserRepository
@@ -47,18 +49,21 @@ import com.eltex.androidschool.repository.users.NetworkUserRepository
 import com.eltex.androidschool.ui.common.OffsetDecoration
 import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.ui.posts.PostUiModel
+import com.eltex.androidschool.ui.posts.PostUiModelMapper
 
 import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
 
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
-import com.eltex.androidschool.viewmodel.events.EventByIdAuthorForUser
-import com.eltex.androidschool.viewmodel.events.EventState
-import com.eltex.androidschool.viewmodel.posts.PostState
-import com.eltex.androidschool.viewmodel.posts.PostByIdAuthorForUser
-import com.eltex.androidschool.viewmodel.users.UserState
-import com.eltex.androidschool.viewmodel.users.UserViewModel
+import com.eltex.androidschool.viewmodel.events.eventwall.EventWallState
+import com.eltex.androidschool.viewmodel.events.eventwall.EventWallViewModel
+import com.eltex.androidschool.viewmodel.posts.postswall.PostWallViewModel
+import com.eltex.androidschool.viewmodel.posts.postswall.PostWallMessage
+import com.eltex.androidschool.viewmodel.posts.postswall.PostWallState
+import com.eltex.androidschool.viewmodel.posts.postswall.PostWallStore
+import com.eltex.androidschool.viewmodel.user.UserState
+import com.eltex.androidschool.viewmodel.user.UserViewModel
 
 import com.google.android.material.tabs.TabLayoutMediator
 
@@ -102,21 +107,28 @@ class UserFragment : Fragment() {
             }
         }
 
-        val postViewModel by viewModels<PostByIdAuthorForUser> {
+        val postViewModel by viewModels<PostWallViewModel> {
             viewModelFactory {
-                addInitializer(PostByIdAuthorForUser::class) {
-                    PostByIdAuthorForUser(
-                        repository = NetworkPostRepository(),
-                        userId = userId
+                addInitializer(PostWallViewModel::class) {
+                    PostWallViewModel(
+                        postWallStore = PostWallStore(
+                            reducer = PostWallReducer(userId = userId),
+                            effectHandler = PostWallEffectHandler(
+                                repository = NetworkPostRepository(),
+                                mapper = PostUiModelMapper()
+                            ),
+                            initMessages = setOf(PostWallMessage.Refresh),
+                            initState = PostWallState()
+                        )
                     )
                 }
             }
         }
 
-        val eventViewModel by viewModels<EventByIdAuthorForUser> {
+        val eventViewModel by viewModels<EventWallViewModel> {
             viewModelFactory {
-                addInitializer(EventByIdAuthorForUser::class) {
-                    EventByIdAuthorForUser(
+                addInitializer(EventWallViewModel::class) {
+                    EventWallViewModel(
                         repository = NetworkEventRepository(),
                         userId = userId
                     )
@@ -162,13 +174,13 @@ class UserFragment : Fragment() {
         val postAdapter = PostAdapter(
             listener = object : PostAdapter.PostListener {
                 override fun onLikeClicked(post: PostUiModel) {
-                    postViewModel.likeById(post.id, post.likedByMe)
+                    postViewModel.accept(message = PostWallMessage.Like(post = post))
                 }
 
                 override fun onShareClicked(post: PostUiModel) {}
 
                 override fun onDeleteClicked(post: PostUiModel) {
-                    postViewModel.deleteById(post.id)
+                    postViewModel.accept(message = PostWallMessage.Delete(post = post))
                 }
 
                 override fun onUpdateClicked(post: PostUiModel) {
@@ -236,7 +248,13 @@ class UserFragment : Fragment() {
         )
 
         val offset = resources.getDimensionPixelSize(R.dimen.list_offset)
-        val pagerAdapter = UserPagerAdapter(postAdapter, eventAdapter, offset)
+        val pagerAdapter = UserPagerAdapter(
+            postAdapter = postAdapter,
+            eventAdapter = eventAdapter,
+            offset = offset,
+            adapter = postAdapter,
+            viewModel = postViewModel
+        )
 
         binding.viewPagerPostsAndEvents.adapter = pagerAdapter
 
@@ -288,14 +306,14 @@ class UserFragment : Fragment() {
 
         postViewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { postState: PostState ->
+            .onEach { postState: PostWallState ->
                 postAdapter.submitList(postState.posts)
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
         eventViewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
-            .onEach { eventState: EventState ->
+            .onEach { eventState: EventWallState ->
                 eventAdapter.submitList(eventState.events)
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
@@ -334,19 +352,19 @@ class UserFragment : Fragment() {
      *
      * @see UserViewModel.getUserById
      * @see PostByIdAuthorForUser.loadPostsByAuthor
-     * @see EventByIdAuthorForUser.loadEventsByAuthor
+     * @see EventWallViewModel.loadEventsByAuthor
      */
     private fun loadingDataFromTheViewModel(
         userId: Long,
         userViewModel: UserViewModel,
-        postViewModel: PostByIdAuthorForUser,
-        eventViewModel: EventByIdAuthorForUser,
+        postViewModel: PostWallViewModel,
+        eventViewModel: EventWallViewModel,
         causeVibration: Boolean = true
     ) {
         if (causeVibration) requireContext().singleVibrationWithSystemCheck(35)
 
         userViewModel.getUserById(userId)
-        postViewModel.loadPostsByAuthor(userId)
+        postViewModel.accept(message = PostWallMessage.Refresh)
         eventViewModel.loadEventsByAuthor(userId)
     }
 

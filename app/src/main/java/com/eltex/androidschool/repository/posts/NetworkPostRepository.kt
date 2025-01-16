@@ -1,6 +1,5 @@
 package com.eltex.androidschool.repository.posts
 
-import android.util.Log
 import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.api.posts.PostsApi
 import com.eltex.androidschool.data.posts.PostData

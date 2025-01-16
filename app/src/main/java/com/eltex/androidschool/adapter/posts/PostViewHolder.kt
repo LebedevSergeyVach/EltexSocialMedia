@@ -80,7 +80,6 @@ class PostViewHolder(
             sharePost(post)
         }
 
-
         binding.cardPost.setOnLongClickListener {
             sharePost(post)
             true

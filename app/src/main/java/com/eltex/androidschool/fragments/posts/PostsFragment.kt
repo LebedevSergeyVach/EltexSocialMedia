@@ -19,6 +19,9 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+
+import androidx.recyclerview.widget.RecyclerView
+
 import com.eltex.androidschool.BuildConfig
 
 import kotlinx.coroutines.flow.launchIn
@@ -30,18 +33,23 @@ import com.eltex.androidschool.databinding.FragmentPostsBinding
 import com.eltex.androidschool.ui.common.OffsetDecoration
 
 import com.eltex.androidschool.adapter.posts.PostAdapter
+import com.eltex.androidschool.effecthandler.posts.PostEffectHandler
 import com.eltex.androidschool.fragments.users.UserFragment
+import com.eltex.androidschool.reducer.posts.PostReducer
 
 import com.eltex.androidschool.repository.posts.NetworkPostRepository
 
 import com.eltex.androidschool.ui.posts.PostUiModel
+import com.eltex.androidschool.ui.posts.PostUiModelMapper
 
 import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
+import com.eltex.androidschool.viewmodel.posts.post.PostMessage
 
-import com.eltex.androidschool.viewmodel.posts.PostState
-import com.eltex.androidschool.viewmodel.posts.PostViewModel
+import com.eltex.androidschool.viewmodel.posts.post.PostState
+import com.eltex.androidschool.viewmodel.posts.post.PostStore
+import com.eltex.androidschool.viewmodel.posts.post.PostViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 /**
@@ -66,7 +74,15 @@ class PostsFragment : Fragment() {
         viewModelFactory {
             addInitializer(PostViewModel::class) {
                 PostViewModel(
-                    NetworkPostRepository()
+                    postStore = PostStore(
+                        reducer = PostReducer(),
+                        effectHandler = PostEffectHandler(
+                            repository = NetworkPostRepository(),
+                            mapper = PostUiModelMapper()
+                        ),
+                        initMessages = setOf(PostMessage.Refresh),
+                        initState = PostState(),
+                    )
                 )
             }
         }
@@ -89,13 +105,13 @@ class PostsFragment : Fragment() {
         val adapter = PostAdapter(
             object : PostAdapter.PostListener {
                 override fun onLikeClicked(post: PostUiModel) {
-                    viewModel.likeById(post.id, post.likedByMe)
+                    viewModel.accept(message = PostMessage.Like(post = post))
                 }
 
                 override fun onShareClicked(post: PostUiModel) {}
 
                 override fun onDeleteClicked(post: PostUiModel) {
-                    viewModel.deleteById(post.id)
+                    viewModel.accept(message = PostMessage.Delete(post = post))
                 }
 
                 override fun onUpdateClicked(post: PostUiModel) {
@@ -162,12 +178,27 @@ class PostsFragment : Fragment() {
             OffsetDecoration(resources.getDimensionPixelSize(R.dimen.list_offset))
         )
 
+        binding.list.addOnChildAttachStateChangeListener(
+            object : RecyclerView.OnChildAttachStateChangeListener {
+                override fun onChildViewAttachedToWindow(view: View) {
+                    val itemsCount = adapter.itemCount
+                    val adapterPosition = binding.list.getChildAdapterPosition(view)
+
+                    if (itemsCount - 5 <= adapterPosition) {
+                        viewModel.accept(message = PostMessage.LoadNextPage)
+                    }
+                }
+
+                override fun onChildViewDetachedFromWindow(view: View) = Unit
+            }
+        )
+
         binding.retryButton.setOnClickListener {
-            viewModel.load()
+            viewModel.accept(message = PostMessage.Refresh)
         }
 
         binding.swiperRefresh.setOnRefreshListener {
-            viewModel.load()
+            viewModel.accept(message = PostMessage.Refresh)
             requireContext().singleVibrationWithSystemCheck(35)
         }
 
@@ -191,7 +222,7 @@ class PostsFragment : Fragment() {
                 binding.errorGroup.isVisible = postState.isEmptyError
 
                 val errorText: CharSequence? =
-                    postState.statusPost.throwableOrNull?.getErrorText(requireContext())
+                    postState.emptyError?.getErrorText(requireContext())
 
                 binding.errorText.text = errorText
 
@@ -200,14 +231,13 @@ class PostsFragment : Fragment() {
 
                 binding.swiperRefresh.isRefreshing = postState.isRefreshing
 
-                if (postState.isRefreshError && errorText == getString(R.string.network_error)) {
-                    requireContext().toast(R.string.network_error)
+                if (postState.singleError != null) {
+                    val singleErrorText: CharSequence =
+                        postState.singleError.getErrorText(requireContext())
 
-                    viewModel.consumerError()
-                } else if (postState.isRefreshError && errorText == getString(R.string.unknown_error)) {
-                    requireContext().toast(R.string.unknown_error)
+                    requireContext().toast(singleErrorText.toString())
 
-                    viewModel.consumerError()
+                    viewModel.accept(message = PostMessage.HandleError)
                 }
 
                 adapter.submitList(postState.posts)
@@ -220,7 +250,7 @@ class PostsFragment : Fragment() {
     /**
      * Прокручивает RecyclerView на самый верх.
      */
-    private fun scrollToTop(binding: FragmentPostsBinding) {
+    private fun scrollToTo2p(binding: FragmentPostsBinding) {
         binding.list.smoothScrollToPosition(0)
     }
 
@@ -228,7 +258,7 @@ class PostsFragment : Fragment() {
      * Прокручивает RecyclerView на самый верх и обновляет данные.
      */
     private fun scrollToTopAndRefresh(binding: FragmentPostsBinding) {
-        viewModel.load()
+        viewModel.accept(message = PostMessage.Refresh)
         binding.list.smoothScrollToPosition(0)
     }
 }
