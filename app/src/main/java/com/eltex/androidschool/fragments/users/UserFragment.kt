@@ -56,8 +56,13 @@ import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
 
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
+<<<<<<< HEAD
 import com.eltex.androidschool.viewmodel.events.eventwall.EventWallState
 import com.eltex.androidschool.viewmodel.events.eventwall.EventWallViewModel
+=======
+import com.eltex.androidschool.viewmodel.events.EventByIdAuthorForUserModel
+import com.eltex.androidschool.viewmodel.events.EventState
+>>>>>>> db6e99c401d89c91f1d31bc76dc96ffae932fe5b
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallViewModel
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallMessage
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallState
@@ -125,10 +130,17 @@ class UserFragment : Fragment() {
             }
         }
 
+<<<<<<< HEAD
         val eventViewModel by viewModels<EventWallViewModel> {
             viewModelFactory {
                 addInitializer(EventWallViewModel::class) {
                     EventWallViewModel(
+=======
+        val eventViewModel by viewModels<EventByIdAuthorForUserModel> {
+            viewModelFactory {
+                addInitializer(EventByIdAuthorForUserModel::class) {
+                    EventByIdAuthorForUserModel(
+>>>>>>> db6e99c401d89c91f1d31bc76dc96ffae932fe5b
                         repository = NetworkEventRepository(),
                         userId = userId
                     )
@@ -352,13 +364,21 @@ class UserFragment : Fragment() {
      *
      * @see UserViewModel.getUserById
      * @see PostByIdAuthorForUser.loadPostsByAuthor
+<<<<<<< HEAD
      * @see EventWallViewModel.loadEventsByAuthor
+=======
+     * @see EventByIdAuthorForUserModel.loadEventsByAuthor
+>>>>>>> db6e99c401d89c91f1d31bc76dc96ffae932fe5b
      */
     private fun loadingDataFromTheViewModel(
         userId: Long,
         userViewModel: UserViewModel,
         postViewModel: PostWallViewModel,
+<<<<<<< HEAD
         eventViewModel: EventWallViewModel,
+=======
+        eventViewModel: EventByIdAuthorForUserModel,
+>>>>>>> db6e99c401d89c91f1d31bc76dc96ffae932fe5b
         causeVibration: Boolean = true
     ) {
         if (causeVibration) requireContext().singleVibrationWithSystemCheck(35)

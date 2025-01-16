@@ -1,4 +1,4 @@
-package com.eltex.androidschool.viewmodel.events.eventwall
+package com.eltex.androidschool.viewmodel.events
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,8 +13,6 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-import com.eltex.androidschool.BuildConfig
-
 import com.eltex.androidschool.data.events.EventData
 import com.eltex.androidschool.repository.events.EventRepository
 import com.eltex.androidschool.ui.events.EventUiModel
@@ -22,20 +20,17 @@ import com.eltex.androidschool.ui.events.EventUiModelMapper
 import com.eltex.androidschool.viewmodel.status.StatusLoad
 
 /**
- * ViewModel для управления состоянием событий конкретного автора.
- * Загружает события, обрабатывает лайки, участие и удаление событий.
+ * ViewModel для управления состоянием событий и взаимодействия с репозиторием.
  *
- * @property repository Репозиторий для работы с событиями.
- * @property userId Идентификатор пользователя, чьи события загружаются (по умолчанию используется `BuildConfig.USER_ID`).
- * @see ViewModel
+ * Этот ViewModel отвечает за загрузку, обновление и управление состоянием событий.
+ *
+ * @param repository Репозиторий, который предоставляет данные о событиях.
+ *
+ * @see EventRepository Интерфейс репозитория, который используется в этом ViewModel.
+ * @see EventState Состояние, которое управляется этим ViewModel.
  */
-<<<<<<<< HEAD:app/src/main/java/com/eltex/androidschool/viewmodel/events/eventwall/EventWallViewModel.kt
-class EventWallViewModel(
-========
-class EventByIdAuthorForUserModel(
->>>>>>>> db6e99c401d89c91f1d31bc76dc96ffae932fe5b:app/src/main/java/com/eltex/androidschool/viewmodel/events/EventByIdAuthorForUserModel.kt
+class EventViewModel(
     private val repository: EventRepository,
-    private val userId: Long = BuildConfig.USER_ID,
 ) : ViewModel() {
 
     /**
@@ -48,33 +43,30 @@ class EventByIdAuthorForUserModel(
     /**
      * Flow, хранящий текущее состояние событий.
      *
-     * @see EventWallState Состояние, которое хранится в этом Flow.
+     * @see EventState Состояние, которое хранится в этом Flow.
      */
-    private val _state = MutableStateFlow(EventWallState())
+    private val _state = MutableStateFlow(EventState())
 
     /**
      * Публичный Flow, который предоставляет доступ к текущему состоянию событий.
      *
-     * @see EventWallState Состояние, которое предоставляется этим Flow.
+     * @see EventState Состояние, которое предоставляется этим Flow.
      */
-    val state: StateFlow<EventWallState> = _state.asStateFlow()
+    val state: StateFlow<EventState> = _state.asStateFlow()
 
     /**
      * Инициализатор ViewModel.
      * Подписывается на изменения в Flow репозитория и обновляет состояние событий.
      */
     init {
-        loadEventsByAuthor(userId)
+        load()
     }
 
     /**
-     * Загружает события конкретного автора и обновляет состояние.
-     *
-     * @param authorId Идентификатор автора, чьи события нужно загрузить.
-     * @see EventRepository.getEvents
+     * Загружает список событий с сервера.
      */
-    fun loadEventsByAuthor(authorId: Long) {
-        _state.update { stateEvent: EventWallState ->
+    fun load() {
+        _state.update { stateEvent: EventState ->
             stateEvent.copy(
                 statusEvent = StatusLoad.Loading
             )
@@ -84,24 +76,20 @@ class EventByIdAuthorForUserModel(
             try {
                 val events: List<EventData> = repository.getEvents()
 
-                val filteredEvents = events.filter { event: EventData ->
-                    event.authorId == authorId
-                }
-
                 val eventsUiModels: List<EventUiModel> = withContext(Dispatchers.Default) {
-                    filteredEvents.map { event: EventData ->
+                    events.map { event: EventData ->
                         mapper.map(event)
                     }
                 }
 
-                _state.update { stateEvent: EventWallState ->
+                _state.update { stateEvent: EventState ->
                     stateEvent.copy(
                         statusEvent = StatusLoad.Idle,
                         events = eventsUiModels,
                     )
                 }
             } catch (e: Exception) {
-                _state.update { stateEvent: EventWallState ->
+                _state.update { stateEvent: EventState ->
                     stateEvent.copy(
                         statusEvent = StatusLoad.Error(exception = e)
                     )
@@ -110,12 +98,12 @@ class EventByIdAuthorForUserModel(
         }
     }
 
+
     /**
-     * Обрабатывает лайк события и обновляет состояние.
+     * Помечает событие с указанным идентификатором как "лайкнутое" или "нелайкнутое".
      *
-     * @param eventId Идентификатор события.
-     * @param likedByMe Флаг, указывающий, лайкнул ли текущий пользователь событие.
-     * @see EventRepository.likeById
+     * @param eventId Идентификатор события, которое нужно лайкнуть.
+     * @param likedByMe Флаг, указывающий, лайкнул ли текущий пользователь это событие.
      */
     fun likeById(eventId: Long, likedByMe: Boolean) {
         viewModelScope.launch {
@@ -135,14 +123,14 @@ class EventByIdAuthorForUserModel(
                     }
                 }
 
-                _state.update { stateEvent: EventWallState ->
+                _state.update { stateEvent: EventState ->
                     stateEvent.copy(
                         statusEvent = StatusLoad.Idle,
                         events = eventsUiModel,
                     )
                 }
             } catch (e: Exception) {
-                _state.update { stateEvent: EventWallState ->
+                _state.update { stateEvent: EventState ->
                     stateEvent.copy(
                         statusEvent = StatusLoad.Error(exception = e)
                     )
@@ -152,11 +140,10 @@ class EventByIdAuthorForUserModel(
     }
 
     /**
-     * Обрабатывает участие в событии и обновляет состояние.
+     * Помечает событие с указанным идентификатором как "участие" или "отказ от участия".
      *
-     * @param eventId Идентификатор события.
-     * @param participatedByMe Флаг, указывающий, участвует ли текущий пользователь в событии.
-     * @see EventRepository.participateById
+     * @param eventId Идентификатор события, в котором нужно участвовать.
+     * @param participatedByMe Флаг, указывающий, участвует ли текущий пользователь в этом событии.
      */
     fun participateById(eventId: Long, participatedByMe: Boolean) {
         viewModelScope.launch {
@@ -176,14 +163,14 @@ class EventByIdAuthorForUserModel(
                     }
                 }
 
-                _state.update { stateEvent: EventWallState ->
+                _state.update { stateEvent: EventState ->
                     stateEvent.copy(
                         statusEvent = StatusLoad.Idle,
                         events = eventsUiModel,
                     )
                 }
             } catch (e: Exception) {
-                _state.update { stateEvent: EventWallState ->
+                _state.update { stateEvent: EventState ->
                     stateEvent.copy(
                         statusEvent = StatusLoad.Error(exception = e)
                     )
@@ -193,17 +180,16 @@ class EventByIdAuthorForUserModel(
     }
 
     /**
-     * Удаляет событие по его идентификатору и обновляет состояние.
+     * Удаляет событие по его идентификатору.
      *
-     * @param eventId Идентификатор события.
-     * @see EventRepository.deleteById
+     * @param eventId Идентификатор события, которое нужно удалить.
      */
     fun deleteById(eventId: Long) {
         viewModelScope.launch {
             try {
                 repository.deleteById(eventId = eventId)
 
-                _state.update { stateEvent: EventWallState ->
+                _state.update { stateEvent: EventState ->
                     stateEvent.copy(
                         statusEvent = StatusLoad.Idle,
                         events = _state.value.events.orEmpty().filter { event: EventUiModel ->
@@ -212,7 +198,7 @@ class EventByIdAuthorForUserModel(
                     )
                 }
             } catch (e: Exception) {
-                _state.update { stateEvent: EventWallState ->
+                _state.update { stateEvent: EventState ->
                     stateEvent.copy(
                         statusEvent = StatusLoad.Error(exception = e)
                     )
@@ -222,12 +208,10 @@ class EventByIdAuthorForUserModel(
     }
 
     /**
-     * Сбрасывает состояние ошибки и возвращает состояние в `Idle`.
-     *
-     * @see StatusEvent
+     * Обрабатывает ошибку и сбрасывает состояние загрузки.
      */
     fun consumerError() {
-        _state.update { stateEvent: EventWallState ->
+        _state.update { stateEvent: EventState ->
             stateEvent.copy(
                 statusEvent = StatusLoad.Idle
             )
