@@ -3,10 +3,7 @@ package com.eltex.androidschool.reducer.posts
 import arrow.core.Either
 
 import com.eltex.androidschool.effects.posts.PostEffect
-<<<<<<< HEAD
 import com.eltex.androidschool.model.posts.PostWithError
-=======
->>>>>>> db6e99c401d89c91f1d31bc76dc96ffae932fe5b
 import com.eltex.androidschool.mvi.Reducer
 import com.eltex.androidschool.mvi.ReducerResult
 import com.eltex.androidschool.ui.posts.PostUiModel
@@ -24,10 +21,7 @@ import com.eltex.androidschool.viewmodel.posts.post.PostStatus
  * @see PostEffect Эффекты, которые выполняются в ответ на сообщения.
  */
 class PostReducer : Reducer<PostState, PostEffect, PostMessage> {
-<<<<<<< HEAD
 
-=======
->>>>>>> db6e99c401d89c91f1d31bc76dc96ffae932fe5b
     private companion object {
         /**
          * Размер страницы для пагинации. Определяет, сколько постов загружается за один запрос.
@@ -123,13 +117,8 @@ class PostReducer : Reducer<PostState, PostEffect, PostMessage> {
             is PostMessage.LikeResult -> ReducerResult(
                 newState = when (val result = message.result) {
                     is Either.Left -> {
-<<<<<<< HEAD
                         val value: PostWithError = result.value
                         val postLiked: PostUiModel = value.post
-=======
-                        val value = result.value
-                        val postLiked = value.post
->>>>>>> db6e99c401d89c91f1d31bc76dc96ffae932fe5b
 
                         old.copy(
                             posts = old.posts.map { post: PostUiModel ->
@@ -145,11 +134,7 @@ class PostReducer : Reducer<PostState, PostEffect, PostMessage> {
                     }
 
                     is Either.Right -> {
-<<<<<<< HEAD
                         val postLiked: PostUiModel = result.value
-=======
-                        val postLiked = result.value
->>>>>>> db6e99c401d89c91f1d31bc76dc96ffae932fe5b
 
                         old.copy(
                             posts = old.posts.map { post: PostUiModel ->
@@ -158,11 +143,7 @@ class PostReducer : Reducer<PostState, PostEffect, PostMessage> {
                                 } else {
                                     post
                                 }
-<<<<<<< HEAD
                             }
-=======
-                            },
->>>>>>> db6e99c401d89c91f1d31bc76dc96ffae932fe5b
                         )
                     }
                 }

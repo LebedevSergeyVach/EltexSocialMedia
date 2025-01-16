@@ -25,11 +25,8 @@ interface PostsApi {
      *
      * @param id Идентификатор поста, начиная с которого нужно загрузить предыдущие посты.
      * @param count Количество постов, которые нужно загрузить.
-<<<<<<< HEAD
+     *
      * @return List<[PostData]> Список постов.
-=======
-     * @return List<PostData> Список постов.
->>>>>>> db6e99c401d89c91f1d31bc76dc96ffae932fe5b
      */
     @GET("api/posts/{id}/before")
     suspend fun getBeforePosts(@Path("id") id: Long, @Query("count") count: Int): List<PostData>
@@ -38,11 +35,8 @@ interface PostsApi {
      * Получает последние посты.
      *
      * @param count Количество постов, которые нужно загрузить.
-<<<<<<< HEAD
+     *
      * @return List<[PostData]> Список последних постов.
-=======
-     * @return List<PostData> Список последних постов.
->>>>>>> db6e99c401d89c91f1d31bc76dc96ffae932fe5b
      */
     @GET("api/posts/latest")
     suspend fun getLatestPosts(@Query("count") count: Int): List<PostData>
@@ -50,11 +44,7 @@ interface PostsApi {
     /**
      * Получает список всех постов.
      *
-<<<<<<< HEAD
      * @return List<[PostData]> Список всех постов.
-=======
-     * @return List<PostData> Список всех постов.
->>>>>>> db6e99c401d89c91f1d31bc76dc96ffae932fe5b
      */
     @GET("api/posts")
     suspend fun getAllPosts(): List<PostData>
@@ -107,11 +97,8 @@ interface PostsApi {
      * Получает посты определенного пользователя по его идентификатору.
      *
      * @param authorId Идентификатор пользователя.
-<<<<<<< HEAD
+     *
      * @return [List]<[PostData]> Список постов пользователя.
-=======
-     * @return List<PostData> Список постов пользователя.
->>>>>>> db6e99c401d89c91f1d31bc76dc96ffae932fe5b
      */
     @GET("api/{authorId}/wall")
     suspend fun getAllPostsByAuthorId(@Path("authorId") authorId: Long): List<PostData>
@@ -131,22 +118,13 @@ interface PostsApi {
         @Query("count") count: Int
     ): List<PostData>
 
-<<<<<<< HEAD
-=======
-    // https://eltex-android.ru/api/3/wall/97/before?count=5
-    // https://eltex-android.ru/api/0/wall/latest?count=10
-
->>>>>>> db6e99c401d89c91f1d31bc76dc96ffae932fe5b
     /**
      * Получает последние посты определенного пользователя по его идентификатору.
      *
      * @param authorId Идентификатор пользователя.
      * @param count Количество постов, которые нужно загрузить.
-<<<<<<< HEAD
+     *
      * @return [List]<[PostData]> Список последних постов.
-=======
-     * @return List<PostData> Список последних постов.
->>>>>>> db6e99c401d89c91f1d31bc76dc96ffae932fe5b
      */
     @GET("api/{authorId}/wall/latest")
     suspend fun getLatestPostsByAuthorId(

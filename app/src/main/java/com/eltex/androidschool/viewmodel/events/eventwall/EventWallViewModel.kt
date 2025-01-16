@@ -1,4 +1,4 @@
-package com.eltex.androidschool.viewmodel.events.eventwall
+package com.eltex.androidschool.viewmodel.events
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,6 +19,7 @@ import com.eltex.androidschool.data.events.EventData
 import com.eltex.androidschool.repository.events.EventRepository
 import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.ui.events.EventUiModelMapper
+import com.eltex.androidschool.viewmodel.events.eventwall.EventWallState
 import com.eltex.androidschool.viewmodel.status.StatusLoad
 
 /**
@@ -29,11 +30,7 @@ import com.eltex.androidschool.viewmodel.status.StatusLoad
  * @property userId Идентификатор пользователя, чьи события загружаются (по умолчанию используется `BuildConfig.USER_ID`).
  * @see ViewModel
  */
-<<<<<<<< HEAD:app/src/main/java/com/eltex/androidschool/viewmodel/events/eventwall/EventWallViewModel.kt
 class EventWallViewModel(
-========
-class EventByIdAuthorForUserModel(
->>>>>>>> db6e99c401d89c91f1d31bc76dc96ffae932fe5b:app/src/main/java/com/eltex/androidschool/viewmodel/events/EventByIdAuthorForUserModel.kt
     private val repository: EventRepository,
     private val userId: Long = BuildConfig.USER_ID,
 ) : ViewModel() {

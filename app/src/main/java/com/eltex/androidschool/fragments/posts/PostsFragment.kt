@@ -232,11 +232,7 @@ class PostsFragment : Fragment() {
                 binding.swiperRefresh.isRefreshing = postState.isRefreshing
 
                 if (postState.singleError != null) {
-<<<<<<< HEAD
-                    val singleErrorText: CharSequence =
-=======
                     val singleErrorText =
->>>>>>> db6e99c401d89c91f1d31bc76dc96ffae932fe5b
                         postState.singleError.getErrorText(requireContext())
 
                     requireContext().toast(singleErrorText.toString())

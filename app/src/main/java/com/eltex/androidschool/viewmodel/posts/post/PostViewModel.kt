@@ -3,13 +3,8 @@ package com.eltex.androidschool.viewmodel.posts.post
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
-<<<<<<< HEAD
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.cancel
-=======
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.StateFlow
->>>>>>> db6e99c401d89c91f1d31bc76dc96ffae932fe5b
 import kotlinx.coroutines.launch
 
 /**
@@ -55,10 +50,7 @@ class PostViewModel(
 
     /**
      * Вызывается при очистке ViewModel.
-<<<<<<< HEAD
      *
-=======
->>>>>>> db6e99c401d89c91f1d31bc76dc96ffae932fe5b
      * Этот метод освобождает все ресурсы, связанные с корутинами.
      * Он вызывается, когда ViewModel больше не используется и будет уничтожено.
      *
