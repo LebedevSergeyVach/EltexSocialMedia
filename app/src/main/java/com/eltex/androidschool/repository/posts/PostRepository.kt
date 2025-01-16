@@ -4,50 +4,86 @@ import com.eltex.androidschool.data.posts.PostData
 
 /**
  * Интерфейс репозитория для работы с постами.
- * Предоставляет методы для получения списка постов, лайков постов и управления ими.
+ * Этот интерфейс предоставляет методы для получения, обновления и удаления постов.
  *
- * @see NetworkPostRepository Реализация интерфейса в памяти.
+ * @see NetworkPostRepository Реализация интерфейса для работы с сетевыми данными.
  * @see suspend Функции, которые могут быть приостановлены и возобновлены позже.
  */
 interface PostRepository {
 
     /**
-     * Возвращает список постов.
+     * Получает список постов, которые были опубликованы до указанного идентификатора.
      *
-     * @return List<[PostData]> Список постов, полученных с сервера.
+     * @param id Идентификатор поста, начиная с которого нужно загрузить предыдущие посты.
+     * @param count Количество постов, которые нужно загрузить.
+     * @return List<PostData> Список постов.
+     */
+    suspend fun getBeforePosts(id: Long, count: Int): List<PostData>
+
+    /**
+     * Получает последние посты.
+     *
+     * @param count Количество постов, которые нужно загрузить.
+     * @return List<PostData> Список последних постов.
+     */
+    suspend fun getLatestPosts(count: Int): List<PostData>
+
+    /**
+     * Получает список всех постов.
+     *
+     * @return List<PostData> Список всех постов.
      */
     suspend fun getPosts(): List<PostData>
 
     /**
      * Переключает состояние лайка у поста по его идентификатору.
      *
-     * @param postId Идентификатор поста, который нужно лайкнуть.
+     * @param postId Идентификатор поста.
      * @param likedByMe Флаг, указывающий, лайкнул ли текущий пользователь этот пост.
-     * @return [PostData] Пост с обновленным состоянием лайка.
+     * @return PostData Пост с обновленным состоянием лайка.
      */
     suspend fun likeById(postId: Long, likedByMe: Boolean): PostData
 
     /**
      * Удаляет пост по его идентификатору.
      *
-     * @param postId Идентификатор поста, который нужно удалить.
+     * @param postId Идентификатор поста.
      */
     suspend fun deleteById(postId: Long)
 
     /**
-     * Обновляет пост по его идентификатору или добавляет новый пост.
+     * Сохраняет или обновляет пост.
      *
-     * @param postId Идентификатор поста, который нужно обновить.
+     * @param postId Идентификатор поста.
      * @param content Новое содержание поста.
-     * @return [PostData] Обновленный или сохраненный пост.
+     * @return PostData Обновленный или сохраненный пост.
      */
     suspend fun save(postId: Long, content: String): PostData
 
     /**
-     * Получает посты определенного польщователя по его идентификатору.
+     * Получает посты определенного пользователя по его идентификатору.
      *
-     * @param authorId Идентификатор пользователя, который нужно получить.
-     * @return List<[PostData]> Посты, соответствующий указанному идентификатору пользователя.
+     * @param authorId Идентификатор пользователя.
+     * @return List<PostData> Список постов пользователя.
      */
     suspend fun getPostsByAuthorId(authorId: Long): List<PostData>
+
+    /**
+     * Получает список постов, которые были опубликованы до указанного идентификатора определенного пользователя по его идентификатору.
+     *
+     * @param authorId Идентификатор пользователя.
+     * @param id Идентификатор поста, начиная с которого нужно загрузить предыдущие посты.
+     * @param count Количество постов, которые нужно загрузить.
+     * @return List<PostData> Список постов.
+     */
+    suspend fun getBeforePostsByAuthorId(authorId: Long, id: Long, count: Int): List<PostData>
+
+    /**
+     * Получает последние посты определенного пользователя по его идентификатору.
+     *
+     * @param authorId Идентификатор пользователя.
+     * @param count Количество постов, которые нужно загрузить.
+     * @return List<PostData> Список последних постов.
+     */
+    suspend fun getLatestPostsByAuthorId(authorId: Long, count: Int): List<PostData>
 }

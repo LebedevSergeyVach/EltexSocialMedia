@@ -1,33 +1,53 @@
 package com.eltex.androidschool.repository.posts
 
+import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.api.posts.PostsApi
 import com.eltex.androidschool.data.posts.PostData
+import com.eltex.androidschool.utils.Logger
 
 /**
  * Репозиторий для работы с данными постов через сетевой API.
- *
- * Этот класс отвечает за взаимодействие с сервером для получения, обновления и удаления постов.
- * Он использует Retrofit для выполнения сетевых запросов и обработки ответов.
+ * Этот класс реализует интерфейс [PostRepository] и использует [PostsApi] для выполнения сетевых запросов.
  *
  * @see PostRepository Интерфейс репозитория, который реализует этот класс.
  * @see PostsApi Интерфейс для работы с API постов.
  * @see suspend Функции, которые могут быть приостановлены и возобновлены позже.
  */
 class NetworkPostRepository : PostRepository {
+
     /**
-     * Получает список всех постов с сервера.
+     * Получает список постов, которые были опубликованы до указанного идентификатора.
      *
-     * @return List<[PostData]> Список постов, полученных с сервера.
+     * @param id Идентификатор поста, начиная с которого нужно загрузить предыдущие посты.
+     * @param count Количество постов, которые нужно загрузить.
+     * @return List<PostData> Список постов.
+     */
+    override suspend fun getBeforePosts(id: Long, count: Int): List<PostData> =
+        PostsApi.INSTANCE.getBeforePosts(id = id, count = count)
+
+    /**
+     * Получает последние посты.
+     *
+     * @param count Количество постов, которые нужно загрузить.
+     * @return List<PostData> Список последних постов.
+     */
+    override suspend fun getLatestPosts(count: Int): List<PostData> =
+        PostsApi.INSTANCE.getLatestPosts(count = count)
+
+    /**
+     * Получает список всех постов.
+     *
+     * @return List<PostData> Список всех постов.
      */
     override suspend fun getPosts() =
         PostsApi.INSTANCE.getAllPosts()
 
     /**
-     * Поставить или убрать лайк у поста по его идентификатору.
+     * Переключает состояние лайка у поста по его идентификатору.
      *
      * @param postId Идентификатор поста.
      * @param likedByMe Флаг, указывающий, лайкнул ли текущий пользователь этот пост.
-     * @return [PostData] Пост с обновленным состоянием лайка.
+     * @return PostData Пост с обновленным состоянием лайка.
      */
     override suspend fun likeById(postId: Long, likedByMe: Boolean): PostData {
         return if (likedByMe) {
@@ -47,11 +67,10 @@ class NetworkPostRepository : PostRepository {
 
     /**
      * Сохраняет или обновляет пост.
-     * Если идентификатор события равен 0, то создается новый пост.
      *
      * @param postId Идентификатор поста.
-     * @param content Новое содержимое поста.
-     * @return [PostData] Обновленный или сохраненный пост.
+     * @param content Новое содержание поста.
+     * @return PostData Обновленный или сохраненный пост.
      */
     override suspend fun save(postId: Long, content: String) =
         PostsApi.INSTANCE.savePost(
@@ -62,20 +81,47 @@ class NetworkPostRepository : PostRepository {
         )
 
     /**
-     * Получает пост по его идентификатору.
+     * Получает посты определенного пользователя по его идентификатору.
      *
-     * @param postId Идентификатор поста.
-     * @return [PostData] Пост, соответствующий указанному идентификатору.
-     */
-    suspend fun getPostById(postId: Long) =
-        PostsApi.INSTANCE.getPostById(postId = postId)
-
-    /**
-     * Получает посты определенного польщователя по его идентификатору.
-     *
-     * @param authorId Идентификатор пользователя, который нужно получить.
-     * @return List<[PostData]> Посты, соответствующий указанному идентификатору пользователя.
+     * @param authorId Идентификатор пользователя.
+     * @return List<PostData> Список постов пользователя.
      */
     override suspend fun getPostsByAuthorId(authorId: Long) =
         PostsApi.INSTANCE.getAllPostsByAuthorId(authorId = authorId)
+
+    /**
+     * Получает список постов, которые были опубликованы до указанного идентификатора определенного пользователя по его идентификатору.
+     *
+     * @param authorId Идентификатор пользователя.
+     * @param id Идентификатор поста, начиная с которого нужно загрузить предыдущие посты.
+     * @param count Количество постов, которые нужно загрузить.
+     * @return List<PostData> Список постов.
+     */
+    override suspend fun getBeforePostsByAuthorId(
+        authorId: Long,
+        id: Long,
+        count: Int
+    ): List<PostData> =
+        PostsApi.INSTANCE.getBeforePostsByAuthorId(
+            authorId = authorId,
+            id = id,
+            count = count
+        )
+
+    /**
+     * Получает последние посты определенного пользователя по его идентификатору.
+     *
+     * @param authorId Идентификатор пользователя.
+     * @param count Количество постов, которые нужно загрузить.
+     * @return List<PostData> Список последних постов.
+     */
+    override suspend fun getLatestPostsByAuthorId(authorId: Long, count: Int): List<PostData> {
+        if (BuildConfig.DEBUG) {
+            Logger.d("AUTHOR ID: $authorId COUNT: $count")
+        }
+
+        return PostsApi.INSTANCE.getLatestPostsByAuthorId(
+            authorId = authorId, count = count
+        )
+    }
 }

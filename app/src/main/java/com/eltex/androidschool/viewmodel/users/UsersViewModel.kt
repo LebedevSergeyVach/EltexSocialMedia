@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 
 import com.eltex.androidschool.data.users.UserData
 import com.eltex.androidschool.repository.users.UserRepository
+import com.eltex.androidschool.viewmodel.status.StatusLoad
 
 /**
  * ViewModel для управления состоянием списка пользователей.
@@ -25,7 +26,7 @@ import com.eltex.androidschool.repository.users.UserRepository
  *
  * @see UserRepository Интерфейс репозитория для работы с данными пользователей.
  * @see UsersState Состояние списка пользователей.
- * @see StatusUsers Состояние загрузки данных (Idle, Loading, Error).
+ * @see StatusLoad Состояние загрузки данных (Idle, Loading, Error).
  */
 class UsersViewModel(
     private val repository: UserRepository,
@@ -45,7 +46,7 @@ class UsersViewModel(
      * Инициализация ViewModel. При создании ViewModel автоматически загружает список пользователей.
      */
     init {
-        getAllUsers()
+        load()
     }
 
     /**
@@ -73,7 +74,7 @@ class UsersViewModel(
     private fun getAllUsers() {
         _state.update { stateUsers: UsersState ->
             stateUsers.copy(
-                statusUsers = StatusUsers.Loading
+                statusUsers = StatusLoad.Loading
             )
         }
 
@@ -83,14 +84,14 @@ class UsersViewModel(
 
                 _state.update { stateUsers: UsersState ->
                     stateUsers.copy(
-                        statusUsers = StatusUsers.Idle,
+                        statusUsers = StatusLoad.Idle,
                         users = users
                     )
                 }
             } catch (e: Exception) {
                 _state.update { stateUsers: UsersState ->
                     stateUsers.copy(
-                        statusUsers = StatusUsers.Error(exception = e)
+                        statusUsers = StatusLoad.Error(exception = e)
                     )
                 }
             }
@@ -105,7 +106,7 @@ class UsersViewModel(
     fun consumerError() {
         _state.update { stateUsers: UsersState ->
             stateUsers.copy(
-                statusUsers = StatusUsers.Idle
+                statusUsers = StatusLoad.Idle
             )
         }
     }

@@ -1,6 +1,9 @@
 package com.eltex.androidschool.repository.events
 
 import com.eltex.androidschool.data.events.EventData
+import retrofit2.http.GET
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 /**
  * Интерфейс репозитория для работы с событиями.
@@ -60,4 +63,21 @@ interface EventRepository {
         option: String,
         data: String
     ): EventData
+
+    /**
+     * Получает список событий, которые были опубликованы до указанного идентификатора.
+     *
+     * @param id Идентификатор события, начиная с которого нужно загрузить предыдущие события.
+     * @param count Количество событий, которые нужно загрузить.
+     * @return [List]<[EventData]> Список событий.
+     */
+    suspend fun getBeforeEvents(id: Long, count: Int): List<EventData>
+
+    /**
+     * Получает последние события.
+     *
+     * @param count Количество событий, которые нужно загрузить.
+     * @return [List]<[EventData]> Список последних событий.
+     */
+    suspend fun getLatestEvents(count: Int): List<EventData>
 }

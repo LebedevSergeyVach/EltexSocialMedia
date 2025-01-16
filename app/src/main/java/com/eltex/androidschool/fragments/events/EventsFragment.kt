@@ -19,6 +19,7 @@ import androidx.lifecycle.viewmodel.viewModelFactory
 
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.RecyclerView
 import com.eltex.androidschool.BuildConfig
 
 import kotlinx.coroutines.flow.onEach
@@ -28,19 +29,24 @@ import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentEventsBinding
 
 import com.eltex.androidschool.adapter.events.EventAdapter
+import com.eltex.androidschool.effecthandler.events.EventEffectHandler
 import com.eltex.androidschool.fragments.users.UserFragment
+import com.eltex.androidschool.reducer.events.EventReducer
 import com.eltex.androidschool.ui.common.OffsetDecoration
 
 import com.eltex.androidschool.repository.events.NetworkEventRepository
 
 import com.eltex.androidschool.ui.events.EventUiModel
+import com.eltex.androidschool.ui.events.EventUiModelMapper
 
 import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
+import com.eltex.androidschool.viewmodel.events.events.EventMessage
+import com.eltex.androidschool.viewmodel.events.events.EventState
+import com.eltex.androidschool.viewmodel.events.events.EventStore
 
-import com.eltex.androidschool.viewmodel.events.EventState
-import com.eltex.androidschool.viewmodel.events.EventViewModel
+import com.eltex.androidschool.viewmodel.events.events.EventViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
@@ -66,7 +72,15 @@ class EventsFragment : Fragment() {
         viewModelFactory {
             addInitializer(EventViewModel::class) {
                 EventViewModel(
-                    NetworkEventRepository()
+                    eventStore = EventStore(
+                        reducer = EventReducer(),
+                        effectHandler = EventEffectHandler(
+                            repository = NetworkEventRepository(),
+                            mapper = EventUiModelMapper()
+                        ),
+                        initMessages = setOf(EventMessage.Refresh),
+                        initState = EventState(),
+                    )
                 )
             }
         }
@@ -89,17 +103,17 @@ class EventsFragment : Fragment() {
         val adapter = EventAdapter(
             object : EventAdapter.EventListener {
                 override fun onLikeClicked(event: EventUiModel) {
-                    viewModel.likeById(event.id, event.likedByMe)
+                    viewModel.accept(message = EventMessage.Like(event = event))
                 }
 
                 override fun onParticipateClicked(event: EventUiModel) {
-                    viewModel.participateById(event.id, event.participatedByMe)
+                    viewModel.accept(message = EventMessage.Participation(event = event))
                 }
 
                 override fun onShareClicked(event: EventUiModel) {}
 
                 override fun onDeleteClicked(event: EventUiModel) {
-                    viewModel.deleteById(event.id)
+                    viewModel.accept(message = EventMessage.Delete(event = event))
                 }
 
                 override fun onUpdateClicked(event: EventUiModel) {
@@ -169,12 +183,27 @@ class EventsFragment : Fragment() {
             OffsetDecoration(resources.getDimensionPixelSize(R.dimen.list_offset))
         )
 
+        binding.list.addOnChildAttachStateChangeListener(
+            object : RecyclerView.OnChildAttachStateChangeListener {
+                override fun onChildViewAttachedToWindow(view: View) {
+                    val itemsCount = adapter.itemCount
+                    val adapterPosition = binding.list.getChildAdapterPosition(view)
+
+                    if (itemsCount - 5 <= adapterPosition) {
+                        viewModel.accept(message = EventMessage.LoadNextPage)
+                    }
+                }
+
+                override fun onChildViewDetachedFromWindow(view: View) = Unit
+            }
+        )
+
         binding.retryButton.setOnClickListener {
-            viewModel.load()
+            viewModel.accept(message = EventMessage.Refresh)
         }
 
         binding.swiperRefresh.setOnRefreshListener {
-            viewModel.load()
+            viewModel.accept(message = EventMessage.Refresh)
             requireContext().singleVibrationWithSystemCheck(35)
         }
 
@@ -198,7 +227,7 @@ class EventsFragment : Fragment() {
                 binding.errorGroup.isVisible = eventState.isEmptyError
 
                 val errorText: CharSequence? =
-                    eventState.statusEvent.throwableOrNull?.getErrorText(requireContext())
+                    eventState.emptyError?.getErrorText(requireContext())
 
                 binding.errorText.text = errorText
 
@@ -207,14 +236,13 @@ class EventsFragment : Fragment() {
 
                 binding.swiperRefresh.isRefreshing = eventState.isRefreshing
 
-                if (eventState.isRefreshError && errorText == getString(R.string.network_error)) {
-                    requireContext().toast(R.string.network_error)
+                if (eventState.singleError != null) {
+                    val singleErrorText: CharSequence =
+                        eventState.singleError.getErrorText(requireContext())
 
-                    viewModel.consumerError()
-                } else if (eventState.isRefreshError && errorText == getString(R.string.unknown_error)) {
-                    requireContext().toast(R.string.unknown_error)
+                    requireContext().toast(singleErrorText.toString())
 
-                    viewModel.consumerError()
+                    viewModel.accept(message = EventMessage.HandleError)
                 }
 
                 adapter.submitList(eventState.events)
@@ -235,7 +263,7 @@ class EventsFragment : Fragment() {
      * Прокручивает RecyclerView на самый верх и обновляет данные.
      */
     private fun scrollToTopAndRefresh(binding: FragmentEventsBinding) {
-        viewModel.load()
+        viewModel.accept(message = EventMessage.Refresh)
         binding.list.smoothScrollToPosition(0)
     }
 }

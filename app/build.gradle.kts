@@ -20,7 +20,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 1
-        versionName = "0.13.0"
+        versionName = "0.14.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -212,4 +212,18 @@ dependencies {
      * https://github.com/Kotlin/kotlinx.coroutines
      */
     testImplementation(libs.kotlinx.coroutines.test)
+
+    /**
+     *
+     *
+     * The perfect companion
+     * for your Kotlin journey
+     * Inspired by functional, data-oriented
+     * and concurrent programming
+     *
+     * https://arrow-kt.io/learn/quickstart/
+     *
+     * implementation("io.arrow-kt:arrow-fx-coroutines:1.2.4")
+     */
+    implementation(libs.arrow.core)
 }

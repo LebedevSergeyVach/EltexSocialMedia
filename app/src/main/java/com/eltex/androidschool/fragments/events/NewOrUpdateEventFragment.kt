@@ -50,8 +50,8 @@ import com.eltex.androidschool.utils.toast
 import com.eltex.androidschool.utils.vibrateWithEffect
 
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
-import com.eltex.androidschool.viewmodel.events.NewEventState
-import com.eltex.androidschool.viewmodel.events.NewEventViewModel
+import com.eltex.androidschool.viewmodel.events.newevent.NewEventState
+import com.eltex.androidschool.viewmodel.events.newevent.NewEventViewModel
 
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter

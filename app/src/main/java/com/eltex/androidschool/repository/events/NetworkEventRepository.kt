@@ -91,6 +91,25 @@ class NetworkEventRepository : EventRepository {
     )
 
     /**
+     * Получает список событий, которые были опубликованы до указанного идентификатора.
+     *
+     * @param id Идентификатор события, начиная с которого нужно загрузить предыдущие события.
+     * @param count Количество событий, которые нужно загрузить.
+     * @return [List]<[EventData]> Список событий.
+     */
+    override suspend fun getBeforeEvents(id: Long, count: Int): List<EventData> =
+        EventsApi.INSTANCE.getBeforeEvents(id = id, count = count)
+
+    /**
+     * Получает последние события.
+     *
+     * @param count Количество событий, которые нужно загрузить.
+     * @return [List]<[EventData]> Список последних событий.
+     */
+    override suspend fun getLatestEvents(count: Int): List<EventData> =
+        EventsApi.INSTANCE.getLatestEvents(count = count)
+
+    /**
      * Получает событие по его идентификатору.
      *
      * @param eventId Идентификатор события.

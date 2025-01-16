@@ -6,6 +6,8 @@ import com.eltex.androidschool.TestUtils.loading
 import com.eltex.androidschool.repository.TestPostRepository
 import com.eltex.androidschool.data.posts.PostData
 import com.eltex.androidschool.ui.posts.PostUiModelMapper
+import com.eltex.androidschool.viewmodel.posts.post.PostState
+import com.eltex.androidschool.viewmodel.posts.post.PostViewModel
 
 import org.junit.Assert.assertEquals
 import org.junit.Rule
