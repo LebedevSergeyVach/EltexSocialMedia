@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -15,6 +16,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.eltex.androidschool.R
 
 import com.eltex.androidschool.databinding.FragmentBottomNavigationBinding
+import com.eltex.androidschool.viewmodel.common.SharedViewModel
 
 /**
  * Фрагмент, отвечающий за отображение нижней навигационной панели.
@@ -26,6 +28,8 @@ import com.eltex.androidschool.databinding.FragmentBottomNavigationBinding
  * @see FragmentBottomNavigationBinding Класс, сгенерированный из XML-файла макета для этого фрагмента.
  */
 class BottomNavigationFragment : Fragment() {
+
+    private val sharedViewModel: SharedViewModel by activityViewModels()
 
     /**
      * Создает и возвращает представление для этого фрагмента.
@@ -72,6 +76,28 @@ class BottomNavigationFragment : Fragment() {
                 )
         }
 
+        val jobsClickListener = View.OnClickListener {
+            findNavController()
+                .navigate(
+                    R.id.action_BottomNavigationFragment_to_newOrUpdateJobFragment,
+                    null,
+                    NavOptions.Builder()
+                        .setEnterAnim(R.anim.slide_in_right)
+                        .setExitAnim(R.anim.slide_out_left)
+                        .setPopEnterAnim(R.anim.slide_in_left)
+                        .setPopExitAnim(R.anim.slide_out_right)
+                        .build()
+                )
+        }
+
+        sharedViewModel.currentTab.observe(viewLifecycleOwner) { tabPosition ->
+            when (tabPosition) {
+                0 -> binding.news.setOnClickListener(postsClickListener)
+                1 -> binding.news.setOnClickListener(eventsClickListener)
+                2 -> binding.news.setOnClickListener(jobsClickListener)
+            }
+        }
+
         binding.bottomNavigation.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
@@ -96,8 +122,8 @@ class BottomNavigationFragment : Fragment() {
 
                 R.id.userFragment -> {
                     binding.news.animate()
-                        .scaleX(0F)
-                        .scaleY(0F)
+                        .scaleX(1F)
+                        .scaleY(1F)
                         .setDuration(200)
                         .start()
                 }

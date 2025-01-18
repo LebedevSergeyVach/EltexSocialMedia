@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/textNameOfTheFataEntryCard"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_weight="1"
+
+        android:padding="@dimen/padding_title_for_settings_24dp"
+
+        android:text="@string/company_data_and_your_position"
+        android:textSize="24sp"
+
+        android:textStyle="bold"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/dataEntryCard"
+
+        style="@style/CustomTextViewStyle"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_margin="@dimen/common_spacing"
+
+        app:cardCornerRadius="20dp"
+        app:cardElevation="2dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textNameOfTheFataEntryCard">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+
+            android:padding="16dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textCompanyName"
+
+                style="@style/CustomTextInputLayout"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:hint="@string/company_name"
+                app:endIconMode="clear_text">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/CustomTextViewStyle"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textPosition"
+
+                style="@style/CustomTextInputLayout"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="16dp"
+
+                android:hint="@string/position"
+                app:endIconMode="clear_text"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textCompanyName">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/CustomTextViewStyle"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textLink"
+
+                style="@style/CustomTextInputLayout"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="16dp"
+
+                android:hint="@string/link"
+                app:endIconMode="clear_text"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/textPosition">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/CustomTextViewStyle"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <TextView
+        android:id="@+id/textNameUserIsWorkingHours"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="20dp"
+
+        android:layout_weight="1"
+        android:padding="@dimen/padding_title_for_settings_24dp"
+
+        android:text="@string/the_period_of_employment_in_the_company"
+        android:textSize="24sp"
+
+        android:textStyle="bold"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dataEntryCard" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardWorkingPeriod"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_margin="@dimen/common_spacing"
+
+        app:cardCornerRadius="20dp"
+        app:cardElevation="2dp"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textNameUserIsWorkingHours">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="@dimen/common_spacing">
+
+            <TextView
+                android:id="@+id/textWorkingPeriod"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+
+                android:text="@string/working_period"
+
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonSelectDateWorkingPeriod"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:backgroundTint="@color/active_element"
+                android:text="@string/select_date"
+                android:textColor="@color/black_white_theme" />
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

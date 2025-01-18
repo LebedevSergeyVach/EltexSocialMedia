@@ -1,15 +1,11 @@
 package com.eltex.androidschool.data.events
 
 import com.eltex.androidschool.data.common.InstantSerializer
+
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+
 import java.time.Instant
-
-import java.time.ZoneId
-import java.time.ZonedDateTime
-import java.time.format.DateTimeFormatter
-
-import java.util.Locale
 
 /**
  * Класс, представляющий событие в приложении.

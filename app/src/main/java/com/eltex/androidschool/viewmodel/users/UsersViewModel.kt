@@ -35,7 +35,7 @@ class UsersViewModel(
     /**
      * Внутренний поток для хранения состояния списка пользователей.
      */
-    private val _state = MutableStateFlow(UsersState())
+    private val _state: MutableStateFlow<UsersState> = MutableStateFlow(UsersState())
 
     /**
      * Публичный поток для наблюдения за состоянием списка пользователей.

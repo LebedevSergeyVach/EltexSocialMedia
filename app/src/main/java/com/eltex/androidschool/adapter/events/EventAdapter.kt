@@ -138,7 +138,7 @@ class EventAdapter(
                 when (menuItem.itemId) {
                     R.id.delete_event -> {
                         listener.onDeleteClicked(getItem(position))
-                        context.singleVibration(75L)
+                        context.singleVibrationWithSystemCheck(35)
                         true
                     }
 

@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Eltex Academy</string>
+    <string name="app_name_icon" translatable="false">Eltex Academy</string>
 
     <string name="app_not_found">Application not found</string>
     <string name="not_implemented">Not implemented</string>
@@ -7,17 +8,17 @@
     <string name="shared">Shared</string>
 
     <string name="create_post">Create post</string>
-    <string name="new_post_title">☃️ New Post</string>
+    <string name="new_post_title">New Post</string>
     <string name="save_post">Save post</string>
-    <string name="update_post_title">⛄️ Updating the post</string>
+    <string name="update_post_title">Updating the post</string>
     <string name="new_post_content_hint">Write content for your new post!</string>
     <string name="delete_post">Delete post</string>
     <string name="update_post">Update post</string>
 
-    <string name="new_event_title">☃️ New event</string>
+    <string name="new_event_title">New event</string>
     <string name="save_event">Save event</string>
     <string name="create_event">Create event</string>
-    <string name="update_event_title">⛄️ Updating the event</string>
+    <string name="update_event_title">Updating the event</string>
     <string name="new_event_content_hint">Write a description for your new event!</string>
     <string name="new_event_link_hint">Insert the link of your event!</string>
     <string name="new_event_address_hint">Insert the address of your event!</string>
@@ -43,6 +44,34 @@
     <string name="users">Users</string>
     <string name="account">Account</string>
     <string name="profile">Profile</string>
+    <string name="jobs">Jobs</string>
+    <string name="job">Job</string>
+
+    <string name="company_name">Company name</string>
+    <string name="position">Position</string>
+    <string name="company_data_and_your_position">Company data and your position</string>
+    <string name="the_period_of_employment_in_the_company">The period of employment in the company</string>
+    <string name="beginning_of_the_work_period">Beginning of the work period</string>
+    <string name="end_of_the_working_period">End of the working period</string>
+    <string name="save_job_data">Save job data</string>
+    <string name="new_job">New Job</string>
+    <string name="update_job_data">Update job data</string>
+    <string name="working_period">Working period</string>
+    <string name="select_date_working_period">Select date working period</string>
+    <string name="select_working_period">Select the period of operation</string>
+    <string name="data_entry_card_title">Company Information</string>
+    <string name="data_entry_card_description">Here you can enter information about the company and your position.</string>
+    <string name="working_period_card_title">Working period</string>
+    <string name="working_period_card_description">Here you can specify the period of work in the company.</string>
+
+    <string name="delete_post_title">Deleting a post</string>
+    <string name="delete_post_message">Are you sure you want to delete this post?</string>
+    <string name="delete_event_title">Deleting an event</string>
+    <string name="delete_event_message">ВAre you sure you want to delete this event?</string>
+    <string name="delete_job_title">Deleting a place of work</string>
+    <string name="delete_job_message">Are you sure you want to delete this place of work?</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Remove</string>
 
     <string name="retry">Retry</string>
     <string name="network_error">Network error</string>
@@ -81,7 +110,5 @@
 
     <string name="no_posts">There are no posts yet</string>
     <string name="no_events">There are no events yet</string>
-
-    NEW YEAR
-    <string name="app_name_new_year">❄️ Eltex Academy</string>
+    <string name="no_jobs">There is no information about the work yet</string>
 </resources>

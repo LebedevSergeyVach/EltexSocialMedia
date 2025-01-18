@@ -8,17 +8,17 @@
     <string name="shared">Поделиться</string>
 
     <string name="create_post">Создать пост</string>
-    <string name="new_post_title">☃️ Новый пост</string>
+    <string name="new_post_title">Новый пост</string>
     <string name="save_post">Сохранить пост</string>
-    <string name="update_post_title">⛄️ Обновление поста</string>
+    <string name="update_post_title">Обновление поста</string>
     <string name="new_post_content_hint">Напишите контент для Вашего нового поста!</string>
     <string name="delete_post">Удалить пост</string>
     <string name="update_post">Обновить пост</string>
 
-    <string name="new_event_title">☃️ Новое событие</string>
+    <string name="new_event_title">Новое событие</string>
     <string name="save_event">Сохранить событие</string>
     <string name="create_event">Создать событие</string>
-    <string name="update_event_title">⛄️ Обновление события</string>
+    <string name="update_event_title">Обновление события</string>
     <string name="new_event_content_hint">Напишите описание для Вашего нового события!</string>
     <string name="new_event_link_hint">Вставьте ссылку Вашего события!</string>
     <string name="new_event_address_hint">Вставьте адрес Вашего события!</string>
@@ -44,6 +44,34 @@
     <string name="users">Пользователи</string>
     <string name="account">Аккаунт</string>
     <string name="profile">Профиль</string>
+    <string name="jobs">Места работы</string>
+    <string name="job">Работа</string>
+
+    <string name="company_name">Название компании</string>
+    <string name="position">Позиция</string>
+    <string name="company_data_and_your_position">Данные компании и вашей должности</string>
+    <string name="the_period_of_employment_in_the_company">Промежуток времени трудоустройства в компании</string>
+    <string name="beginning_of_the_work_period">Начало переиода работы</string>
+    <string name="end_of_the_working_period">Конец периода работы</string>
+    <string name="save_job_data">Сохранить данные о работе</string>
+    <string name="new_job">Новая работа</string>
+    <string name="update_job_data">Обновить данные о работе</string>
+    <string name="working_period">Период работы</string>
+    <string name="select_date_working_period">Выберите дату периода работы</string>
+    <string name="select_working_period">Выберите период работы</string>
+    <string name="data_entry_card_title">Информация о компании</string>
+    <string name="data_entry_card_description">Здесь вы можете ввести данные о компании и вашей должности.</string>
+    <string name="working_period_card_title">Период работы</string>
+    <string name="working_period_card_description">Здесь вы можете указать период работы в компании.</string>
+
+    <string name="delete_post_title">Удаление поста</string>
+    <string name="delete_post_message">Вы уверены, что хотите удалить этот пост?</string>
+    <string name="delete_event_title">Удаление события</string>
+    <string name="delete_event_message">Вы уверены, что хотите удалить это событие?</string>
+    <string name="delete_job_title">Удаление места работы</string>
+    <string name="delete_job_message">Вы уверены, что хотите удалить это место работы?</string>
+    <string name="cancel">Отмена</string>
+    <string name="delete">Удалить</string>
 
     <string name="retry">Повторить</string>
     <string name="network_error">Ошибка сети</string>
@@ -82,7 +110,5 @@
 
     <string name="no_posts">Постов пока нет</string>
     <string name="no_events">Событий пока нет</string>
-
-    Новый год
-    <string name="app_name_new_year">️❄️ Академия Eltex</string>
+    <string name="no_jobs">Информации о работе пока нет</string>
 </resources>

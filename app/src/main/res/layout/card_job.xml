@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:id="@+id/card_job"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginEnd="0dp"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:id="@+id/name"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginEnd="4dp"
+
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="16sp"
+            android:textStyle="bold"
+
+            app:layout_constraintEnd_toStartOf="@id/update"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+
+            tools:text="ПАО ПСБ" />
+
+        <TextView
+            android:id="@+id/work_dates"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="8dp"
+
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textSize="14sp"
+
+            app:layout_constraintEnd_toEndOf="@id/name"
+            app:layout_constraintStart_toStartOf="@id/name"
+            app:layout_constraintTop_toBottomOf="@id/name"
+
+            tools:text="1 августа 2020 – НВ" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/delete"
+
+            style="@style/Widget.Material3.Button.IconButton"
+
+            android:layout_width="@dimen/menu_dp_size"
+            android:layout_height="@dimen/menu_dp_size"
+
+            android:layout_marginEnd="8dp"
+
+            android:importantForAccessibility="no"
+            android:textColor="@color/soft_red"
+            app:icon="@drawable/ic_delete_24"
+            app:iconTint="@color/soft_red"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/update"
+
+            style="@style/Widget.Material3.Button.IconButton"
+
+            android:layout_width="@dimen/menu_dp_size"
+            android:layout_height="@dimen/menu_dp_size"
+
+            android:layout_marginEnd="8dp"
+
+            android:importantForAccessibility="no"
+            android:textColor="@color/active_element"
+            app:icon="@drawable/ic_update_24"
+            app:iconTint="@color/active_element"
+
+            app:layout_constraintEnd_toStartOf="@id/delete"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/position"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="28dp"
+
+            android:layout_marginEnd="16dp"
+            android:textSize="16sp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/name"
+            app:layout_constraintTop_toBottomOf="@id/work_dates"
+
+            tools:text="Главный инженер-программист" />
+
+        <TextView
+            android:id="@+id/link"
+
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+
+            android:layout_marginTop="32dp"
+
+            android:autoLink="web"
+            android:textColorLink="@color/active_element"
+            android:textSize="@dimen/size_text_sp"
+
+            app:layout_constraintEnd_toEndOf="@id/position"
+            app:layout_constraintStart_toStartOf="@id/position"
+            app:layout_constraintTop_toBottomOf="@id/position"
+
+            tools:text="https://m2.material.io/components/cards" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

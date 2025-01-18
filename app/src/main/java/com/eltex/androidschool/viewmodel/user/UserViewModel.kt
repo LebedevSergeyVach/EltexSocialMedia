@@ -36,7 +36,7 @@ class UserViewModel(
      *
      * @see UserState Состояние, которое хранится в этом Flow.
      */
-    private val _state = MutableStateFlow(UserState())
+    private val _state: MutableStateFlow<UserState> = MutableStateFlow(UserState())
 
     /**
      * Публичный Flow, который предоставляет доступ к текущему состоянию пользователей.

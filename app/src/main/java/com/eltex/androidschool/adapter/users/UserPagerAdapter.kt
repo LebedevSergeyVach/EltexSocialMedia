@@ -8,20 +8,23 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.eltex.androidschool.adapter.events.EventAdapter
+import com.eltex.androidschool.adapter.job.JobAdapter
 import com.eltex.androidschool.adapter.posts.PostAdapter
 
 import com.eltex.androidschool.databinding.LayoutPostListBinding
 import com.eltex.androidschool.databinding.LayoutEventListBinding
+import com.eltex.androidschool.databinding.LayoutJobListBinding
 import com.eltex.androidschool.ui.common.OffsetDecoration
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallViewModel
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallMessage
 
 /**
- * Адаптер для управления вкладками с постами и событиями в `ViewPager2`.
- * Используется для отображения списка постов и событий пользователя.
+ * Адаптер для управления вкладками с постами, событиями и местами работы в `ViewPager2`.
+ * Используется для отображения списка постов, событий и мест работы пользователя.
  *
  * @property postAdapter Адаптер для отображения списка постов.
  * @property eventAdapter Адаптер для отображения списка событий.
+ * @property jobAdapter Адаптер для отображения списка мест работы.
  * @property offset Величина отступа между элементами в `RecyclerView`.
  * @property viewModel ViewModel для управления состоянием постов.
  * @see RecyclerView.Adapter
@@ -29,6 +32,7 @@ import com.eltex.androidschool.viewmodel.posts.postswall.PostWallMessage
 class UserPagerAdapter(
     private val postAdapter: PostAdapter,
     private val eventAdapter: EventAdapter,
+    private val jobAdapter: JobAdapter,
     private val offset: Int,
     private val adapter: PostAdapter,
     private val viewModel: PostWallViewModel,
@@ -44,10 +48,10 @@ class UserPagerAdapter(
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     /**
-     * Создает и возвращает `ViewHolder` для соответствующей вкладки (посты или события).
+     * Создает и возвращает `ViewHolder` для соответствующей вкладки (посты, события или места работы).
      *
      * @param parent Родительский контейнер, в который будет добавлен ViewHolder.
-     * @param viewType Тип ViewHolder (0 — посты, 1 — события).
+     * @param viewType Тип ViewHolder (0 — посты, 1 — события, 2 — места работы).
      * @return [ViewHolder] для соответствующей вкладки.
      * @see RecyclerView.Adapter.onCreateViewHolder
      */
@@ -113,6 +117,37 @@ class UserPagerAdapter(
 
                 eventAdapter.registerAdapterDataObserver(object :
                     RecyclerView.AdapterDataObserver() {
+                    override fun onChanged() {
+                        checkIfEmpty(binding)
+                    }
+
+                    override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                        checkIfEmpty(binding)
+                    }
+
+                    override fun onItemRangeRemoved(positionStart: Int, itemCount: Int) {
+                        checkIfEmpty(binding)
+                    }
+                })
+
+                checkIfEmpty(binding)
+
+                ViewHolder(binding.root)
+            }
+
+            2 -> {
+                val binding = LayoutJobListBinding.inflate(
+                    LayoutInflater.from(parent.context),
+                    parent,
+                    false
+                )
+
+                binding.jobsRecyclerView.adapter = jobAdapter
+                binding.jobsRecyclerView.layoutManager = LinearLayoutManager(parent.context)
+                binding.jobsRecyclerView.addItemDecoration(OffsetDecoration(offset))
+
+                jobAdapter.registerAdapterDataObserver(object  :
+                RecyclerView.AdapterDataObserver() {
                     override fun onChanged() {
                         checkIfEmpty(binding)
                     }
@@ -221,27 +256,70 @@ class UserPagerAdapter(
         }
     }
 
+    /**
+     * Проверяет, пуст ли список мест работы, и управляет видимостью `RecyclerView` и `TextView` с сообщением "Мест работы пока нет".
+     *
+     * @param binding Привязка для макета списка мест работы.
+     * @see RecyclerView.AdapterDataObserver
+     */
+    private fun checkIfEmpty(binding: LayoutJobListBinding) {
+        val isEmpty = jobAdapter.itemCount == 0
+
+        if (isEmpty) {
+            binding.emptyJobsText.visibility = View.VISIBLE
+            binding.emptyJobsText.alpha = 0f
+            binding.emptyJobsText.animate()
+                .alpha(1f)
+                .setDuration(300)
+                .start()
+
+            binding.jobsRecyclerView.animate()
+                .alpha(0f)
+                .setDuration(300)
+                .withEndAction {
+                    binding.jobsRecyclerView.visibility = View.GONE
+                }
+                .start()
+        } else {
+            binding.jobsRecyclerView.visibility = View.VISIBLE
+            binding.jobsRecyclerView.alpha = 0f
+            binding.jobsRecyclerView.animate()
+                .alpha(1f)
+                .setDuration(300)
+                .start()
+
+            binding.emptyJobsText.animate()
+                .alpha(0f)
+                .setDuration(300)
+                .withEndAction {
+                    binding.emptyJobsText.visibility = View.GONE
+                }
+                .start()
+        }
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {}
 
     /**
-     * Возвращает количество вкладок (посты и события).
+     * Возвращает количество вкладок (посты, события и места работы).
      *
-     * @return Количество вкладок (2).
+     * @return Количество вкладок (3).
      * @see RecyclerView.Adapter.getItemCount
      */
-    override fun getItemCount(): Int = 2
+    override fun getItemCount(): Int = 3
 
     /**
      * Возвращает тип ViewHolder для соответствующей позиции.
      *
      * @param position Позиция вкладки.
-     * @return 0 для постов, 1 для событий.
+     * @return 0 для постов, 1 для событий, 2 для мест работы.
      * @see RecyclerView.Adapter.getItemViewType
      */
     override fun getItemViewType(position: Int): Int {
         return when (position) {
             0 -> 0
             1 -> 1
+            2 -> 2
             else -> throw IllegalArgumentException("Invalid position: $position")
         }
     }
