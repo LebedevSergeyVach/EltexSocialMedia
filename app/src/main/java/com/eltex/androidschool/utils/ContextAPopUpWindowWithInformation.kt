@@ -54,3 +54,56 @@ fun Context.showMaterialDialog(
         button.textSize = buttonTextSize
     }
 }
+
+/**
+ * Показывает Material 3 диалог с двумя кнопками: "Отмена" и "Удалить".
+ *
+ * @param title Заголовок диалога.
+ * @param message Основной текст диалога.
+ * @param onDeleteConfirmed Коллбэк, который вызывается при нажатии на кнопку "Удалить".
+ * @param iconRes Иконка диалога (по умолчанию иконка приложения).
+ * @param titleTextSize Размер текста заголовка (по умолчанию 26sp).
+ * @param messageTextSize Размер текста сообщения (по умолчанию 16sp).
+ * @param cancelButtonText Текст кнопки "Отмена" (по умолчанию "Отмена").
+ * @param deleteButtonText Текст кнопки "Удалить" (по умолчанию "Удалить").
+ */
+fun Context.showMaterialDialogWithTwoButtons(
+    title: String,
+    message: String,
+    onDeleteConfirmed: () -> Unit,
+    iconRes: Int = R.mipmap.eltex_logo,
+    titleTextSize: Float = 26f,
+    messageTextSize: Float = 16f,
+    cancelButtonText: String = getString(R.string.cancel),
+    deleteButtonText: String = getString(R.string.delete),
+) {
+    val dialog = MaterialAlertDialogBuilder(this)
+        .setTitle(title)
+        .setMessage(message)
+        .setIcon(iconRes)
+        .setPositiveButton(cancelButtonText) { dialog, _ ->
+            dialog.dismiss()
+        }
+        .setNegativeButton(deleteButtonText) { dialog, _ ->
+            onDeleteConfirmed()
+            dialog.dismiss()
+        }
+        .create()
+
+    dialog.show()
+
+    dialog.findViewById<android.widget.TextView>(android.R.id.title)?.let { titleView ->
+        titleView.textSize = titleTextSize
+        titleView.setTypeface(null, Typeface.BOLD)
+    }
+
+    dialog.findViewById<android.widget.TextView>(android.R.id.message)?.let { messageView ->
+        messageView.textSize = messageTextSize
+    }
+
+    dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
+        ?.setTextColor(getColor(R.color.soft_blue))
+
+    dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE)
+        ?.setTextColor(getColor(R.color.soft_red))
+}
