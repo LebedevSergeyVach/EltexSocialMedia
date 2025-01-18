@@ -76,10 +76,25 @@ class BottomNavigationFragment : Fragment() {
                 )
         }
 
+        val jobsClickListener = View.OnClickListener {
+            findNavController()
+                .navigate(
+                    R.id.action_BottomNavigationFragment_to_newOrUpdateJobFragment,
+                    null,
+                    NavOptions.Builder()
+                        .setEnterAnim(R.anim.slide_in_right)
+                        .setExitAnim(R.anim.slide_out_left)
+                        .setPopEnterAnim(R.anim.slide_in_left)
+                        .setPopExitAnim(R.anim.slide_out_right)
+                        .build()
+                )
+        }
+
         sharedViewModel.currentTab.observe(viewLifecycleOwner) { tabPosition ->
             when (tabPosition) {
                 0 -> binding.news.setOnClickListener(postsClickListener)
                 1 -> binding.news.setOnClickListener(eventsClickListener)
+                2 -> binding.news.setOnClickListener(jobsClickListener)
             }
         }
 

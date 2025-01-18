@@ -15,10 +15,13 @@
     <color name="black_white_theme">#000000</color>
     <color name="toast_custom">#f8f9fc</color>
 
+    <color name="soft_red">#FF4141</color>
+    <color name="soft_blue">#3060FF</color>
+
     #4f378b material google
     #00A0D9 ELTEX
     #0c5df3 #083ffe #3060FF
-    <color name="active_element">#3060FF</color>
+    <color name="active_element">@color/soft_blue</color>
 
     #FF6200EE
     <color name="switch_off_back">#6E00B0</color>
@@ -38,9 +41,4 @@
     <color name="confetti_green">#8BC34A</color>
     <color name="confetti_orange">#FF9800</color>
     <color name="confetti_yellow">#FFEB3B</color>
-
-    <!-- Акцентные цвета для AMOLED-темы -->
-    <color name="amoled_accent">#00FF00</color> <!-- Например, зеленый -->
-    <color name="amoled_accent_dark">#00CC00</color>
-    <color name="amoled_accent_light">#00FF80</color>
 </resources>

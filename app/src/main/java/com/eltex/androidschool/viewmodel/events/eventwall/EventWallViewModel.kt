@@ -1,4 +1,4 @@
-package com.eltex.androidschool.viewmodel.events
+package com.eltex.androidschool.viewmodel.events.eventwall
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,7 +19,6 @@ import com.eltex.androidschool.data.events.EventData
 import com.eltex.androidschool.repository.events.EventRepository
 import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.ui.events.EventUiModelMapper
-import com.eltex.androidschool.viewmodel.events.eventwall.EventWallState
 import com.eltex.androidschool.viewmodel.status.StatusLoad
 
 /**

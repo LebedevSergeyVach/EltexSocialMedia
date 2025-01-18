@@ -104,8 +104,6 @@ class NewOrUpdateEventFragment : Fragment() {
          */
         val toolbarViewModel by activityViewModels<ToolBarViewModel>()
 
-        val eventWillTake: String = getString(R.string.event_take_will) + " "
-
         val eventId = arguments?.getLong(EVENT_ID) ?: 0L
         val content = arguments?.getString(EVENT_CONTENT) ?: ""
         val link = arguments?.getString(EVENT_LINK) ?: ""
@@ -116,6 +114,8 @@ class NewOrUpdateEventFragment : Fragment() {
         binding.content.setText(content)
         binding.link.setText(link)
         binding.optionSwitch.isChecked = option == ONLINE
+
+        val eventWillTake: String = getString(R.string.event_take_will) + " "
 
         binding.optionText.text =
             if (binding.optionSwitch.isChecked) {
@@ -241,7 +241,8 @@ class NewOrUpdateEventFragment : Fragment() {
                 val newOption = if (binding.optionSwitch.isChecked) ONLINE else OFFLINE
 
                 if (
-                    newContent.isNotEmpty() && newDate.isNotEmpty() && newOption.isNotEmpty() && newLink.isNotEmpty()
+                    newContent.isNotEmpty() && newDate.isNotEmpty() &&
+                    newOption.isNotEmpty() && newLink.isNotEmpty()
                 ) {
                     newEventViewModel.save(
                         content = newContent,
@@ -457,5 +458,4 @@ class NewOrUpdateEventFragment : Fragment() {
             buttonText = buttonText
         )
     }
-
 }

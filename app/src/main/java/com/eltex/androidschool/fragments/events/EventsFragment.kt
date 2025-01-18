@@ -40,6 +40,7 @@ import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.ui.events.EventUiModelMapper
 
 import com.eltex.androidschool.utils.getErrorText
+import com.eltex.androidschool.utils.showMaterialDialogWithTwoButtons
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
 import com.eltex.androidschool.viewmodel.events.events.EventMessage
@@ -113,7 +114,12 @@ class EventsFragment : Fragment() {
                 override fun onShareClicked(event: EventUiModel) {}
 
                 override fun onDeleteClicked(event: EventUiModel) {
-                    viewModel.accept(message = EventMessage.Delete(event = event))
+                    showDeleteConfirmationDialog(
+                        title = getString(R.string.delete_event_title),
+                        message = getString(R.string.delete_event_message)
+                    ) {
+                        viewModel.accept(message = EventMessage.Delete(event = event))
+                    }
                 }
 
                 override fun onUpdateClicked(event: EventUiModel) {
@@ -265,5 +271,30 @@ class EventsFragment : Fragment() {
     private fun scrollToTopAndRefresh(binding: FragmentEventsBinding) {
         viewModel.accept(message = EventMessage.Refresh)
         binding.list.smoothScrollToPosition(0)
+    }
+
+    /**
+     * Показывает диалоговое окно с подтверждением удаления.
+     *
+     * Эта функция отображает Material 3 диалог с двумя кнопками: "Отмена" и "Удалить".
+     * Кнопка "Отмена" закрывает диалог без выполнения каких-либо действий, а кнопка "Удалить"
+     * вызывает переданный коллбэк `onDeleteConfirmed`, который выполняет удаление.
+     *
+     * @param title Заголовок диалога. Обычно это текст, который кратко описывает действие, например, "Удаление поста".
+     * @param message Основной текст диалога. Это более подробное описание действия, например, "Вы уверены, что хотите удалить этот пост?".
+     * @param onDeleteConfirmed Коллбэк, который вызывается при нажатии на кнопку "Удалить". Этот коллбэк должен содержать логику удаления.
+     *
+     * @see Context.showMaterialDialogWithTwoButtons Функция, которая используется для отображения диалога с двумя кнопками.
+     */
+    private fun showDeleteConfirmationDialog(
+        title: String,
+        message: String,
+        onDeleteConfirmed: () -> Unit
+    ) {
+        requireContext().showMaterialDialogWithTwoButtons(
+            title = title,
+            message = message,
+            onDeleteConfirmed = onDeleteConfirmed
+        )
     }
 }

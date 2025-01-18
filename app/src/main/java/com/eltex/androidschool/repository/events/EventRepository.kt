@@ -1,9 +1,6 @@
 package com.eltex.androidschool.repository.events
 
 import com.eltex.androidschool.data.events.EventData
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
 
 /**
  * Интерфейс репозитория для работы с событиями.

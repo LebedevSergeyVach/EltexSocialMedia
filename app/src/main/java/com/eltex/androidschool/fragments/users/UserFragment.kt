@@ -37,31 +37,38 @@ import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.databinding.FragmentUserBinding
 
 import com.eltex.androidschool.adapter.events.EventAdapter
+import com.eltex.androidschool.adapter.job.JobAdapter
 import com.eltex.androidschool.adapter.posts.PostAdapter
 import com.eltex.androidschool.adapter.users.UserPagerAdapter
 import com.eltex.androidschool.effecthandler.posts.PostWallEffectHandler
 import com.eltex.androidschool.viewmodel.common.SharedViewModel
 
 import com.eltex.androidschool.fragments.events.NewOrUpdateEventFragment
+import com.eltex.androidschool.fragments.jobs.NewOrUpdateJobFragment
 import com.eltex.androidschool.fragments.posts.NewOrUpdatePostFragment
 import com.eltex.androidschool.reducer.posts.PostWallReducer
 import com.eltex.androidschool.repository.events.NetworkEventRepository
+import com.eltex.androidschool.repository.jobs.NetworkJobRepository
 import com.eltex.androidschool.repository.posts.NetworkPostRepository
 import com.eltex.androidschool.repository.users.NetworkUserRepository
 
 import com.eltex.androidschool.ui.common.OffsetDecoration
 import com.eltex.androidschool.ui.events.EventUiModel
+import com.eltex.androidschool.ui.jobs.JobUiModel
 import com.eltex.androidschool.ui.posts.PostUiModel
 import com.eltex.androidschool.ui.posts.PostUiModelMapper
 
 import com.eltex.androidschool.utils.getErrorText
+import com.eltex.androidschool.utils.showMaterialDialogWithTwoButtons
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
 
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
-import com.eltex.androidschool.viewmodel.events.EventWallViewModel
+import com.eltex.androidschool.viewmodel.events.eventwall.EventWallViewModel
 
 import com.eltex.androidschool.viewmodel.events.eventwall.EventWallState
+import com.eltex.androidschool.viewmodel.jobs.jobswall.JobState
+import com.eltex.androidschool.viewmodel.jobs.jobswall.JobViewModel
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallViewModel
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallMessage
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallState
@@ -205,12 +212,24 @@ class UserFragment : Fragment() {
             }
         }
 
+        val jobViewModel by viewModels<JobViewModel> {
+            viewModelFactory {
+                addInitializer(JobViewModel::class) {
+                    JobViewModel(
+                        repository = NetworkJobRepository(),
+                        userId = userId
+                    )
+                }
+            }
+        }
+
         binding.swiperRefresh.setOnRefreshListener {
             loadingDataFromTheViewModel(
                 userId = userId,
                 userViewModel = userViewModel,
                 postViewModel = postViewModel,
-                eventViewModel = eventViewModel
+                eventViewModel = eventViewModel,
+                jobViewModel = jobViewModel
             )
         }
 
@@ -219,7 +238,8 @@ class UserFragment : Fragment() {
                 userId = userId,
                 userViewModel = userViewModel,
                 postViewModel = postViewModel,
-                eventViewModel = eventViewModel
+                eventViewModel = eventViewModel,
+                jobViewModel = jobViewModel
             )
         }
 
@@ -235,11 +255,6 @@ class UserFragment : Fragment() {
             OffsetDecoration(resources.getDimensionPixelSize(R.dimen.list_offset))
         )
 
-        if (userId != BuildConfig.USER_ID) {
-            val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
-            toolbar.title = getString(R.string.profile)
-        }
-
         val postAdapter = PostAdapter(
             listener = object : PostAdapter.PostListener {
                 override fun onLikeClicked(post: PostUiModel) {
@@ -249,7 +264,12 @@ class UserFragment : Fragment() {
                 override fun onShareClicked(post: PostUiModel) {}
 
                 override fun onDeleteClicked(post: PostUiModel) {
-                    postViewModel.accept(message = PostWallMessage.Delete(post = post))
+                    showDeleteConfirmationDialog(
+                        title = getString(R.string.delete_post_title),
+                        message = getString(R.string.delete_post_message)
+                    ) {
+                        postViewModel.accept(message = PostWallMessage.Delete(post = post))
+                    }
                 }
 
                 override fun onUpdateClicked(post: PostUiModel) {
@@ -289,7 +309,12 @@ class UserFragment : Fragment() {
                 }
 
                 override fun onDeleteClicked(event: EventUiModel) {
-                    eventViewModel.deleteById(event.id)
+                    showDeleteConfirmationDialog(
+                        title = getString(R.string.delete_event_title),
+                        message = getString(R.string.delete_event_message)
+                    ) {
+                        eventViewModel.deleteById(event.id)
+                    }
                 }
 
                 override fun onUpdateClicked(event: EventUiModel) {
@@ -316,10 +341,50 @@ class UserFragment : Fragment() {
             currentUserId = BuildConfig.USER_ID
         )
 
+        val jobAdapter = JobAdapter(
+            object : JobAdapter.JobListener {
+                override fun onDeleteClicked(job: JobUiModel) {
+                    showDeleteConfirmationDialog(
+                        title = getString(R.string.delete_job_title),
+                        message = getString(R.string.delete_job_message)
+                    ) {
+                        jobViewModel.deleteById(jobId = job.id)
+                    }
+                }
+
+                override fun onUpdateClicked(job: JobUiModel) {
+                    requireParentFragment().requireParentFragment().findNavController()
+                        .navigate(
+                            R.id.action_BottomNavigationFragment_to_newOrUpdateJobFragment,
+                            bundleOf(
+                                NewOrUpdateJobFragment.JOB_ID to job.id,
+                                NewOrUpdateJobFragment.JOB_NAME to job.name,
+                                NewOrUpdateJobFragment.JOB_POSITION to job.position,
+                                NewOrUpdateJobFragment.JOB_START to job.start,
+                                NewOrUpdateJobFragment.JOB_FINISH to job.finish,
+                                NewOrUpdateJobFragment.JOB_LINK to job.link,
+                                NewOrUpdateJobFragment.IS_UPDATE to true,
+                            ),
+                            NavOptions.Builder()
+                                .setEnterAnim(R.anim.slide_in_right)
+                                .setExitAnim(R.anim.slide_out_left)
+                                .setPopEnterAnim(R.anim.slide_in_left)
+                                .setPopExitAnim(R.anim.slide_out_right)
+                                .build()
+                        )
+                }
+            },
+
+            context = requireContext(),
+            currentUserId = BuildConfig.USER_ID,
+            authorId = userId
+        )
+
         val offset = resources.getDimensionPixelSize(R.dimen.list_offset)
         val pagerAdapter = UserPagerAdapter(
             postAdapter = postAdapter,
             eventAdapter = eventAdapter,
+            jobAdapter = jobAdapter,
             offset = offset,
             adapter = postAdapter,
             viewModel = postViewModel
@@ -331,6 +396,7 @@ class UserFragment : Fragment() {
             tab.text = when (position) {
                 0 -> getString(R.string.posts)
                 1 -> getString(R.string.events)
+                2 -> getString(R.string.jobs)
                 else -> throw IllegalArgumentException("Invalid position: $position")
             }
         }.attach()
@@ -352,6 +418,7 @@ class UserFragment : Fragment() {
                 binding = binding,
                 postViewModel = postViewModel,
                 eventViewModel = eventViewModel,
+                jobViewModel = jobViewModel,
                 userId = userId
             )
         }
@@ -363,6 +430,19 @@ class UserFragment : Fragment() {
                 binding = binding,
                 postViewModel = postViewModel,
                 eventViewModel = eventViewModel,
+                jobViewModel = jobViewModel,
+                userId = userId
+            )
+        }
+
+        requireActivity().supportFragmentManager.setFragmentResultListener(
+            NewOrUpdateJobFragment.JOB_CREATED_OR_UPDATED_KEY, viewLifecycleOwner
+        ) { _, _ ->
+            scrollToTopAndRefresh(
+                binding = binding,
+                postViewModel = postViewModel,
+                eventViewModel = eventViewModel,
+                jobViewModel = jobViewModel,
                 userId = userId
             )
         }
@@ -425,6 +505,13 @@ class UserFragment : Fragment() {
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
+        jobViewModel.state
+            .flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .onEach { stateJob: JobState ->
+                jobAdapter.submitList(stateJob.jobs)
+            }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
         viewLifecycleOwner.lifecycle.addObserver(
             object : LifecycleEventObserver {
                 override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
@@ -448,31 +535,35 @@ class UserFragment : Fragment() {
     }
 
     /**
-     * Загружает данные о пользователе, его постах и событиях из ViewModel.
+     * Загружает данные о пользователе, его постах, событиях и местах работы из ViewModel.
      * Используется для инициализации данных при создании фрагмента или обновлении данных.
      *
      * @param userId Идентификатор пользователя, для которого загружаются данные.
-     * @param userViewModel ViewModel связанная с данными о пользователе.
+     * @param userViewModel ViewModel, связанная с данными о пользователе.
      * @param postViewModel ViewModel для управления постами пользователя.
      * @param eventViewModel ViewModel для управления событиями пользователя.
-     * @param causeVibration Вызов вибрации (По умолчанию = true).
+     * @param jobViewModel ViewModel для управления местами работы пользователя.
+     * @param causeVibration Вызов вибрации (по умолчанию = true).
      *
      * @see UserViewModel.getUserById
-     * @see PostByIdAuthorForUser.loadPostsByAuthor
+     * @see PostWallViewModel.accept
      * @see EventWallViewModel.loadEventsByAuthor
+     * @see JobViewModel.load
      */
     private fun loadingDataFromTheViewModel(
         userId: Long,
         userViewModel: UserViewModel,
         postViewModel: PostWallViewModel,
         eventViewModel: EventWallViewModel,
+        jobViewModel: JobViewModel,
         causeVibration: Boolean = true
     ) {
         if (causeVibration) requireContext().singleVibrationWithSystemCheck(35)
 
-        userViewModel.getUserById(userId)
+        userViewModel.getUserById(userId = userId)
         postViewModel.accept(message = PostWallMessage.Refresh)
-        eventViewModel.loadEventsByAuthor(userId)
+        eventViewModel.loadEventsByAuthor(authorId = userId)
+        jobViewModel.getJobsByUserId(userId = userId)
     }
 
     /**
@@ -574,6 +665,7 @@ class UserFragment : Fragment() {
         binding: FragmentUserBinding,
         postViewModel: PostWallViewModel,
         eventViewModel: EventWallViewModel,
+        jobViewModel: JobViewModel,
         userId: Long
     ) {
         binding.viewPagerPostsAndEvents.currentItem.let { currentItem ->
@@ -588,7 +680,7 @@ class UserFragment : Fragment() {
                 }
 
                 1 -> {
-                    eventViewModel.loadEventsByAuthor(userId)
+                    eventViewModel.loadEventsByAuthor(authorId = userId)
 
                     val eventRecyclerView = binding.viewPagerPostsAndEvents
                         .getChildAt(1)?.findViewById<RecyclerView>(R.id.eventsRecyclerView)
@@ -596,8 +688,42 @@ class UserFragment : Fragment() {
                     eventRecyclerView?.smoothScrollToPosition(0)
                 }
 
+                2 -> {
+                    jobViewModel.getJobsByUserId(userId = userId)
+
+                    val jobRecyclerView = binding.viewPagerPostsAndEvents
+                        .getChildAt(2)?.findViewById<RecyclerView>(R.id.jobsRecyclerView)
+
+                    jobRecyclerView?.smoothScrollToPosition(0)
+                }
+
                 else -> {}
             }
         }
+    }
+
+    /**
+     * Показывает диалоговое окно с подтверждением удаления.
+     *
+     * Эта функция отображает Material 3 диалог с двумя кнопками: "Отмена" и "Удалить".
+     * Кнопка "Отмена" закрывает диалог без выполнения каких-либо действий, а кнопка "Удалить"
+     * вызывает переданный коллбэк `onDeleteConfirmed`, который выполняет удаление.
+     *
+     * @param title Заголовок диалога. Обычно это текст, который кратко описывает действие, например, "Удаление поста".
+     * @param message Основной текст диалога. Это более подробное описание действия, например, "Вы уверены, что хотите удалить этот пост?".
+     * @param onDeleteConfirmed Коллбэк, который вызывается при нажатии на кнопку "Удалить". Этот коллбэк должен содержать логику удаления.
+     *
+     * @see Context.showMaterialDialogWithTwoButtons Функция, которая используется для отображения диалога с двумя кнопками.
+     */
+    private fun showDeleteConfirmationDialog(
+        title: String,
+        message: String,
+        onDeleteConfirmed: () -> Unit
+    ) {
+        requireContext().showMaterialDialogWithTwoButtons(
+            title = title,
+            message = message,
+            onDeleteConfirmed = onDeleteConfirmed
+        )
     }
 }

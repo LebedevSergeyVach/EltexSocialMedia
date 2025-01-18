@@ -33,4 +33,15 @@
     <style name="CustomTextViewStyle">
         <item name="android:textColorHighlight">@color/confetti_blue</item>
     </style>
+
+    <style name="CustomTextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/active_element</item>
+        <item name="hintTextColor">@color/active_element</item>
+        <item name="endIconTint">@color/active_element</item>
+
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+    </style>
 </resources>
