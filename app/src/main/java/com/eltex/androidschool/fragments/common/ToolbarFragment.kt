@@ -3,7 +3,6 @@ package com.eltex.androidschool.fragments.common
 import android.content.Context
 
 import android.os.Bundle
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
 
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -19,6 +19,7 @@ import androidx.navigation.ui.setupWithNavController
 
 import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
+import com.eltex.androidschool.activity.MainActivity
 import com.eltex.androidschool.databinding.FragmentToolbarBinding
 import com.eltex.androidschool.utils.Logger
 import com.eltex.androidschool.utils.toast
@@ -157,6 +158,38 @@ class ToolbarFragment : Fragment() {
             true
         }
 
+        val fragmentToOpen = arguments?.getString(MainActivity.FRAGMENT_TO_OPEN)
+        if (fragmentToOpen != null) {
+            navigateToFragment(navController, fragmentToOpen)
+        }
+
         return binding.root
+    }
+
+    /**
+     * Выполняет навигацию на указанный фрагмент.
+     *
+     * Эта функция определяет, какой фрагмент нужно открыть, и выполняет навигацию через `NavController`.
+     * Поддерживаются переходы на `NewOrUpdatePostFragment` и `NewOrUpdateEventFragment`.
+     *
+     * @param navController Контроллер навигации, используемый для перехода между фрагментами.
+     * @param fragmentName Имя фрагмента, на который нужно перейти. Поддерживаются значения "NewPostFragment" и "NewEventFragment".
+     *
+     * @see NavController Класс для управления навигацией между фрагментами.
+     * @see NewOrUpdatePostFragment Фрагмент для создания или редактирования поста.
+     * @see NewOrUpdateEventFragment Фрагмент для создания или редактирования события.
+     *
+     * @throws IllegalArgumentException Если имя фрагмента не поддерживается.
+     */
+    private fun navigateToFragment(navController: NavController, fragmentName: String) {
+        when (fragmentName) {
+            "NewPostFragment" -> {
+                navController.navigate(R.id.action_BottomNavigationFragment_to_newOrUpdatePostFragment)
+            }
+
+            "NewEventFragment" -> {
+                navController.navigate(R.id.action_BottomNavigationFragment_to_newOrUpdateEventFragment)
+            }
+        }
     }
 }
