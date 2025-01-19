@@ -15,7 +15,13 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+        val fragmentName = intent?.getStringExtra(MainActivity.FRAGMENT)
+
+        val mainIntent = Intent(this@SplashActivity, MainActivity::class.java).apply {
+            putExtra(MainActivity.FRAGMENT, fragmentName)
+        }
+
+        startActivity(mainIntent)
         finish()
     }
 }

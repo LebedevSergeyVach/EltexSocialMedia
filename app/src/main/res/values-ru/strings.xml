@@ -117,4 +117,9 @@
     <string name="no_posts">Постов пока нет</string>
     <string name="no_events">Событий пока нет</string>
     <string name="no_jobs">Информации о работе пока нет</string>
+
+    <string name="new_post_short_label">Новый пост</string>
+    <string name="new_post_long_label">Перейти к созданию нового поста</string>
+    <string name="new_event_short_label">Новое событие</string>
+    <string name="new_event_long_label">Перейти к созданию нового события</string>
 </resources>
