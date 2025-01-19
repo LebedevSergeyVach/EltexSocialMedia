@@ -118,10 +118,8 @@
     <string name="no_events">There are no events yet</string>
     <string name="no_jobs">There is no information about the work yet</string>
 
-    <string name="account_short_label">Аккаунт</string>
-    <string name="account_long_label">Перейти к Вашему аккаунту</string>
-    <string name="new_post_short_label">Новый пост</string>
-    <string name="new_post_long_label">Перейти к созданию нового поста</string>
-    <string name="new_event_short_label">Новое событие</string>
-    <string name="new_event_long_label">Перейти к созданию нового события</string>
+    <string name="new_post_short_label">New post</string>
+    <string name="new_post_long_label">Go to create a new post</string>
+    <string name="new_event_short_label">New event</string>
+    <string name="new_event_long_label">Go to create a new event</string>
 </resources>
