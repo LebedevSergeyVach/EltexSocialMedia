@@ -60,9 +60,9 @@
     <string name="select_date_working_period">Выберите дату периода работы</string>
     <string name="select_working_period">Выберите период работы</string>
     <string name="data_entry_card_title">Информация о компании</string>
-    <string name="data_entry_card_description">Здесь вы можете ввести данные о компании и вашей должности.</string>
+    <string name="data_entry_card_description">Здесь Вам необходимо  ввести данные о компании и вашей должности.</string>
     <string name="working_period_card_title">Период работы</string>
-    <string name="working_period_card_description">Здесь вы можете указать период работы в компании.</string>
+    <string name="working_period_card_description">Здесь Вам необходимо указать период работы в компании.</string>
 
     <string name="delete_post_title">Удаление поста</string>
     <string name="delete_post_message">Вы уверены, что хотите удалить этот пост?</string>
@@ -102,6 +102,12 @@
     <string name="vibration_response_app">Виброотклик приложения</string>
     <string name="vibration_on">Вибрация включена</string>
     <string name="vibration_off">Вибрация отключена</string>
+    <string name="language_in_application_title">Выбор языка приложения</string>
+    <string name="language_in_application_description">Здесь Вы можете выбрать язык приложения из представленных. "Системный язык" - выбрать язык приложения как в системе на устройстве.</string>
+    <string name="theme_in_application_title">Выбор темы приложения</string>
+    <string name="theme_in_application_description">Здесь вы можете выбрать тему приложения из представленных. "Системная тема" - выбрать тему приложения как в системе на устройстве.</string>
+    <string name="vibration_in_application_title">Переключатель вибрации</string>
+    <string name="vibration_in_application_description">Данный переключатель позвоялет включать и отключать виброотклик в приложении от Ваших действий.</string>
 
     <string name="option_switch_title">Переключатель события</string>
     <string name="option_switch_description">Этот переключатель позволяет выбрать, будет ли событие онлайн или оффлайн. Если переключатель включен, событие будет онлайн и Вам необходимо указать ссылку проведения события, иначе — оффлайн и Вам будет необходимо указать адрес проведения события.</string>

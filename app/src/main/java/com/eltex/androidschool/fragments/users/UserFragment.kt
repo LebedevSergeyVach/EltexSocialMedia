@@ -485,7 +485,7 @@ class UserFragment : Fragment() {
                     if (userId != BuildConfig.USER_ID) {
                         val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
 
-                        toolbar.title = user.name + " / " + user.login
+                        toolbar.title = user.login
                     }
                 }
             }

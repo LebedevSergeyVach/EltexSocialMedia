@@ -108,6 +108,17 @@ class NewOrUpdateJobFragment : Fragment() {
             showDateRangePicker(binding)
         }
 
+        binding.buttonSelectDateWorkingPeriod.setOnLongClickListener {
+            requireContext().singleVibrationWithSystemCheck(35)
+
+            displayingDialogWindowWithInformation(
+                title = getString(R.string.working_period_card_title),
+                message = getString(R.string.working_period_card_description)
+            )
+
+            true
+        }
+
         binding.dataEntryCard.setOnLongClickListener {
             displayingDialogWindowWithInformation(
                 title = getString(R.string.data_entry_card_title),

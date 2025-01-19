@@ -19,6 +19,7 @@ import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentSettingsBinding
 import com.eltex.androidschool.utils.Logger
+import com.eltex.androidschool.utils.showMaterialDialog
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 
 import java.util.Locale
@@ -49,12 +50,86 @@ class SettingsFragment : Fragment() {
 
         updateButtonTexts(binding = binding)
 
-        binding.chooseButtonSettingsLanguage.setOnClickListener {
-            showLanguagePopupMenu(it, binding = binding)
+        binding.chooseButtonSettingsLanguage.setOnClickListener { view: View ->
+            showLanguagePopupMenu(view, binding = binding)
         }
 
-        binding.chooseButtonSettingsTheme.setOnClickListener {
-            showThemePopupMenu(it, binding = binding)
+        binding.cardSettingsLanguage.setOnClickListener { view: View ->
+            showLanguagePopupMenu(view, binding = binding)
+        }
+
+        binding.chooseButtonSettingsTheme.setOnClickListener { view: View ->
+            showThemePopupMenu(view, binding = binding)
+        }
+
+        binding.cardSettingsTheme.setOnClickListener { view: View ->
+            showThemePopupMenu(view, binding = binding)
+        }
+
+        binding.cardSettingsLanguage.setOnLongClickListener {
+            requireContext().singleVibrationWithSystemCheck(35)
+
+            displayingDialogWindowWithInformation(
+                title = getString(R.string.language_in_application_title),
+                message = getString(R.string.language_in_application_description)
+            )
+
+            true
+        }
+
+        binding.chooseButtonSettingsLanguage.setOnLongClickListener {
+            requireContext().singleVibrationWithSystemCheck(35)
+
+            displayingDialogWindowWithInformation(
+                title = getString(R.string.language_in_application_title),
+                message = getString(R.string.language_in_application_description)
+            )
+
+            true
+        }
+
+        binding.chooseButtonSettingsTheme.setOnLongClickListener {
+            requireContext().singleVibrationWithSystemCheck(35)
+
+            displayingDialogWindowWithInformation(
+                title = getString(R.string.theme_in_application_title),
+                message = getString(R.string.theme_in_application_description)
+            )
+
+            true
+        }
+
+        binding.cardSettingsTheme.setOnLongClickListener {
+            requireContext().singleVibrationWithSystemCheck(35)
+
+            displayingDialogWindowWithInformation(
+                title = getString(R.string.theme_in_application_title),
+                message = getString(R.string.theme_in_application_description)
+            )
+
+            true
+        }
+
+        binding.cardSettingsVibration.setOnLongClickListener {
+            requireContext().singleVibrationWithSystemCheck(35)
+
+            displayingDialogWindowWithInformation(
+                title = getString(R.string.vibration_in_application_title),
+                message = getString(R.string.vibration_in_application_description)
+            )
+
+            true
+        }
+
+        binding.vibrationOptionSwitch.setOnLongClickListener {
+            requireContext().singleVibrationWithSystemCheck(35)
+
+            displayingDialogWindowWithInformation(
+                title = getString(R.string.vibration_in_application_title),
+                message = getString(R.string.vibration_in_application_description)
+            )
+
+            true
         }
 
         binding.textVersionApplication.text = getAppVersionName(requireContext())
@@ -287,5 +362,24 @@ class SettingsFragment : Fragment() {
                     .start()
             }
             .start()
+    }
+
+    /**
+     * Показывает всплывающее диалоговое информационное окно.
+     *
+     * @param title - Заголовок диалога.
+     * @param message - Основной текст диалога.
+     * @param buttonText - Текст кнопки (по умолчанию "Спасибо").
+     */
+    private fun displayingDialogWindowWithInformation(
+        title: String,
+        message: String,
+        buttonText: String = getString(R.string.thanks)
+    ) {
+        requireContext().showMaterialDialog(
+            title = title,
+            message = message,
+            buttonText = buttonText
+        )
     }
 }

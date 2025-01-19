@@ -60,9 +60,9 @@
     <string name="select_date_working_period">Select date working period</string>
     <string name="select_working_period">Select the period of operation</string>
     <string name="data_entry_card_title">Company Information</string>
-    <string name="data_entry_card_description">Here you can enter information about the company and your position.</string>
+    <string name="data_entry_card_description">Here you need to enter information about the company and your position.</string>
     <string name="working_period_card_title">Working period</string>
-    <string name="working_period_card_description">Here you can specify the period of work in the company.</string>
+    <string name="working_period_card_description">Here you need to specify the period of work in the company.</string>
 
     <string name="delete_post_title">Deleting a post</string>
     <string name="delete_post_message">Are you sure you want to delete this post?</string>
@@ -102,6 +102,12 @@
     <string name="vibration_response_app">Vibration response app</string>
     <string name="vibration_on">Vibration is enabled</string>
     <string name="vibration_off">Vibration is turned off</string>
+    <string name="language_in_application_title">Choosing the application language</string>
+    <string name="language_in_application_description">Here you can choose the language of the application from the ones presented. "System language" - select the language of the application as in the system on the device.</string>
+    <string name="theme_in_application_title">Choosing an application theme</string>
+    <string name="theme_in_application_description">Here you can choose an application theme from the ones presented. "System theme" - select the theme of the application as in the system on the device.</string>
+    <string name="vibration_in_application_title">Vibration switch</string>
+    <string name="vibration_in_application_description">This switch allows you to turn on and off the vibration response in the app based on your actions.</string>
 
     <string name="option_switch_title">Event Switch</string>
     <string name="option_switch_description">This switch allows you to select whether the event will be online or offline. If the switch is on, the event will be online and you will need to specify the event link, otherwise it will be offline and you will need to specify the event address.</string>
