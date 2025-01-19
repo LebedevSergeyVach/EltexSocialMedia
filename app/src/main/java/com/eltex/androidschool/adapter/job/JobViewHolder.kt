@@ -49,5 +49,6 @@ class JobViewHolder(
         binding.link.text = job.link
 
         binding.delete.isVisible = currentUserId == authorId
+        binding.update.isVisible = currentUserId == authorId
     }
 }
