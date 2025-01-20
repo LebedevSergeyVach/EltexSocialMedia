@@ -67,8 +67,6 @@ class SettingsFragment : Fragment() {
         }
 
         binding.cardSettingsLanguage.setOnLongClickListener {
-            requireContext().singleVibrationWithSystemCheck(35)
-
             displayingDialogWindowWithInformation(
                 title = getString(R.string.language_in_application_title),
                 message = getString(R.string.language_in_application_description)
@@ -78,8 +76,6 @@ class SettingsFragment : Fragment() {
         }
 
         binding.chooseButtonSettingsLanguage.setOnLongClickListener {
-            requireContext().singleVibrationWithSystemCheck(35)
-
             displayingDialogWindowWithInformation(
                 title = getString(R.string.language_in_application_title),
                 message = getString(R.string.language_in_application_description)
@@ -89,8 +85,6 @@ class SettingsFragment : Fragment() {
         }
 
         binding.chooseButtonSettingsTheme.setOnLongClickListener {
-            requireContext().singleVibrationWithSystemCheck(35)
-
             displayingDialogWindowWithInformation(
                 title = getString(R.string.theme_in_application_title),
                 message = getString(R.string.theme_in_application_description)
@@ -100,8 +94,6 @@ class SettingsFragment : Fragment() {
         }
 
         binding.cardSettingsTheme.setOnLongClickListener {
-            requireContext().singleVibrationWithSystemCheck(35)
-
             displayingDialogWindowWithInformation(
                 title = getString(R.string.theme_in_application_title),
                 message = getString(R.string.theme_in_application_description)
@@ -111,8 +103,6 @@ class SettingsFragment : Fragment() {
         }
 
         binding.cardSettingsVibration.setOnLongClickListener {
-            requireContext().singleVibrationWithSystemCheck(35)
-
             displayingDialogWindowWithInformation(
                 title = getString(R.string.vibration_in_application_title),
                 message = getString(R.string.vibration_in_application_description)
@@ -122,8 +112,6 @@ class SettingsFragment : Fragment() {
         }
 
         binding.vibrationOptionSwitch.setOnLongClickListener {
-            requireContext().singleVibrationWithSystemCheck(35)
-
             displayingDialogWindowWithInformation(
                 title = getString(R.string.vibration_in_application_title),
                 message = getString(R.string.vibration_in_application_description)
