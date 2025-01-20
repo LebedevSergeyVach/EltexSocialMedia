@@ -109,8 +109,6 @@ class NewOrUpdateJobFragment : Fragment() {
         }
 
         binding.buttonSelectDateWorkingPeriod.setOnLongClickListener {
-            requireContext().singleVibrationWithSystemCheck(35)
-
             displayingDialogWindowWithInformation(
                 title = getString(R.string.working_period_card_title),
                 message = getString(R.string.working_period_card_description)
