@@ -44,8 +44,6 @@ class MainActivity : AppCompatActivity(R.layout.main_activity) {
             sharedPreferences.getInt("Theme", AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
         AppCompatDelegate.setDefaultNightMode(themeMode)
 
-        handleShortcut(intent)
-
         enableEdgeToEdge()
         EdgeToEdgeHelper.applyingIndentationOfSystemFields(findViewById(android.R.id.content))
     }
@@ -104,30 +102,5 @@ class MainActivity : AppCompatActivity(R.layout.main_activity) {
         }
 
         super.attachBaseContext(LocaleContextWrapper.wrap(newBase, locale))
-    }
-
-    /**
-     * Обрабатывает быстрые действия (shortcuts) для открытия определенного фрагмента.
-     *
-     * Эта функция извлекает имя фрагмента из Intent и создает экземпляр `ToolbarFragment` с переданными аргументами.
-     * Затем фрагмент заменяется в контейнере активности.
-     *
-     * @param intent Intent, содержащий данные о быстром действии. Может быть null.
-     *
-     * @see Intent Класс для передачи данных между компонентами приложения.
-     * @see ToolbarFragment Фрагмент, который будет открыт.
-     * @see FragmentTransaction Класс для управления транзакциями фрагментов.
-     */
-    private fun handleShortcut(intent: Intent?) {
-        val fragmentName = intent?.getStringExtra(FRAGMENT)
-        val fragment = ToolbarFragment().apply {
-            arguments = Bundle().apply {
-                putString(FRAGMENT_TO_OPEN, fragmentName)
-            }
-        }
-
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.container, fragment)
-            .commit()
     }
 }
