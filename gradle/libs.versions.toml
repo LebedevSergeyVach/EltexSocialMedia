@@ -33,6 +33,7 @@ roomRuntime = "2.6.1"
 rxjava = "3.1.8"
 rxandroid = "3.0.2"
 rxkotlin = "3.0.1"
+skeletonlayout = "5.0.0"
 swiperefreshlayout = "1.2.0-alpha01"
 uiToolingPreviewAndroid = "1.7.6"
 activityVersion = "1.9.3"
@@ -86,6 +87,7 @@ retrofit2-kotlinx-serialization-converter = { module = "com.jakewharton.retrofit
 rxandroid = { module = "io.reactivex.rxjava3:rxandroid", version.ref = "rxandroid" }
 rxjava = { module = "io.reactivex.rxjava3:rxjava", version.ref = "rxjava" }
 rxkotlin = { module = "io.reactivex.rxjava3:rxkotlin", version.ref = "rxkotlin" }
+skeletonlayout = { module = "com.faltenreich:skeletonlayout", version.ref = "skeletonlayout" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

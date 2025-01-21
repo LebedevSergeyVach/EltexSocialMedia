@@ -15,9 +15,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="12dp"
         android:layout_marginEnd="0dp"
-        android:layout_marginBottom="16dp"
-
-        tools:context=".activity.SplashActivity">
+        android:layout_marginBottom="16dp">
 
         <ImageView
             android:id="@+id/avatar"
@@ -67,7 +65,6 @@
             app:layout_constraintTop_toTopOf="parent"
 
             tools:text="@tools:sample/lorem[20]" />
-
 
         <TextView
             android:id="@+id/published"

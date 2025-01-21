@@ -36,7 +36,8 @@ import com.eltex.androidschool.utils.toast
  */
 @SuppressLint("ClickableViewAccessibility")
 class PostViewHolder(
-    private val binding: CardPostBinding, private val context: Context
+    private val binding: CardPostBinding,
+    private val context: Context
 ) : ViewHolder(binding.root) {
     private var lastClickTime: Long = 0
 

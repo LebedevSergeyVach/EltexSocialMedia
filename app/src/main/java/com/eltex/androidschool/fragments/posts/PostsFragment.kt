@@ -38,6 +38,7 @@ import com.eltex.androidschool.fragments.users.UserFragment
 import com.eltex.androidschool.reducer.posts.PostReducer
 
 import com.eltex.androidschool.repository.posts.NetworkPostRepository
+import com.eltex.androidschool.ui.posts.PostPagingMapper
 
 import com.eltex.androidschool.ui.posts.PostUiModel
 import com.eltex.androidschool.ui.posts.PostUiModelMapper
@@ -233,7 +234,6 @@ class PostsFragment : Fragment() {
                 binding.errorText.text = errorText
 
                 binding.progressBar.isVisible = postState.isEmptyLoading
-                binding.progressLiner.isVisible = postState.isEmptyLoading
 
                 binding.swiperRefresh.isRefreshing = postState.isRefreshing
 
@@ -246,7 +246,7 @@ class PostsFragment : Fragment() {
                     viewModel.accept(message = PostMessage.HandleError)
                 }
 
-                adapter.submitList(postState.posts)
+                adapter.submitList(PostPagingMapper.map(postState))
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 

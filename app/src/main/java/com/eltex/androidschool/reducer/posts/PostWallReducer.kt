@@ -24,11 +24,11 @@ class PostWallReducer(
     private val userId: Long
 ) : Reducer<PostWallState, PostWallEffect, PostWallMessage> {
 
-    private companion object {
+    companion object {
         /**
          * Размер страницы для пагинации. Определяет, сколько постов загружается за один запрос.
          */
-        private const val PAGE_SIZE: Int = 5
+        const val PAGE_SIZE: Int = 5
     }
 
     /**
@@ -82,7 +82,7 @@ class PostWallReducer(
                         if (old.posts.isNotEmpty()) {
                             old.copy(
                                 singleError = messageResult.value,
-                                statusPost = PostStatus.Idle
+                                statusPost = PostStatus.Idle()
                             )
                         } else {
                             old.copy(
@@ -93,7 +93,7 @@ class PostWallReducer(
 
                     is Either.Right -> old.copy(
                         posts = messageResult.value,
-                        statusPost = PostStatus.Idle,
+                        statusPost = PostStatus.Idle(),
                     )
                 }
             )
@@ -149,30 +149,50 @@ class PostWallReducer(
                 }
             )
 
-            PostWallMessage.LoadNextPage -> ReducerResult(
-                newState = old.copy(
-                    statusPost = PostStatus.NextPageLoading
-                ),
+            PostWallMessage.LoadNextPage -> {
+                val loadingFinished: Boolean =
+                    (old.statusPost as? PostStatus.Idle)?.loadingFinished == true
 
-                action = PostWallEffect.LoadNextPage(
-                    authorId = userId,
-                    id = old.posts.last().id,
-                    count = PAGE_SIZE
+                val status: PostStatus = if (loadingFinished) {
+                    old.statusPost
+                } else {
+                    PostStatus.NextPageLoading
+                }
+
+                val effect: PostWallEffect.LoadNextPage? = if (loadingFinished) {
+                    null
+                } else {
+                    PostWallEffect.LoadNextPage(
+                        authorId = userId,
+                        id = old.posts.last().id,
+                        count = PAGE_SIZE
+                    )
+                }
+
+                ReducerResult(
+                    newState = old.copy(
+                        statusPost = status
+                    ),
+
+                    action = effect
                 )
-            )
+            }
 
             is PostWallMessage.NextPageLoaded -> ReducerResult(
                 newState = when (val messageResult = message.result) {
-                    is Either.Left -> {
+                    is Either.Right -> {
+                        val postUiModels: List<PostUiModel> = messageResult.value
+                        val loadingFinished: Boolean = postUiModels.size < PAGE_SIZE
+
                         old.copy(
-                            statusPost = PostStatus.NextPageError(reason = messageResult.value)
+                            statusPost = PostStatus.Idle(loadingFinished = loadingFinished),
+                            posts = old.posts + postUiModels
                         )
                     }
 
-                    is Either.Right -> {
+                    is Either.Left -> {
                         old.copy(
-                            statusPost = PostStatus.Idle,
-                            posts = old.posts + messageResult.value
+                            statusPost = PostStatus.NextPageError(reason = messageResult.value)
                         )
                     }
                 }

@@ -12,7 +12,7 @@ import com.eltex.androidschool.ui.posts.PostUiModel
  */
 data class PostState(
     val posts: List<PostUiModel> = emptyList(),
-    val statusPost: PostStatus = PostStatus.Idle,
+    val statusPost: PostStatus = PostStatus.Idle(),
     val singleError: Throwable? = null,
 ) {
 

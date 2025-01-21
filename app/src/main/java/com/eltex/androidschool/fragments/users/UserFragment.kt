@@ -55,6 +55,7 @@ import com.eltex.androidschool.repository.users.NetworkUserRepository
 import com.eltex.androidschool.ui.common.OffsetDecoration
 import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.ui.jobs.JobUiModel
+import com.eltex.androidschool.ui.posts.PostPagingMapper
 import com.eltex.androidschool.ui.posts.PostUiModel
 import com.eltex.androidschool.ui.posts.PostUiModelMapper
 
@@ -451,7 +452,6 @@ class UserFragment : Fragment() {
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { userState: UserState ->
                 binding.progressBar.isVisible = userState.isEmptyLoading
-                binding.progressLiner.isVisible = userState.isEmptyLoading
                 binding.swiperRefresh.isRefreshing = userState.isRefreshing
                 binding.errorGroup.isVisible = userState.isEmptyError
 
@@ -494,7 +494,7 @@ class UserFragment : Fragment() {
         postViewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { postState: PostWallState ->
-                postAdapter.submitList(postState.posts)
+                postAdapter.submitList(PostPagingMapper.map(postState))
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 

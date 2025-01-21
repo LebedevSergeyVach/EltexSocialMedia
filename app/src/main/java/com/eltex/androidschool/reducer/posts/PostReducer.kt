@@ -81,7 +81,7 @@ class PostReducer : Reducer<PostState, PostEffect, PostMessage> {
                         if (old.posts.isNotEmpty()) {
                             old.copy(
                                 singleError = messageResult.value,
-                                statusPost = PostStatus.Idle
+                                statusPost = PostStatus.Idle(),
                             )
                         } else {
                             old.copy(
@@ -92,7 +92,7 @@ class PostReducer : Reducer<PostState, PostEffect, PostMessage> {
 
                     is Either.Right -> old.copy(
                         posts = messageResult.value,
-                        statusPost = PostStatus.Idle,
+                        statusPost = PostStatus.Idle(),
                     )
                 }
             )
@@ -149,29 +149,49 @@ class PostReducer : Reducer<PostState, PostEffect, PostMessage> {
                 }
             )
 
-            PostMessage.LoadNextPage -> ReducerResult(
-                newState = old.copy(
-                    statusPost = PostStatus.NextPageLoading
-                ),
+            PostMessage.LoadNextPage -> {
+                val loadingFinished: Boolean =
+                    (old.statusPost as? PostStatus.Idle)?.loadingFinished == true
 
-                action = PostEffect.LoadNextPage(
-                    id = old.posts.last().id,
-                    count = PAGE_SIZE
+                val status: PostStatus = if (loadingFinished) {
+                    old.statusPost
+                } else {
+                    PostStatus.NextPageLoading
+                }
+
+                val effect: PostEffect.LoadNextPage? = if (loadingFinished) {
+                    null
+                } else {
+                    PostEffect.LoadNextPage(
+                        id = old.posts.last().id,
+                        count = PAGE_SIZE
+                    )
+                }
+
+                ReducerResult(
+                    newState = old.copy(
+                        statusPost = status
+                    ),
+
+                    action = effect
                 )
-            )
+            }
 
             is PostMessage.NextPageLoaded -> ReducerResult(
                 newState = when (val messageResult = message.result) {
-                    is Either.Left -> {
+                    is Either.Right -> {
+                        val postUiModels: List<PostUiModel> = messageResult.value
+                        val loadingFinished: Boolean = postUiModels.size < PAGE_SIZE
+
                         old.copy(
-                            statusPost = PostStatus.NextPageError(reason = messageResult.value)
+                            statusPost = PostStatus.Idle(loadingFinished = loadingFinished),
+                            posts = old.posts + messageResult.value
                         )
                     }
 
-                    is Either.Right -> {
+                    is Either.Left -> {
                         old.copy(
-                            statusPost = PostStatus.Idle,
-                            posts = old.posts + messageResult.value
+                            statusPost = PostStatus.NextPageError(reason = messageResult.value)
                         )
                     }
                 }

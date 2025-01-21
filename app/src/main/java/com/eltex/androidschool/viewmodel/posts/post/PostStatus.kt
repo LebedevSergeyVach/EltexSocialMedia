@@ -10,7 +10,7 @@ sealed interface PostStatus {
     /**
      * Состояние, когда загрузка не выполняется и нет активных операций.
      */
-    data object Idle : PostStatus
+    data class Idle(val loadingFinished: Boolean = false) : PostStatus
 
     /**
      * Состояние, когда выполняется обновление списка постов (например, при pull-to-refresh).

@@ -238,7 +238,6 @@ class EventsFragment : Fragment() {
                 binding.errorText.text = errorText
 
                 binding.progressBar.isVisible = eventState.isEmptyLoading
-                binding.progressLiner.isVisible = eventState.isEmptyLoading
 
                 binding.swiperRefresh.isRefreshing = eventState.isRefreshing
 

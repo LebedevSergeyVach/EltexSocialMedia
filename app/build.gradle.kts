@@ -20,7 +20,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 1
-        versionName = "0.15.2"
+        versionName = "0.16.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -214,8 +214,6 @@ dependencies {
     testImplementation(libs.kotlinx.coroutines.test)
 
     /**
-     *
-     *
      * The perfect companion
      * for your Kotlin journey
      * Inspired by functional, data-oriented
@@ -226,4 +224,11 @@ dependencies {
      * implementation("io.arrow-kt:arrow-fx-coroutines:1.2.4")
      */
     implementation(libs.arrow.core)
+
+    /**
+     * SkeletonLayout
+     *
+     * https://github.com/Faltenreich/SkeletonLayout
+     */
+    implementation(libs.skeletonlayout)
 }

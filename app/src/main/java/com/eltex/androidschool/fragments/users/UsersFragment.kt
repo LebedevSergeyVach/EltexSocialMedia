@@ -155,7 +155,6 @@ class UsersFragment : Fragment() {
                 binding.errorText.text = errorText
 
                 binding.progressBar.isVisible = stateUsers.isEmptyLoading
-                binding.progressLiner.isVisible = stateUsers.isEmptyLoading
 
                 binding.swiperRefresh.isRefreshing = stateUsers.isRefreshing
 
