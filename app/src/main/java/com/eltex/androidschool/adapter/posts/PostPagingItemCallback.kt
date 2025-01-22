@@ -49,17 +49,8 @@ class PostPagingItemCallback : DiffUtil.ItemCallback<PostPagingModel>() {
      *
      * @return Boolean true, если данные элементов одинаковы, иначе false.
      */
-    override fun areContentsTheSame(oldItem: PostPagingModel, newItem: PostPagingModel): Boolean {
-        if (oldItem::class != newItem::class) {
-            return false
-        }
-
-        return if (oldItem is PagingModel.Data && newItem is PagingModel.Data) {
-            delegate.areItemsTheSame(oldItem.value, newItem.value)
-        } else {
-            oldItem == newItem
-        }
-    }
+    override fun areContentsTheSame(oldItem: PostPagingModel, newItem: PostPagingModel): Boolean =
+        oldItem == newItem
 
     /**
      * Возвращает объект, содержащий изменения в элементе.
