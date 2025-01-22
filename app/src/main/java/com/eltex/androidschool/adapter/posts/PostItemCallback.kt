@@ -6,6 +6,7 @@ import com.eltex.androidschool.ui.posts.PostUiModel
 
 /**
  * Callback для сравнения элементов списка постов.
+ * Используется для определения изменений в списке постов и оптимизации обновлений RecyclerView.
  *
  * @see DiffUtil.ItemCallback Базовый класс для сравнения элементов списка.
  */

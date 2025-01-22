@@ -68,6 +68,11 @@ git clone https://github.com/LebedevSergeyVach/EltexSocialMedia.git
 - Поддержка модульной архитектуры для упрощения тестирования отдельных компонентов.
 - Использование **[JUnit](https://junit.org/junit5/)** для модульного тестирования и **[Espresso](https://developer.android.com/training/testing/espresso)** для UI-тестирования.
 
+### 7. **Отображение скелетонов**
+- Использование библиотеки **[SkeletonLayout](https://github.com/Faltenreich/SkeletonLayout)** для отображения анимированных заглушек (скелетонов) во время загрузки данных.
+- Скелетоны помогают улучшить пользовательский опыт, показывая, что данные загружаются, и предотвращая "мерцание" интерфейса.
+- Библиотека поддерживает настройку цвета анимации, фона и других параметров для создания адаптивных скелетонов.
+
 ---
 
 ## 🏗️ Архитектуры в проекте: MVVM и MVI
@@ -211,68 +216,76 @@ git clone https://github.com/LebedevSergeyVach/EltexSocialMedia.git
   implementation(libs.retrofit)
   implementation(libs.retrofit2.kotlinx.serialization.converter)
   ```
-  [Документация](https://square.github.io/retrofit/)
+  [**Документация**](https://square.github.io/retrofit/)
 - **OkHttp**: Клиент для работы с HTTP-запросами.
   ```kotlin
   implementation(platform(libs.okhttp.bom))
   implementation(libs.okhttp)
   implementation(libs.logging.interceptor)
   ```
-  [Документация](https://square.github.io/okhttp/)
+  [**Документация**](https://square.github.io/okhttp/)
 
 ### 4. **Асинхронные операции**
 - **Coroutines**: Упрощение работы с асинхронными операциями.
   ```kotlin
   testImplementation(libs.kotlinx.coroutines.test)
   ```
-  [Документация](https://kotlinlang.org/docs/coroutines-overview.html)
+  [**Документация**](https://kotlinlang.org/docs/coroutines-overview.html)
 
 ### 5. **UI и анимации**
 - **ViewParticleEmitter**: Анимации для создания эффектов.
   ```kotlin
   implementation(libs.confetti)
   ```
-  [Документация](https://github.com/jinatonic/confetti)
+  [**Документация**](https://github.com/jinatonic/confetti)
+
 - **SplashScreen**: Поддержка экрана загрузки.
   ```kotlin
   implementation(libs.androidx.core.splashscreen)
   ```
-  [Документация](https://developer.android.com/guide/topics/ui/splash-screen)
+  [**Документация**](https://developer.android.com/guide/topics/ui/splash-screen)
+
 - **SwipeRefreshLayout**: Поддержка "pull-to-refresh" для обновления данных.
   ```kotlin
   implementation(libs.androidx.swiperefreshlayout)
   ```
-  [Документация](https://developer.android.com/reference/androidx/swiperefreshlayout/widget/SwipeRefreshLayout)
+  [**Документация**](https://developer.android.com/reference/androidx/swiperefreshlayout/widget/SwipeRefreshLayout)
+
+- **SkeletonLayout**: Библиотека для отображения скелетонов (заглушек) во время загрузки данных.
+    ```kotlin
+        implementation(libs.skeletonlayout))
+    ```
+  [**Документация**](https://github.com/Faltenreich/SkeletonLayout)
 
 ### 6. **Тестирование**
 - **JUnit**: Фреймворк для модульного тестирования.
   ```kotlin
   testImplementation(libs.junit)
   ```
-  [Документация](https://junit.org/junit5/)
+  [**Документация**](https://junit.org/junit5/)
 - **AndroidX Test**: Инструменты для тестирования Android-приложений.
   ```kotlin
   androidTestImplementation(libs.androidx.junit)
   androidTestImplementation(libs.androidx.espresso.core)
   ```
-  [Документация](https://developer.android.com/training/testing)
+  [**Документация**](https://developer.android.com/training/testing)
 
 ### 7. **Прочие зависимости**
 - **Protobuf**: Сериализация данных для хранения и передачи.
   ```kotlin
   implementation(libs.protobuf.javalite)
   ```
-  [Документация](https://developers.google.com/protocol-buffers)
+  [**Документация**](https://developers.google.com/protocol-buffers)
 - **Kotlin Serialization**: Сериализация данных в формате JSON.
   ```kotlin
   implementation(libs.kotlinx.serialization.json)
   ```
-  [Документация](https://github.com/Kotlin/kotlinx.serialization)
+  [**Документация**](https://github.com/Kotlin/kotlinx.serialization)
 - **Desugaring**: Поддержка Java 8 API на старых версиях Android.
   ```kotlin
   coreLibraryDesugaring(libs.desugar.jdk.libs)
   ```
-  [Документация](https://developer.android.com/studio/write/java8-support)
+  [**Документация**](https://developer.android.com/studio/write/java8-support)
 
 ---
 
@@ -284,6 +297,7 @@ git clone https://github.com/LebedevSergeyVach/EltexSocialMedia.git
 - **DataStore**: Хранение ключевых данных и настроек.
 - **Coroutines**: Упрощение работы с асинхронными операциями.
 - **Material Design**: Компоненты для создания современного интерфейса.
+- **SkeletonLayout**: Библиотека для отображения скелетонов во время загрузки данных.
 
 ---
 

@@ -9,7 +9,7 @@ sealed interface EventStatus {
     /**
      * Состояние, когда загрузка не выполняется и нет активных операций.
      */
-    data object Idle : EventStatus
+    data class Idle(val loadingFinished: Boolean = false) : EventStatus
 
     /**
      * Состояние, когда выполняется обновление списка событий (например, при pull-to-refresh).

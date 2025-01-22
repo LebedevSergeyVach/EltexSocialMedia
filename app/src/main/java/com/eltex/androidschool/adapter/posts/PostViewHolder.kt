@@ -28,15 +28,20 @@ import com.eltex.androidschool.utils.toast
 
 /**
  * ViewHolder для отображения элемента списка постов.
+ * Этот класс отвечает за привязку данных поста к элементам пользовательского интерфейса.
  *
  * @param binding Binding для макета элемента списка.
  * @param context Контекст приложения.
+ *
+ * @property binding Привязка к макету `CardPostBinding`, который содержит UI для отображения поста.
+ * @property context Контекст приложения.
  *
  * @see PostAdapter Адаптер, использующий этот ViewHolder.
  */
 @SuppressLint("ClickableViewAccessibility")
 class PostViewHolder(
-    private val binding: CardPostBinding, private val context: Context
+    private val binding: CardPostBinding,
+    private val context: Context
 ) : ViewHolder(binding.root) {
     private var lastClickTime: Long = 0
 
@@ -61,6 +66,7 @@ class PostViewHolder(
      * Привязывает данные поста к элементам пользовательского интерфейса.
      *
      * @param post Пост, данные которого нужно отобразить.
+     * @param currentUserId ID текущего пользователя для определения прав на редактирование поста.
      */
     @SuppressLint("SetTextI18n")
     fun bindPost(post: PostUiModel, currentUserId: Long) {
@@ -90,17 +96,10 @@ class PostViewHolder(
      * Отправляет пост через сторонние приложения, поддерживающие обмен текстом.
      *
      * Этот метод создает интент для отправки текста поста (автор, дата публикации и содержимое) через любое приложение,
-     * которое поддерживает действие `Intent.ACTION_SEND`. Если подходящее приложение не найдено, пользователю будет показано
-     * соответствующее уведомление. После успешного запуска интента выполняется анимация кнопки "поделиться" с эффектом конфетти
-     * и вибрацией.
+     * которое поддерживает действие `Intent.ACTION_SEND`.
      *
      * @param post Объект `PostUiModel`, содержащий данные поста, которые будут переданы в интент. Включает автора, дату публикации
      *             и содержимое поста.
-     *
-     * @see Intent.ACTION_SEND Стандартное действие для отправки данных через другие приложения.
-     * @see Intent.createChooser Создает диалог выбора приложения для отправки данных.
-     * @see runCatching Обрабатывает возможные исключения при запуске интента.
-     * @see buttonClickAnimation Выполняет анимацию кнопки с эффектом конфетти и вибрацией.
      */
     private fun sharePost(post: PostUiModel) {
         context.toast(R.string.shared)
