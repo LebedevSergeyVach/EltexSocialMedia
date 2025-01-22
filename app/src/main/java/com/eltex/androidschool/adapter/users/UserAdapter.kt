@@ -57,7 +57,7 @@ class UserAdapter(
         )
 
         binding.cardUser.setOnClickListener {
-            listener.onGetUserClicked(getItem(viewHolder.adapterPosition))
+            listener.onGetUserClicked(getItem(viewHolder.bindingAdapterPosition))
         }
 
         return viewHolder

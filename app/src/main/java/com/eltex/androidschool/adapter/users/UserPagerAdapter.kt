@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.eltex.androidschool.adapter.events.EventAdapter
 import com.eltex.androidschool.adapter.job.JobAdapter
 import com.eltex.androidschool.adapter.posts.PostAdapter
-
 import com.eltex.androidschool.databinding.LayoutPostListBinding
 import com.eltex.androidschool.databinding.LayoutEventListBinding
 import com.eltex.androidschool.databinding.LayoutJobListBinding
@@ -34,7 +33,6 @@ class UserPagerAdapter(
     private val eventAdapter: EventAdapter,
     private val jobAdapter: JobAdapter,
     private val offset: Int,
-    private val adapter: PostAdapter,
     private val viewModel: PostWallViewModel,
 ) : RecyclerView.Adapter<UserPagerAdapter.ViewHolder>() {
 
@@ -64,10 +62,14 @@ class UserPagerAdapter(
                     false
                 )
 
+                binding.postsRecyclerView.adapter = postAdapter
+                binding.postsRecyclerView.layoutManager = LinearLayoutManager(parent.context)
+                binding.postsRecyclerView.addItemDecoration(OffsetDecoration(offset))
+
                 binding.postsRecyclerView.addOnChildAttachStateChangeListener(
                     object : RecyclerView.OnChildAttachStateChangeListener {
                         override fun onChildViewAttachedToWindow(view: View) {
-                            val itemsCount = adapter.itemCount
+                            val itemsCount = postAdapter.itemCount
                             val adapterPosition =
                                 binding.postsRecyclerView.getChildAdapterPosition(view)
 
@@ -80,12 +82,7 @@ class UserPagerAdapter(
                     }
                 )
 
-                binding.postsRecyclerView.adapter = postAdapter
-                binding.postsRecyclerView.layoutManager = LinearLayoutManager(parent.context)
-                binding.postsRecyclerView.addItemDecoration(OffsetDecoration(offset))
-
-                postAdapter.registerAdapterDataObserver(object :
-                    RecyclerView.AdapterDataObserver() {
+                postAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
                     override fun onChanged() {
                         checkIfEmpty(binding)
                     }
@@ -102,7 +99,6 @@ class UserPagerAdapter(
                 checkIfEmpty(binding)
 
                 ViewHolder(binding.root)
-
             }
 
             1 -> {
@@ -111,12 +107,12 @@ class UserPagerAdapter(
                     parent,
                     false
                 )
+
                 binding.eventsRecyclerView.adapter = eventAdapter
                 binding.eventsRecyclerView.layoutManager = LinearLayoutManager(parent.context)
                 binding.eventsRecyclerView.addItemDecoration(OffsetDecoration(offset))
 
-                eventAdapter.registerAdapterDataObserver(object :
-                    RecyclerView.AdapterDataObserver() {
+                eventAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
                     override fun onChanged() {
                         checkIfEmpty(binding)
                     }
@@ -146,8 +142,7 @@ class UserPagerAdapter(
                 binding.jobsRecyclerView.layoutManager = LinearLayoutManager(parent.context)
                 binding.jobsRecyclerView.addItemDecoration(OffsetDecoration(offset))
 
-                jobAdapter.registerAdapterDataObserver(object  :
-                RecyclerView.AdapterDataObserver() {
+                jobAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
                     override fun onChanged() {
                         checkIfEmpty(binding)
                     }
@@ -172,87 +167,35 @@ class UserPagerAdapter(
 
     /**
      * Проверяет, пуст ли список постов, и управляет видимостью `RecyclerView` и `TextView` с сообщением "Постов пока нет".
-     * Добавляет анимацию для плавного перехода между состояниями.
      *
      * @param binding Привязка для макета списка постов.
-     * @see RecyclerView.AdapterDataObserver
      */
     private fun checkIfEmpty(binding: LayoutPostListBinding) {
         val isEmpty = postAdapter.itemCount == 0
 
         if (isEmpty) {
             binding.emptyPostsText.visibility = View.VISIBLE
-            binding.emptyPostsText.alpha = 0f
-            binding.emptyPostsText.animate()
-                .alpha(1f)
-                .setDuration(300)
-                .start()
-
-            binding.postsRecyclerView.animate()
-                .alpha(0f)
-                .setDuration(300)
-                .withEndAction {
-                    binding.postsRecyclerView.visibility = View.GONE
-                }
-                .start()
+            binding.postsRecyclerView.visibility = View.GONE
         } else {
+            binding.emptyPostsText.visibility = View.GONE
             binding.postsRecyclerView.visibility = View.VISIBLE
-            binding.postsRecyclerView.alpha = 0f
-            binding.postsRecyclerView.animate()
-                .alpha(1f)
-                .setDuration(300)
-                .start()
-
-            binding.emptyPostsText.animate()
-                .alpha(0f)
-                .setDuration(300)
-                .withEndAction {
-                    binding.emptyPostsText.visibility = View.GONE
-                }
-                .start()
         }
     }
 
     /**
      * Проверяет, пуст ли список событий, и управляет видимостью `RecyclerView` и `TextView` с сообщением "Событий пока нет".
-     * Добавляет анимацию для плавного перехода между состояниями.
      *
      * @param binding Привязка для макета списка событий.
-     * @see RecyclerView.AdapterDataObserver
      */
     private fun checkIfEmpty(binding: LayoutEventListBinding) {
         val isEmpty = eventAdapter.itemCount == 0
 
         if (isEmpty) {
             binding.emptyEventsText.visibility = View.VISIBLE
-            binding.emptyEventsText.alpha = 0f
-            binding.emptyEventsText.animate()
-                .alpha(1f)
-                .setDuration(300)
-                .start()
-
-            binding.eventsRecyclerView.animate()
-                .alpha(0f)
-                .setDuration(300)
-                .withEndAction {
-                    binding.eventsRecyclerView.visibility = View.GONE
-                }
-                .start()
+            binding.eventsRecyclerView.visibility = View.GONE
         } else {
+            binding.emptyEventsText.visibility = View.GONE
             binding.eventsRecyclerView.visibility = View.VISIBLE
-            binding.eventsRecyclerView.alpha = 0f
-            binding.eventsRecyclerView.animate()
-                .alpha(1f)
-                .setDuration(300)
-                .start()
-
-            binding.emptyEventsText.animate()
-                .alpha(0f)
-                .setDuration(300)
-                .withEndAction {
-                    binding.emptyEventsText.visibility = View.GONE
-                }
-                .start()
         }
     }
 
@@ -260,41 +203,16 @@ class UserPagerAdapter(
      * Проверяет, пуст ли список мест работы, и управляет видимостью `RecyclerView` и `TextView` с сообщением "Мест работы пока нет".
      *
      * @param binding Привязка для макета списка мест работы.
-     * @see RecyclerView.AdapterDataObserver
      */
     private fun checkIfEmpty(binding: LayoutJobListBinding) {
         val isEmpty = jobAdapter.itemCount == 0
 
         if (isEmpty) {
             binding.emptyJobsText.visibility = View.VISIBLE
-            binding.emptyJobsText.alpha = 0f
-            binding.emptyJobsText.animate()
-                .alpha(1f)
-                .setDuration(300)
-                .start()
-
-            binding.jobsRecyclerView.animate()
-                .alpha(0f)
-                .setDuration(300)
-                .withEndAction {
-                    binding.jobsRecyclerView.visibility = View.GONE
-                }
-                .start()
+            binding.jobsRecyclerView.visibility = View.GONE
         } else {
+            binding.emptyJobsText.visibility = View.GONE
             binding.jobsRecyclerView.visibility = View.VISIBLE
-            binding.jobsRecyclerView.alpha = 0f
-            binding.jobsRecyclerView.animate()
-                .alpha(1f)
-                .setDuration(300)
-                .start()
-
-            binding.emptyJobsText.animate()
-                .alpha(0f)
-                .setDuration(300)
-                .withEndAction {
-                    binding.emptyJobsText.visibility = View.GONE
-                }
-                .start()
         }
     }
 
@@ -304,7 +222,6 @@ class UserPagerAdapter(
      * Возвращает количество вкладок (посты, события и места работы).
      *
      * @return Количество вкладок (3).
-     * @see RecyclerView.Adapter.getItemCount
      */
     override fun getItemCount(): Int = 3
 
@@ -313,7 +230,6 @@ class UserPagerAdapter(
      *
      * @param position Позиция вкладки.
      * @return 0 для постов, 1 для событий, 2 для мест работы.
-     * @see RecyclerView.Adapter.getItemViewType
      */
     override fun getItemViewType(position: Int): Int {
         return when (position) {

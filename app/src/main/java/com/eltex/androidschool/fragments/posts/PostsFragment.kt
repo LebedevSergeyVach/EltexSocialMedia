@@ -173,6 +173,10 @@ class PostsFragment : Fragment() {
                             )
                     }
                 }
+
+                override fun onRetryPageClicked() {
+                    viewModel.accept(PostMessage.Retry)
+                }
             },
 
             context = requireContext(),

@@ -23,6 +23,11 @@ sealed interface PostWallMessage {
     data object Refresh : PostWallMessage
 
     /**
+     * Сообщение для обновления списка постов.
+     */
+    data object Retry : PostWallMessage
+
+    /**
      * Сообщение для лайка или снятия лайка с поста.
      *
      * @property post Пост, который нужно лайкнуть или убрать лайк.

@@ -1,11 +1,15 @@
 package com.eltex.androidschool.reducer.posts
 
 import arrow.core.Either
+import com.eltex.androidschool.BuildConfig
 
 import com.eltex.androidschool.effects.posts.PostWallEffect
+import com.eltex.androidschool.model.posts.PostWithError
 import com.eltex.androidschool.mvi.Reducer
 import com.eltex.androidschool.mvi.ReducerResult
+import com.eltex.androidschool.reducer.posts.PostReducer.Companion
 import com.eltex.androidschool.ui.posts.PostUiModel
+import com.eltex.androidschool.utils.Logger
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallMessage
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallState
 import com.eltex.androidschool.viewmodel.posts.post.PostStatus
@@ -76,8 +80,9 @@ class PostWallReducer(
             )
 
             is PostWallMessage.InitialLoaded -> ReducerResult(
-                newState = when (val messageResult: Either<Throwable, List<PostUiModel>> =
-                    message.result) {
+                newState = when (
+                    val messageResult: Either<Throwable, List<PostUiModel>> = message.result
+                ) {
                     is Either.Left -> {
                         if (old.posts.isNotEmpty()) {
                             old.copy(
@@ -118,8 +123,8 @@ class PostWallReducer(
             is PostWallMessage.LikeResult -> ReducerResult(
                 newState = when (val result = message.result) {
                     is Either.Left -> {
-                        val value = result.value
-                        val postLiked = value.post
+                        val value: PostWithError = result.value
+                        val postLiked: PostUiModel = value.post
 
                         old.copy(
                             posts = old.posts.map { post: PostUiModel ->
@@ -153,11 +158,12 @@ class PostWallReducer(
                 val loadingFinished: Boolean =
                     (old.statusPost as? PostStatus.Idle)?.loadingFinished == true
 
-                val status: PostStatus = if (loadingFinished) {
-                    old.statusPost
-                } else {
-                    PostStatus.NextPageLoading
-                }
+                val status: PostStatus =
+                    if (loadingFinished || old.statusPost !is PostStatus.Idle) {
+                        old.statusPost
+                    } else {
+                        PostStatus.NextPageLoading
+                    }
 
                 val effect: PostWallEffect.LoadNextPage? = if (loadingFinished) {
                     null
@@ -182,7 +188,7 @@ class PostWallReducer(
                 newState = when (val messageResult = message.result) {
                     is Either.Right -> {
                         val postUiModels: List<PostUiModel> = messageResult.value
-                        val loadingFinished: Boolean = postUiModels.size < PAGE_SIZE
+                        val loadingFinished: Boolean = postUiModels.size < PostReducer.PAGE_SIZE
 
                         old.copy(
                             statusPost = PostStatus.Idle(loadingFinished = loadingFinished),
@@ -191,12 +197,36 @@ class PostWallReducer(
                     }
 
                     is Either.Left -> {
+                        if (BuildConfig.DEBUG) {
+                            Logger.e("NextPageLoaded: statusPost = ${PostStatus.NextPageError(reason = messageResult.value)}")
+                        }
+
                         old.copy(
                             statusPost = PostStatus.NextPageError(reason = messageResult.value)
                         )
                     }
                 }
             )
+
+            PostWallMessage.Retry -> {
+                val nextId: Long? = old.posts.lastOrNull()?.id
+
+                if (nextId == null) {
+                    ReducerResult(old)
+                } else {
+                    ReducerResult(
+                        newState = old.copy(
+                            statusPost = PostStatus.NextPageLoading,
+                        ),
+
+                        action = PostWallEffect.LoadNextPage(
+                            authorId = userId,
+                            id = nextId,
+                            count = PAGE_SIZE
+                        )
+                    )
+                }
+            }
 
             PostWallMessage.Refresh -> ReducerResult(
                 newState = old.copy(

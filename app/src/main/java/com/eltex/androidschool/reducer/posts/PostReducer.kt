@@ -1,12 +1,14 @@
 package com.eltex.androidschool.reducer.posts
 
 import arrow.core.Either
+import com.eltex.androidschool.BuildConfig
 
 import com.eltex.androidschool.effects.posts.PostEffect
 import com.eltex.androidschool.model.posts.PostWithError
 import com.eltex.androidschool.mvi.Reducer
 import com.eltex.androidschool.mvi.ReducerResult
 import com.eltex.androidschool.ui.posts.PostUiModel
+import com.eltex.androidschool.utils.Logger
 import com.eltex.androidschool.viewmodel.posts.post.PostMessage
 import com.eltex.androidschool.viewmodel.posts.post.PostState
 import com.eltex.androidschool.viewmodel.posts.post.PostStatus
@@ -153,11 +155,12 @@ class PostReducer : Reducer<PostState, PostEffect, PostMessage> {
                 val loadingFinished: Boolean =
                     (old.statusPost as? PostStatus.Idle)?.loadingFinished == true
 
-                val status: PostStatus = if (loadingFinished) {
-                    old.statusPost
-                } else {
-                    PostStatus.NextPageLoading
-                }
+                val status: PostStatus =
+                    if (loadingFinished || old.statusPost !is PostStatus.Idle) {
+                        old.statusPost
+                    } else {
+                        PostStatus.NextPageLoading
+                    }
 
                 val effect: PostEffect.LoadNextPage? = if (loadingFinished) {
                     null
@@ -190,12 +193,35 @@ class PostReducer : Reducer<PostState, PostEffect, PostMessage> {
                     }
 
                     is Either.Left -> {
+                        if (BuildConfig.DEBUG) {
+                            Logger.e("NextPageLoaded: statusPost = ${PostStatus.NextPageError(reason = messageResult.value)}")
+                        }
+
                         old.copy(
                             statusPost = PostStatus.NextPageError(reason = messageResult.value)
                         )
                     }
                 }
             )
+
+            PostMessage.Retry -> {
+                val nextId: Long? = old.posts.lastOrNull()?.id
+
+                if (nextId == null) {
+                    ReducerResult(old)
+                } else {
+                    ReducerResult(
+                        newState = old.copy(
+                            statusPost = PostStatus.NextPageLoading,
+                        ),
+
+                        action = PostEffect.LoadNextPage(
+                            id = nextId,
+                            count = PAGE_SIZE
+                        )
+                    )
+                }
+            }
 
             PostMessage.Refresh -> ReducerResult(
                 newState = old.copy(

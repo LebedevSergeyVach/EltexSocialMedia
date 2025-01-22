@@ -22,6 +22,11 @@ sealed interface EventMessage {
     data object Refresh : EventMessage
 
     /**
+     * Сообщение для обновления списка событий.
+     */
+    data object Retry : EventMessage
+
+    /**
      * Сообщение для лайка или снятия лайка с события.
      *
      * @property event Событие, которое нужно лайкнуть или убрать лайк.

@@ -47,10 +47,19 @@ class EventPagingItemCallback : DiffUtil.ItemCallback<EventPagingModel>() {
      * @param newItem Новый элемент.
      * @return Boolean true, если данные элементов одинаковы, иначе false.
      */
-    override fun areContentsTheSame(oldItem: EventPagingModel, newItem: EventPagingModel): Boolean =
-        oldItem == newItem
+    override fun areContentsTheSame(oldItem: EventPagingModel, newItem: EventPagingModel): Boolean {
+        if (oldItem::class != newItem::class) {
+            return false
+        }
 
-    /**
+        return if (oldItem is PagingModel.Data && newItem is PagingModel.Data) {
+            delegate.areItemsTheSame(oldItem.value, newItem.value)
+        } else {
+            oldItem == newItem
+        }
+    }
+
+        /**
      * Возвращает объект, содержащий изменения в элементе.
      *
      * @param oldItem Старый элемент.
@@ -59,7 +68,7 @@ class EventPagingItemCallback : DiffUtil.ItemCallback<EventPagingModel>() {
      */
     override fun getChangePayload(oldItem: EventPagingModel, newItem: EventPagingModel): Any? {
         if (oldItem::class != newItem::class) {
-            return false
+            return null
         }
 
         return if (oldItem is PagingModel.Data && newItem is PagingModel.Data) {

@@ -1,4 +1,6 @@
 import com.google.protobuf.gradle.id
+
+import java.io.BufferedReader
 import java.util.Properties
 
 plugins {
@@ -27,9 +29,9 @@ android {
         // file("secrets.properties")
         val secretsProperties = rootDir.resolve("secrets.properties")
             .bufferedReader()
-            .use {
+            .use { buffer: BufferedReader ->
                 Properties().apply {
-                    load(it)
+                    load(buffer)
                 }
             }
 

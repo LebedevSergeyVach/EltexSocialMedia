@@ -153,11 +153,12 @@ class EventReducer : Reducer<EventState, EventEffect, EventMessage> {
                 val loadingFinished: Boolean =
                     (old.statusEvent as? EventStatus.Idle)?.loadingFinished == true
 
-                val status: EventStatus = if (loadingFinished) {
-                    old.statusEvent
-                } else {
-                    EventStatus.NextPageLoading
-                }
+                val status: EventStatus =
+                    if (loadingFinished || old.statusEvent !is EventStatus.Idle) {
+                        old.statusEvent
+                    } else {
+                        EventStatus.NextPageLoading
+                    }
 
                 val effect: EventEffect.LoadNextPage? = if (loadingFinished) {
                     null
@@ -248,6 +249,25 @@ class EventReducer : Reducer<EventState, EventEffect, EventMessage> {
                     }
                 }
             )
+
+            EventMessage.Retry -> {
+                val nextId: Long? = old.events.lastOrNull()?.id
+
+                if (nextId == null) {
+                    ReducerResult(old)
+                } else {
+                    ReducerResult(
+                        newState = old.copy(
+                            statusEvent = EventStatus.NextPageLoading,
+                        ),
+
+                        action = EventEffect.LoadNextPage(
+                            id = nextId,
+                            count = PAGE_SIZE
+                        )
+                    )
+                }
+            }
 
             EventMessage.Refresh -> ReducerResult(
                 newState = old.copy(

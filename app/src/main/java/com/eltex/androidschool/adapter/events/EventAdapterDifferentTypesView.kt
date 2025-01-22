@@ -47,6 +47,7 @@ class EventAdapterDifferentTypesView(
         fun onDeleteClicked(event: EventUiModel)
         fun onUpdateClicked(event: EventUiModel)
         fun onGetUserClicked(event: EventUiModel)
+        fun onRetryPageClicked()
     }
 
     /**
@@ -190,6 +191,10 @@ class EventAdapterDifferentTypesView(
     private fun createItemErrorViewHolder(parent: ViewGroup): ErrorViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemErrorBinding.inflate(layoutInflater, parent, false)
+
+        binding.retryButtonItem.setOnClickListener {
+            listener.onRetryPageClicked()
+        }
 
         return ErrorViewHolder(binding = binding)
     }

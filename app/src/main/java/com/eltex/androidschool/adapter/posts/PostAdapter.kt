@@ -52,6 +52,7 @@ class PostAdapter(
         fun onDeleteClicked(post: PostUiModel)
         fun onUpdateClicked(post: PostUiModel)
         fun onGetUserClicked(post: PostUiModel)
+        fun onRetryPageClicked()
     }
 
     /**
@@ -202,6 +203,10 @@ class PostAdapter(
     private fun createItemErrorViewHolder(parent: ViewGroup): ErrorViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemErrorBinding.inflate(layoutInflater, parent, false)
+
+        binding.retryButtonItem.setOnClickListener {
+            listener.onRetryPageClicked()
+        }
 
         return ErrorViewHolder(binding = binding)
     }

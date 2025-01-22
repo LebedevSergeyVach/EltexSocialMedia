@@ -49,8 +49,8 @@ object PostPagingMapper {
             PostStatus.EmptyLoading -> List(PostWallReducer.PAGE_SIZE) { PagingModel.Loading }
             PostStatus.NextPageLoading -> posts + List(PostWallReducer.PAGE_SIZE) { PagingModel.Loading }
             is PostStatus.NextPageError -> posts + PagingModel.Error(reason = statusValue.reason)
-            is PostStatus.Idle,
             PostStatus.Refreshing,
+            is PostStatus.Idle,
             is PostStatus.EmptyError -> posts
         }
     }

@@ -179,6 +179,10 @@ class EventsFragment : Fragment() {
                             )
                     }
                 }
+
+                override fun onRetryPageClicked() {
+                    viewModel.accept(EventMessage.Retry)
+                }
             },
 
             context = requireContext(),

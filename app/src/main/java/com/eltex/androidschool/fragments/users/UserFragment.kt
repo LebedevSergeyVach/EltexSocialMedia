@@ -291,6 +291,10 @@ class UserFragment : Fragment() {
                 }
 
                 override fun onGetUserClicked(post: PostUiModel) {}
+
+                override fun onRetryPageClicked() {
+                    postViewModel.accept(PostWallMessage.Retry)
+                }
             },
 
             context = requireContext(),
@@ -387,7 +391,6 @@ class UserFragment : Fragment() {
             eventAdapter = eventAdapter,
             jobAdapter = jobAdapter,
             offset = offset,
-            adapter = postAdapter,
             viewModel = postViewModel
         )
 
