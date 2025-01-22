@@ -22,11 +22,11 @@ import com.eltex.androidschool.viewmodel.posts.post.PostStatus
  */
 class PostReducer : Reducer<PostState, PostEffect, PostMessage> {
 
-    private companion object {
+    companion object {
         /**
          * Размер страницы для пагинации. Определяет, сколько постов загружается за один запрос.
          */
-        private const val PAGE_SIZE: Int = 10
+        const val PAGE_SIZE: Int = 10
     }
 
     /**

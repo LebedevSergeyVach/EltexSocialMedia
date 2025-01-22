@@ -2,6 +2,7 @@ package com.eltex.androidschool.adapter.posts
 
 /**
  * Класс, представляющий изменения в посте.
+ * Используется для передачи изменений в элемент списка, чтобы избежать полного обновления ViewHolder.
  *
  * @property likeByMe Состояние лайка (лайкнут/не лайкнут).
  * @property likes Количество лайков у поста.
@@ -12,6 +13,7 @@ data class PostPayload (
     val likeByMe: Boolean? = null,
     val likes: Int? = null,
 ) {
+
     /**
      * Проверяет, есть ли изменения в объекте.
      *

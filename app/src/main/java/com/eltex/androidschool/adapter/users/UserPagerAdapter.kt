@@ -71,7 +71,7 @@ class UserPagerAdapter(
                             val adapterPosition =
                                 binding.postsRecyclerView.getChildAdapterPosition(view)
 
-                            if (itemsCount - 5 <= adapterPosition) {
+                            if (itemsCount - 2 <= adapterPosition) {
                                 viewModel.accept(message = PostWallMessage.LoadNextPage)
                             }
                         }

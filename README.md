@@ -37,6 +37,8 @@ Basic settings for the application's appearance are implemented, such as: langua
         <img width="12" />
         <img src="https://static.cdnlogo.com/logos/r/27/reactivex.svg" height="40" alt="rxjava logo"  />
         <img width="12" />
+        <img src="https://raw.githubusercontent.com/Faltenreich/SkeletonLayout/refs/heads/develop/images/android.png" height="40" alt="SkeletonLayout logo"  />
+        <img width="12" />
         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gradle/gradle-original.svg" height="40" alt="gradle logo"  />
         <img width="12" />
         <img src="https://services.google.com/fh/files/emails/android_dev_newsletter_feb_image3.png" height="40" alt="androidx jetpack logo"  />
@@ -98,6 +100,8 @@ Basic settings for the application's appearance are implemented, such as: langua
         <img src="https://uploads-ssl.webflow.com/60996f3af06ca2ff488a7bfb/60a269bf446a85794a4d3b6b_Retrofit.jpg" height="40" alt="retrofit logo"  />
         <img width="12" />
         <img src="https://static.cdnlogo.com/logos/r/27/reactivex.svg" height="40" alt="rxjava logo"  />
+        <img width="12" />
+        <img src="https://raw.githubusercontent.com/Faltenreich/SkeletonLayout/refs/heads/develop/images/android.png" height="40" alt="SkeletonLayout logo"  />
         <img width="12" />
         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gradle/gradle-original.svg" height="40" alt="gradle logo"  />
         <img width="12" />

@@ -11,9 +11,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.eltex.androidschool.R
 import com.eltex.androidschool.adapter.common.ErrorViewHolder
 import com.eltex.androidschool.adapter.common.LoadingViewHolder
+import com.eltex.androidschool.adapter.common.SkeletonViewHolder
 import com.eltex.androidschool.databinding.CardPostBinding
 import com.eltex.androidschool.databinding.ItemErrorBinding
 import com.eltex.androidschool.databinding.ItemProgressBinding
+import com.eltex.androidschool.databinding.ItemSkeletonPostBinding
 import com.eltex.androidschool.ui.common.PagingModel
 import com.eltex.androidschool.ui.posts.PostPagingModel
 import com.eltex.androidschool.ui.posts.PostUiModel
@@ -26,6 +28,8 @@ import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
  * Он также обрабатывает события, такие как клики на кнопки "лайк", "поделиться" и "удалить".
  *
  * @param listener Слушатель событий, который будет вызываться при кликах на элементы списка.
+ * @param context Контекст приложения.
+ * @param currentUserId ID текущего пользователя для определения прав на редактирование постов.
  *
  * @see PostViewHolder ViewHolder, используемый для отображения элементов списка.
  * @see PostItemCallback Callback для сравнения элементов списка.
@@ -40,18 +44,53 @@ class PostAdapter(
      * Интерфейс для обработки событий, связанных с постами.
      */
     interface PostListener {
+        /**
+         * Вызывается при клике на кнопку "лайк".
+         *
+         * @param post Пост, который был лайкнут или дизлайкнут.
+         */
         fun onLikeClicked(post: PostUiModel)
+
+        /**
+         * Вызывается при клике на кнопку "поделиться".
+         *
+         * @param post Пост, которым поделились.
+         */
         fun onShareClicked(post: PostUiModel)
+
+        /**
+         * Вызывается при клике на кнопку "удалить".
+         *
+         * @param post Пост, который нужно удалить.
+         */
         fun onDeleteClicked(post: PostUiModel)
+
+        /**
+         * Вызывается при клике на кнопку "обновить".
+         *
+         * @param post Пост, который нужно обновить.
+         */
         fun onUpdateClicked(post: PostUiModel)
+
+        /**
+         * Вызывается при клике на автора поста.
+         *
+         * @param post Пост, автор которого был выбран.
+         */
         fun onGetUserClicked(post: PostUiModel)
     }
 
+    /**
+     * Возвращает тип View для элемента списка на основе его позиции.
+     *
+     * @param position Позиция элемента в списке.
+     * @return Int Идентификатор макета для элемента списка.
+     */
     override fun getItemViewType(position: Int): Int =
         when (getItem(position)) {
             is PagingModel.Data -> R.layout.card_post
             is PagingModel.Error -> R.layout.item_error
-            PagingModel.Loading -> R.layout.item_progress
+            PagingModel.Loading -> R.layout.item_skeleton_post
         }
 
     /**
@@ -60,13 +99,13 @@ class PostAdapter(
      * @param parent Родительский ViewGroup.
      * @param viewType Тип View.
      *
-     * @return PostViewHolder Новый ViewHolder.
+     * @return RecyclerView.ViewHolder Новый ViewHolder.
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val viewHolder = when (viewType) {
             R.layout.card_post -> createPostViewHolder(parent = parent)
             R.layout.item_error -> createItemErrorViewHolder(parent = parent)
-            R.layout.item_progress -> createItemProgressLoadingViewHolder(parent = parent)
+            R.layout.item_skeleton_post -> createItemSkeletonViewHolder(parent = parent)
             else -> error("PostAdapter.onCreateViewHolder: Unknown viewType $viewType")
         }
 
@@ -90,7 +129,7 @@ class PostAdapter(
                 error = item.reason
             )
 
-            is PagingModel.Loading -> Unit
+            is PagingModel.Loading -> (holder as SkeletonViewHolder).bind()
         }
     }
 
@@ -117,6 +156,12 @@ class PostAdapter(
         }
     }
 
+    /**
+     * Создает ViewHolder для отображения поста.
+     *
+     * @param parent Родительский ViewGroup.
+     * @return PostViewHolder Новый ViewHolder для поста.
+     */
     private fun createPostViewHolder(
         parent: ViewGroup
     ): PostViewHolder {
@@ -160,6 +205,12 @@ class PostAdapter(
         return viewHolder
     }
 
+    /**
+     * Создает ViewHolder для отображения состояния загрузки.
+     *
+     * @param parent Родительский ViewGroup.
+     * @return LoadingViewHolder Новый ViewHolder для состояния загрузки.
+     */
     private fun createItemProgressLoadingViewHolder(parent: ViewGroup): LoadingViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemProgressBinding.inflate(layoutInflater, parent, false)
@@ -167,11 +218,30 @@ class PostAdapter(
         return LoadingViewHolder(binding = binding)
     }
 
+    /**
+     * Создает ViewHolder для отображения состояния ошибки.
+     *
+     * @param parent Родительский ViewGroup.
+     * @return ErrorViewHolder Новый ViewHolder для состояния ошибки.
+     */
     private fun createItemErrorViewHolder(parent: ViewGroup): ErrorViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
         val binding = ItemErrorBinding.inflate(layoutInflater, parent, false)
 
         return ErrorViewHolder(binding = binding)
+    }
+
+    /**
+     * Создает ViewHolder для отображения загрузки в виде анимации скелетона карточки поста.
+     *
+     * @param parent Родительский ViewGroup.
+     * @return SkeletonViewHolder Новый ViewHolder для состояния загрузки.
+     */
+    private fun createItemSkeletonViewHolder(parent: ViewGroup): SkeletonViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = ItemSkeletonPostBinding.inflate(layoutInflater, parent, false)
+
+        return SkeletonViewHolder(binding = binding)
     }
 
     /**

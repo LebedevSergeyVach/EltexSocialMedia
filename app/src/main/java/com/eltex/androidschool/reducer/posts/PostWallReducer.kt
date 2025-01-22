@@ -24,11 +24,11 @@ class PostWallReducer(
     private val userId: Long
 ) : Reducer<PostWallState, PostWallEffect, PostWallMessage> {
 
-    private companion object {
+    companion object {
         /**
          * Размер страницы для пагинации. Определяет, сколько постов загружается за один запрос.
          */
-        private const val PAGE_SIZE: Int = 10
+        const val PAGE_SIZE: Int = 5
     }
 
     /**
