@@ -1,4 +1,4 @@
-package com.eltex.androidschool.adapter.common
+package com.eltex.androidschool.adapter.posts
 
 import androidx.recyclerview.widget.RecyclerView
 
@@ -10,7 +10,7 @@ import com.eltex.androidschool.databinding.ItemSkeletonPostBinding
  *
  * @property binding Привязка к макету `ItemSkeletonPostBinding`, который содержит UI для отображения скелетона.
  */
-class SkeletonViewHolder(
+class SkeletonPostViewHolder(
     private val binding: ItemSkeletonPostBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 

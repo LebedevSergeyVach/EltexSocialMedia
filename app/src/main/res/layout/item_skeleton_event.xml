@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
-    android:id="@+id/card_post"
+    android:id="@+id/card_event"
 
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -25,7 +25,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="12dp"
             android:layout_marginEnd="0dp"
-            android:layout_marginBottom="16dp">
+            android:layout_marginBottom="8dp">
 
             <ImageView
                 android:id="@+id/avatar"
@@ -55,7 +55,7 @@
                 app:layout_constraintStart_toStartOf="@id/avatar"
                 app:layout_constraintTop_toTopOf="@id/avatar"
 
-                tools:text="L" />
+                tools:text="@string/testAvatar" />
 
             <TextView
                 android:id="@+id/author"
@@ -75,7 +75,7 @@
                 app:layout_constraintStart_toEndOf="@id/avatar"
                 app:layout_constraintTop_toTopOf="parent"
 
-                tools:text="@tools:sample/lorem[3]" />
+                tools:text="@tools:sample/lorem[20]" />
 
             <TextView
                 android:id="@+id/published"
@@ -95,7 +95,7 @@
                 app:layout_constraintStart_toEndOf="@id/avatar"
                 app:layout_constraintTop_toBottomOf="@id/author"
 
-                tools:text="@tools:sample/lorem[2]" />
+                tools:text="@string/testPublished" />
 
             <androidx.constraintlayout.widget.Barrier
                 android:id="@+id/headerBarrier"
@@ -105,24 +105,77 @@
                 app:constraint_referenced_ids="avatar, author, published" />
 
             <TextView
-                android:id="@+id/content"
+                android:id="@+id/optionConducting"
 
                 android:layout_width="0dp"
-                android:layout_height="110dp"
+                android:layout_height="wrap_content"
 
                 android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="@dimen/indent_end"
 
-                android:autoLink="web"
-                android:textColorLink="@color/active_element"
-                android:textSize="@dimen/size_text_sp"
+                android:textSize="@dimen/size_title_sp"
 
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/headerBarrier"
 
+                tools:text="@string/testOptionConducting" />
+
+            <TextView
+                android:id="@+id/dataEvent"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
+                android:layout_marginTop="10dp"
+
+                android:textSize="@dimen/size_text_sp"
+
+                app:layout_constraintEnd_toEndOf="@id/optionConducting"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/optionConducting"
+
+                tools:text="@string/testDataEvent" />
+
+            <TextView
+                android:id="@+id/content"
+
+                android:layout_width="0dp"
+                android:layout_height="120dp"
+
+                android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
+                android:layout_marginTop="@dimen/indentation_between_main_objects"
+
+                android:autoLink="web"
+                android:textColorLink="@color/active_element"
+                android:textSize="@dimen/size_text_sp"
+
+                app:layout_constraintEnd_toEndOf="@id/optionConducting"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dataEvent"
+
                 tools:text="@tools:sample/lorem[55]" />
+
+            <TextView
+                android:id="@+id/link"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
+                android:layout_marginTop="@dimen/indentation_between_main_objects"
+
+                android:autoLink="web"
+                android:textColorLink="@color/active_element"
+                android:textSize="@dimen/size_text_sp"
+
+                app:layout_constraintEnd_toEndOf="@id/optionConducting"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/content"
+
+                tools:text="@string/testLink" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/like"
@@ -140,9 +193,9 @@
                 app:iconTint="@color/active_element"
 
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/content"
+                app:layout_constraintTop_toBottomOf="@id/link"
 
-                tools:text="100" />
+                tools:text="500" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/share"
@@ -160,6 +213,25 @@
 
                 app:layout_constraintStart_toEndOf="@id/like"
                 app:layout_constraintTop_toTopOf="@id/like" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/participate"
+
+                style="@style/Widget.Material3.Button.TextButton"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginEnd="@dimen/indent_end"
+
+                android:textColor="@color/active_element"
+                app:icon="@drawable/participate_button"
+                app:iconTint="@color/active_element"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/like"
+
+                tools:text="100" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,4 +1,4 @@
-package com.eltex.androidschool.adapter.posts
+package com.eltex.androidschool.adapter.events
 
 import android.content.Context
 
@@ -14,44 +14,39 @@ import androidx.recyclerview.widget.RecyclerView
 
 import com.eltex.androidschool.R
 import com.eltex.androidschool.adapter.common.ErrorViewHolder
-import com.eltex.androidschool.adapter.common.LoadingViewHolder
-import com.eltex.androidschool.databinding.CardPostBinding
+import com.eltex.androidschool.databinding.CardEventBinding
 import com.eltex.androidschool.databinding.ItemErrorBinding
-import com.eltex.androidschool.databinding.ItemProgressBinding
-import com.eltex.androidschool.databinding.ItemSkeletonPostBinding
+import com.eltex.androidschool.databinding.ItemSkeletonEventBinding
 import com.eltex.androidschool.ui.common.PagingModel
-import com.eltex.androidschool.ui.posts.PostPagingModel
-import com.eltex.androidschool.ui.posts.PostUiModel
+import com.eltex.androidschool.ui.events.EventPagingModel
+import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 
 /**
- * Адаптер для отображения списка постов в RecyclerView.
- *
- * Этот класс отвечает за управление списком постов и их отображение в RecyclerView.
- * Он также обрабатывает события, такие как клики на кнопки "лайк", "поделиться" и "удалить".
+ * Адаптер для отображения списка событий в RecyclerView с поддержкой различных типов элементов.
+ * Этот класс отвечает за управление списком событий и их отображение в RecyclerView.
+ * Также обрабатывает события, такие как клики на кнопки "лайк", "поделиться", "участвовать" и "удалить".
  *
  * @param listener Слушатель событий, который будет вызываться при кликах на элементы списка.
  * @param context Контекст приложения.
- * @param currentUserId ID текущего пользователя для определения прав на редактирование постов.
- *
- * @see PostViewHolder ViewHolder, используемый для отображения элементов списка.
- * @see PostItemCallback Callback для сравнения элементов списка.
+ * @param currentUserId ID текущего пользователя для определения прав на редактирование событий.
  */
-class PostAdapter(
-    private val listener: PostListener,
+class EventAdapterDifferentTypesView(
+    private val listener: EventListener,
     private val context: Context,
     private val currentUserId: Long
-) : ListAdapter<PostPagingModel, RecyclerView.ViewHolder>(PostPagingItemCallback()) {
+) : ListAdapter<EventPagingModel, RecyclerView.ViewHolder>(EventPagingItemCallback()) {
 
     /**
-     * Интерфейс для обработки событий, связанных с постами.
+     * Интерфейс для обработки событий, связанных с событиями.
      */
-    interface PostListener {
-        fun onLikeClicked(post: PostUiModel)
-        fun onShareClicked(post: PostUiModel)
-        fun onDeleteClicked(post: PostUiModel)
-        fun onUpdateClicked(post: PostUiModel)
-        fun onGetUserClicked(post: PostUiModel)
+    interface EventListener {
+        fun onLikeClicked(event: EventUiModel)
+        fun onShareClicked(event: EventUiModel)
+        fun onParticipateClicked(event: EventUiModel)
+        fun onDeleteClicked(event: EventUiModel)
+        fun onUpdateClicked(event: EventUiModel)
+        fun onGetUserClicked(event: EventUiModel)
     }
 
     /**
@@ -62,9 +57,9 @@ class PostAdapter(
      */
     override fun getItemViewType(position: Int): Int =
         when (getItem(position)) {
-            is PagingModel.Data -> R.layout.card_post
+            is PagingModel.Data -> R.layout.card_event
             is PagingModel.Error -> R.layout.item_error
-            PagingModel.Loading -> R.layout.item_skeleton_post
+            PagingModel.Loading -> R.layout.item_skeleton_event
         }
 
     /**
@@ -72,15 +67,14 @@ class PostAdapter(
      *
      * @param parent Родительский ViewGroup.
      * @param viewType Тип View.
-     *
      * @return RecyclerView.ViewHolder Новый ViewHolder.
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val viewHolder = when (viewType) {
-            R.layout.card_post -> createPostViewHolder(parent = parent)
+            R.layout.card_event -> createEventViewHolder(parent = parent)
             R.layout.item_error -> createItemErrorViewHolder(parent = parent)
-            R.layout.item_skeleton_post -> createItemSkeletonViewHolder(parent = parent)
-            else -> error("PostAdapter.onCreateViewHolder: Unknown viewType $viewType")
+            R.layout.item_skeleton_event -> createItemSkeletonViewHolder(parent = parent)
+            else -> error("EventAdapterDifferentTypesView.onCreateViewHolder: Unknown viewType $viewType")
         }
 
         return viewHolder
@@ -94,8 +88,8 @@ class PostAdapter(
      */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (val item = getItem(position)) {
-            is PagingModel.Data -> (holder as PostViewHolder).bindPost(
-                post = item.value,
+            is PagingModel.Data -> (holder as EventViewHolder).bindEvent(
+                event = item.value,
                 currentUserId = currentUserId
             )
 
@@ -103,7 +97,7 @@ class PostAdapter(
                 error = item.reason
             )
 
-            PagingModel.Loading -> (holder as SkeletonPostViewHolder).bind()
+            PagingModel.Loading -> (holder as SkeletonEventViewHolder).bind()
         }
     }
 
@@ -120,9 +114,9 @@ class PostAdapter(
         payloads: List<Any>
     ) {
         if (payloads.isNotEmpty()) {
-            payloads.forEach { post ->
-                if (post is PostPayload) {
-                    (holder as? PostViewHolder)?.bind(payload = post)
+            payloads.forEach { event ->
+                if (event is EventPayload) {
+                    (holder as? EventViewHolder)?.bind(payload = event)
                 }
             }
         } else {
@@ -131,43 +125,50 @@ class PostAdapter(
     }
 
     /**
-     * Создает ViewHolder для отображения поста.
+     * Создает ViewHolder для отображения события.
      *
      * @param parent Родительский ViewGroup.
-     * @return PostViewHolder Новый ViewHolder для поста.
+     * @return EventViewHolder Новый ViewHolder для события.
      */
-    private fun createPostViewHolder(parent: ViewGroup): PostViewHolder {
+    private fun createEventViewHolder(parent: ViewGroup): EventViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = CardPostBinding.inflate(layoutInflater, parent, false)
+        val binding = CardEventBinding.inflate(layoutInflater, parent, false)
 
-        val viewHolder = PostViewHolder(
+        val viewHolder = EventViewHolder(
             binding = binding,
             context = parent.context
         )
 
         binding.like.setOnClickListener {
-            val item: PagingModel.Data<PostUiModel>? =
+            val item: PagingModel.Data<EventUiModel>? =
                 getItem(viewHolder.bindingAdapterPosition) as? PagingModel.Data
 
             item?.value?.let(listener::onLikeClicked)
         }
 
+        binding.participate.setOnClickListener {
+            val item: PagingModel.Data<EventUiModel>? =
+                getItem(viewHolder.bindingAdapterPosition) as? PagingModel.Data
+
+            item?.value?.let(listener::onParticipateClicked)
+        }
+
         binding.share.setOnClickListener {
-            val item: PagingModel.Data<PostUiModel>? =
+            val item: PagingModel.Data<EventUiModel>? =
                 getItem(viewHolder.bindingAdapterPosition) as? PagingModel.Data
 
             item?.value?.let(listener::onShareClicked)
         }
 
         binding.avatar.setOnClickListener {
-            val item: PagingModel.Data<PostUiModel>? =
+            val item: PagingModel.Data<EventUiModel>? =
                 getItem(viewHolder.bindingAdapterPosition) as? PagingModel.Data
 
             item?.value?.let(listener::onGetUserClicked)
         }
 
         binding.author.setOnClickListener {
-            val item: PagingModel.Data<PostUiModel>? =
+            val item: PagingModel.Data<EventUiModel>? =
                 getItem(viewHolder.bindingAdapterPosition) as? PagingModel.Data
 
             item?.value?.let(listener::onGetUserClicked)
@@ -178,19 +179,6 @@ class PostAdapter(
         }
 
         return viewHolder
-    }
-
-    /**
-     * Создает ViewHolder для отображения состояния загрузки.
-     *
-     * @param parent Родительский ViewGroup.
-     * @return LoadingViewHolder Новый ViewHolder для состояния загрузки.
-     */
-    private fun createItemProgressLoadingViewHolder(parent: ViewGroup): LoadingViewHolder {
-        val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = ItemProgressBinding.inflate(layoutInflater, parent, false)
-
-        return LoadingViewHolder(binding = binding)
     }
 
     /**
@@ -207,34 +195,34 @@ class PostAdapter(
     }
 
     /**
-     * Создает ViewHolder для отображения загрузки в виде анимации скелетона карточки поста.
+     * Создает ViewHolder для отображения скелетона события.
      *
      * @param parent Родительский ViewGroup.
-     * @return SkeletonViewHolder Новый ViewHolder для состояния загрузки.
+     * @return SkeletonEventViewHolder Новый ViewHolder для скелетона события.
      */
-    private fun createItemSkeletonViewHolder(parent: ViewGroup): SkeletonPostViewHolder {
+    private fun createItemSkeletonViewHolder(parent: ViewGroup): SkeletonEventViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
-        val binding = ItemSkeletonPostBinding.inflate(layoutInflater, parent, false)
+        val binding = ItemSkeletonEventBinding.inflate(layoutInflater, parent, false)
 
-        return SkeletonPostViewHolder(binding = binding)
+        return SkeletonEventViewHolder(binding = binding)
     }
 
     /**
-     * Показывает PopupMenu с действиями для поста.
+     * Показывает PopupMenu с действиями для события.
      *
      * @param view View, к которому привязано меню.
-     * @param position Позиция поста в списке.
+     * @param position Позиция события в списке.
      */
     private fun showPopupMenu(view: View, position: Int) {
         context.singleVibrationWithSystemCheck(35)
 
         PopupMenu(view.context, view).apply {
-            inflate(R.menu.menu_post)
+            inflate(R.menu.menu_event)
 
             setOnMenuItemClickListener { menuItem: MenuItem ->
                 when (menuItem.itemId) {
-                    R.id.delete_post -> {
-                        val item: PagingModel.Data<PostUiModel>? =
+                    R.id.delete_event -> {
+                        val item: PagingModel.Data<EventUiModel>? =
                             getItem(position) as? PagingModel.Data
 
                         item?.value?.let(listener::onDeleteClicked)
@@ -244,11 +232,12 @@ class PostAdapter(
                         true
                     }
 
-                    R.id.update_post -> {
-                        val item: PagingModel.Data<PostUiModel>? =
+                    R.id.update_event -> {
+                        val item: PagingModel.Data<EventUiModel>? =
                             getItem(position) as? PagingModel.Data
 
                         item?.value?.let(listener::onUpdateClicked)
+
                         true
                     }
 

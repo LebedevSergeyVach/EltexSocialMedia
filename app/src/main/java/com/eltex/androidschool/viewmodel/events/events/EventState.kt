@@ -12,7 +12,7 @@ import com.eltex.androidschool.ui.events.EventUiModel
  */
 data class EventState(
     val events: List<EventUiModel> = emptyList(),
-    val statusEvent: EventStatus = EventStatus.Idle,
+    val statusEvent: EventStatus = EventStatus.Idle(),
     val singleError: Throwable? = null,
 ) {
     /**

@@ -1,16 +1,19 @@
 package com.eltex.androidschool.adapter.events
 
 import android.content.Context
+
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+
 import androidx.appcompat.widget.PopupMenu
+
 import androidx.recyclerview.widget.ListAdapter
+
 import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.CardEventBinding
 import com.eltex.androidschool.ui.events.EventUiModel
-import com.eltex.androidschool.utils.singleVibration
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 
 /**
@@ -60,27 +63,27 @@ class EventAdapter(
         )
 
         binding.like.setOnClickListener {
-            listener.onLikeClicked(getItem(viewHolder.adapterPosition))
+            listener.onLikeClicked(getItem(viewHolder.bindingAdapterPosition))
         }
 
         binding.participate.setOnClickListener {
-            listener.onParticipateClicked(getItem(viewHolder.adapterPosition))
+            listener.onParticipateClicked(getItem(viewHolder.bindingAdapterPosition))
         }
 
         binding.share.setOnClickListener {
-            listener.onShareClicked(getItem(viewHolder.adapterPosition))
+            listener.onShareClicked(getItem(viewHolder.bindingAdapterPosition))
         }
 
         binding.avatar.setOnClickListener {
-            listener.onGetUserClicked(getItem(viewHolder.adapterPosition))
+            listener.onGetUserClicked(getItem(viewHolder.bindingAdapterPosition))
         }
 
         binding.author.setOnClickListener {
-            listener.onGetUserClicked(getItem(viewHolder.adapterPosition))
+            listener.onGetUserClicked(getItem(viewHolder.bindingAdapterPosition))
         }
 
         binding.menu.setOnClickListener { view: View ->
-            showPopupMenu(view, viewHolder.adapterPosition)
+            showPopupMenu(view, viewHolder.bindingAdapterPosition)
         }
 
         return viewHolder

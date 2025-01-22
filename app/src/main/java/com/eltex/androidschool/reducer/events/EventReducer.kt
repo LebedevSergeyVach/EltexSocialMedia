@@ -22,11 +22,11 @@ import com.eltex.androidschool.viewmodel.events.events.EventStatus
  */
 class EventReducer : Reducer<EventState, EventEffect, EventMessage> {
 
-    private companion object {
+    companion object {
         /**
          * Размер страницы для пагинации. Определяет, сколько постов загружается за один запрос.
          */
-        private const val PAGE_SIZE: Int = 10
+        const val PAGE_SIZE: Int = 10
     }
 
     /**
@@ -79,14 +79,14 @@ class EventReducer : Reducer<EventState, EventEffect, EventMessage> {
                 ) {
                     is Either.Right -> old.copy(
                         events = messageResult.value,
-                        statusEvent = EventStatus.Idle,
+                        statusEvent = EventStatus.Idle(),
                     )
 
                     is Either.Left -> {
                         if (old.events.isNotEmpty()) {
                             old.copy(
                                 singleError = messageResult.value,
-                                statusEvent = EventStatus.Idle
+                                statusEvent = EventStatus.Idle()
                             )
                         } else {
                             old.copy(
@@ -149,22 +149,42 @@ class EventReducer : Reducer<EventState, EventEffect, EventMessage> {
                 }
             )
 
-            EventMessage.LoadNextPage -> ReducerResult(
-                newState = old.copy(
-                    statusEvent = EventStatus.NextPageLoading
-                ),
+            EventMessage.LoadNextPage -> {
+                val loadingFinished: Boolean =
+                    (old.statusEvent as? EventStatus.Idle)?.loadingFinished == true
 
-                action = EventEffect.LoadNextPage(
-                    id = old.events.last().id,
-                    count = PAGE_SIZE
+                val status: EventStatus = if (loadingFinished) {
+                    old.statusEvent
+                } else {
+                    EventStatus.NextPageLoading
+                }
+
+                val effect: EventEffect.LoadNextPage? = if (loadingFinished) {
+                    null
+                } else {
+                    EventEffect.LoadNextPage(
+                        id = old.events.last().id,
+                        count = PAGE_SIZE
+                    )
+                }
+
+                ReducerResult(
+                    newState = old.copy(
+                        statusEvent = status
+                    ),
+
+                    action = effect
                 )
-            )
+            }
 
             is EventMessage.NextPageLoaded -> ReducerResult(
                 newState = when (val messageResult = message.result) {
                     is Either.Right -> {
+                        val eventUiModels: List<EventUiModel> = messageResult.value
+                        val loadingFinished: Boolean = eventUiModels.size < PAGE_SIZE
+
                         old.copy(
-                            statusEvent = EventStatus.Idle,
+                            statusEvent = EventStatus.Idle(loadingFinished = loadingFinished),
                             events = old.events + messageResult.value
                         )
                     }

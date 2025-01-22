@@ -29,12 +29,14 @@ import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentEventsBinding
 
 import com.eltex.androidschool.adapter.events.EventAdapter
+import com.eltex.androidschool.adapter.events.EventAdapterDifferentTypesView
 import com.eltex.androidschool.effecthandler.events.EventEffectHandler
 import com.eltex.androidschool.fragments.users.UserFragment
 import com.eltex.androidschool.reducer.events.EventReducer
 import com.eltex.androidschool.ui.common.OffsetDecoration
 
 import com.eltex.androidschool.repository.events.NetworkEventRepository
+import com.eltex.androidschool.ui.events.EventPagingMapper
 
 import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.ui.events.EventUiModelMapper
@@ -59,7 +61,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
  *
  * @see Fragment Базовый класс для фрагментов, использующих функции библиотеки поддержки.
  * @see EventViewModel ViewModel для управления состоянием событий.
- * @see EventAdapter Адаптер для отображения списка событий.
+ * @see EventAdapterDifferentTypesView Адаптер для отображения списка событий.
  * @see OffsetDecoration Декорация для добавления отступов между элементами RecyclerView.
  */
 class EventsFragment : Fragment() {
@@ -101,8 +103,8 @@ class EventsFragment : Fragment() {
     ): View {
         val binding = FragmentEventsBinding.inflate(layoutInflater, container, false)
 
-        val adapter = EventAdapter(
-            object : EventAdapter.EventListener {
+        val adapter = EventAdapterDifferentTypesView(
+            object : EventAdapterDifferentTypesView.EventListener {
                 override fun onLikeClicked(event: EventUiModel) {
                     viewModel.accept(message = EventMessage.Like(event = event))
                 }
@@ -250,7 +252,7 @@ class EventsFragment : Fragment() {
                     viewModel.accept(message = EventMessage.HandleError)
                 }
 
-                adapter.submitList(eventState.events)
+                adapter.submitList(EventPagingMapper.map(eventState))
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
