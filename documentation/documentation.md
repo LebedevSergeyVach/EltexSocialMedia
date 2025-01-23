@@ -299,6 +299,54 @@ git clone https://github.com/LebedevSergeyVach/EltexSocialMedia.git
 - **Material Design**: Компоненты для создания современного интерфейса.
 - **SkeletonLayout**: Библиотека для отображения скелетонов во время загрузки данных.
 
+<details close="open">
+    <summary><h3>🚀 Стек используемых технологий (не отображается на GitHub)</h3></summary>
+    <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
+            <a href="https://kotlinlang.org/" target="_blank">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" height="40" alt="kotlin logo" />
+            </a>
+            <p>Kotlin</p>
+        </div>
+        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
+            <a href="https://square.github.io/retrofit/" target="_blank">
+                <img src="https://uploads-ssl.webflow.com/60996f3af06ca2ff488a7bfb/60a269bf446a85794a4d3b6b_Retrofit.jpg" height="40" alt="retrofit logo" />
+            </a>
+            <p>Retrofit</p>
+        </div>
+        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
+            <a href="https://reactivex.io/" target="_blank">
+                <img src="https://static.cdnlogo.com/logos/r/27/reactivex.svg" height="40" alt="rxjava logo" />
+            </a>
+            <p>RxJava</p>
+        </div>
+        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
+            <a href="https://github.com/Faltenreich/SkeletonLayout" target="_blank">
+                <img src="https://raw.githubusercontent.com/Faltenreich/SkeletonLayout/refs/heads/develop/images/android.png" height="40" alt="SkeletonLayout logo" />
+            </a>
+            <p>SkeletonLayout</p>
+        </div>
+        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
+            <a href="https://gradle.org/" target="_blank">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gradle/gradle-original.svg" height="40" alt="gradle logo" />
+            </a>
+            <p>Gradle</p>
+        </div>
+        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
+            <a href="https://developer.android.com/jetpack" target="_blank">
+                <img src="https://services.google.com/fh/files/emails/android_dev_newsletter_feb_image3.png" height="40" alt="androidx jetpack logo" />
+            </a>
+            <p>AndroidX Jetpack</p>
+        </div>
+        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
+            <a href="https://www.android.com/" target="_blank">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-plain-wordmark.svg" height="40" alt="android logo" />
+            </a>
+            <p>Android</p>
+        </div>
+    </div>
+</details>
+
 ---
 
 ## 📄 Лицензия
