@@ -30,51 +30,12 @@ Basic settings for the application's appearance are implemented, such as: langua
 [![Version](https://img.shields.io/badge/Version-0.17.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.17.0)
 
 <details open="open">
-    <summary><h2>🚀 Стек используемых технологий</h2></summary>
-    <div style="display: flex; flex-wrap: wrap; gap: 16px;">
-        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
-            <a href="https://kotlinlang.org/" target="_blank">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" height="40" alt="kotlin logo" />
-            </a>
-            <p>Kotlin</p>
-        </div>
-        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
-            <a href="https://square.github.io/retrofit/" target="_blank">
-                <img src="https://uploads-ssl.webflow.com/60996f3af06ca2ff488a7bfb/60a269bf446a85794a4d3b6b_Retrofit.jpg" height="40" alt="retrofit logo" />
-            </a>
-            <p>Retrofit</p>
-        </div>
-        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
-            <a href="https://reactivex.io/" target="_blank">
-                <img src="https://static.cdnlogo.com/logos/r/27/reactivex.svg" height="40" alt="rxjava logo" />
-            </a>
-            <p>RxJava</p>
-        </div>
-        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
-            <a href="https://github.com/Faltenreich/SkeletonLayout" target="_blank">
-                <img src="https://raw.githubusercontent.com/Faltenreich/SkeletonLayout/refs/heads/develop/images/android.png" height="40" alt="SkeletonLayout logo" />
-            </a>
-            <p>SkeletonLayout</p>
-        </div>
-        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
-            <a href="https://gradle.org/" target="_blank">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gradle/gradle-original.svg" height="40" alt="gradle logo" />
-            </a>
-            <p>Gradle</p>
-        </div>
-        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
-            <a href="https://developer.android.com/jetpack" target="_blank">
-                <img src="https://services.google.com/fh/files/emails/android_dev_newsletter_feb_image3.png" height="40" alt="androidx jetpack logo" />
-            </a>
-            <p>AndroidX Jetpack</p>
-        </div>
-        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
-            <a href="https://www.android.com/" target="_blank">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-plain-wordmark.svg" height="40" alt="android logo" />
-            </a>
-            <p>Android</p>
-        </div>
-    </div>
+    <summary><h2>🚀 The stack of technologies used</h2></summary>
+
+| [<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" width="40" height="40" alt="Kotlin" />](https://kotlinlang.org/) | [<img src="https://uploads-ssl.webflow.com/60996f3af06ca2ff488a7bfb/60a269bf446a85794a4d3b6b_Retrofit.jpg" width="40" height="40" alt="Retrofit" />](https://square.github.io/retrofit/) | [<img src="https://static.cdnlogo.com/logos/r/27/reactivex.svg" width="40" height="40" alt="RxJava" />](https://reactivex.io/) | [<img src="https://raw.githubusercontent.com/Faltenreich/SkeletonLayout/refs/heads/develop/images/android.png" width="40" height="40" alt="SkeletonLayout" />](https://github.com/Faltenreich/SkeletonLayout) | [<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gradle/gradle-original.svg" width="40" height="40" alt="Gradle" />](https://gradle.org/) | [<img src="https://services.google.com/fh/files/emails/android_dev_newsletter_feb_image3.png" width="40" height="40" alt="AndroidX Jetpack" />](https://developer.android.com/jetpack) | [<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-plain-wordmark.svg" width="40" height="40" alt="Android" />](https://www.android.com/) |
+|:----------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+|                                                                           Kotlin                                                                           |                                                                                         Retrofit                                                                                         |                                                             RxJava                                                             |                                                                                                SkeletonLayout                                                                                                 |                                                                         Gradle                                                                         |                                                                                    AndroidX Jetpack                                                                                    |                                                                               Android                                                                                |
+
 </details>
 
 ---
@@ -140,50 +101,11 @@ Basic settings for the application's appearance are implemented, such as: langua
 
 <details open="open">
     <summary><h2>🚀 Стек используемых технологий</h2></summary>
-    <div style="display: flex; flex-wrap: wrap; gap: 16px;">
-        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
-            <a href="https://kotlinlang.org/" target="_blank">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" height="40" alt="kotlin logo" />
-            </a>
-            <p>Kotlin</p>
-        </div>
-        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
-            <a href="https://square.github.io/retrofit/" target="_blank">
-                <img src="https://uploads-ssl.webflow.com/60996f3af06ca2ff488a7bfb/60a269bf446a85794a4d3b6b_Retrofit.jpg" height="40" alt="retrofit logo" />
-            </a>
-            <p>Retrofit</p>
-        </div>
-        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
-            <a href="https://reactivex.io/" target="_blank">
-                <img src="https://static.cdnlogo.com/logos/r/27/reactivex.svg" height="40" alt="rxjava logo" />
-            </a>
-            <p>RxJava</p>
-        </div>
-        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
-            <a href="https://github.com/Faltenreich/SkeletonLayout" target="_blank">
-                <img src="https://raw.githubusercontent.com/Faltenreich/SkeletonLayout/refs/heads/develop/images/android.png" height="40" alt="SkeletonLayout logo" />
-            </a>
-            <p>SkeletonLayout</p>
-        </div>
-        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
-            <a href="https://gradle.org/" target="_blank">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gradle/gradle-original.svg" height="40" alt="gradle logo" />
-            </a>
-            <p>Gradle</p>
-        </div>
-        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
-            <a href="https://developer.android.com/jetpack" target="_blank">
-                <img src="https://services.google.com/fh/files/emails/android_dev_newsletter_feb_image3.png" height="40" alt="androidx jetpack logo" />
-            </a>
-            <p>AndroidX Jetpack</p>
-        </div>
-        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
-            <a href="https://www.android.com/" target="_blank">
-                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-plain-wordmark.svg" height="40" alt="android logo" />
-            </a>
-            <p>Android</p>
-        </div>
-    </div>
+
+| [<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" width="40" height="40" alt="Kotlin" />](https://kotlinlang.org/) | [<img src="https://uploads-ssl.webflow.com/60996f3af06ca2ff488a7bfb/60a269bf446a85794a4d3b6b_Retrofit.jpg" width="40" height="40" alt="Retrofit" />](https://square.github.io/retrofit/) | [<img src="https://static.cdnlogo.com/logos/r/27/reactivex.svg" width="40" height="40" alt="RxJava" />](https://reactivex.io/) | [<img src="https://raw.githubusercontent.com/Faltenreich/SkeletonLayout/refs/heads/develop/images/android.png" width="40" height="40" alt="SkeletonLayout" />](https://github.com/Faltenreich/SkeletonLayout) | [<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gradle/gradle-original.svg" width="40" height="40" alt="Gradle" />](https://gradle.org/) | [<img src="https://services.google.com/fh/files/emails/android_dev_newsletter_feb_image3.png" width="40" height="40" alt="AndroidX Jetpack" />](https://developer.android.com/jetpack) | [<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-plain-wordmark.svg" width="40" height="40" alt="Android" />](https://www.android.com/) |
+|:----------------------------------------------------------------------------------------------------------------------------------------------------------:|:----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------:|:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+|                                                                           Kotlin                                                                           |                                                                                         Retrofit                                                                                         |                                                             RxJava                                                             |                                                                                                SkeletonLayout                                                                                                 |                                                                         Gradle                                                                         |                                                                                    AndroidX Jetpack                                                                                    |                                                                               Android                                                                                |
+
 </details>
 
 ---
