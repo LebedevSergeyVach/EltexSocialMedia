@@ -122,4 +122,7 @@
     <string name="new_post_long_label">Go to create a new post</string>
     <string name="new_event_short_label">New event</string>
     <string name="new_event_long_label">Go to create a new event</string>
+    
+    <string name="today">Today</string>
+    <string name="yesterday">Yesterday</string>
 </resources>

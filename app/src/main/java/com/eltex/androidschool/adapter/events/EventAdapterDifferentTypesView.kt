@@ -13,8 +13,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
 import com.eltex.androidschool.R
+import com.eltex.androidschool.adapter.common.DateSeparatorViewHolder
 import com.eltex.androidschool.adapter.common.ErrorViewHolder
 import com.eltex.androidschool.databinding.CardEventBinding
+import com.eltex.androidschool.databinding.ItemDateSeparatorBinding
 import com.eltex.androidschool.databinding.ItemErrorBinding
 import com.eltex.androidschool.databinding.ItemSkeletonEventBinding
 import com.eltex.androidschool.ui.common.PagingModel
@@ -37,6 +39,13 @@ class EventAdapterDifferentTypesView(
     private val currentUserId: Long
 ) : ListAdapter<EventPagingModel, RecyclerView.ViewHolder>(EventPagingItemCallback()) {
 
+    private companion object {
+        private const val TYPE_EVENT = 0
+        private const val TYPE_ERROR = 1
+        private const val TYPE_LOADING = 2
+        private const val TYPE_DATE_SEPARATOR = 3
+    }
+
     /**
      * Интерфейс для обработки событий, связанных с событиями.
      */
@@ -58,9 +67,10 @@ class EventAdapterDifferentTypesView(
      */
     override fun getItemViewType(position: Int): Int =
         when (getItem(position)) {
-            is PagingModel.Data -> R.layout.card_event
-            is PagingModel.Error -> R.layout.item_error
-            PagingModel.Loading -> R.layout.item_skeleton_event
+            is PagingModel.Data -> TYPE_EVENT
+            is PagingModel.Error -> TYPE_ERROR
+            is PagingModel.Loading -> TYPE_LOADING
+            is PagingModel.DateSeparator -> TYPE_DATE_SEPARATOR
         }
 
     /**
@@ -70,16 +80,15 @@ class EventAdapterDifferentTypesView(
      * @param viewType Тип View.
      * @return RecyclerView.ViewHolder Новый ViewHolder.
      */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val viewHolder = when (viewType) {
-            R.layout.card_event -> createEventViewHolder(parent = parent)
-            R.layout.item_error -> createItemErrorViewHolder(parent = parent)
-            R.layout.item_skeleton_event -> createItemSkeletonViewHolder(parent = parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+        when (viewType) {
+            TYPE_EVENT -> createEventViewHolder(parent = parent)
+            TYPE_ERROR-> createItemErrorViewHolder(parent = parent)
+            TYPE_LOADING -> createItemSkeletonViewHolder(parent = parent)
+            TYPE_DATE_SEPARATOR -> createItemDateSeparatorViewHolder(parent = parent)
             else -> error("EventAdapterDifferentTypesView.onCreateViewHolder: Unknown viewType $viewType")
         }
 
-        return viewHolder
-    }
 
     /**
      * Привязывает данные к существующему ViewHolder.
@@ -98,7 +107,9 @@ class EventAdapterDifferentTypesView(
                 error = item.reason
             )
 
-            PagingModel.Loading -> (holder as SkeletonEventViewHolder).bind()
+            is PagingModel.Loading -> (holder as SkeletonEventViewHolder).bind()
+
+            is PagingModel.DateSeparator -> (holder as DateSeparatorViewHolder).bind(item.date)
         }
     }
 
@@ -211,6 +222,14 @@ class EventAdapterDifferentTypesView(
 
         return SkeletonEventViewHolder(binding = binding)
     }
+
+    private fun createItemDateSeparatorViewHolder(parent: ViewGroup): DateSeparatorViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = ItemDateSeparatorBinding.inflate(layoutInflater, parent, false)
+
+        return DateSeparatorViewHolder(binding = binding)
+    }
+
 
     /**
      * Показывает PopupMenu с действиями для события.

@@ -27,30 +27,73 @@ Basic settings for the application's appearance are implemented, such as: langua
 #### Documentation for the project [**documentation**](documentation/documentation.md).
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Version](https://img.shields.io/badge/Version-0.16.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.16.0)
+[![Version](https://img.shields.io/badge/Version-0.17.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.17.0)
 
 <details open="open">
-    <summary><h2>🚀 The stack of technologies used</h2></summary>
-    <div align="left">
-        <img width="12" />
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" height="40" alt="kotlin logo"  />
-        <img width="12" />
-        <img src="https://uploads-ssl.webflow.com/60996f3af06ca2ff488a7bfb/60a269bf446a85794a4d3b6b_Retrofit.jpg" height="40" alt="retrofit logo"  />
-        <img width="12" />
-        <img src="https://static.cdnlogo.com/logos/r/27/reactivex.svg" height="40" alt="rxjava logo"  />
-        <img width="12" />
-        <img src="https://raw.githubusercontent.com/Faltenreich/SkeletonLayout/refs/heads/develop/images/android.png" height="40" alt="SkeletonLayout logo"  />
-        <img width="12" />
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gradle/gradle-original.svg" height="40" alt="gradle logo"  />
-        <img width="12" />
-        <img src="https://services.google.com/fh/files/emails/android_dev_newsletter_feb_image3.png" height="40" alt="androidx jetpack logo"  />
-        <img width="12" />
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-plain-wordmark.svg" height="40" alt="android logo"  />
-        <img width="12" />
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" height="40" alt="sqlite logo"  />
-        <img width="12" />
+    <summary><h2>🚀 Стек используемых технологий</h2></summary>
+    <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
+            <a href="https://kotlinlang.org/" target="_blank">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" height="40" alt="kotlin logo" />
+            </a>
+            <p>Kotlin</p>
+        </div>
+        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
+            <a href="https://square.github.io/retrofit/" target="_blank">
+                <img src="https://uploads-ssl.webflow.com/60996f3af06ca2ff488a7bfb/60a269bf446a85794a4d3b6b_Retrofit.jpg" height="40" alt="retrofit logo" />
+            </a>
+            <p>Retrofit</p>
+        </div>
+        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
+            <a href="https://reactivex.io/" target="_blank">
+                <img src="https://static.cdnlogo.com/logos/r/27/reactivex.svg" height="40" alt="rxjava logo" />
+            </a>
+            <p>RxJava</p>
+        </div>
+        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
+            <a href="https://github.com/Faltenreich/SkeletonLayout" target="_blank">
+                <img src="https://raw.githubusercontent.com/Faltenreich/SkeletonLayout/refs/heads/develop/images/android.png" height="40" alt="SkeletonLayout logo" />
+            </a>
+            <p>SkeletonLayout</p>
+        </div>
+        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
+            <a href="https://gradle.org/" target="_blank">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gradle/gradle-original.svg" height="40" alt="gradle logo" />
+            </a>
+            <p>Gradle</p>
+        </div>
+        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
+            <a href="https://developer.android.com/jetpack" target="_blank">
+                <img src="https://services.google.com/fh/files/emails/android_dev_newsletter_feb_image3.png" height="40" alt="androidx jetpack logo" />
+            </a>
+            <p>AndroidX Jetpack</p>
+        </div>
+        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
+            <a href="https://www.android.com/" target="_blank">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-plain-wordmark.svg" height="40" alt="android logo" />
+            </a>
+            <p>Android</p>
+        </div>
     </div>
 </details>
+
+---
+
+> [!NOTE]
+> ### **The project is under active development!**
+>
+> At the moment, work is underway to improve the functionality of the application, add new features to the project, as well as solve possible problems and bugs.
+>
+> ### Required tasks for the release of Version 1.0.0:
+> - Add features to the app for working with images and videos.
+> - Add caching of data downloaded from the server.
+> - Add registration and authorization to the app.
+> - Implement a fragment with the display of data about the post/ event (image/video, data, users who liked/participated).
+>
+> ### Помощь в развитии проекта:
+> - If you find a bug or have an idea for improvement, please create [**issue**](https://github.com/LebedevSergeyVach/EltexSocialMedia/issues).
+> - You can also suggest your changes or implement new features/functions via [**pull request**](https://github.com/LebedevSergeyVach/EltexSocialMedia/pulls).
+
 
 ---
 
@@ -93,30 +136,72 @@ Basic settings for the application's appearance are implemented, such as: langua
 #### Документация к проеку [**documentation**](documentation/documentation.md).
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Version](https://img.shields.io/badge/Version-0.16.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.16.0)
+[![Version](https://img.shields.io/badge/Version-0.17.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.17.0)
 
 <details open="open">
     <summary><h2>🚀 Стек используемых технологий</h2></summary>
-    <div align="left">
-        <img width="12" />
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" height="40" alt="kotlin logo"  />
-        <img width="12" />
-        <img src="https://uploads-ssl.webflow.com/60996f3af06ca2ff488a7bfb/60a269bf446a85794a4d3b6b_Retrofit.jpg" height="40" alt="retrofit logo"  />
-        <img width="12" />
-        <img src="https://static.cdnlogo.com/logos/r/27/reactivex.svg" height="40" alt="rxjava logo"  />
-        <img width="12" />
-        <img src="https://raw.githubusercontent.com/Faltenreich/SkeletonLayout/refs/heads/develop/images/android.png" height="40" alt="SkeletonLayout logo"  />
-        <img width="12" />
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gradle/gradle-original.svg" height="40" alt="gradle logo"  />
-        <img width="12" />
-        <img src="https://services.google.com/fh/files/emails/android_dev_newsletter_feb_image3.png" height="40" alt="androidx jetpack logo"  />
-        <img width="12" />
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-plain-wordmark.svg" height="40" alt="android logo"  />
-        <img width="12" />
-        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/sqlite/sqlite-original.svg" height="40" alt="sqlite logo"  />
-        <img width="12" />
+    <div style="display: flex; flex-wrap: wrap; gap: 16px;">
+        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
+            <a href="https://kotlinlang.org/" target="_blank">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" height="40" alt="kotlin logo" />
+            </a>
+            <p>Kotlin</p>
+        </div>
+        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
+            <a href="https://square.github.io/retrofit/" target="_blank">
+                <img src="https://uploads-ssl.webflow.com/60996f3af06ca2ff488a7bfb/60a269bf446a85794a4d3b6b_Retrofit.jpg" height="40" alt="retrofit logo" />
+            </a>
+            <p>Retrofit</p>
+        </div>
+        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
+            <a href="https://reactivex.io/" target="_blank">
+                <img src="https://static.cdnlogo.com/logos/r/27/reactivex.svg" height="40" alt="rxjava logo" />
+            </a>
+            <p>RxJava</p>
+        </div>
+        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
+            <a href="https://github.com/Faltenreich/SkeletonLayout" target="_blank">
+                <img src="https://raw.githubusercontent.com/Faltenreich/SkeletonLayout/refs/heads/develop/images/android.png" height="40" alt="SkeletonLayout logo" />
+            </a>
+            <p>SkeletonLayout</p>
+        </div>
+        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
+            <a href="https://gradle.org/" target="_blank">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/gradle/gradle-original.svg" height="40" alt="gradle logo" />
+            </a>
+            <p>Gradle</p>
+        </div>
+        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
+            <a href="https://developer.android.com/jetpack" target="_blank">
+                <img src="https://services.google.com/fh/files/emails/android_dev_newsletter_feb_image3.png" height="40" alt="androidx jetpack logo" />
+            </a>
+            <p>AndroidX Jetpack</p>
+        </div>
+        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
+            <a href="https://www.android.com/" target="_blank">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-plain-wordmark.svg" height="40" alt="android logo" />
+            </a>
+            <p>Android</p>
+        </div>
     </div>
 </details>
+
+---
+
+> [!NOTE]  
+> ### **Проект находится в стадии активной разработки!**
+>
+> На данный момент идет работа над улучшением функциональности приложения, добавления новых фишек в проект, а также решение возможных проблем и багов.
+> 
+> ### Необходимые задачи для выхода Version 1.0.0:
+> - Добавить функции в приложение по работе с изображениями и видео.
+> - Добавить кэширование данных, загруженных с сервера.
+> - Добавить регистрацию и авторизацию в приложение.
+> - Реализовать фрагмент с отображением данных о посте/событии (изображение/видео, данные, пользователи, поставевшие лайк/участие).
+>
+> ### Помощь в развитии проекта:
+> - Если Вы нашли баг или у вас есть идея для улучшения, пожалуйста, создайте [**issue**](https://github.com/LebedevSergeyVach/EltexSocialMedia/issues).
+> - Вы также можете предложить свои изменения или реализацию новых фишек/функций через [**pull request**](https://github.com/LebedevSergeyVach/EltexSocialMedia/pulls).
 
 ---
 

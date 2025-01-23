@@ -83,14 +83,6 @@ class NewOrUpdateEventFragment : Fragment() {
     private var selectedDate: Calendar? = null
     private var selectedTime: Calendar? = null
 
-    /**
-     * Создает и возвращает представление для этого фрагмента.
-     *
-     * @param inflater Объект, который может преобразовать XML-файл макета в View-объекты.
-     * @param container Родительский ViewGroup, в который будет добавлено представление.
-     * @param savedInstanceState Сохраненное состояние фрагмента, если оно есть.
-     * @return View, представляющий собой корневой элемент макета этого фрагмента.
-     */
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

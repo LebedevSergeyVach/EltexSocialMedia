@@ -21,7 +21,7 @@ class PostUiModelMapper {
          *
          * Используется для форматирования даты и времени в формате "dd.MM.yy HH.mm".
          */
-        val FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yy HH.mm")
+        val FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm")
     }
 
     /**

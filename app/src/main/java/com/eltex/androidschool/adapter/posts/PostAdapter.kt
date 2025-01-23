@@ -13,9 +13,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
 import com.eltex.androidschool.R
+import com.eltex.androidschool.adapter.common.DateSeparatorViewHolder
 import com.eltex.androidschool.adapter.common.ErrorViewHolder
 import com.eltex.androidschool.adapter.common.LoadingViewHolder
 import com.eltex.androidschool.databinding.CardPostBinding
+import com.eltex.androidschool.databinding.ItemDateSeparatorBinding
 import com.eltex.androidschool.databinding.ItemErrorBinding
 import com.eltex.androidschool.databinding.ItemProgressBinding
 import com.eltex.androidschool.databinding.ItemSkeletonPostBinding
@@ -43,6 +45,13 @@ class PostAdapter(
     private val currentUserId: Long
 ) : ListAdapter<PostPagingModel, RecyclerView.ViewHolder>(PostPagingItemCallback()) {
 
+    private companion object {
+        private const val TYPE_POST = 0
+        private const val TYPE_ERROR = 1
+        private const val TYPE_LOADING = 2
+        private const val TYPE_DATE_SEPARATOR = 3
+    }
+
     /**
      * Интерфейс для обработки событий, связанных с постами.
      */
@@ -63,9 +72,10 @@ class PostAdapter(
      */
     override fun getItemViewType(position: Int): Int =
         when (getItem(position)) {
-            is PagingModel.Data -> R.layout.card_post
-            is PagingModel.Error -> R.layout.item_error
-            PagingModel.Loading -> R.layout.item_skeleton_post
+            is PagingModel.Data -> TYPE_POST
+            is PagingModel.Error -> TYPE_ERROR
+            is PagingModel.Loading -> TYPE_LOADING
+            is PagingModel.DateSeparator -> TYPE_DATE_SEPARATOR
         }
 
     /**
@@ -76,16 +86,14 @@ class PostAdapter(
      *
      * @return RecyclerView.ViewHolder Новый ViewHolder.
      */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        val viewHolder = when (viewType) {
-            R.layout.card_post -> createPostViewHolder(parent = parent)
-            R.layout.item_error -> createItemErrorViewHolder(parent = parent)
-            R.layout.item_skeleton_post -> createItemSkeletonViewHolder(parent = parent)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder =
+        when (viewType) {
+            TYPE_POST -> createPostViewHolder(parent = parent)
+            TYPE_ERROR -> createItemErrorViewHolder(parent = parent)
+            TYPE_LOADING -> createItemSkeletonViewHolder(parent = parent)
+            TYPE_DATE_SEPARATOR -> createItemDateSeparatorViewHolder(parent = parent)
             else -> error("PostAdapter.onCreateViewHolder: Unknown viewType $viewType")
         }
-
-        return viewHolder
-    }
 
     /**
      * Привязывает данные к существующему ViewHolder.
@@ -99,12 +107,12 @@ class PostAdapter(
                 post = item.value,
                 currentUserId = currentUserId
             )
-
             is PagingModel.Error -> (holder as ErrorViewHolder).bind(
                 error = item.reason
             )
+            is PagingModel.Loading -> (holder as SkeletonPostViewHolder).bind()
 
-            PagingModel.Loading -> (holder as SkeletonPostViewHolder).bind()
+            is PagingModel.DateSeparator -> (holder as DateSeparatorViewHolder).bind(item.date)
         }
     }
 
@@ -222,6 +230,13 @@ class PostAdapter(
         val binding = ItemSkeletonPostBinding.inflate(layoutInflater, parent, false)
 
         return SkeletonPostViewHolder(binding = binding)
+    }
+
+    private fun createItemDateSeparatorViewHolder(parent: ViewGroup): DateSeparatorViewHolder {
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = ItemDateSeparatorBinding.inflate(layoutInflater, parent, false)
+
+        return DateSeparatorViewHolder(binding = binding)
     }
 
     /**

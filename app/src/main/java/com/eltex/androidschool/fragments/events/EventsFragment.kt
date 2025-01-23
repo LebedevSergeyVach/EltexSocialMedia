@@ -256,7 +256,12 @@ class EventsFragment : Fragment() {
                     viewModel.accept(message = EventMessage.HandleError)
                 }
 
-                adapter.submitList(EventPagingMapper.map(eventState))
+                adapter.submitList(
+                    EventPagingMapper.map(
+                        state = eventState,
+                        context = requireContext()
+                    )
+                )
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
