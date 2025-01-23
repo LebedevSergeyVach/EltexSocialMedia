@@ -497,7 +497,9 @@ class UserFragment : Fragment() {
         postViewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { postState: PostWallState ->
-                postAdapter.submitList(PostPagingMapper.map(postState))
+                postAdapter.submitList(
+                    PostPagingMapper.map(state = postState)
+                )
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 

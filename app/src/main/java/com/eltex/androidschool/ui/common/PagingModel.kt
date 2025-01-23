@@ -26,4 +26,11 @@ sealed interface PagingModel<out T> {
      * Модель состояния загрузки.
      */
     data object Loading : PagingModel<Nothing>
+
+    /**
+     * Модель разделителя даты.
+     *
+     * @property date Дата, которая будет отображаться в разделителе.
+     */
+    data class DateSeparator(val date: String) : PagingModel<Nothing>
 }
