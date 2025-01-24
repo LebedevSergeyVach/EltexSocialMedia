@@ -125,4 +125,13 @@
 
     <string name="today">Сегодня</string>
     <string name="yesterday">Вчера</string>
+
+    <string name="registration">Регистрация</string>
+    <string name="authorization">Авторизация</string>
+    <string name="login_account">Войти в аккаунт</string>
+    <string name="login_no_transferred">Логин</string>
+    <string name="name">Имя</string>
+    <string name="password">Пароль</string>
+    <string name="confirm_the_password">Подтвердите пароль</string>
+    <string name="no_account_to_registration">Нет аккаунта? Зарегистрируйтесь!</string>
 </resources>

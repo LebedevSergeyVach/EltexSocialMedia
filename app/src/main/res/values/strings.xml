@@ -126,12 +126,12 @@
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
     
-    <string name="registration">Регистрация</string>
-    <string name="authorization">Авторизация</string>
-    <string name="login_account">Войти в аккаунт</string>
-    <string name="login_no_transferred">Логин</string>
-    <string name="name">Имя</string>
-    <string name="password">Пароль</string>
-    <string name="confirm_the_password">Подтвердите пароль</string>
-    <string name="no_account_to_registration">Нет аккаунта? Зарегистрируйтесь!</string>
+    <string name="registration">Registration</string>
+    <string name="authorization">Authorization</string>
+    <string name="login_account">Login to your account</string>
+    <string name="login_no_transferred">Login</string>
+    <string name="name">Name</string>
+    <string name="password">Password</string>
+    <string name="confirm_the_password">Confirm the password</string>
+    <string name="no_account_to_registration">No account? Register!</string>
 </resources>

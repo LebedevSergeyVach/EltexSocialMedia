@@ -70,7 +70,7 @@
 
                 android:backgroundTint="@color/active_element"
                 android:text="@string/choose_language"
-                android:textColor="@color/black_white_theme" />
+                android:textColor="@color/white" />
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
@@ -117,7 +117,7 @@
 
                 android:backgroundTint="@color/active_element"
                 android:text="@string/choose_theme"
-                android:textColor="@color/black_white_theme" />
+                android:textColor="@color/white" />
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>

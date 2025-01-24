@@ -176,7 +176,7 @@
 
                 android:backgroundTint="@color/active_element"
                 android:text="@string/select_date"
-                android:textColor="@color/black_white_theme" />
+                android:textColor="@color/white" />
         </LinearLayout>
 
     </com.google.android.material.card.MaterialCardView>
