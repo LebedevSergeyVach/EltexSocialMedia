@@ -79,12 +79,7 @@
                 android:layout_marginTop="16dp"
 
                 android:hint="@string/position"
-                app:endIconMode="clear_text"
-
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textCompanyName">
-
+                app:endIconMode="clear_text">
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/CustomTextViewStyle"
 
@@ -104,11 +99,7 @@
                 android:layout_marginTop="16dp"
 
                 android:hint="@string/link"
-                app:endIconMode="clear_text"
-
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/textPosition">
+                app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
                     style="@style/CustomTextViewStyle"

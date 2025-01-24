@@ -1,4 +1,4 @@
-package com.eltex.androidschool.api.jobs
+package com.eltex.androidschool.api.auth
 
 import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.utils.DnsSelector
@@ -9,21 +9,9 @@ import okhttp3.logging.HttpLoggingInterceptor
 
 import java.util.concurrent.TimeUnit
 
-/**
- * Фабрика для создания экземпляра OkHttpClient с настройками для работы с API вакансий.
- */
-object OkHttpClientFactoryJob {
+object OkHttpClientFactoryAuth {
     private const val API_KEY = "Api-Key"
-    private const val API_AUTHORIZATION = "Authorization"
 
-    /**
-     * Ленивая инициализация экземпляра OkHttpClient.
-     * Настраивает таймауты, добавляет интерцепторы для логирования и авторизации.
-     *
-     * @return Настроенный экземпляр OkHttpClient.
-     * @see HttpLoggingInterceptor
-     * @see DnsSelector
-     */
     val INSTANCE: OkHttpClient by lazy {
         OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)
@@ -42,7 +30,6 @@ object OkHttpClientFactoryJob {
                 chain.proceed(
                     chain.request().newBuilder()
                         .addHeader(API_KEY, BuildConfig.API_KEY)
-                        .addHeader(API_AUTHORIZATION, BuildConfig.AUTHORIZATION)
                         .build()
                 )
             }

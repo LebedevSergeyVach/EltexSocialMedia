@@ -1,7 +1,6 @@
 package com.eltex.androidschool.activity
 
 import android.content.Context
-import android.content.Intent
 import android.content.res.Configuration
 
 import android.os.Bundle
@@ -12,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 
 import com.eltex.androidschool.R
-import com.eltex.androidschool.fragments.common.ToolbarFragment
 import com.eltex.androidschool.ui.common.EdgeToEdgeHelper
 import com.eltex.androidschool.utils.LocaleContextWrapper
 
@@ -27,11 +25,6 @@ import java.util.Locale
  * @see AppCompatActivity Базовый класс для активностей, использующих функции библиотеки поддержки.
  */
 class MainActivity : AppCompatActivity(R.layout.main_activity) {
-
-    companion object {
-        const val FRAGMENT = "FRAGMENT"
-        const val FRAGMENT_TO_OPEN = "FRAGMENT_TO_OPEN"
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

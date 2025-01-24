@@ -1,5 +1,6 @@
 package com.eltex.androidschool.api.users
 
+import com.eltex.androidschool.api.common.RetrofitFactory
 import com.eltex.androidschool.data.users.UserData
 
 import retrofit2.create
@@ -37,10 +38,10 @@ interface UsersApi {
      */
     companion object {
         /**
-         * Экземпляр [UsersApi], созданный с использованием [RetrofitFactoryUser].
+         * Экземпляр [UsersApi], созданный с использованием [RetrofitFactory].
          */
         val INSTANCE: UsersApi by lazy {
-            RetrofitFactoryUser.INSTANCE.create<UsersApi>()
+            RetrofitFactory.INSTANCE.create<UsersApi>()
         }
     }
 }

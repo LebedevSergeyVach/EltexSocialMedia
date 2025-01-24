@@ -1,11 +1,9 @@
-package com.eltex.androidschool.api.posts
+package com.eltex.androidschool.api.common
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-
 import kotlinx.serialization.json.Json
 
 import okhttp3.MediaType.Companion.toMediaType
-
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 
@@ -19,28 +17,32 @@ import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
  * @see RxJava3CallAdapterFactory Адаптер для интеграции RxJava3 с Retrofit.
  * @see Json Конфигурация JSON-сериализации.
  */
-object RetrofitFactoryPost {
+object RetrofitFactory {
     private val JSON_TYPE = "application/json".toMediaType()
-    private const val API_BASE_URL_POST = "https://eltex-android.ru/"
+    private const val API_BASE_URL = "https://eltex-android.ru/"
 
     /**
      * Конфигурация JSON-сериализации.
      *
      * - `ignoreUnknownKeys = true`: Игнорирует неизвестные ключи в JSON.
+     * - `coerceInputValues = true`: Приводит значения `null` к значениям по умолчанию.
      */
     private val json = Json {
         ignoreUnknownKeys = true
+        coerceInputValues = true
     }
 
     /**
-     * Экземпляр Retrofit, настроенный для работы с API постов.
+     * Ленивая инициализация экземпляра Retrofit.
+     * Настраивает базовый URL, конвертер JSON и клиент OkHttp.
      *
-     * Ленивая инициализация, чтобы создать экземпляр Retrofit только при первом обращении.
+     * @return Настроенный экземпляр Retrofit.
+     * @see [OkHttpClientFactory]
      */
     val INSTANCE: Retrofit by lazy {
         Retrofit.Builder()
-            .client(OkHttpClientFactoryPost.INSTANCE)
-            .baseUrl(API_BASE_URL_POST)
+            .client(OkHttpClientFactory.INSTANCE)
+            .baseUrl(API_BASE_URL)
             .addConverterFactory(json.asConverterFactory(JSON_TYPE))
             .build()
     }

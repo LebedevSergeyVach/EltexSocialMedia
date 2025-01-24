@@ -1,5 +1,6 @@
 package com.eltex.androidschool.api.posts
 
+import com.eltex.androidschool.api.common.RetrofitFactory
 import com.eltex.androidschool.data.posts.PostData
 
 import retrofit2.create
@@ -138,10 +139,10 @@ interface PostsApi {
      */
     companion object {
         /**
-         * Экземпляр [PostsApi], созданный с использованием [RetrofitFactoryPost].
+         * Экземпляр [PostsApi], созданный с использованием [RetrofitFactory].
          */
         val INSTANCE: PostsApi by lazy {
-            RetrofitFactoryPost.INSTANCE.create<PostsApi>()
+            RetrofitFactory.INSTANCE.create<PostsApi>()
         }
     }
 }
