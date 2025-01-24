@@ -1,5 +1,6 @@
 package com.eltex.androidschool.api.events
 
+import com.eltex.androidschool.api.common.RetrofitFactory
 import com.eltex.androidschool.data.events.EventData
 
 import retrofit2.create
@@ -116,10 +117,10 @@ interface EventsApi {
      */
     companion object {
         /**
-         * Экземпляр [EventsApi], созданный с использованием [RetrofitFactoryEvent].
+         * Экземпляр [EventsApi], созданный с использованием [RetrofitFactory].
          */
         val INSTANCE: EventsApi by lazy {
-            RetrofitFactoryEvent.INSTANCE.create<EventsApi>()
+            RetrofitFactory.INSTANCE.create<EventsApi>()
         }
     }
 }

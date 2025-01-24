@@ -19,7 +19,6 @@ import androidx.navigation.ui.setupWithNavController
 
 import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
-import com.eltex.androidschool.activity.MainActivity
 import com.eltex.androidschool.databinding.FragmentToolbarBinding
 import com.eltex.androidschool.utils.Logger
 import com.eltex.androidschool.utils.toast
@@ -148,11 +147,6 @@ class ToolbarFragment : Fragment() {
                 }
             }
             true
-        }
-
-        val fragmentToOpen = arguments?.getString(MainActivity.FRAGMENT_TO_OPEN)
-        if (fragmentToOpen != null) {
-            navigateToFragment(navController, fragmentToOpen)
         }
 
         return binding.root
