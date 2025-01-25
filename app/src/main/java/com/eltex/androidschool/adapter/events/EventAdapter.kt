@@ -1,11 +1,16 @@
 package com.eltex.androidschool.adapter.events
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.drawable.InsetDrawable
+import android.os.Build
+import android.util.TypedValue
 
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.view.menu.MenuBuilder
 
 import androidx.appcompat.widget.PopupMenu
 
@@ -13,7 +18,9 @@ import androidx.recyclerview.widget.ListAdapter
 
 import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.CardEventBinding
+import com.eltex.androidschool.ui.common.PagingModel
 import com.eltex.androidschool.ui.events.EventUiModel
+import com.eltex.androidschool.ui.posts.PostUiModel
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 
 /**
@@ -131,22 +138,51 @@ class EventAdapter(
      * @param view View, к которому привязано меню.
      * @param position Позиция поста в списке.
      */
+    @SuppressLint("RestrictedApi", "ObsoleteSdkInt")
     private fun showPopupMenu(view: View, position: Int) {
         context.singleVibrationWithSystemCheck(35)
 
-        PopupMenu(view.context, view).apply {
+        val resources = view.context.resources
+
+        val iconMarginPx = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics
+        ).toInt()
+
+        val popup = PopupMenu(view.context, view).apply {
             inflate(R.menu.menu_event)
+
+            if (menu is MenuBuilder) {
+                val menuBuilder = menu as MenuBuilder
+                menuBuilder.setOptionalIconsVisible(true)
+
+                for (item in menuBuilder.visibleItems) {
+                    if (item.icon != null) {
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                            item.icon = InsetDrawable(item.icon, iconMarginPx, 0, iconMarginPx, 0)
+                        } else {
+                            item.icon = object :
+                                InsetDrawable(item.icon, iconMarginPx, 0, iconMarginPx, 0) {
+                                override fun getIntrinsicWidth(): Int {
+                                    return intrinsicHeight + iconMarginPx + iconMarginPx
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
             setOnMenuItemClickListener { menuItem: MenuItem ->
                 when (menuItem.itemId) {
                     R.id.delete_event -> {
                         listener.onDeleteClicked(getItem(position))
                         context.singleVibrationWithSystemCheck(35)
+
                         true
                     }
 
                     R.id.update_event -> {
                         listener.onUpdateClicked(getItem(position))
+
                         true
                     }
 
@@ -155,8 +191,8 @@ class EventAdapter(
                     }
                 }
             }
-
-            show()
         }
+
+        popup.show()
     }
 }

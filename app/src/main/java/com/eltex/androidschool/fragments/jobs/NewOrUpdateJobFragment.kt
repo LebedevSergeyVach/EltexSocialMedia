@@ -278,9 +278,13 @@ class NewOrUpdateJobFragment : Fragment() {
      */
     private fun updateWorkingPeriodText(binding: FragmentNewOrUpdateJobBinding) {
         if (selectedStartDate != null && selectedFinishDate != null) {
-            val dateFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
-            val startDate = dateFormat.format(selectedStartDate!!.time)
-            val finishDate = dateFormat.format(selectedFinishDate!!.time)
+            val dateFormat = SimpleDateFormat(
+                "dd MMMM yyyy",
+                Locale("ru")
+            )
+
+            val startDate: String = dateFormat.format(selectedStartDate!!.time)
+            val finishDate: String = dateFormat.format(selectedFinishDate!!.time)
 
             binding.textWorkingPeriod.text = buildString {
                 append(startDate)
@@ -304,13 +308,14 @@ class NewOrUpdateJobFragment : Fragment() {
     }
 
     /**
-     * Парсит даты start и finish из строки в формате "dd.MM.yy".
+     * Парсит даты start и finish из строки в формате "dd MMMM yyyy".
      *
      * @param start Строка с датой начала работы.
      * @param finish Строка с датой окончания работы.
      */
     private fun parseDateTime(start: String, finish: String) {
-        val dateFormat = SimpleDateFormat("dd.MM.yy", Locale.getDefault())
+        val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale.getDefault())
+
         try {
             val startDate = dateFormat.parse(start)
             val finishDate = dateFormat.parse(finish)

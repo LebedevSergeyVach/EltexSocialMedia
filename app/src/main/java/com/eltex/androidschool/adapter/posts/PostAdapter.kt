@@ -1,11 +1,16 @@
 package com.eltex.androidschool.adapter.posts
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.drawable.InsetDrawable
+import android.os.Build
+import android.util.TypedValue
 
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.view.menu.MenuBuilder
 
 import androidx.appcompat.widget.PopupMenu
 
@@ -107,9 +112,11 @@ class PostAdapter(
                 post = item.value,
                 currentUserId = currentUserId
             )
+
             is PagingModel.Error -> (holder as ErrorViewHolder).bind(
                 error = item.reason
             )
+
             is PagingModel.Loading -> (holder as SkeletonPostViewHolder).bind()
 
             is PagingModel.DateSeparator -> (holder as DateSeparatorViewHolder).bind(item.date)
@@ -245,11 +252,38 @@ class PostAdapter(
      * @param view View, к которому привязано меню.
      * @param position Позиция поста в списке.
      */
+    @SuppressLint("RestrictedApi", "ObsoleteSdkInt")
     private fun showPopupMenu(view: View, position: Int) {
         context.singleVibrationWithSystemCheck(35)
 
-        PopupMenu(view.context, view).apply {
+        val resources = view.context.resources
+
+        val iconMarginPx = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics
+        ).toInt()
+
+        val popup = PopupMenu(view.context, view).apply {
             inflate(R.menu.menu_post)
+
+            if (menu is MenuBuilder) {
+                val menuBuilder = menu as MenuBuilder
+                menuBuilder.setOptionalIconsVisible(true)
+
+                for (item in menuBuilder.visibleItems) {
+                    if (item.icon != null) {
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                            item.icon = InsetDrawable(item.icon, iconMarginPx, 0, iconMarginPx, 0)
+                        } else {
+                            item.icon = object :
+                                InsetDrawable(item.icon, iconMarginPx, 0, iconMarginPx, 0) {
+                                override fun getIntrinsicWidth(): Int {
+                                    return intrinsicHeight + iconMarginPx + iconMarginPx
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
             setOnMenuItemClickListener { menuItem: MenuItem ->
                 when (menuItem.itemId) {
@@ -277,8 +311,8 @@ class PostAdapter(
                     }
                 }
             }
-
-            show()
         }
+
+        popup.show()
     }
 }

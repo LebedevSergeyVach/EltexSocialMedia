@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
@@ -405,6 +406,8 @@ class UserFragment : Fragment() {
             }
         }.attach()
 
+        registerBackPressedCallback(binding = binding)
+
         binding.viewPagerPostsAndEvents.registerOnPageChangeCallback(
             object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
@@ -730,5 +733,37 @@ class UserFragment : Fragment() {
             message = message,
             onDeleteConfirmed = onDeleteConfirmed
         )
+    }
+    /**
+     * Регистрирует обработчик нажатия системной кнопки "Назад" для управления поведением ViewPager2.
+     *
+     * Этот метод создает и регистрирует [OnBackPressedCallback], который перехватывает нажатие кнопки "Назад".
+     *
+     * @param binding [FragmentUserBinding] Привязка для макета фрагмента, содержащего ViewPager2.
+     *
+     * @see OnBackPressedCallback Класс, используемый для перехвата нажатия кнопки "Назад".
+     * @see FragmentUserBinding Привязка для макета фрагмента, содержащего ViewPager2.
+     * @see ViewPager2 Компонент для отображения вкладок с постами, событиями и местами работы.
+     * @see requireActivity Метод для получения активности, связанной с фрагментом.
+     * @see viewLifecycleOwner Владелец жизненного цикла, связанный с View фрагмента.
+     *
+     * @property callback Обработчик нажатия кнопки "Назад", который управляет поведением ViewPager2.
+     */
+    @Suppress("DEPRECATION")
+    private fun registerBackPressedCallback(binding: FragmentUserBinding) {
+        val callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val currentItem = binding.viewPagerPostsAndEvents.currentItem
+
+                if (currentItem != 0) {
+                    binding.viewPagerPostsAndEvents.setCurrentItem(0, true)
+                } else {
+                    isEnabled = false
+                    requireActivity().onBackPressed()
+                }
+            }
+        }
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
     }
 }
