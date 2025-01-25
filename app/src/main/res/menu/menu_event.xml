@@ -3,11 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/delete_event"
+        android:icon="@drawable/ic_delete_24"
         android:title="@string/delete_event"
+        app:iconTint="@color/red"
         app:popupTheme="@style/Widget.App.PopupMenu" />
 
     <item
         android:id="@+id/update_event"
+        android:icon="@drawable/ic_update_24"
         android:title="@string/update_event"
+        app:iconTint="@color/active_element"
         app:popupTheme="@style/Widget.App.PopupMenu" />
 </menu>

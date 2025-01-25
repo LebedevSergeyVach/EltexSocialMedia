@@ -77,11 +77,13 @@ object PostPagingMapper {
 
     /**
      * Форматирует дату в строку с использованием строковых ресурсов.
+     * Месяц отображается текстом, а не числом.
      *
      * @param date Дата в формате строки.
      * @param context Контекст для доступа к строковым ресурсам.
      * @return Отформатированная строка с датой.
      */
+    @Suppress("DEPRECATION")
     private fun getFormattedDate(date: String, context: Context): String {
         val today = LocalDate.now()
         val yesterday = today.minusDays(1)
@@ -90,7 +92,14 @@ object PostPagingMapper {
         return when (postDate) {
             today -> context.getString(R.string.today)
             yesterday -> context.getString(R.string.yesterday)
-            else -> postDate.format(DateTimeFormatter.ofPattern("dd MM yyyy"))
+
+            else -> {
+                val formatter = DateTimeFormatter.ofPattern(
+                    "dd MMM yyyy",
+                    context.resources.configuration.locale
+                )
+                postDate.format(formatter)
+            }
         }
     }
 }
