@@ -1,13 +1,20 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/language_ru"
-        android:title="@string/russian" />
+        android:icon="@drawable/ic_ru_24"
+        android:title="@string/russian"
+        app:iconTint="@color/active_element" />
 
     <item
         android:id="@+id/language_en"
-        android:title="@string/english" />
+        android:icon="@drawable/ic_en_24"
+        android:title="@string/english"
+        app:iconTint="@color/active_element" />
 
     <item
         android:id="@+id/language_system"
-        android:title="@string/system_language" />
+        android:icon="@drawable/ic_smartphone_24"
+        android:title="@string/system_language"
+        app:iconTint="@color/active_element" />
 </menu>

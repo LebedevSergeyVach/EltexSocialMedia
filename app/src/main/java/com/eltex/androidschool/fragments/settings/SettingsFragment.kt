@@ -1,17 +1,23 @@
 package com.eltex.androidschool.fragments.settings
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.drawable.InsetDrawable
+import android.os.Build
 
 import android.os.Bundle
+import android.util.TypedValue
 
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 
 import android.widget.PopupMenu
 
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.view.menu.MenuBuilder
 
 import androidx.fragment.app.Fragment
 import com.eltex.androidschool.BuildConfig
@@ -45,15 +51,7 @@ class SettingsFragment : Fragment() {
             showLanguagePopupMenu(view, binding = binding)
         }
 
-        binding.cardSettingsLanguage.setOnClickListener { view: View ->
-            showLanguagePopupMenu(view, binding = binding)
-        }
-
         binding.chooseButtonSettingsTheme.setOnClickListener { view: View ->
-            showThemePopupMenu(view, binding = binding)
-        }
-
-        binding.cardSettingsTheme.setOnClickListener { view: View ->
             showThemePopupMenu(view, binding = binding)
         }
 
@@ -155,23 +153,51 @@ class SettingsFragment : Fragment() {
      * @see PopupMenu Меню для выбора языка.
      * @see setLocale Метод для установки выбранного языка.
      */
+    @SuppressLint("RestrictedApi", "ObsoleteSdkInt")
     private fun showLanguagePopupMenu(view: View, binding: FragmentSettingsBinding) {
         requireContext().singleVibrationWithSystemCheck(35L)
 
-        val popupMenu = PopupMenu(requireContext(), view)
+        val resources = view.context.resources
 
-        popupMenu.menuInflater.inflate(R.menu.language_menu, popupMenu.menu)
+        val iconMarginPx = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics
+        ).toInt()
 
-        popupMenu.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.language_ru -> setLocale("ru", binding = binding)
-                R.id.language_en -> setLocale("en", binding = binding)
-                R.id.language_system -> setLocale(null, binding = binding)
+        val popup = androidx.appcompat.widget.PopupMenu(view.context, view).apply {
+            inflate(R.menu.language_menu)
+
+            if (menu is MenuBuilder) {
+                val menuBuilder = menu as MenuBuilder
+                menuBuilder.setOptionalIconsVisible(true)
+
+                for (item in menuBuilder.visibleItems) {
+                    if (item.icon != null) {
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                            item.icon = InsetDrawable(item.icon, iconMarginPx, 0, iconMarginPx, 0)
+                        } else {
+                            item.icon = object :
+                                InsetDrawable(item.icon, iconMarginPx, 0, iconMarginPx, 0) {
+                                override fun getIntrinsicWidth(): Int {
+                                    return intrinsicHeight + iconMarginPx + iconMarginPx
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            true
+
+            setOnMenuItemClickListener { menuItem: MenuItem ->
+                when (menuItem.itemId) {
+                    R.id.language_ru -> setLocale("ru", binding = binding)
+                    R.id.language_en -> setLocale("en", binding = binding)
+                    R.id.language_system -> setLocale(null, binding = binding)
+                }
+
+                true
+            }
         }
 
-        popupMenu.show()
+        popup.show()
     }
 
     /**
@@ -183,32 +209,59 @@ class SettingsFragment : Fragment() {
      * @see PopupMenu Меню для выбора темы.
      * @see setTheme Метод для установки выбранной темы.
      */
+    @SuppressLint("RestrictedApi", "ObsoleteSdkInt")
     private fun showThemePopupMenu(view: View, binding: FragmentSettingsBinding) {
         requireContext().singleVibrationWithSystemCheck(35L)
 
-        val popupMenu = PopupMenu(requireContext(), view)
+        val resources = view.context.resources
 
-        popupMenu.menuInflater.inflate(R.menu.menu_theme, popupMenu.menu)
+        val iconMarginPx = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, 8f, resources.displayMetrics
+        ).toInt()
 
-        popupMenu.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.theme_light -> setTheme(
-                    AppCompatDelegate.MODE_NIGHT_NO, binding = binding
-                )
+        val popup = androidx.appcompat.widget.PopupMenu(view.context, view).apply {
+            inflate(R.menu.menu_theme)
 
-                R.id.theme_dark -> setTheme(
-                    AppCompatDelegate.MODE_NIGHT_YES, binding = binding
-                )
+            if (menu is MenuBuilder) {
+                val menuBuilder = menu as MenuBuilder
+                menuBuilder.setOptionalIconsVisible(true)
 
-                R.id.theme_system -> setTheme(
-                    AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,
-                    binding = binding
-                )
+                for (item in menuBuilder.visibleItems) {
+                    if (item.icon != null) {
+                        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP) {
+                            item.icon = InsetDrawable(item.icon, iconMarginPx, 0, iconMarginPx, 0)
+                        } else {
+                            item.icon = object :
+                                InsetDrawable(item.icon, iconMarginPx, 0, iconMarginPx, 0) {
+                                override fun getIntrinsicWidth(): Int {
+                                    return intrinsicHeight + iconMarginPx + iconMarginPx
+                                }
+                            }
+                        }
+                    }
+                }
             }
-            true
+
+            setOnMenuItemClickListener { menuItem: MenuItem ->
+                when (menuItem.itemId) {
+                    R.id.theme_light -> setTheme(
+                        AppCompatDelegate.MODE_NIGHT_NO, binding = binding
+                    )
+
+                    R.id.theme_dark -> setTheme(
+                        AppCompatDelegate.MODE_NIGHT_YES, binding = binding
+                    )
+
+                    R.id.theme_system -> setTheme(
+                        AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,
+                        binding = binding
+                    )
+                }
+                true
+            }
         }
 
-        popupMenu.show()
+        popup.show()
     }
 
     /**

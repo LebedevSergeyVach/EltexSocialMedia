@@ -1,11 +1,18 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/theme_light"
-        android:title="@string/light_theme" />
+        android:icon="@drawable/ic_light_24"
+        android:title="@string/light_theme"
+        app:iconTint="@color/active_element" />
     <item
         android:id="@+id/theme_dark"
-        android:title="@string/dark_theme" />
+        android:icon="@drawable/ic_dark_24"
+        android:title="@string/dark_theme"
+        app:iconTint="@color/active_element" />
     <item
         android:id="@+id/theme_system"
-        android:title="@string/system_theme" />
+        android:icon="@drawable/ic_smartphone_24"
+        android:title="@string/system_theme"
+        app:iconTint="@color/active_element" />
 </menu>

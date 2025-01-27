@@ -4,7 +4,6 @@ import com.eltex.androidschool.data.jobs.JobData
 
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-import java.util.Locale
 
 /**
  * Маппер для преобразования данных о местах работы из `JobData` в `JobUiModel`.
@@ -16,8 +15,7 @@ import java.util.Locale
  */
 class JobUiModelMapper {
     private companion object {
-        val FORMATTER: DateTimeFormatter =
-            DateTimeFormatter.ofPattern("dd MMM yyyy", Locale.getDefault())
+        val FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
     }
 
     /**
