@@ -10,19 +10,6 @@
 
     tools:context=".fragments.common.BottomNavigationFragment">
 
-    <!--    <androidx.viewpager2.widget.ViewPager2-->
-    <!--        android:id="@+id/viewPager"-->
-
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="0dp"-->
-
-    <!--        app:layout_constraintBottom_toTopOf="@id/bottomNavigation"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent"-->
-
-    <!--        tools:layout="@layout/fragment_events" />-->
-
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/container"
 
@@ -61,6 +48,7 @@
         android:layout_margin="20dp"
 
         android:backgroundTint="@color/active_element"
+
         app:layout_constraintBottom_toBottomOf="@id/container"
         app:layout_constraintEnd_toEndOf="parent"
 

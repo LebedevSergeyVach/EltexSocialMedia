@@ -11,15 +11,19 @@
     <string name="new_post_title">New Post</string>
     <string name="save_post">Save post</string>
     <string name="update_post_title">Updating the post</string>
-    <string name="new_post_content_hint">Write content for your new post!</string>
+    <string name="new_post_content_hint">Write content for your new post! Don`t forget to add an image for your new post! You can select a photo from the bottom.</string>
     <string name="delete_post">Delete post</string>
     <string name="update_post">Update post</string>
+    <string name="image">Image</string>
+    <string name="remove_image">Remove image</string>
+    <string name="gallery">Gallery</string>
+    <string name="camera">Camera</string>
 
     <string name="new_event_title">New event</string>
     <string name="save_event">Save event</string>
     <string name="create_event">Create event</string>
     <string name="update_event_title">Updating the event</string>
-    <string name="new_event_content_hint">Write a description for your new event!</string>
+    <string name="new_event_content_hint">Write a description for your new event! Don`t forget to add an image for your new post! You can select a photo from the bottom.</string>
     <string name="new_event_link_hint">Insert the link of your event!</string>
     <string name="new_event_address_hint">Insert the address of your event!</string>
     <string name="new_event_data_hint">When will your event take place?</string>
@@ -122,10 +126,10 @@
     <string name="new_post_long_label">Go to create a new post</string>
     <string name="new_event_short_label">New event</string>
     <string name="new_event_long_label">Go to create a new event</string>
-    
+
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
-    
+
     <string name="registration">Registration</string>
     <string name="authorization">Authorization</string>
     <string name="login_account">Login to your account</string>

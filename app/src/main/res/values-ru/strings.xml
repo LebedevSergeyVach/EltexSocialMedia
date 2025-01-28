@@ -11,15 +11,19 @@
     <string name="new_post_title">Новый пост</string>
     <string name="save_post">Сохранить пост</string>
     <string name="update_post_title">Обновление поста</string>
-    <string name="new_post_content_hint">Напишите контент для Вашего нового поста!</string>
+    <string name="new_post_content_hint">Напишите контент для Вашего нового поста! Не забудьте добавить изображение для Вашего нового поста! Выбрать фотографию можно снизу.</string>
     <string name="delete_post">Удалить пост</string>
     <string name="update_post">Обновить пост</string>
+    <string name="image">Изображение</string>
+    <string name="remove_image">Удалить изображение</string>
+    <string name="gallery">Галерея</string>
+    <string name="camera">Камера</string>
 
     <string name="new_event_title">Новое событие</string>
     <string name="save_event">Сохранить событие</string>
     <string name="create_event">Создать событие</string>
     <string name="update_event_title">Обновление события</string>
-    <string name="new_event_content_hint">Напишите описание для Вашего нового события!</string>
+    <string name="new_event_content_hint">Напишите описание для Вашего нового события! Не забудьте добавить изображение для Вашего нового поста! Выбрать фотографию можно снизу.</string>
     <string name="new_event_link_hint">Вставьте ссылку Вашего события!</string>
     <string name="new_event_address_hint">Вставьте адрес Вашего события!</string>
     <string name="new_event_data_hint">Когда пройдет Ваше событие?</string>

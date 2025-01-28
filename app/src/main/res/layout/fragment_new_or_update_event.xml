@@ -10,19 +10,13 @@
 
     tools:context=".fragments.posts.NewOrUpdatePostFragment">
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_option"
-
-        style="@style/CustomTextViewStyle"
-
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
 
-        android:layout_margin="@dimen/common_spacing"
+        android:layout_marginBottom="26dp"
 
-        app:cardCornerRadius="20dp"
-        app:cardElevation="2dp"
-
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -31,177 +25,289 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
+            android:orientation="vertical"
+            android:paddingBottom="?actionBarSize">
 
-            android:padding="@dimen/common_spacing">
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_option"
 
-            <TextView
-                android:id="@+id/option_text"
+                style="@style/CustomTextViewStyle"
 
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:layout_weight="1"
+                android:layout_marginStart="@dimen/common_spacing"
+                android:layout_marginTop="@dimen/common_spacing"
+                android:layout_marginEnd="@dimen/common_spacing"
 
-                android:text="@string/new_event_options_hint"
-                android:textSize="17sp"
-                android:textStyle="bold" />
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp">
 
-            <com.google.android.material.materialswitch.MaterialSwitch
-                android:id="@+id/option_switch"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
 
-                android:layout_width="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+
+                    android:padding="@dimen/common_spacing">
+
+                    <TextView
+                        android:id="@+id/option_text"
+
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+
+                        android:layout_weight="1"
+
+                        android:text="@string/new_event_options_hint"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
+                        android:id="@+id/option_switch"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:backgroundTint="@color/active_element"
+
+                        android:checked="false"
+                        android:textOff="@string/offline"
+
+                        android:textOn="@string/online"
+
+                        app:thumbTint="@drawable/switch_thumb_tint"
+                        app:trackTint="@drawable/switch_track_tint"
+
+                        app:useMaterialThemeColors="true" />
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_data"
+
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:backgroundTint="@color/active_element"
+                android:layout_marginStart="@dimen/common_spacing"
+                android:layout_marginTop="@dimen/common_spacing"
+                android:layout_marginEnd="@dimen/common_spacing"
 
-                android:checked="false"
-                android:textOff="@string/offline"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp">
 
-                android:textOn="@string/online"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="@dimen/common_spacing">
 
-                app:thumbTint="@drawable/switch_thumb_tint"
-                app:trackTint="@drawable/switch_track_tint"
+                    <TextView
+                        android:id="@+id/data_text"
 
-                app:useMaterialThemeColors="true" />
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+
+                        android:text="@string/new_event_data_hint"
+
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/select_date_time_button"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:backgroundTint="@color/active_element"
+                        android:text="@string/select_date_and_time"
+                        android:textColor="@color/white" />
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_link"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="@dimen/common_spacing"
+                android:layout_marginTop="@dimen/common_spacing"
+                android:layout_marginEnd="@dimen/common_spacing"
+
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp">
+
+                <EditText
+                    android:id="@+id/link"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:layout_margin="@dimen/common_spacing"
+
+                    android:autoLink="web"
+
+                    android:background="@android:color/transparent"
+                    android:ellipsize="end"
+                    android:gravity="top"
+
+                    android:hint="@string/new_event_link_hint"
+
+                    android:importantForAutofill="no"
+                    android:inputType="textMultiLine"
+
+                    android:maxLines="1"
+                    android:textColorLink="@color/active_element" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/card_content"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="@dimen/common_spacing"
+                android:layout_marginTop="@dimen/common_spacing"
+                android:layout_marginEnd="@dimen/common_spacing"
+
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp">
+
+                <EditText
+                    android:id="@+id/content"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:layout_margin="@dimen/common_spacing"
+
+                    android:autoLink="web"
+                    android:background="@android:color/transparent"
+                    android:gravity="top"
+
+                    android:hint="@string/new_event_content_hint"
+
+                    android:importantForAutofill="no"
+
+                    android:inputType="textMultiLine"
+                    android:minHeight="300dp"
+                    android:textColorLink="@color/active_element" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:layout_margin="@dimen/common_spacing"
+
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp">
+
+                <FrameLayout
+                    android:id="@+id/imageContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/image"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/image"
+
+                        tools:src="@tools:sample/backgrounds/scenic[10]" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonRemoveImage"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_gravity="bottom|center_horizontal"
+                        android:layout_marginBottom="@dimen/common_spacing"
+                        android:backgroundTint="@color/active_element"
+                        android:text="@string/remove_image"
+                        android:textColor="@color/white" />
+                </FrameLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
         </LinearLayout>
+    </ScrollView>
 
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_data"
-
-        android:layout_width="0dp"
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:layout_margin="@dimen/common_spacing"
-
-        app:cardCornerRadius="20dp"
-        app:cardElevation="2dp"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_option">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="@dimen/common_spacing">
-
-            <TextView
-                android:id="@+id/data_text"
-
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-
-                android:text="@string/new_event_data_hint"
-
-                android:textSize="17sp"
-                android:textStyle="bold" />
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/select_date_time_button"
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:backgroundTint="@color/active_element"
-                android:text="@string/select_date_and_time"
-                android:textColor="@color/white" />
-        </LinearLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_link"
-
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-
-        android:layout_margin="@dimen/common_spacing"
-
-        app:cardCornerRadius="20dp"
-        app:cardElevation="2dp"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_data">
-
-        <EditText
-            android:id="@+id/link"
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            android:layout_margin="@dimen/common_spacing"
-
-            android:autoLink="web"
-
-            android:background="@android:color/transparent"
-            android:ellipsize="end"
-            android:gravity="top"
-
-            android:hint="@string/new_event_link_hint"
-
-            android:importantForAutofill="no"
-            android:inputType="textMultiLine"
-
-            android:maxLines="1"
-            android:textColorLink="@color/active_element"
-
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="parent" />
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/card_content"
-
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-
-        android:layout_margin="@dimen/common_spacing"
-
-        app:cardCornerRadius="20dp"
-        app:cardElevation="2dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/card_link">
 
-        <EditText
-            android:id="@+id/content"
+        tools:ignore="BottomAppBar">
 
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/buttonSelectPhoto"
 
-            android:layout_margin="@dimen/common_spacing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-            android:autoLink="web"
-            android:background="@android:color/transparent"
-            android:gravity="top"
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/active_element"
+            android:gravity="center|end"
+            android:text="@string/camera"
+            app:icon="@drawable/ic_add_photo_bold_24"
+            app:iconTint="@color/white" />
 
-            android:hint="@string/new_event_content_hint"
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/buttonSelectPhotoToGallery"
 
-            android:importantForAutofill="no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-            android:inputType="textMultiLine"
-            android:textColorLink="@color/active_element"
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
 
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="parent"
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/active_element"
+            android:gravity="center"
+            android:text="@string/gallery"
+            app:icon="@drawable/ic_add_image_gallery_bold_24"
+            app:iconTint="@color/white" />
 
-            tools:text="@tools:sample/lorem[100]" />
+    </com.google.android.material.bottomappbar.BottomAppBar>
 
-    </com.google.android.material.card.MaterialCardView>
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressBar"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/background_progress_bar"
+
+        android:indeterminate="true"
+
+        android:padding="8dp"
+
+        app:indicatorColor="@color/active_element"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:trackThickness="6dp"
+
+        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

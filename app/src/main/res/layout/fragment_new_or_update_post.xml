@@ -6,51 +6,166 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    android:layout_marginBottom="10dp"
-
     tools:context=".fragments.posts.NewOrUpdatePostFragment">
 
-    <com.google.android.material.card.MaterialCardView
+    <ScrollView
         android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
 
-        android:layout_margin="@dimen/common_spacing"
+        android:layout_marginBottom="26dp"
 
-        app:cardCornerRadius="20dp"
-        app:cardElevation="2dp"
-
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <EditText
-            android:id="@+id/content"
-
-            style="@style/CustomTextViewStyle"
-
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
 
-            android:layout_margin="@dimen/common_spacing"
+            android:orientation="vertical"
+            android:paddingBottom="?actionBarSize">
 
-            android:autoLink="web"
-            android:background="@android:color/transparent"
-            android:gravity="top"
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
 
-            android:hint="@string/new_post_content_hint"
+                android:layout_margin="@dimen/common_spacing"
 
-            android:importantForAutofill="no"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp">
 
-            android:inputType="textMultiLine"
-            android:textColorLink="@color/active_element"
+                <EditText
+                    android:id="@+id/content"
 
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="parent"
+                    style="@style/CustomTextViewStyle"
 
-            tools:text="@tools:sample/lorem[100]" />
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="@dimen/common_spacing"
 
-    </com.google.android.material.card.MaterialCardView>
+                    android:autoLink="web"
+
+                    android:background="@android:color/transparent"
+
+                    android:gravity="top"
+                    android:hint="@string/new_post_content_hint"
+                    android:inputType="textMultiLine"
+
+                    android:minHeight="300dp"
+                    android:textColorLink="@color/active_element"
+                    tools:text="@tools:sample/lorem[30]" />
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:layout_marginStart="@dimen/common_spacing"
+                android:layout_marginEnd="@dimen/common_spacing"
+                android:layout_marginBottom="@dimen/common_spacing"
+
+                app:cardCornerRadius="20dp"
+                app:cardElevation="2dp">
+
+                <FrameLayout
+                    android:id="@+id/imageContainer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <ImageView
+                        android:id="@+id/image"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/image"
+
+                        tools:src="@tools:sample/backgrounds/scenic[10]" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/buttonRemoveImage"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:layout_gravity="bottom|center_horizontal"
+                        android:layout_marginBottom="@dimen/common_spacing"
+                        android:backgroundTint="@color/active_element"
+                        android:text="@string/remove_image"
+                        android:textColor="@color/white" />
+                </FrameLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <com.google.android.material.bottomappbar.BottomAppBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        tools:ignore="BottomAppBar">
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/buttonSelectPhoto"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/active_element"
+            android:gravity="center|end"
+            android:text="@string/camera"
+            app:icon="@drawable/ic_add_photo_bold_24"
+            app:iconTint="@color/white" />
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/buttonSelectPhotoToGallery"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="end"
+            android:layout_marginTop="10dp"
+
+            android:layout_marginEnd="16dp"
+            android:backgroundTint="@color/active_element"
+            android:gravity="center"
+            android:text="@string/gallery"
+            app:icon="@drawable/ic_add_image_gallery_bold_24"
+            app:iconTint="@color/white" />
+
+    </com.google.android.material.bottomappbar.BottomAppBar>
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressBar"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/background_progress_bar"
+
+        android:indeterminate="true"
+
+        android:padding="8dp"
+
+        app:indicatorColor="@color/active_element"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:trackThickness="6dp"
+
+        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
