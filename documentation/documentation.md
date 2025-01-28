@@ -253,9 +253,15 @@ git clone https://github.com/LebedevSergeyVach/EltexSocialMedia.git
 
 - **SkeletonLayout**: Библиотека для отображения скелетонов (заглушек) во время загрузки данных.
     ```kotlin
-        implementation(libs.skeletonlayout))
+        implementation(libs.skeletonlayout)
     ```
   [**Документация**](https://github.com/Faltenreich/SkeletonLayout)
+
+- **Glide**: Быстрая и эффективная платформа для управления мультимедиа и загрузки изображений с открытым исходным кодом для Android.
+    ```kotlin
+        implementation(libs.glide)
+    ```
+  [**Документация**](https://github.com/bumptech/glide)
 
 ### 6. **Тестирование**
 - **JUnit**: Фреймворк для модульного тестирования.
@@ -298,6 +304,7 @@ git clone https://github.com/LebedevSergeyVach/EltexSocialMedia.git
 - **Coroutines**: Упрощение работы с асинхронными операциями.
 - **Material Design**: Компоненты для создания современного интерфейса.
 - **SkeletonLayout**: Библиотека для отображения скелетонов во время загрузки данных.
+- **Glide**: Библиотека для управления мультимедиа и загрузки изображений с открытым исходным кодом для Android.
 
 <details close="open">
     <summary><h3>🚀 Стек используемых технологий (не отображается на GitHub)</h3></summary>
@@ -341,6 +348,12 @@ git clone https://github.com/LebedevSergeyVach/EltexSocialMedia.git
         <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
             <a href="https://www.android.com/" target="_blank">
                 <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/android/android-plain-wordmark.svg" height="40" alt="android logo" />
+            </a>
+            <p>Android</p>
+        </div>
+        <div style="border: 1px solid #ddd; padding: 16px; border-radius: 8px; text-align: center;">
+            <a href="https://github.com/bumptech/glide" target="_blank">
+                <img src="https://s3.amazonaws.com/playstore/images/60bb08c2fc6d0bddb91e0e3553dcdb48" height="40" alt="Glide logo" />
             </a>
             <p>Android</p>
         </div>

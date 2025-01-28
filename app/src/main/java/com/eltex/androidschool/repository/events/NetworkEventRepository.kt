@@ -1,7 +1,13 @@
 package com.eltex.androidschool.repository.events
 
+import android.content.Context
+
 import com.eltex.androidschool.api.events.EventsApi
+import com.eltex.androidschool.api.media.MediaDto
+import com.eltex.androidschool.data.common.Attachment
 import com.eltex.androidschool.data.events.EventData
+import com.eltex.androidschool.repository.media.uploadMedia
+import com.eltex.androidschool.viewmodel.common.FileModel
 
 import java.time.Instant
 
@@ -79,16 +85,31 @@ class NetworkEventRepository : EventRepository {
         content: String,
         link: String,
         option: String,
-        data: String
-    ) = EventsApi.INSTANCE.saveEvent(
-        event = EventData(
+        data: String,
+        fileModel: FileModel?,
+        context: Context
+    ): EventData {
+        val event: EventData = fileModel?.let { file: FileModel ->
+            val media: MediaDto = uploadMedia(fileModel = file, context = context)
+
+            EventData(
+                id = eventId,
+                content = content,
+                link = link,
+                optionConducting = option,
+                dataEvent = Instant.parse(data),
+                attachment = Attachment(url = media.url, type = file.type)
+            )
+        } ?: EventData(
             id = eventId,
             content = content,
             link = link,
             optionConducting = option,
             dataEvent = Instant.parse(data),
         )
-    )
+
+        return EventsApi.INSTANCE.saveEvent(event = event)
+    }
 
     /**
      * Получает список событий, которые были опубликованы до указанного идентификатора.

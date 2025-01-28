@@ -105,6 +105,25 @@
                 app:constraint_referenced_ids="avatar, author, published" />
 
             <TextView
+                android:id="@+id/cardAttachment"
+
+                android:layout_width="0dp"
+                android:layout_height="140dp"
+
+                android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
+                android:layout_marginTop="16dp"
+
+                android:autoLink="web"
+                android:textColorLink="@color/active_element"
+                android:textSize="@dimen/size_text_sp"
+
+                app:layout_constraintEnd_toEndOf="@id/optionConducting"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/headerBarrier"
+
+                tools:text="@tools:sample/lorem[55]" />
+
+            <TextView
                 android:id="@+id/optionConducting"
 
                 android:layout_width="0dp"
@@ -118,7 +137,7 @@
 
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/headerBarrier"
+                app:layout_constraintTop_toBottomOf="@id/cardAttachment"
 
                 tools:text="@string/testOptionConducting" />
 
@@ -139,11 +158,12 @@
 
                 tools:text="@string/testDataEvent" />
 
+
             <TextView
                 android:id="@+id/content"
 
                 android:layout_width="0dp"
-                android:layout_height="120dp"
+                android:layout_height="80dp"
 
                 android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
                 android:layout_marginTop="@dimen/indentation_between_main_objects"

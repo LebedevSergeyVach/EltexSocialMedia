@@ -1,8 +1,22 @@
 package com.eltex.androidschool.adapter.users
 
 import android.content.Context
+
+import android.graphics.drawable.Drawable
+
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+
+import com.eltex.androidschool.R
 import com.eltex.androidschool.data.users.UserData
 import com.eltex.androidschool.databinding.CardUserBinding
 
@@ -33,6 +47,49 @@ class UserViewHolder(
     fun bindUser(user: UserData) {
         binding.name.text = user.name
         binding.login.text = user.login
-        binding.initial.text = user.name.take(1)
+
+        if (user.avatar.isNotEmpty()) {
+            Glide.with(binding.root)
+                .load(user.avatar)
+                .circleCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        binding.avatar.setImageResource(R.drawable.avatar_background)
+                        binding.initial.text = user.name.take(1)
+                        binding.initial.setTextColor(
+                            ContextCompat.getColor(
+                                binding.root.context,
+                                R.color.white
+                            )
+                        )
+                        binding.initial.isVisible = true
+
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        model: Any,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        binding.initial.isVisible = false
+
+                        return false
+                    }
+                })
+                .into(binding.avatar)
+        } else {
+            binding.avatar.setImageResource(R.drawable.avatar_background)
+            binding.initial.text = user.name.take(1)
+            binding.initial.isVisible = true
+        }
     }
 }

@@ -10,8 +10,10 @@
 
     <com.faltenreich.skeletonlayout.SkeletonLayout
         android:id="@+id/skeletonLayout"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         app:maskColor="@color/gray"
         app:maskCornerRadius="10dp"
         app:shimmerAngle="20"
@@ -105,10 +107,10 @@
                 app:constraint_referenced_ids="avatar, author, published" />
 
             <TextView
-                android:id="@+id/content"
+                android:id="@+id/cardAttachment"
 
                 android:layout_width="0dp"
-                android:layout_height="110dp"
+                android:layout_height="140dp"
 
                 android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
                 android:layout_marginTop="16dp"
@@ -122,7 +124,27 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/headerBarrier"
 
-                tools:text="@tools:sample/lorem[55]" />
+                tools:text="@tools:sample/lorem[80]" />
+
+            <TextView
+                android:id="@+id/content"
+
+                android:layout_width="0dp"
+                android:layout_height="80dp"
+
+                android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="@dimen/indent_end"
+
+                android:autoLink="web"
+                android:textColorLink="@color/active_element"
+                android:textSize="@dimen/size_text_sp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardAttachment"
+
+                tools:text="@tools:sample/lorem[30]" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/like"

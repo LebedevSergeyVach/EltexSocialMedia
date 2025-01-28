@@ -2,45 +2,38 @@ package com.eltex.androidschool.fragments.events
 
 import android.os.Bundle
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.LayoutInflater
-import androidx.core.content.ContextCompat
 
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 
-import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.flowWithLifecycle
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.viewModelFactory
 
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+
 import androidx.recyclerview.widget.RecyclerView
+
 import com.eltex.androidschool.BuildConfig
-
-import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.flow.launchIn
-
 import com.eltex.androidschool.R
-import com.eltex.androidschool.databinding.FragmentEventsBinding
-
-import com.eltex.androidschool.adapter.events.EventAdapter
 import com.eltex.androidschool.adapter.events.EventAdapterDifferentTypesView
+import com.eltex.androidschool.databinding.FragmentEventsBinding
 import com.eltex.androidschool.effecthandler.events.EventEffectHandler
 import com.eltex.androidschool.fragments.users.UserFragment
 import com.eltex.androidschool.reducer.events.EventReducer
-import com.eltex.androidschool.ui.common.OffsetDecoration
-
 import com.eltex.androidschool.repository.events.NetworkEventRepository
+import com.eltex.androidschool.ui.common.OffsetDecoration
 import com.eltex.androidschool.ui.events.EventPagingMapper
-
 import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.ui.events.EventUiModelMapper
-
 import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.showMaterialDialogWithTwoButtons
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
@@ -48,9 +41,12 @@ import com.eltex.androidschool.utils.toast
 import com.eltex.androidschool.viewmodel.events.events.EventMessage
 import com.eltex.androidschool.viewmodel.events.events.EventState
 import com.eltex.androidschool.viewmodel.events.events.EventStore
-
 import com.eltex.androidschool.viewmodel.events.events.EventViewModel
+
 import com.google.android.material.bottomnavigation.BottomNavigationView
+
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 
 /**

@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:textColor="?colorOnPrimary"
+            android:textColor="@color/white"
 
             app:layout_constraintBottom_toBottomOf="@id/avatar"
             app:layout_constraintEnd_toEndOf="@id/avatar"
@@ -84,7 +84,7 @@
             app:layout_constraintStart_toEndOf="@id/avatar"
             app:layout_constraintTop_toBottomOf="@id/author"
 
-            tools:text="@string/testPublished" />
+            tools:text="00:00 01.01.2025" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/menu"
@@ -111,6 +111,49 @@
             app:barrierDirection="bottom"
             app:constraint_referenced_ids="avatar, author, published, menu" />
 
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardAttachment"
+
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+
+            android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="@dimen/indent_end"
+
+            app:cardCornerRadius="20dp"
+            app:cardElevation="2dp"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/headerBarrier">
+
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/skeletonAttachment"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                app:maskColor="@color/gray"
+                app:maskCornerRadius="10dp"
+                app:shimmerAngle="20"
+                app:shimmerColor="@color/active_element"
+                app:shimmerDurationInMillis="750">
+
+                <ImageView
+                    android:id="@+id/attachment"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/image"
+                    tools:src="@tools:sample/backgrounds/scenic[10]" />
+
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
         <TextView
             android:id="@+id/content"
 
@@ -127,25 +170,9 @@
 
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/headerBarrier"
+            app:layout_constraintTop_toBottomOf="@id/cardAttachment"
 
-            tools:text="@string/testContent" />
-
-        <TextView
-            android:id="@+id/last_modified"
-
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
-            android:layout_marginTop="16dp"
-
-            android:textSize="12sp"
-
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/content"
-
-            tools:text="Изменено: 2023-10-05 12:34" />
+            tools:text="@tools:sample/lorem[50]" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/like"
@@ -165,7 +192,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/content"
 
-            tools:text="@string/testLike" />
+            tools:text="123" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/share"

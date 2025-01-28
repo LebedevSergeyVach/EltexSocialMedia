@@ -355,14 +355,16 @@ class SettingsFragment : Fragment() {
             requireContext().getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
         val isVibrationEnabled = sharedPreferences.getBoolean("VibrationEnabled", true)
 
+        updateVibrationText(isEnabled = isVibrationEnabled, binding = binding, animate = false)
+
         binding.vibrationOptionSwitch.isChecked = isVibrationEnabled
-        updateVibrationText(isVibrationEnabled, binding = binding)
 
         binding.vibrationOptionSwitch.setOnCheckedChangeListener { _, isChecked ->
             requireContext().singleVibrationWithSystemCheck(35)
 
             sharedPreferences.edit().putBoolean("VibrationEnabled", isChecked).apply()
-            updateVibrationText(isChecked, binding = binding)
+
+            updateVibrationText(isEnabled = isChecked, binding = binding, animate = true)
         }
 
         binding.cardSettingsVibration.setOnClickListener {
@@ -375,25 +377,34 @@ class SettingsFragment : Fragment() {
      *
      * @param isEnabled Состояние вибрации (включена/выключена).
      * @param binding Binding для макета фрагмента настроек.
+     * @param animate Нужно ли показать анимацию смена текста (по умолчанию true)
      */
-    private fun updateVibrationText(isEnabled: Boolean, binding: FragmentSettingsBinding) {
+    private fun updateVibrationText(
+        isEnabled: Boolean,
+        binding: FragmentSettingsBinding,
+        animate: Boolean = true
+    ) {
         val text = if (isEnabled) {
             getString(R.string.vibration_on)
         } else {
             getString(R.string.vibration_off)
         }
 
-        binding.textSettingsVibration.animate()
-            .alpha(0f)
-            .setDuration(200)
-            .withEndAction {
-                binding.textSettingsVibration.text = text
-                binding.textSettingsVibration.animate()
-                    .alpha(1f)
-                    .setDuration(200)
-                    .start()
-            }
-            .start()
+        if (animate) {
+            binding.textSettingsVibration.animate()
+                .alpha(0f)
+                .setDuration(200)
+                .withEndAction {
+                    binding.textSettingsVibration.text = text
+                    binding.textSettingsVibration.animate()
+                        .alpha(1f)
+                        .setDuration(200)
+                        .start()
+                }
+                .start()
+        } else {
+            binding.textSettingsVibration.text = text
+        }
     }
 
     /**
