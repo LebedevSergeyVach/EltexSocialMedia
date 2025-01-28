@@ -38,9 +38,11 @@ class PostUiModelMapper {
             content = content,
             author = author,
             authorId = authorId,
+            authorAvatar = authorAvatar,
             published = FORMATTER.format(published.atZone(ZoneId.systemDefault())),
             likedByMe = likedByMe,
             likes = likeOwnerIds.size,
+            attachment = attachment,
         )
     }
 }

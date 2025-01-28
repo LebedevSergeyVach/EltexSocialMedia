@@ -38,6 +38,7 @@ class EventUiModelMapper {
             id = id,
             author = author,
             authorId = authorId,
+            authorAvatar = authorAvatar,
             published = FORMATTER.format(published.atZone(ZoneId.systemDefault())),
             optionConducting = optionConducting,
             dataEvent = FORMATTER.format(dataEvent?.atZone(ZoneId.systemDefault())),
@@ -47,6 +48,7 @@ class EventUiModelMapper {
             likes = likeOwnerIds.size,
             participatedByMe = participatedByMe,
             participates = participantsIds.size,
+            attachment = attachment,
         )
     }
 }

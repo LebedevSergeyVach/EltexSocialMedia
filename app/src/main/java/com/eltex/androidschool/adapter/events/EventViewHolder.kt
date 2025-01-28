@@ -7,6 +7,8 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 
+import android.graphics.drawable.Drawable
+
 import android.text.SpannableString
 
 import android.view.MotionEvent
@@ -17,14 +19,19 @@ import androidx.core.view.isVisible
 
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
+
 import com.eltex.androidschool.R
-
-import com.github.jinatonic.confetti.CommonConfetti
-
 import com.eltex.androidschool.databinding.CardEventBinding
 import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
+import com.github.jinatonic.confetti.CommonConfetti
 
 /**
  * ViewHolder для отображения элемента списка событий.
@@ -66,14 +73,101 @@ class EventViewHolder(
     @SuppressLint("SetTextI18n")
     fun bindEvent(event: EventUiModel, currentUserId: Long) {
         binding.author.text = event.author
-        binding.initial.text = event.author.take(1)
         binding.published.text = event.published
         binding.optionConducting.text = event.optionConducting
         binding.dataEvent.text = event.dataEvent
         binding.content.text = event.content
-        binding.link.text = event.link
+
+        if (event.link.isNotEmpty()) {
+            binding.link.isVisible = true
+            binding.link.text = event.link
+        } else {
+            binding.link.isVisible = false
+        }
+
         binding.like.text = event.likes.toString()
         binding.participate.text = event.participates.toString()
+
+        if (!event.authorAvatar.isNullOrEmpty()) {
+            Glide.with(binding.root)
+                .load(event.authorAvatar)
+                .circleCrop()
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        binding.avatar.setImageResource(R.drawable.avatar_background)
+                        binding.initial.text = event.author.take(1)
+                        binding.initial.setTextColor(
+                            ContextCompat.getColor(
+                                binding.root.context,
+                                R.color.white
+                            )
+                        )
+                        binding.initial.isVisible = true
+
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        model: Any,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        binding.initial.isVisible = false
+
+                        return false
+                    }
+                })
+                .into(binding.avatar)
+        } else {
+            binding.avatar.setImageResource(R.drawable.avatar_background)
+            binding.initial.text = event.author.take(1)
+            binding.initial.isVisible = true
+        }
+
+        if (event.attachment != null) {
+            binding.skeletonAttachment.showSkeleton()
+
+            Glide.with(binding.root)
+                .load(event.attachment.url)
+                .listener(object : RequestListener<Drawable> {
+                    override fun onLoadFailed(
+                        e: GlideException?,
+                        model: Any?,
+                        target: Target<Drawable>,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        binding.skeletonAttachment.showOriginal()
+                        binding.attachment.setImageResource(R.drawable.error_placeholder)
+
+                        return false
+                    }
+
+                    override fun onResourceReady(
+                        resource: Drawable,
+                        model: Any,
+                        target: Target<Drawable>?,
+                        dataSource: DataSource,
+                        isFirstResource: Boolean
+                    ): Boolean {
+                        binding.skeletonAttachment.showOriginal()
+
+                        return false
+                    }
+                })
+                .into(binding.attachment)
+        } else {
+            binding.skeletonAttachment.showOriginal()
+            binding.attachment.isVisible = false
+        }
+
 
         SpannableString(binding.link.text)
         SpannableString(binding.content.text)

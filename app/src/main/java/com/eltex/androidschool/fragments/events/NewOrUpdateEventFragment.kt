@@ -1,5 +1,6 @@
 package com.eltex.androidschool.fragments.events
 
+import android.net.Uri
 import android.os.Bundle
 
 import androidx.core.os.bundleOf
@@ -7,8 +8,15 @@ import androidx.core.os.bundleOf
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.ImageOnly
 
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.FileProvider
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -38,6 +46,7 @@ import java.util.Calendar
 import java.util.Locale
 
 import com.eltex.androidschool.R
+import com.eltex.androidschool.data.common.AttachmentTypeFile
 import com.eltex.androidschool.databinding.FragmentNewOrUpdateEventBinding
 
 import com.eltex.androidschool.repository.events.NetworkEventRepository
@@ -48,10 +57,12 @@ import com.eltex.androidschool.utils.showMaterialDialog
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
 import com.eltex.androidschool.utils.vibrateWithEffect
+import com.eltex.androidschool.viewmodel.common.FileModel
 
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 import com.eltex.androidschool.viewmodel.events.newevent.NewEventState
 import com.eltex.androidschool.viewmodel.events.newevent.NewEventViewModel
+import java.io.File
 
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
@@ -103,6 +114,7 @@ class NewOrUpdateEventFragment : Fragment() {
         val option = arguments?.getString(EVENT_OPTION) ?: ONLINE
         val isUpdate = arguments?.getBoolean(IS_UPDATE, false) ?: false
 
+        binding.progressBar.isVisible = false
         binding.content.setText(content)
         binding.link.setText(link)
         binding.optionSwitch.isChecked = option == ONLINE
@@ -223,6 +235,65 @@ class NewOrUpdateEventFragment : Fragment() {
             updateDateTimeText(binding)
         }
 
+        /**
+         * URI для временного хранения фотографии, которая будет прикреплена к посту.
+         *
+         * @see createPhotoUri
+         */
+        val photoUri: Uri = createPhotoUri()
+
+        /**
+         * Контракт для запуска активности съемки фотографии.
+         *
+         * После успешного завершения съемки фотографии, URI изображения сохраняется в ViewModel.
+         *
+         * @see ActivityResultContracts.TakePicture
+         */
+        val takePictureContract: ActivityResultLauncher<Uri> =
+            registerForActivityResult(ActivityResultContracts.TakePicture()) { success: Boolean ->
+                if (success) {
+                    newEventViewModel.saveAttachmentFileType(
+                        FileModel(
+                            uri = photoUri,
+                            type = AttachmentTypeFile.IMAGE
+                        )
+                    )
+                }
+            }
+
+        /**
+         * Контракт для запуска активности выбора фотографии из галереи.
+         *
+         * После выбора фотографии, URI изображения сохраняется в ViewModel.
+         *
+         * @see ActivityResultContracts.PickVisualMedia
+         */
+        val takePictureGalleryContract: ActivityResultLauncher<PickVisualMediaRequest> =
+            registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
+                uri?.let {
+                    newEventViewModel.saveAttachmentFileType(
+                        FileModel(
+                            uri = uri,
+                            type = AttachmentTypeFile.IMAGE
+                        )
+                    )
+                }
+            }
+
+        binding.buttonSelectPhoto.setOnClickListener {
+            takePictureContract.launch(photoUri)
+        }
+
+        binding.buttonSelectPhotoToGallery.setOnClickListener {
+            takePictureGalleryContract.launch(
+                PickVisualMediaRequest(ImageOnly)
+            )
+        }
+
+        binding.buttonRemoveImage.setOnClickListener {
+            newEventViewModel.saveAttachmentFileType(null)
+        }
+
         toolbarViewModel.saveClicked.filter { display: Boolean -> display }
             .onEach {
                 val newContent = binding.content.text?.toString().orEmpty().trimStart().trimEnd()
@@ -236,11 +307,14 @@ class NewOrUpdateEventFragment : Fragment() {
                     newContent.isNotEmpty() && newDate.isNotEmpty() &&
                     newOption.isNotEmpty() && newLink.isNotEmpty()
                 ) {
+                    binding.progressBar.isVisible = true
+
                     newEventViewModel.save(
                         content = newContent,
                         link = newLink,
                         option = newOption,
                         data = newDate,
+                        context = requireContext()
                     )
                 } else {
                     requireContext().vibrateWithEffect(100L)
@@ -251,6 +325,47 @@ class NewOrUpdateEventFragment : Fragment() {
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
+        observeState(
+            newEventViewModel = newEventViewModel,
+            binding = binding
+        )
+
+        viewLifecycleOwner.lifecycle.addObserver(
+            object : LifecycleEventObserver {
+                override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                    when (event) {
+                        Lifecycle.Event.ON_START -> toolbarViewModel.setSaveVisible(true)
+                        Lifecycle.Event.ON_STOP -> toolbarViewModel.setSaveVisible(false)
+                        Lifecycle.Event.ON_DESTROY -> source.lifecycle.removeObserver(this)
+                        else -> {
+                            Unit
+                        }
+                    }
+                }
+            }
+        )
+
+        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
+
+        toolbar.title =
+            if (isUpdate) getString(R.string.update_event_title) else getString(R.string.new_event_title)
+
+        return binding.root
+    }
+
+    /**
+     * Наблюдает за состоянием ViewModel и обновляет UI в зависимости от изменений.
+     *
+     * Этот метод подписывается на изменения состояния ViewModel и обновляет UI, например, отображает или скрывает изображение,
+     * обрабатывает ошибки и навигацию.
+     *
+     * @param newEventViewModel ViewModel, за состоянием которой ведется наблюдение.
+     * @param binding Привязка данных для доступа к элементам UI.
+     */
+    private fun observeState(
+        newEventViewModel: NewEventViewModel,
+        binding: FragmentNewOrUpdateEventBinding,
+    ) {
         newEventViewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { newEventState: NewEventState ->
@@ -275,30 +390,19 @@ class NewOrUpdateEventFragment : Fragment() {
                             newEventViewModel.consumerError()
                         }
                     }
-            }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        viewLifecycleOwner.lifecycle.addObserver(
-            object : LifecycleEventObserver {
-                override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-                    when (event) {
-                        Lifecycle.Event.ON_START -> toolbarViewModel.setSaveVisible(true)
-                        Lifecycle.Event.ON_STOP -> toolbarViewModel.setSaveVisible(false)
-                        Lifecycle.Event.ON_DESTROY -> source.lifecycle.removeObserver(this)
-                        else -> {
-                            Unit
-                        }
+                when (newEventState.file?.type) {
+                    AttachmentTypeFile.IMAGE -> {
+                        binding.imageContainer.isVisible = true
+                        binding.image.setImageURI(newEventState.file.uri)
                     }
+
+                    AttachmentTypeFile.VIDEO,
+                    AttachmentTypeFile.AUDIO,
+                    null -> binding.imageContainer.isGone = true
                 }
             }
-        )
-
-        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
-
-        toolbar.title =
-            if (isUpdate) getString(R.string.update_event_title) else getString(R.string.new_event_title)
-
-        return binding.root
+            .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
     /**
@@ -448,6 +552,28 @@ class NewOrUpdateEventFragment : Fragment() {
             title = title,
             message = message,
             buttonText = buttonText
+        )
+    }
+
+    /**
+     * Создает URI для временного хранения фотографии.
+     *
+     * Этот метод создает файл в кэше приложения и возвращает URI для этого файла.
+     *
+     * @return URI для временного файла фотографии.
+     * @see FileProvider
+     */
+    private fun createPhotoUri(): Uri {
+        val directory: File = requireContext().cacheDir.resolve("file_picker").apply {
+            mkdir()
+        }
+
+        val file: File = directory.resolve("image")
+
+        return FileProvider.getUriForFile(
+            requireContext(),
+            "${BuildConfig.APPLICATION_ID}.fileprovider",
+            file
         )
     }
 }

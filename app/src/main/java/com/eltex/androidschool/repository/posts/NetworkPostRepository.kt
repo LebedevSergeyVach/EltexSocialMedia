@@ -1,9 +1,13 @@
 package com.eltex.androidschool.repository.posts
 
-import com.eltex.androidschool.BuildConfig
+import android.content.Context
+
+import com.eltex.androidschool.api.media.MediaDto
 import com.eltex.androidschool.api.posts.PostsApi
+import com.eltex.androidschool.data.common.Attachment
 import com.eltex.androidschool.data.posts.PostData
-import com.eltex.androidschool.utils.Logger
+import com.eltex.androidschool.repository.media.uploadMedia
+import com.eltex.androidschool.viewmodel.common.FileModel
 
 /**
  * Репозиторий для работы с данными постов через сетевой API.
@@ -72,13 +76,26 @@ class NetworkPostRepository : PostRepository {
      * @param content Новое содержание поста.
      * @return PostData Обновленный или сохраненный пост.
      */
-    override suspend fun save(postId: Long, content: String) =
-        PostsApi.INSTANCE.savePost(
-            post = PostData(
+    override suspend fun save(
+        postId: Long,
+        content: String,
+        fileModel: FileModel?,
+        context: Context
+    ): PostData {
+        val post: PostData = fileModel?.let { file: FileModel ->
+            val media: MediaDto = uploadMedia(fileModel = file, context = context)
+
+            PostData(
                 id = postId,
                 content = content,
+                attachment = Attachment(url = media.url, type = file.type)
             )
+        } ?: PostData(
+            id = postId, content = content,
         )
+
+        return PostsApi.INSTANCE.savePost(post = post)
+    }
 
     /**
      * Получает посты определенного пользователя по его идентификатору.
@@ -115,13 +132,8 @@ class NetworkPostRepository : PostRepository {
      * @param count Количество постов, которые нужно загрузить.
      * @return List<PostData> Список последних постов.
      */
-    override suspend fun getLatestPostsByAuthorId(authorId: Long, count: Int): List<PostData> {
-        if (BuildConfig.DEBUG) {
-            Logger.d("AUTHOR ID: $authorId COUNT: $count")
-        }
-
-        return PostsApi.INSTANCE.getLatestPostsByAuthorId(
+    override suspend fun getLatestPostsByAuthorId(authorId: Long, count: Int): List<PostData> =
+        PostsApi.INSTANCE.getLatestPostsByAuthorId(
             authorId = authorId, count = count
         )
-    }
 }

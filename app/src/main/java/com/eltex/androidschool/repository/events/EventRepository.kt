@@ -1,6 +1,9 @@
 package com.eltex.androidschool.repository.events
 
+import android.content.Context
+
 import com.eltex.androidschool.data.events.EventData
+import com.eltex.androidschool.viewmodel.common.FileModel
 
 /**
  * Интерфейс репозитория для работы с событиями.
@@ -58,7 +61,9 @@ interface EventRepository {
         content: String,
         link: String,
         option: String,
-        data: String
+        data: String,
+        fileModel: FileModel?,
+        context: Context
     ): EventData
 
     /**

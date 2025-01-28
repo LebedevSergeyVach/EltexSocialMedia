@@ -22,7 +22,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 1
-        versionName = "0.17.2"
+        versionName = "0.18.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -233,4 +233,11 @@ dependencies {
      * https://github.com/Faltenreich/SkeletonLayout
      */
     implementation(libs.skeletonlayout)
+
+    /**
+     * Glide
+     *
+     * https://github.com/bumptech/glide
+     */
+    implementation(libs.glide)
 }

@@ -1,17 +1,19 @@
 package com.eltex.androidschool.viewmodel.events.newevent
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-
-import com.eltex.androidschool.data.events.EventData
-import com.eltex.androidschool.repository.events.EventRepository
-import com.eltex.androidschool.viewmodel.status.StatusLoad
-import kotlinx.coroutines.cancel
 
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
+
+import com.eltex.androidschool.data.events.EventData
+import com.eltex.androidschool.viewmodel.common.FileModel
+import com.eltex.androidschool.repository.events.EventRepository
+import com.eltex.androidschool.viewmodel.status.StatusLoad
 
 /**
  * ViewModel для управления созданием и обновлением событий.
@@ -54,7 +56,7 @@ class NewEventViewModel(
      * @param option Опция проведения события.
      * @param data Дата события.
      */
-    fun save(content: String, link: String, option: String, data: String) {
+    fun save(content: String, link: String, option: String, data: String, context: Context) {
         _state.update { newEventState: NewEventState ->
             newEventState.copy(
                 statusEvent = StatusLoad.Loading
@@ -68,7 +70,9 @@ class NewEventViewModel(
                     content = content,
                     link = link,
                     option = option,
-                    data = data
+                    data = data,
+                    fileModel = _state.value.file,
+                    context = context,
                 )
 
                 _state.update { newEventState: NewEventState ->
@@ -84,6 +88,23 @@ class NewEventViewModel(
                     )
                 }
             }
+        }
+    }
+
+    /**
+     * Сохраняет тип файла вложения.
+     *
+     * Этот метод обновляет состояние ViewModel, сохраняя модель файла, который будет прикреплен к посту.
+     *
+     * @param file Модель файла, который будет прикреплен к посту. Может быть null, если вложение отсутствует.
+     *
+     * @see FileModel Класс, представляющий модель файла для вложения.
+     */
+    fun saveAttachmentFileType(file: FileModel?) {
+        _state.update { stateNewEvent: NewEventState ->
+            stateNewEvent.copy(
+                file = file,
+            )
         }
     }
 

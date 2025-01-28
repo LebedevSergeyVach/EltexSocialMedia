@@ -1,6 +1,9 @@
 package com.eltex.androidschool.repository.posts
 
+import android.content.Context
+
 import com.eltex.androidschool.data.posts.PostData
+import com.eltex.androidschool.viewmodel.common.FileModel
 
 /**
  * Интерфейс репозитория для работы с постами.
@@ -58,7 +61,12 @@ interface PostRepository {
      * @param content Новое содержание поста.
      * @return PostData Обновленный или сохраненный пост.
      */
-    suspend fun save(postId: Long, content: String): PostData
+    suspend fun save(
+        postId: Long,
+        content: String,
+        fileModel: FileModel?,
+        context: Context
+    ): PostData
 
     /**
      * Получает посты определенного пользователя по его идентификатору.
