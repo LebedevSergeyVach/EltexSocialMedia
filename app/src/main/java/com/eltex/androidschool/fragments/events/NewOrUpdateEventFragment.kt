@@ -1,5 +1,6 @@
 package com.eltex.androidschool.fragments.events
 
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 
@@ -30,6 +31,13 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.viewModelFactory
 
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.eltex.androidschool.BuildConfig
 
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -128,6 +136,12 @@ class NewOrUpdateEventFragment : Fragment() {
                 eventWillTake + getString(R.string.offline)
             }
 
+        blockingUiWhenLoading(
+            binding = binding,
+            toolBarViewModel = toolbarViewModel,
+            blocking = true,
+        )
+
         /**
          * Получаем ViewModel для управления созданием и обновлением событий
          *
@@ -192,7 +206,7 @@ class NewOrUpdateEventFragment : Fragment() {
             showDatePicker(binding)
         }
 
-        binding.cardData.setOnClickListener {
+        binding.cardDate.setOnClickListener {
             requireContext().singleVibrationWithSystemCheck(35)
 
             showDatePicker(binding)
@@ -214,7 +228,7 @@ class NewOrUpdateEventFragment : Fragment() {
             true
         }
 
-        binding.cardData.setOnLongClickListener {
+        binding.cardDate.setOnLongClickListener {
             displayingDialogWindowWithInformation(
                 title = getString(R.string.date_picker_title),
                 message = getString(R.string.date_picker_description),
@@ -309,12 +323,21 @@ class NewOrUpdateEventFragment : Fragment() {
                 ) {
                     binding.progressBar.isVisible = true
 
+                    blockingUiWhenLoading(
+                        binding = binding,
+                        toolBarViewModel = toolbarViewModel,
+                        blocking = false,
+                    )
+
                     newEventViewModel.save(
                         content = newContent,
                         link = newLink,
                         option = newOption,
                         data = newDate,
-                        context = requireContext()
+                        context = requireContext(),
+                        onProgress = { progress ->
+                            binding.progressBar.setProgressCompat(progress, true)
+                        }
                     )
                 } else {
                     requireContext().vibrateWithEffect(100L)
@@ -394,12 +417,52 @@ class NewOrUpdateEventFragment : Fragment() {
                 when (newEventState.file?.type) {
                     AttachmentTypeFile.IMAGE -> {
                         binding.imageContainer.isVisible = true
-                        binding.image.setImageURI(newEventState.file.uri)
+                        binding.root.isClickable = false
+
+                        val radius =
+                            requireContext().resources.getDimensionPixelSize(R.dimen.radius_for_rounding_images)
+
+                        binding.skeletonAttachment.showSkeleton()
+
+                        Glide.with(binding.root)
+                            .load(newEventState.file.uri)
+                            .listener(object : RequestListener<Drawable> {
+                                override fun onLoadFailed(
+                                    e: GlideException?,
+                                    model: Any?,
+                                    target: Target<Drawable>,
+                                    isFirstResource: Boolean
+                                ): Boolean {
+                                    binding.skeletonAttachment.showOriginal()
+                                    binding.image.setImageResource(R.drawable.error_placeholder)
+
+                                    return false
+                                }
+
+                                override fun onResourceReady(
+                                    resource: Drawable,
+                                    model: Any,
+                                    target: Target<Drawable>?,
+                                    dataSource: DataSource,
+                                    isFirstResource: Boolean
+                                ): Boolean {
+                                    binding.skeletonAttachment.showOriginal()
+
+                                    return false
+                                }
+                            })
+                            .transform(RoundedCorners(radius))
+                            .transition(DrawableTransitionOptions.withCrossFade())
+                            .error(R.drawable.error_placeholder)
+                            .into(binding.image)
                     }
 
                     AttachmentTypeFile.VIDEO,
                     AttachmentTypeFile.AUDIO,
-                    null -> binding.imageContainer.isGone = true
+                    null -> {
+                        binding.skeletonAttachment.showOriginal()
+                        binding.imageContainer.isGone = true
+                    }
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
@@ -485,7 +548,7 @@ class NewOrUpdateEventFragment : Fragment() {
 
             val dateTimeString = dateTimeFormat.format(combinedCalendar.time)
 
-            binding.dataText.text = dateTimeString
+            binding.dateText.text = dateTimeString
         }
     }
 
@@ -575,5 +638,42 @@ class NewOrUpdateEventFragment : Fragment() {
             "${BuildConfig.APPLICATION_ID}.fileprovider",
             file
         )
+    }
+
+    /**
+     * Блокирует или разблокирует элементы пользовательского интерфейса во время загрузки.
+     * Эта функция управляет состоянием элементов UI, таких как текстовое поле, кнопки и панель инструментов,
+     *
+     * @param binding Привязка данных для доступа к элементам UI фрагмента. Используется для управления состоянием элементов, таких как текстовое поле и кнопки.
+     * @param toolBarViewModel ViewModel для управления состоянием панели инструментов. Используется для скрытия или отображения кнопки сохранения.
+     * @param blocking Флаг, указывающий, нужно ли заблокировать UI. Если `true`, элементы UI будут заблокированы. Если `false`, элементы UI будут разблокированы.
+     *
+     * @see FragmentNewOrUpdateEventBinding Привязка данных для фрагмента создания или обновления события.
+     * @see ToolBarViewModel ViewModel для управления состоянием панели инструментов.
+     */
+    private fun blockingUiWhenLoading(
+        binding: FragmentNewOrUpdateEventBinding,
+        toolBarViewModel: ToolBarViewModel,
+        blocking: Boolean,
+    ) {
+        binding.cardOption.isEnabled = blocking
+        binding.optionText.isEnabled = blocking
+        binding.optionSwitch.isEnabled = blocking
+
+        binding.cardDate.isEnabled = blocking
+        binding.dateText.isEnabled = blocking
+        binding.selectDateTimeButton.isEnabled = blocking
+
+        binding.cardLink.isEnabled = blocking
+        binding.link.isEnabled = blocking
+
+        binding.cardContent.isEnabled = blocking
+        binding.content.isEnabled = blocking
+
+        binding.buttonSelectPhoto.isEnabled = blocking
+        binding.buttonSelectPhotoToGallery.isEnabled = blocking
+        binding.buttonRemoveImage.isEnabled = blocking
+
+        toolBarViewModel.setSaveVisible(blocking)
     }
 }

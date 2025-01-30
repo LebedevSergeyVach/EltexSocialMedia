@@ -56,7 +56,14 @@ class NewEventViewModel(
      * @param option Опция проведения события.
      * @param data Дата события.
      */
-    fun save(content: String, link: String, option: String, data: String, context: Context) {
+    fun save(
+        content: String,
+        link: String,
+        option: String,
+        data: String,
+        context: Context,
+        onProgress: (Int) -> Unit
+    ) {
         _state.update { newEventState: NewEventState ->
             newEventState.copy(
                 statusEvent = StatusLoad.Loading
@@ -73,6 +80,7 @@ class NewEventViewModel(
                     data = data,
                     fileModel = _state.value.file,
                     context = context,
+                    onProgress = onProgress,
                 )
 
                 _state.update { newEventState: NewEventState ->

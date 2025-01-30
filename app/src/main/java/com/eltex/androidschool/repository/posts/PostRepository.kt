@@ -65,7 +65,8 @@ interface PostRepository {
         postId: Long,
         content: String,
         fileModel: FileModel?,
-        context: Context
+        context: Context,
+        onProgress: (Int) -> Unit,
     ): PostData
 
     /**

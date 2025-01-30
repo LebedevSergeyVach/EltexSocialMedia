@@ -15,7 +15,6 @@
 .cxx
 local.properties
 .idea/
-Task.md
 secrets.properties
-apk
+release
 app/release

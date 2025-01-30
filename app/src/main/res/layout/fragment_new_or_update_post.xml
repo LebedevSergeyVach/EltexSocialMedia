@@ -12,7 +12,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
 
-        android:layout_marginBottom="26dp"
+        android:layout_marginBottom="34dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -74,16 +74,31 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <ImageView
-                        android:id="@+id/image"
+                    <com.faltenreich.skeletonlayout.SkeletonLayout
+                        android:id="@+id/skeletonAttachment"
 
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
 
-                        android:adjustViewBounds="true"
-                        android:contentDescription="@string/image"
+                        app:maskColor="@color/gray"
+                        app:maskCornerRadius="10dp"
+                        app:shimmerAngle="20"
+                        app:shimmerColor="@color/active_element"
+                        app:shimmerDurationInMillis="750">
 
-                        tools:src="@tools:sample/backgrounds/scenic[10]" />
+                        <ImageView
+                            android:id="@+id/image"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+
+                            android:adjustViewBounds="true"
+                            android:contentDescription="@string/image"
+                            android:minHeight="300dp"
+
+                            tools:src="@tools:sample/backgrounds/scenic[10]" />
+
+                    </com.faltenreich.skeletonlayout.SkeletonLayout>
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/buttonRemoveImage"
@@ -119,10 +134,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_gravity="end"
+            android:layout_gravity="center"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="10dp"
             android:backgroundTint="@color/active_element"
-            android:gravity="center|end"
             android:text="@string/camera"
             app:icon="@drawable/ic_add_photo_bold_24"
             app:iconTint="@color/white" />
@@ -133,12 +149,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_gravity="end"
+            android:layout_gravity="center"
             android:layout_marginTop="10dp"
-
-            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="10dp"
             android:backgroundTint="@color/active_element"
-            android:gravity="center"
             android:text="@string/gallery"
             app:icon="@drawable/ic_add_image_gallery_bold_24"
             app:iconTint="@color/white" />
@@ -152,11 +166,7 @@
         android:layout_height="wrap_content"
 
         android:background="@drawable/background_progress_bar"
-
-        android:indeterminate="true"
-
         android:padding="8dp"
-
         app:indicatorColor="@color/active_element"
 
         app:layout_constraintBottom_toBottomOf="parent"

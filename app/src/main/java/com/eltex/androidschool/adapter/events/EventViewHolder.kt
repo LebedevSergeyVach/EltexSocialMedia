@@ -10,7 +10,6 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 
 import android.text.SpannableString
-
 import android.view.MotionEvent
 import android.view.View
 
@@ -23,6 +22,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 
@@ -31,6 +32,7 @@ import com.eltex.androidschool.databinding.CardEventBinding
 import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
+
 import com.github.jinatonic.confetti.CommonConfetti
 
 /**
@@ -88,6 +90,8 @@ class EventViewHolder(
         binding.like.text = event.likes.toString()
         binding.participate.text = event.participates.toString()
 
+        val radius = context.resources.getDimensionPixelSize(R.dimen.radius_for_rounding_images)
+
         if (!event.authorAvatar.isNullOrEmpty()) {
             Glide.with(binding.root)
                 .load(event.authorAvatar)
@@ -125,6 +129,7 @@ class EventViewHolder(
                         return false
                     }
                 })
+                .error(R.drawable.error_placeholder)
                 .into(binding.avatar)
         } else {
             binding.avatar.setImageResource(R.drawable.avatar_background)
@@ -132,9 +137,9 @@ class EventViewHolder(
             binding.initial.isVisible = true
         }
 
-        if (event.attachment != null) {
-            binding.skeletonAttachment.showSkeleton()
+        binding.skeletonAttachment.showSkeleton()
 
+        if (event.attachment != null) {
             Glide.with(binding.root)
                 .load(event.attachment.url)
                 .listener(object : RequestListener<Drawable> {
@@ -162,6 +167,9 @@ class EventViewHolder(
                         return false
                     }
                 })
+                .transform(RoundedCorners(radius))
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .error(R.drawable.error_placeholder)
                 .into(binding.attachment)
         } else {
             binding.skeletonAttachment.showOriginal()

@@ -87,10 +87,12 @@ class NetworkEventRepository : EventRepository {
         option: String,
         data: String,
         fileModel: FileModel?,
-        context: Context
+        context: Context,
+        onProgress: (Int) -> Unit,
     ): EventData {
         val event: EventData = fileModel?.let { file: FileModel ->
-            val media: MediaDto = uploadMedia(fileModel = file, context = context)
+            val media: MediaDto =
+                uploadMedia(fileModel = file, context = context, onProgress = onProgress)
 
             EventData(
                 id = eventId,
@@ -98,7 +100,7 @@ class NetworkEventRepository : EventRepository {
                 link = link,
                 optionConducting = option,
                 dataEvent = Instant.parse(data),
-                attachment = Attachment(url = media.url, type = file.type)
+                attachment = Attachment(url = media.url, type = file.type),
             )
         } ?: EventData(
             id = eventId,

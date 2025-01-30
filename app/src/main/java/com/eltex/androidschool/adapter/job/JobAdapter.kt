@@ -69,12 +69,12 @@ class JobAdapter (
         )
 
         binding.delete.setOnClickListener {
-            listener.onDeleteClicked(getItem(viewHolder.adapterPosition))
+            listener.onDeleteClicked(getItem(viewHolder.bindingAdapterPosition))
             context.singleVibrationWithSystemCheck(35)
         }
 
         binding.update.setOnClickListener {
-            listener.onUpdateClicked(getItem(viewHolder.adapterPosition))
+            listener.onUpdateClicked(getItem(viewHolder.bindingAdapterPosition))
         }
 
         return viewHolder

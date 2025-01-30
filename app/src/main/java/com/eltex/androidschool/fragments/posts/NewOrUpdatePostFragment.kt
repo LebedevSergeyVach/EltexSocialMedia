@@ -1,5 +1,6 @@
 package com.eltex.androidschool.fragments.posts
 
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 
@@ -13,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.ImageOnly
 
 import androidx.appcompat.widget.Toolbar
+
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.core.view.isGone
@@ -30,6 +32,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.viewModelFactory
 
 import androidx.navigation.fragment.findNavController
+
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 
 import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
@@ -90,6 +100,12 @@ class NewOrUpdatePostFragment : Fragment() {
 
         binding.progressBar.isVisible = false
         binding.content.setText(content)
+
+        blockingUiWhenLoading(
+            binding = binding,
+            toolBarViewModel = toolbarViewModel,
+            blocking = true,
+        )
 
         /**
          * ViewModel для управления созданием и обновлением постов.
@@ -177,7 +193,19 @@ class NewOrUpdatePostFragment : Fragment() {
                 if (newContent.isNotEmpty()) {
                     binding.progressBar.isVisible = true
 
-                    newPostVewModel.save(content = newContent, context = requireContext())
+                    blockingUiWhenLoading(
+                        binding = binding,
+                        toolBarViewModel = toolbarViewModel,
+                        blocking = false,
+                    )
+
+                    newPostVewModel.save(
+                        content = newContent,
+                        context = requireContext(),
+                        onProgress = { progress ->
+                            binding.progressBar.setProgressCompat(progress, true)
+                        }
+                    )
                 } else {
                     requireContext().vibrateWithEffect(100L)
                     requireContext().toast(R.string.error_text_post_is_empty)
@@ -210,7 +238,7 @@ class NewOrUpdatePostFragment : Fragment() {
         val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
 
         toolbar.title =
-            if (isUpdate) getString(R.string.update_post_title) else getString(R.string.new_post_title)
+            if (!isUpdate) getString(R.string.new_post_title) else getString(R.string.update_post_title)
 
         return binding.root
     }
@@ -256,12 +284,52 @@ class NewOrUpdatePostFragment : Fragment() {
                 when (newPostState.file?.type) {
                     AttachmentTypeFile.IMAGE -> {
                         binding.imageContainer.isVisible = true
-                        binding.image.setImageURI(newPostState.file.uri)
+                        binding.root.isClickable = false
+
+                        val radius =
+                            requireContext().resources.getDimensionPixelSize(R.dimen.radius_for_rounding_images)
+
+                        binding.skeletonAttachment.showSkeleton()
+
+                        Glide.with(binding.root)
+                            .load(newPostState.file.uri)
+                            .listener(object : RequestListener<Drawable> {
+                                override fun onLoadFailed(
+                                    e: GlideException?,
+                                    model: Any?,
+                                    target: Target<Drawable>,
+                                    isFirstResource: Boolean
+                                ): Boolean {
+                                    binding.skeletonAttachment.showOriginal()
+                                    binding.image.setImageResource(R.drawable.error_placeholder)
+
+                                    return false
+                                }
+
+                                override fun onResourceReady(
+                                    resource: Drawable,
+                                    model: Any,
+                                    target: Target<Drawable>?,
+                                    dataSource: DataSource,
+                                    isFirstResource: Boolean
+                                ): Boolean {
+                                    binding.skeletonAttachment.showOriginal()
+
+                                    return false
+                                }
+                            })
+                            .transform(RoundedCorners(radius))
+                            .transition(DrawableTransitionOptions.withCrossFade())
+                            .error(R.drawable.error_placeholder)
+                            .into(binding.image)
                     }
 
                     AttachmentTypeFile.VIDEO,
                     AttachmentTypeFile.AUDIO,
-                    null -> binding.imageContainer.isGone = true
+                    null -> {
+                        binding.skeletonAttachment.showOriginal()
+                        binding.imageContainer.isGone = true
+                    }
                 }
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
@@ -287,5 +355,29 @@ class NewOrUpdatePostFragment : Fragment() {
             "${BuildConfig.APPLICATION_ID}.fileprovider",
             file
         )
+    }
+
+    /**
+     * Блокирует или разблокирует элементы пользовательского интерфейса во время загрузки.
+     * Эта функция управляет состоянием элементов UI, таких как текстовое поле, кнопки и панель инструментов,
+     *
+     * @param binding Привязка данных для доступа к элементам UI фрагмента. Используется для управления состоянием элементов, таких как текстовое поле и кнопки.
+     * @param toolBarViewModel ViewModel для управления состоянием панели инструментов. Используется для скрытия или отображения кнопки сохранения.
+     * @param blocking Флаг, указывающий, нужно ли заблокировать UI. Если `true`, элементы UI будут заблокированы. Если `false`, элементы UI будут разблокированы.
+     *
+     * @see FragmentNewOrUpdatePostBinding Привязка данных для фрагмента создания или обновления поста.
+     * @see ToolBarViewModel ViewModel для управления состоянием панели инструментов.
+     */
+    private fun blockingUiWhenLoading(
+        binding: FragmentNewOrUpdatePostBinding,
+        toolBarViewModel: ToolBarViewModel,
+        blocking: Boolean,
+    ) {
+        binding.content.isEnabled = blocking
+        binding.buttonSelectPhoto.isEnabled = blocking
+        binding.buttonSelectPhotoToGallery.isEnabled = blocking
+        binding.buttonRemoveImage.isEnabled = blocking
+
+        toolBarViewModel.setSaveVisible(blocking)
     }
 }

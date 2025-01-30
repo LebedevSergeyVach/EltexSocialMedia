@@ -18,4 +18,6 @@
 
     <dimen name="duration_animation_fragments">500</dimen>
     <dimen name="padding_title_for_settings_24dp">24dp</dimen>
+
+    <dimen name="radius_for_rounding_images">22dp</dimen>
 </resources>

@@ -14,6 +14,7 @@ import com.eltex.androidschool.data.posts.PostData
 import com.eltex.androidschool.viewmodel.common.FileModel
 import com.eltex.androidschool.repository.posts.PostRepository
 import com.eltex.androidschool.viewmodel.status.StatusLoad
+import kotlinx.coroutines.flow.StateFlow
 
 /**
  * ViewModel для управления созданием и обновлением постов.
@@ -50,6 +51,9 @@ class NewPostViewModel(
      */
     val state = _state.asStateFlow()
 
+    private val _progress = MutableStateFlow(0)
+    val progress: StateFlow<Int> = _progress
+
     /**
      * Сохраняет или обновляет пост.
      *
@@ -61,7 +65,7 @@ class NewPostViewModel(
      * @see PostData Класс, представляющий данные поста.
      * @see StatusLoad Перечисление, представляющее состояние загрузки (Idle, Loading, Error).
      */
-    fun save(content: String, context: Context) {
+    fun save(content: String, context: Context, onProgress: (Int) -> Unit) {
         _state.update { newPostState: NewPostState ->
             newPostState.copy(
                 statusPost = StatusLoad.Loading
@@ -75,6 +79,7 @@ class NewPostViewModel(
                     content = content,
                     fileModel = _state.value.file,
                     context = context,
+                    onProgress = onProgress,
                 )
 
                 _state.update { newPostState: NewPostState ->

@@ -1,6 +1,7 @@
 package com.eltex.androidschool.adapter.posts
 
 import android.animation.AnimatorInflater
+
 import android.annotation.SuppressLint
 
 import android.content.Context
@@ -21,6 +22,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 
@@ -81,6 +84,8 @@ class PostViewHolder(
         binding.published.text = post.published
         binding.like.text = post.likes.toString()
 
+        val radius = context.resources.getDimensionPixelSize(R.dimen.radius_for_rounding_images)
+
         if (!post.authorAvatar.isNullOrEmpty()) {
             Glide.with(binding.root)
                 .load(post.authorAvatar)
@@ -118,6 +123,7 @@ class PostViewHolder(
                         return false
                     }
                 })
+                .error(R.drawable.error_placeholder)
                 .into(binding.avatar)
         } else {
             binding.avatar.setImageResource(R.drawable.avatar_background)
@@ -125,9 +131,9 @@ class PostViewHolder(
             binding.initial.isVisible = true
         }
 
-        if (post.attachment != null) {
-            binding.skeletonAttachment.showSkeleton()
+        binding.skeletonAttachment.showSkeleton()
 
+        if (post.attachment != null) {
             Glide.with(binding.root)
                 .load(post.attachment.url)
                 .listener(object : RequestListener<Drawable> {
@@ -155,6 +161,9 @@ class PostViewHolder(
                         return false
                     }
                 })
+                .transform(RoundedCorners(radius))
+                .transition(DrawableTransitionOptions.withCrossFade())
+                .error(R.drawable.error_placeholder)
                 .into(binding.attachment)
         } else {
             binding.skeletonAttachment.showOriginal()
