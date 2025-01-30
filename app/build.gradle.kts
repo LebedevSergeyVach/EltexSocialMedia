@@ -22,7 +22,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 1
-        versionName = "0.18.0"
+        versionName = "v0.18.1 29.01.2025"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -117,6 +117,7 @@ dependencies {
     implementation(libs.androidx.material3.android)
     implementation(libs.androidx.ui.tooling.preview.android)
     implementation(libs.activity)
+    implementation(libs.androidx.foundation.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

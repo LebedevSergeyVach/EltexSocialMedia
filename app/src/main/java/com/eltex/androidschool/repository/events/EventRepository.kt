@@ -63,7 +63,8 @@ interface EventRepository {
         option: String,
         data: String,
         fileModel: FileModel?,
-        context: Context
+        context: Context,
+        onProgress: (Int) -> Unit,
     ): EventData
 
     /**

@@ -336,8 +336,14 @@ class SettingsFragment : Fragment() {
      */
     private fun getAppVersionName(context: Context): String {
         return try {
+            val buildVariant: String = if (BuildConfig.DEBUG) {
+                "Debug"
+            } else {
+                "Release"
+            }
+
             val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-            getString(R.string.app_name) + " " + packageInfo.versionName.toString()
+            getString(R.string.app_name) + " " + packageInfo.versionName.toString() + " " + buildVariant
         } catch (e: Exception) {
             getString(R.string.unknown_error)
         }

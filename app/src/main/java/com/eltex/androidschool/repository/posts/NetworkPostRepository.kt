@@ -74,21 +74,24 @@ class NetworkPostRepository : PostRepository {
      *
      * @param postId Идентификатор поста.
      * @param content Новое содержание поста.
+     *
      * @return PostData Обновленный или сохраненный пост.
      */
     override suspend fun save(
         postId: Long,
         content: String,
         fileModel: FileModel?,
-        context: Context
+        context: Context,
+        onProgress: (Int) -> Unit
     ): PostData {
         val post: PostData = fileModel?.let { file: FileModel ->
-            val media: MediaDto = uploadMedia(fileModel = file, context = context)
+            val media: MediaDto =
+                uploadMedia(fileModel = file, context = context, onProgress = onProgress)
 
             PostData(
                 id = postId,
                 content = content,
-                attachment = Attachment(url = media.url, type = file.type)
+                attachment = Attachment(url = media.url, type = file.type),
             )
         } ?: PostData(
             id = postId, content = content,

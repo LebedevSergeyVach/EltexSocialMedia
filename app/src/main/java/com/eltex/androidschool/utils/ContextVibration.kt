@@ -69,7 +69,7 @@ fun Context.doubleVibration(
  */
 @Suppress("DEPRECATION")
 fun Context.singleVibrationWithSystemCheck(
-    milliseconds: Long = 50
+    milliseconds: Long = 35L
 ) {
     val sharedPreferences = getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
     val isVibrationEnabledInApp = sharedPreferences.getBoolean("VibrationEnabled", true)
