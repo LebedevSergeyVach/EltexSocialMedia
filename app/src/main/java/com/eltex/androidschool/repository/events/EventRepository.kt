@@ -1,5 +1,6 @@
 package com.eltex.androidschool.repository.events
 
+import android.content.ContentResolver
 import android.content.Context
 
 import com.eltex.androidschool.data.events.EventData
@@ -63,7 +64,7 @@ interface EventRepository {
         option: String,
         data: String,
         fileModel: FileModel?,
-        context: Context,
+        contentResolver: ContentResolver,
         onProgress: (Int) -> Unit,
     ): EventData
 

@@ -11,7 +11,9 @@ import com.eltex.androidschool.data.users.UserData
  * @see UsersApi Интерфейс для работы с API полльзователей.
  * @see suspend Функции, которые могут быть приостановлены и возобновлены позже.
  */
-class NetworkUserRepository : UserRepository {
+class NetworkUserRepository(
+    private val usersApi: UsersApi,
+) : UserRepository {
 
     /**
      * Получает список всех пользователей из сети.
@@ -19,7 +21,7 @@ class NetworkUserRepository : UserRepository {
      * @return Список пользователей [UserData].
      */
     override suspend fun getUsers(): List<UserData> =
-        UsersApi.INSTANCE.getAllUsers()
+        usersApi.getAllUsers()
 
     /**
      * Получает пользователя по его уникальному идентификатору.
@@ -28,5 +30,5 @@ class NetworkUserRepository : UserRepository {
      * @return Пользователь [UserData], соответствующий указанному идентификатору.
      */
     override suspend fun getUserById(userId: Long) =
-        UsersApi.INSTANCE.getUserById(userId = userId)
+        usersApi.getUserById(userId = userId)
 }

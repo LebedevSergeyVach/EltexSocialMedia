@@ -1,51 +1,36 @@
 package com.eltex.androidschool.fragments.posts
 
 import android.os.Bundle
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
-
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewmodel.viewModelFactory
-
 import androidx.navigation.NavOptions
-
 import androidx.navigation.fragment.findNavController
-
 import androidx.recyclerview.widget.RecyclerView
-
-import com.eltex.androidschool.R
 import com.eltex.androidschool.BuildConfig
+import com.eltex.androidschool.R
 import com.eltex.androidschool.adapter.posts.PostAdapter
 import com.eltex.androidschool.databinding.FragmentPostsBinding
-import com.eltex.androidschool.effecthandler.posts.PostEffectHandler
+import com.eltex.androidschool.di.DependencyContainerProvider
 import com.eltex.androidschool.fragments.users.UserFragment
-import com.eltex.androidschool.reducer.posts.PostReducer
-import com.eltex.androidschool.repository.posts.NetworkPostRepository
 import com.eltex.androidschool.ui.common.OffsetDecoration
 import com.eltex.androidschool.ui.posts.PostPagingMapper
 import com.eltex.androidschool.ui.posts.PostUiModel
-import com.eltex.androidschool.ui.posts.PostUiModelMapper
 import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.showMaterialDialogWithTwoButtons
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
 import com.eltex.androidschool.viewmodel.posts.post.PostMessage
 import com.eltex.androidschool.viewmodel.posts.post.PostState
-import com.eltex.androidschool.viewmodel.posts.post.PostStore
 import com.eltex.androidschool.viewmodel.posts.post.PostViewModel
-
 import com.google.android.material.bottomnavigation.BottomNavigationView
-
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -68,21 +53,9 @@ class PostsFragment : Fragment() {
      * @see PostViewModel
      */
     private val viewModel by viewModels<PostViewModel> {
-        viewModelFactory {
-            addInitializer(PostViewModel::class) {
-                PostViewModel(
-                    postStore = PostStore(
-                        reducer = PostReducer(),
-                        effectHandler = PostEffectHandler(
-                            repository = NetworkPostRepository(),
-                            mapper = PostUiModelMapper()
-                        ),
-                        initMessages = setOf(PostMessage.Refresh),
-                        initState = PostState(),
-                    )
-                )
-            }
-        }
+        (requireContext().applicationContext as DependencyContainerProvider)
+            .getContainer()
+            .getPostsViewModelFactory()
     }
 
     override fun onCreateView(

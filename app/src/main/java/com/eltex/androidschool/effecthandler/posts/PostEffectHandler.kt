@@ -7,7 +7,7 @@ import arrow.core.right
 import com.eltex.androidschool.effects.posts.PostEffect
 import com.eltex.androidschool.model.posts.PostWithError
 import com.eltex.androidschool.mvi.EffectHandler
-import com.eltex.androidschool.repository.posts.NetworkPostRepository
+import com.eltex.androidschool.repository.posts.PostRepository
 import com.eltex.androidschool.ui.posts.PostUiModelMapper
 import com.eltex.androidschool.viewmodel.posts.post.PostMessage
 
@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.merge
  * @param mapper Маппер для преобразования моделей данных в UI-модели.
  */
 class PostEffectHandler(
-    private val repository: NetworkPostRepository,
+    private val repository: PostRepository,
     private val mapper: PostUiModelMapper,
 ) : EffectHandler<PostEffect, PostMessage> {
 

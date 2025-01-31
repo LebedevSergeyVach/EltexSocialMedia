@@ -1,6 +1,6 @@
 package com.eltex.androidschool.repository.posts
 
-import android.content.Context
+import android.content.ContentResolver
 
 import com.eltex.androidschool.data.posts.PostData
 import com.eltex.androidschool.viewmodel.common.FileModel
@@ -65,7 +65,7 @@ interface PostRepository {
         postId: Long,
         content: String,
         fileModel: FileModel?,
-        context: Context,
+        contentResolver: ContentResolver,
         onProgress: (Int) -> Unit,
     ): PostData
 

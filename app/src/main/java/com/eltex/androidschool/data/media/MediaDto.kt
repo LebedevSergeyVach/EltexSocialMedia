@@ -1,4 +1,4 @@
-package com.eltex.androidschool.api.media
+package com.eltex.androidschool.data.media
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

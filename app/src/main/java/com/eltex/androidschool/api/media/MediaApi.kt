@@ -1,10 +1,9 @@
 package com.eltex.androidschool.api.media
 
-import com.eltex.androidschool.api.common.RetrofitFactory
+import com.eltex.androidschool.data.media.MediaDto
 
 import okhttp3.MultipartBody
 
-import retrofit2.create
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
@@ -27,20 +26,4 @@ interface MediaApi {
     @Multipart
     @POST("api/media")
     suspend fun uploadMedia(@Part file: MultipartBody.Part): MediaDto
-
-    /**
-     * Объект-компаньон для создания экземпляра [MediaApi].
-     * Использует ленивую инициализацию для создания экземпляра Retrofit и его настройки.
-     */
-    companion object {
-        /**
-         * Экземпляр [MediaApi], созданный с использованием [RetrofitFactory].
-         * Этот экземпляр используется для выполнения запросов к API медиа-файлов.
-         *
-         * @see RetrofitFactory
-         */
-        val INSTANCE: MediaApi by lazy {
-            RetrofitFactory.INSTANCE.create<MediaApi>()
-        }
-    }
 }

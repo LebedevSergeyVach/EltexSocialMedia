@@ -32,16 +32,4 @@ interface UsersApi {
      */
     @GET("api/users/{id}")
     suspend fun getUserById(@Path("id") userId: Long): UserData
-
-    /**
-     * Объект-компаньон для создания экземпляра [UsersApi].
-     */
-    companion object {
-        /**
-         * Экземпляр [UsersApi], созданный с использованием [RetrofitFactory].
-         */
-        val INSTANCE: UsersApi by lazy {
-            RetrofitFactory.INSTANCE.create<UsersApi>()
-        }
-    }
 }

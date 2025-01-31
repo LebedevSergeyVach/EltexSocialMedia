@@ -1,9 +1,7 @@
 package com.eltex.androidschool.api.posts
 
-import com.eltex.androidschool.api.common.RetrofitFactory
 import com.eltex.androidschool.data.posts.PostData
 
-import retrofit2.create
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -132,17 +130,4 @@ interface PostsApi {
         @Path("authorId") authorId: Long,
         @Query("count") count: Int
     ): List<PostData>
-
-    /**
-     * Объект-компаньон для создания экземпляра [PostsApi].
-     * Использует ленивую инициализацию для создания экземпляра Retrofit и его настройки.
-     */
-    companion object {
-        /**
-         * Экземпляр [PostsApi], созданный с использованием [RetrofitFactory].
-         */
-        val INSTANCE: PostsApi by lazy {
-            RetrofitFactory.INSTANCE.create<PostsApi>()
-        }
-    }
 }

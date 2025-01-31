@@ -48,6 +48,7 @@ import com.eltex.androidschool.adapter.events.EventAdapter
 import com.eltex.androidschool.adapter.job.JobAdapter
 import com.eltex.androidschool.adapter.posts.PostAdapter
 import com.eltex.androidschool.adapter.users.UserPagerAdapter
+import com.eltex.androidschool.di.DependencyContainerProvider
 import com.eltex.androidschool.effecthandler.posts.PostWallEffectHandler
 import com.eltex.androidschool.viewmodel.common.SharedViewModel
 
@@ -151,14 +152,9 @@ class UserFragment : Fragment() {
          * @see NetworkUserRepository Репозиторий для работы с данными пользователя.
          */
         val userViewModel by viewModels<UserViewModel> {
-            viewModelFactory {
-                addInitializer(UserViewModel::class) {
-                    UserViewModel(
-                        repository = NetworkUserRepository(),
-                        userId = userId
-                    )
-                }
-            }
+            (requireContext().applicationContext as DependencyContainerProvider)
+                .getContainer()
+                .getAccountViewModelFactory(userId = userId)
         }
 
         /**
@@ -180,21 +176,9 @@ class UserFragment : Fragment() {
          * @see PostWallEffectHandler Обработчик эффектов для выполнения побочных действий.
          */
         val postViewModel by viewModels<PostWallViewModel> {
-            viewModelFactory {
-                addInitializer(PostWallViewModel::class) {
-                    PostWallViewModel(
-                        postWallStore = PostWallStore(
-                            reducer = PostWallReducer(userId = userId),
-                            effectHandler = PostWallEffectHandler(
-                                repository = NetworkPostRepository(),
-                                mapper = PostUiModelMapper()
-                            ),
-                            initMessages = setOf(PostWallMessage.Refresh),
-                            initState = PostWallState()
-                        )
-                    )
-                }
-            }
+            (requireContext().applicationContext as DependencyContainerProvider)
+                .getContainer()
+                .getPostsWallViewModelFactory(userId = userId)
         }
 
         /**
@@ -211,25 +195,15 @@ class UserFragment : Fragment() {
          * @see NetworkEventRepository Репозиторий для работы с данными о событиях.
          */
         val eventViewModel by viewModels<EventWallViewModel> {
-            viewModelFactory {
-                addInitializer(EventWallViewModel::class) {
-                    EventWallViewModel(
-                        repository = NetworkEventRepository(),
-                        userId = userId
-                    )
-                }
-            }
+            (requireContext().applicationContext as DependencyContainerProvider)
+                .getContainer()
+                .getEventsWallViewModelFactory(userId = userId)
         }
 
         val jobViewModel by viewModels<JobViewModel> {
-            viewModelFactory {
-                addInitializer(JobViewModel::class) {
-                    JobViewModel(
-                        repository = NetworkJobRepository(),
-                        userId = userId
-                    )
-                }
-            }
+            (requireContext().applicationContext as DependencyContainerProvider)
+                .getContainer()
+                .getJobWallViewModelFactory(userId = userId)
         }
 
         binding.swiperRefresh.setOnRefreshListener {

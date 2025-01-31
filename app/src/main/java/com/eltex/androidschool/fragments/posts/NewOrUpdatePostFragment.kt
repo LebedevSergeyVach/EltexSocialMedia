@@ -29,7 +29,6 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewmodel.viewModelFactory
 
 import androidx.navigation.fragment.findNavController
 
@@ -45,14 +44,14 @@ import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
 import com.eltex.androidschool.data.common.AttachmentTypeFile
 import com.eltex.androidschool.databinding.FragmentNewOrUpdatePostBinding
-import com.eltex.androidschool.repository.posts.NetworkPostRepository
+import com.eltex.androidschool.di.DependencyContainerProvider
 import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.toast
 import com.eltex.androidschool.utils.vibrateWithEffect
 import com.eltex.androidschool.viewmodel.common.FileModel
+import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 import com.eltex.androidschool.viewmodel.posts.newposts.NewPostState
 import com.eltex.androidschool.viewmodel.posts.newposts.NewPostViewModel
-import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
@@ -114,17 +113,10 @@ class NewOrUpdatePostFragment : Fragment() {
          *
          * @see NewPostViewModel
          */
-        val newPostVewModel by viewModels<NewPostViewModel> {
-            viewModelFactory {
-                addInitializer(
-                    NewPostViewModel::class
-                ) {
-                    NewPostViewModel(
-                        repository = NetworkPostRepository(),
-                        postId = postId
-                    )
-                }
-            }
+        val newPostViewModel by viewModels<NewPostViewModel> {
+            (requireContext().applicationContext as DependencyContainerProvider)
+                .getContainer()
+                .getNewPostViewModelFactory(postId = postId)
         }
 
         /**
@@ -144,7 +136,7 @@ class NewOrUpdatePostFragment : Fragment() {
         val takePictureContract: ActivityResultLauncher<Uri> =
             registerForActivityResult(ActivityResultContracts.TakePicture()) { success: Boolean ->
                 if (success) {
-                    newPostVewModel.saveAttachmentFileType(
+                    newPostViewModel.saveAttachmentFileType(
                         FileModel(
                             uri = photoUri,
                             type = AttachmentTypeFile.IMAGE
@@ -163,7 +155,7 @@ class NewOrUpdatePostFragment : Fragment() {
         val takePictureGalleryContract: ActivityResultLauncher<PickVisualMediaRequest> =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
                 uri?.let {
-                    newPostVewModel.saveAttachmentFileType(
+                    newPostViewModel.saveAttachmentFileType(
                         FileModel(
                             uri = uri,
                             type = AttachmentTypeFile.IMAGE
@@ -183,7 +175,7 @@ class NewOrUpdatePostFragment : Fragment() {
         }
 
         binding.buttonRemoveImage.setOnClickListener {
-            newPostVewModel.saveAttachmentFileType(null)
+            newPostViewModel.saveAttachmentFileType(null)
         }
 
         toolbarViewModel.saveClicked.filter { display: Boolean -> display }
@@ -199,9 +191,9 @@ class NewOrUpdatePostFragment : Fragment() {
                         blocking = false,
                     )
 
-                    newPostVewModel.save(
+                    newPostViewModel.save(
                         content = newContent,
-                        context = requireContext(),
+                        contentResolver = requireContext().contentResolver,
                         onProgress = { progress ->
                             binding.progressBar.setProgressCompat(progress, true)
                         }
@@ -216,7 +208,7 @@ class NewOrUpdatePostFragment : Fragment() {
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
         observeState(
-            newPostVewModel = newPostVewModel,
+            newPostVewModel = newPostViewModel,
             binding = binding
         )
 

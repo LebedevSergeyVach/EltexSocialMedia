@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
 import com.eltex.androidschool.data.jobs.JobData
-import com.eltex.androidschool.repository.jobs.NetworkJobRepository
+import com.eltex.androidschool.repository.jobs.JobRepository
 import com.eltex.androidschool.viewmodel.status.StatusLoad
 
 import kotlinx.coroutines.cancel
@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
  * @param jobId ID вакансии (по умолчанию 0L, если вакансия новая).
  */
 class NewJobViewModel(
-    private val repository: NetworkJobRepository,
+    private val repository: JobRepository,
     private val jobId: Long = 0L,
 ) : ViewModel() {
 
