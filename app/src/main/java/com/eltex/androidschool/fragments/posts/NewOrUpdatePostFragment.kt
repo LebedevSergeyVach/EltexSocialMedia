@@ -3,27 +3,35 @@ package com.eltex.androidschool.fragments.posts
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.ImageOnly
+
 import androidx.appcompat.widget.Toolbar
+
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+
 import androidx.navigation.fragment.findNavController
+
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -31,6 +39,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+
 import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
 import com.eltex.androidschool.data.common.AttachmentTypeFile
@@ -43,9 +52,11 @@ import com.eltex.androidschool.viewmodel.common.FileModel
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 import com.eltex.androidschool.viewmodel.posts.newposts.NewPostState
 import com.eltex.androidschool.viewmodel.posts.newposts.NewPostViewModel
+
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+
 import java.io.File
 
 /**
@@ -102,7 +113,7 @@ class NewOrUpdatePostFragment : Fragment() {
          *
          * @see NewPostViewModel
          */
-        val newPostVewModel by viewModels<NewPostViewModel> {
+        val newPostViewModel by viewModels<NewPostViewModel> {
             (requireContext().applicationContext as DependencyContainerProvider)
                 .getContainer()
                 .getNewPostViewModelFactory(postId = postId)
@@ -125,7 +136,7 @@ class NewOrUpdatePostFragment : Fragment() {
         val takePictureContract: ActivityResultLauncher<Uri> =
             registerForActivityResult(ActivityResultContracts.TakePicture()) { success: Boolean ->
                 if (success) {
-                    newPostVewModel.saveAttachmentFileType(
+                    newPostViewModel.saveAttachmentFileType(
                         FileModel(
                             uri = photoUri,
                             type = AttachmentTypeFile.IMAGE
@@ -144,7 +155,7 @@ class NewOrUpdatePostFragment : Fragment() {
         val takePictureGalleryContract: ActivityResultLauncher<PickVisualMediaRequest> =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
                 uri?.let {
-                    newPostVewModel.saveAttachmentFileType(
+                    newPostViewModel.saveAttachmentFileType(
                         FileModel(
                             uri = uri,
                             type = AttachmentTypeFile.IMAGE
@@ -164,7 +175,7 @@ class NewOrUpdatePostFragment : Fragment() {
         }
 
         binding.buttonRemoveImage.setOnClickListener {
-            newPostVewModel.saveAttachmentFileType(null)
+            newPostViewModel.saveAttachmentFileType(null)
         }
 
         toolbarViewModel.saveClicked.filter { display: Boolean -> display }
@@ -180,7 +191,7 @@ class NewOrUpdatePostFragment : Fragment() {
                         blocking = false,
                     )
 
-                    newPostVewModel.save(
+                    newPostViewModel.save(
                         content = newContent,
                         contentResolver = requireContext().contentResolver,
                         onProgress = { progress ->
@@ -197,7 +208,7 @@ class NewOrUpdatePostFragment : Fragment() {
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
         observeState(
-            newPostVewModel = newPostVewModel,
+            newPostVewModel = newPostViewModel,
             binding = binding
         )
 

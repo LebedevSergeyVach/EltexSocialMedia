@@ -1,9 +1,6 @@
 package com.eltex.androidschool.api.jobs
 
-import com.eltex.androidschool.api.common.RetrofitFactory
 import com.eltex.androidschool.data.jobs.JobData
-
-import retrofit2.create
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -52,15 +49,4 @@ interface JobsApi {
      */
     @DELETE("api/my/jobs/{id}")
     suspend fun deleteJobWall(@Path("id") jobId: Long)
-
-    companion object {
-        /**
-         * Ленивая инициализация экземпляра JobsApi через Retrofit.
-         *
-         * @see RetrofitFactory
-         */
-        val INSTANCE: JobsApi by lazy {
-            RetrofitFactory.INSTANCE.create<JobsApi>()
-        }
-    }
 }

@@ -1,14 +1,13 @@
 package com.eltex.androidschool.repository.events
 
-import android.content.Context
-
+import android.content.ContentResolver
 import com.eltex.androidschool.api.events.EventsApi
-import com.eltex.androidschool.data.media.MediaDto
+import com.eltex.androidschool.api.media.MediaApi
 import com.eltex.androidschool.data.common.Attachment
 import com.eltex.androidschool.data.events.EventData
+import com.eltex.androidschool.data.media.MediaDto
 import com.eltex.androidschool.repository.media.uploadMedia
 import com.eltex.androidschool.viewmodel.common.FileModel
-
 import java.time.Instant
 
 /**
@@ -21,7 +20,10 @@ import java.time.Instant
  * @see EventsApi API для работы с событиями.
  * @see suspend Функции, которые могут быть приостановлены и возобновлены позже.
  */
-class NetworkEventRepository : EventRepository {
+class NetworkEventRepository(
+    private val eventsApi: EventsApi,
+    private val mediaApi: MediaApi,
+) : EventRepository {
 
     /**
      * Получает список всех событий с сервера.
@@ -29,7 +31,7 @@ class NetworkEventRepository : EventRepository {
      * @return List<[EventData]> Список событий, полученных с сервера.
      */
     override suspend fun getEvents() =
-        EventsApi.INSTANCE.getAllEvents()
+        eventsApi.getAllEvents()
 
     /**
      * Поставить или убрать лайк у события по его идентификатору.
@@ -40,9 +42,9 @@ class NetworkEventRepository : EventRepository {
      */
     override suspend fun likeById(eventId: Long, likedByMe: Boolean): EventData {
         return if (likedByMe) {
-            EventsApi.INSTANCE.unlikeEventById(eventId = eventId)
+            eventsApi.unlikeEventById(eventId = eventId)
         } else {
-            EventsApi.INSTANCE.likeEventById(eventId = eventId)
+            eventsApi.likeEventById(eventId = eventId)
         }
     }
 
@@ -55,9 +57,9 @@ class NetworkEventRepository : EventRepository {
      */
     override suspend fun participateById(eventId: Long, participatedByMe: Boolean): EventData {
         return if (participatedByMe) {
-            EventsApi.INSTANCE.unsubscribeEventById(eventId = eventId)
+            eventsApi.unsubscribeEventById(eventId = eventId)
         } else {
-            EventsApi.INSTANCE.participateEventById(eventId = eventId)
+            eventsApi.participateEventById(eventId = eventId)
         }
     }
 
@@ -67,7 +69,7 @@ class NetworkEventRepository : EventRepository {
      * @param eventId Идентификатор события.
      */
     override suspend fun deleteById(eventId: Long) =
-        EventsApi.INSTANCE.deleteEventById(eventId = eventId)
+        eventsApi.deleteEventById(eventId = eventId)
 
     /**
      * Сохраняет или обновляет событие.
@@ -87,12 +89,17 @@ class NetworkEventRepository : EventRepository {
         option: String,
         data: String,
         fileModel: FileModel?,
-        context: Context,
+        contentResolver: ContentResolver,
         onProgress: (Int) -> Unit,
     ): EventData {
         val event: EventData = fileModel?.let { file: FileModel ->
             val media: MediaDto =
-                uploadMedia(fileModel = file, context = context, onProgress = onProgress)
+                uploadMedia(
+                    fileModel = file,
+                    contentResolver = contentResolver,
+                    onProgress = onProgress,
+                    mediaApi = mediaApi,
+                )
 
             EventData(
                 id = eventId,
@@ -110,7 +117,7 @@ class NetworkEventRepository : EventRepository {
             dataEvent = Instant.parse(data),
         )
 
-        return EventsApi.INSTANCE.saveEvent(event = event)
+        return eventsApi.saveEvent(event = event)
     }
 
     /**
@@ -121,7 +128,7 @@ class NetworkEventRepository : EventRepository {
      * @return [List]<[EventData]> Список событий.
      */
     override suspend fun getBeforeEvents(id: Long, count: Int): List<EventData> =
-        EventsApi.INSTANCE.getBeforeEvents(id = id, count = count)
+        eventsApi.getBeforeEvents(id = id, count = count)
 
     /**
      * Получает последние события.
@@ -130,7 +137,7 @@ class NetworkEventRepository : EventRepository {
      * @return [List]<[EventData]> Список последних событий.
      */
     override suspend fun getLatestEvents(count: Int): List<EventData> =
-        EventsApi.INSTANCE.getLatestEvents(count = count)
+        eventsApi.getLatestEvents(count = count)
 
     /**
      * Получает событие по его идентификатору.
@@ -139,5 +146,5 @@ class NetworkEventRepository : EventRepository {
      * @return [EventData] Событие, соответствующее указанному идентификатору.
      */
     suspend fun getEventById(eventId: Long) =
-        EventsApi.INSTANCE.getEventById(eventId = eventId)
+        eventsApi.getEventById(eventId = eventId)
 }

@@ -7,7 +7,9 @@ import java.time.Instant
 /**
  * Реализация интерфейса JobRepository, использующая сетевой API для работы с вакансиями.
  */
-class NetworkJobRepository : JobRepository {
+class NetworkJobRepository(
+    private val  jobsApi: JobsApi,
+) : JobRepository {
 
     /**
      * Получает список вакансий для конкретного пользователя по его ID.
@@ -17,7 +19,7 @@ class NetworkJobRepository : JobRepository {
      * @see JobsApi.getJobsUserById
      */
     override suspend fun getJobsUserById(userId: Long): List<JobData> =
-        JobsApi.INSTANCE.getJobsUserById(userId = userId)
+        jobsApi.getJobsUserById(userId = userId)
 
     /**
      * Получает список вакансий на стене текущего пользователя.
@@ -26,7 +28,7 @@ class NetworkJobRepository : JobRepository {
      * @see JobsApi.getJobsWall
      */
     override suspend fun getJobsWall(): List<JobData> =
-        JobsApi.INSTANCE.getJobsWall()
+        jobsApi.getJobsWall()
 
     /**
      * Сохраняет вакансию на стене текущего пользователя.
@@ -47,7 +49,7 @@ class NetworkJobRepository : JobRepository {
         start: String,
         finish: String,
         link: String
-    ) = JobsApi.INSTANCE.saveJobWall(
+    ) = jobsApi.saveJobWall(
         job = JobData(
             id = jobId,
             name = name,
@@ -65,5 +67,5 @@ class NetworkJobRepository : JobRepository {
      * @see JobsApi.deleteJobWall
      */
     override suspend fun deleteJobWall(jobId: Long) =
-        JobsApi.INSTANCE.deleteJobWall(jobId = jobId)
+        jobsApi.deleteJobWall(jobId = jobId)
 }

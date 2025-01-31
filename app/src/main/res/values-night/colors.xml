@@ -6,5 +6,5 @@
 
     <color name="switch_off_back">#6E00B0</color>
 
-    <color name="splash_screen ">@color/black</color>
+    <color name="splash_screen">@color/black</color>
 </resources>

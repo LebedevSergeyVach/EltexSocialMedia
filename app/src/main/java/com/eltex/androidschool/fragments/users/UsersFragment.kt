@@ -26,6 +26,7 @@ import com.eltex.androidschool.databinding.FragmentUsersBinding
 
 import com.eltex.androidschool.data.users.UserData
 import com.eltex.androidschool.adapter.users.UserAdapter
+import com.eltex.androidschool.di.DependencyContainerProvider
 import com.eltex.androidschool.repository.users.NetworkUserRepository
 import com.eltex.androidschool.ui.common.OffsetDecoration
 import com.eltex.androidschool.viewmodel.users.UsersState
@@ -61,13 +62,9 @@ class UsersFragment : Fragment() {
      * @see viewModelFactory Фабрика для создания ViewModel с зависимостями.
      */
     private val viewModel by viewModels<UsersViewModel> {
-        viewModelFactory {
-            addInitializer(UsersViewModel::class) {
-                UsersViewModel(
-                    NetworkUserRepository()
-                )
-            }
-        }
+        (requireContext().applicationContext as DependencyContainerProvider)
+            .getContainer()
+            .getUsersViewModelFactory()
     }
 
     override fun onCreateView(

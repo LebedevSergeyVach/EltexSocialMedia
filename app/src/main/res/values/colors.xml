@@ -44,5 +44,5 @@
     <color name="confetti_yellow">#FFEB3B</color>
 
 
-    <color name="splash_screen ">@color/white</color>
+    <color name="splash_screen">@color/white</color>
 </resources>

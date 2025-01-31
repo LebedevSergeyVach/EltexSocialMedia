@@ -109,18 +109,4 @@ interface EventsApi {
      */
     @GET("api/events/latest")
     suspend fun getLatestEvents(@Query("count") count: Int): List<EventData>
-
-    /**
-     * Объект-компаньон для создания экземпляра [EventsApi].
-     *
-     * Использует ленивую инициализацию для создания экземпляра Retrofit и его настройки.
-     */
-    companion object {
-        /**
-         * Экземпляр [EventsApi], созданный с использованием [RetrofitFactory].
-         */
-        val INSTANCE: EventsApi by lazy {
-            RetrofitFactory.INSTANCE.create<EventsApi>()
-        }
-    }
 }

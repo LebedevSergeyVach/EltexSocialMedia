@@ -28,7 +28,7 @@ Basic settings for the application's appearance are implemented, such as: langua
 #### Documentation for the project [**documentation**](documentation/documentation.md).
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Version](https://img.shields.io/badge/Version-0.18.1-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.18.1)
+[![Version](https://img.shields.io/badge/Version-0.19.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.19.0)
 
 <details open="open">
     <summary><h2>🚀 The stack of technologies used</h2></summary>
@@ -99,7 +99,7 @@ Basic settings for the application's appearance are implemented, such as: langua
 #### Документация к проеку [**documentation**](documentation/documentation.md).
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Version](https://img.shields.io/badge/Version-0.18.1-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.18.1)
+[![Version](https://img.shields.io/badge/Version-0.19.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.19.0)
 
 <details open="open">
     <summary><h2>🚀 Стек используемых технологий</h2></summary>

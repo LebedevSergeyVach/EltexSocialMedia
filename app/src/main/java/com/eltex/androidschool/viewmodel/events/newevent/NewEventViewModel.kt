@@ -1,6 +1,6 @@
 package com.eltex.androidschool.viewmodel.events.newevent
 
-import android.content.Context
+import android.content.ContentResolver
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
@@ -61,7 +61,7 @@ class NewEventViewModel(
         link: String,
         option: String,
         data: String,
-        context: Context,
+        contentResolver: ContentResolver,
         onProgress: (Int) -> Unit
     ) {
         _state.update { newEventState: NewEventState ->
@@ -79,7 +79,7 @@ class NewEventViewModel(
                     option = option,
                     data = data,
                     fileModel = _state.value.file,
-                    context = context,
+                    contentResolver = contentResolver,
                     onProgress = onProgress,
                 )
 

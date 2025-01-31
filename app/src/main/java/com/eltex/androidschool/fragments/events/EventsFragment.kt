@@ -26,6 +26,7 @@ import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
 import com.eltex.androidschool.adapter.events.EventAdapterDifferentTypesView
 import com.eltex.androidschool.databinding.FragmentEventsBinding
+import com.eltex.androidschool.di.DependencyContainerProvider
 import com.eltex.androidschool.effecthandler.events.EventEffectHandler
 import com.eltex.androidschool.fragments.users.UserFragment
 import com.eltex.androidschool.reducer.events.EventReducer
@@ -68,21 +69,9 @@ class EventsFragment : Fragment() {
      * @see EventViewModel
      */
     private val viewModel by viewModels<EventViewModel> {
-        viewModelFactory {
-            addInitializer(EventViewModel::class) {
-                EventViewModel(
-                    eventStore = EventStore(
-                        reducer = EventReducer(),
-                        effectHandler = EventEffectHandler(
-                            repository = NetworkEventRepository(),
-                            mapper = EventUiModelMapper()
-                        ),
-                        initMessages = setOf(EventMessage.Refresh),
-                        initState = EventState(),
-                    )
-                )
-            }
-        }
+        (requireContext().applicationContext as DependencyContainerProvider)
+            .getContainer()
+            .getEventsViewModelFactory()
     }
 
     /**

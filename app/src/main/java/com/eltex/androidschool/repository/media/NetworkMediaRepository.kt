@@ -15,6 +15,25 @@ import okio.Buffer
 import okio.BufferedSink
 import okio.IOException
 
+/**
+ * Загружает медиафайл на сервер с отслеживанием прогресса.
+ *
+ * Репозиторий для работы с медиафайлами через сеть.
+ * Этот файл содержит функцию для загрузки медиафайлов на сервер с отслеживанием прогресса.
+ *
+ * @param fileModel Модель файла, содержащая URI файла и другую необходимую информацию.
+ * @param contentResolver [ContentResolver] для доступа к содержимому файла по URI.
+ * @param onProgress Колбэк, вызываемый для обновления прогресса загрузки. Принимает целое число от 0 до 100, представляющее процент выполнения.
+ * @param mediaApi API для загрузки медиафайлов на сервер.
+ *
+ * @return [MediaDto] Ответ сервера после успешной загрузки файла.
+ *
+ * @throws IOException Если файл не найден или произошла ошибка при чтении файла.
+ *
+ * @see MediaApi
+ * @see MediaDto
+ * @see FileModel
+ */
 suspend fun uploadMedia(
     fileModel: FileModel,
     contentResolver: ContentResolver,

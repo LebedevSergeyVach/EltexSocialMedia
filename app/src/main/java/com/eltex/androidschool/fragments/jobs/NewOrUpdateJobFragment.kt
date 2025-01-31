@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 
 import androidx.appcompat.widget.Toolbar
-
 import androidx.core.os.bundleOf
 
 import androidx.fragment.app.Fragment
@@ -18,14 +17,13 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewmodel.viewModelFactory
 
 import androidx.navigation.fragment.findNavController
 
-import com.eltex.androidschool.R
 import com.eltex.androidschool.BuildConfig
+import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentNewOrUpdateJobBinding
-import com.eltex.androidschool.repository.jobs.NetworkJobRepository
+import com.eltex.androidschool.di.DependencyContainerProvider
 import com.eltex.androidschool.utils.Logger
 import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.showMaterialDialog
@@ -88,14 +86,9 @@ class NewOrUpdateJobFragment : Fragment() {
         val toolbarViewModel by activityViewModels<ToolBarViewModel>()
 
         val newJobViewModel by viewModels<NewJobViewModel> {
-            viewModelFactory {
-                addInitializer(NewJobViewModel::class) {
-                    NewJobViewModel(
-                        repository = NetworkJobRepository(),
-                        jobId = jobId
-                    )
-                }
-            }
+            (requireContext().applicationContext as DependencyContainerProvider)
+                .getContainer()
+                .getNewJobViewModelFactory(jobId = jobId)
         }
 
         binding.textCompanyName.editText?.setText(companyName)

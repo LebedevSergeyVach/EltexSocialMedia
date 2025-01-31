@@ -7,7 +7,7 @@ import arrow.core.right
 import com.eltex.androidschool.effects.events.EventEffect
 import com.eltex.androidschool.model.events.EventWithError
 import com.eltex.androidschool.mvi.EffectHandler
-import com.eltex.androidschool.repository.events.NetworkEventRepository
+import com.eltex.androidschool.repository.events.EventRepository
 import com.eltex.androidschool.ui.events.EventUiModelMapper
 import com.eltex.androidschool.viewmodel.events.events.EventMessage
 
@@ -26,7 +26,7 @@ import kotlinx.coroutines.flow.merge
  * @param mapper Маппер для преобразования моделей данных в UI-модели.
  */
 class EventEffectHandler(
-    private val repository: NetworkEventRepository,
+    private val repository: EventRepository,
     private val mapper: EventUiModelMapper,
 ) : EffectHandler<EventEffect, EventMessage> {
 

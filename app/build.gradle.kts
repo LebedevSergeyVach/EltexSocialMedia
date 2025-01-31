@@ -22,7 +22,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 1
-        versionName = "v0.18.1 29.01.2025"
+        versionName = "v0.19.0 31.01.2025"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -44,7 +44,8 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -248,4 +249,11 @@ dependencies {
      * https://github.com/bumptech/glide
      */
     implementation(libs.glide)
+
+    /**
+     * LeakCanary - проверка на утечки памяти
+     *
+     * https://github.com/square/leakcanary
+     */
+    implementation(libs.leakcanary.android.test)
 }
