@@ -151,6 +151,7 @@ dependencies {
 
     /**
      *  Room SQLite Jetpack
+     *
      * https://developer.android.com/training/data-storage/room
      * https://developer.android.com/jetpack/androidx/releases/room
      */
@@ -160,6 +161,7 @@ dependencies {
 
     /**
      * FragmentActivity
+     *
      * Navigation Component
      * https://developer.android.com/guide/navigation
      */
@@ -168,6 +170,7 @@ dependencies {
 
     /**
      * OkHttp
+     *
      * https://github.com/square/okhttp
      * https://square.github.io/okhttp/
      */
@@ -177,6 +180,7 @@ dependencies {
 
     /**
      * Retrofit
+     *
      * https://github.com/square/retrofit
      * https://square.github.io/retrofit/
      *
@@ -191,6 +195,7 @@ dependencies {
 
     /**
      * RxJava
+     *
      * https://github.com/ReactiveX/RxJava
      * https://reactivex.io/documentation
      */
@@ -204,12 +209,14 @@ dependencies {
 
     /**
      * Use Java 8 language features and APIs
+     *
      * developer.android.com/studio/write/java8-support
      */
     coreLibraryDesugaring(libs.desugar.jdk.libs)
 
     /**
      * Kotlinx coroutines test
+     *
      * https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-test/
      * https://developer.android.com/kotlin/coroutines/test
      * https://github.com/Kotlin/kotlinx.coroutines

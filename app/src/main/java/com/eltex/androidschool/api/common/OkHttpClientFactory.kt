@@ -30,7 +30,7 @@ object OkHttpClientFactory {
      * Ленивая инициализация, чтобы создать экземпляр OkHttpClient только при первом обращении.
      * Этот клиент используется для выполнения сетевых запросов к API.
      */
-    val INSTANCE: OkHttpClient by lazy {
+    fun createOkHttpClient(): OkHttpClient =
         OkHttpClient.Builder()
             .connectTimeout(30, TimeUnit.SECONDS)
             .let { clientOkHttp: OkHttpClient.Builder ->
@@ -54,6 +54,4 @@ object OkHttpClientFactory {
             }
             .dns(DnsSelector())
             .build()
-    }
 }
-

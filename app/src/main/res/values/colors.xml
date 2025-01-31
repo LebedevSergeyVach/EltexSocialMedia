@@ -42,4 +42,7 @@
     <color name="confetti_green">#8BC34A</color>
     <color name="confetti_orange">#FF9800</color>
     <color name="confetti_yellow">#FFEB3B</color>
+
+
+    <color name="splash_screen ">@color/white</color>
 </resources>

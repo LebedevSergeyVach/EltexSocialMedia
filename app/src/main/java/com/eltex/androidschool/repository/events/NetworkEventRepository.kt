@@ -3,7 +3,7 @@ package com.eltex.androidschool.repository.events
 import android.content.Context
 
 import com.eltex.androidschool.api.events.EventsApi
-import com.eltex.androidschool.api.media.MediaDto
+import com.eltex.androidschool.data.media.MediaDto
 import com.eltex.androidschool.data.common.Attachment
 import com.eltex.androidschool.data.events.EventData
 import com.eltex.androidschool.repository.media.uploadMedia

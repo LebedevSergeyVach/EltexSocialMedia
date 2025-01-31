@@ -1,8 +1,9 @@
 package com.eltex.androidschool.repository.posts
 
-import android.content.Context
+import android.content.ContentResolver
+import com.eltex.androidschool.api.media.MediaApi
 
-import com.eltex.androidschool.api.media.MediaDto
+import com.eltex.androidschool.data.media.MediaDto
 import com.eltex.androidschool.api.posts.PostsApi
 import com.eltex.androidschool.data.common.Attachment
 import com.eltex.androidschool.data.posts.PostData
@@ -17,7 +18,10 @@ import com.eltex.androidschool.viewmodel.common.FileModel
  * @see PostsApi Интерфейс для работы с API постов.
  * @see suspend Функции, которые могут быть приостановлены и возобновлены позже.
  */
-class NetworkPostRepository : PostRepository {
+class NetworkPostRepository(
+    private val postsApi: PostsApi,
+    private val mediaApi: MediaApi,
+) : PostRepository {
 
     /**
      * Получает список постов, которые были опубликованы до указанного идентификатора.
@@ -27,7 +31,7 @@ class NetworkPostRepository : PostRepository {
      * @return List<PostData> Список постов.
      */
     override suspend fun getBeforePosts(id: Long, count: Int): List<PostData> =
-        PostsApi.INSTANCE.getBeforePosts(id = id, count = count)
+        postsApi.getBeforePosts(id = id, count = count)
 
     /**
      * Получает последние посты.
@@ -36,7 +40,7 @@ class NetworkPostRepository : PostRepository {
      * @return List<PostData> Список последних постов.
      */
     override suspend fun getLatestPosts(count: Int): List<PostData> =
-        PostsApi.INSTANCE.getLatestPosts(count = count)
+        postsApi.getLatestPosts(count = count)
 
     /**
      * Получает список всех постов.
@@ -44,7 +48,7 @@ class NetworkPostRepository : PostRepository {
      * @return List<PostData> Список всех постов.
      */
     override suspend fun getPosts() =
-        PostsApi.INSTANCE.getAllPosts()
+        postsApi.getAllPosts()
 
     /**
      * Переключает состояние лайка у поста по его идентификатору.
@@ -55,9 +59,9 @@ class NetworkPostRepository : PostRepository {
      */
     override suspend fun likeById(postId: Long, likedByMe: Boolean): PostData {
         return if (likedByMe) {
-            PostsApi.INSTANCE.unlikePostById(postId = postId)
+            postsApi.unlikePostById(postId = postId)
         } else {
-            PostsApi.INSTANCE.likePostById(postId = postId)
+            postsApi.likePostById(postId = postId)
         }
     }
 
@@ -67,7 +71,7 @@ class NetworkPostRepository : PostRepository {
      * @param postId Идентификатор поста.
      */
     override suspend fun deleteById(postId: Long) =
-        PostsApi.INSTANCE.deletePostById(postId = postId)
+        postsApi.deletePostById(postId = postId)
 
     /**
      * Сохраняет или обновляет пост.
@@ -81,12 +85,17 @@ class NetworkPostRepository : PostRepository {
         postId: Long,
         content: String,
         fileModel: FileModel?,
-        context: Context,
+        contentResolver: ContentResolver,
         onProgress: (Int) -> Unit
     ): PostData {
         val post: PostData = fileModel?.let { file: FileModel ->
             val media: MediaDto =
-                uploadMedia(fileModel = file, context = context, onProgress = onProgress)
+                uploadMedia(
+                    fileModel = file,
+                    contentResolver = contentResolver,
+                    onProgress = onProgress,
+                    mediaApi = mediaApi
+                )
 
             PostData(
                 id = postId,
@@ -97,7 +106,7 @@ class NetworkPostRepository : PostRepository {
             id = postId, content = content,
         )
 
-        return PostsApi.INSTANCE.savePost(post = post)
+        return postsApi.savePost(post = post)
     }
 
     /**
@@ -107,7 +116,7 @@ class NetworkPostRepository : PostRepository {
      * @return List<PostData> Список постов пользователя.
      */
     override suspend fun getPostsByAuthorId(authorId: Long) =
-        PostsApi.INSTANCE.getAllPostsByAuthorId(authorId = authorId)
+        postsApi.getAllPostsByAuthorId(authorId = authorId)
 
     /**
      * Получает список постов, которые были опубликованы до указанного идентификатора определенного пользователя по его идентификатору.
@@ -122,7 +131,7 @@ class NetworkPostRepository : PostRepository {
         id: Long,
         count: Int
     ): List<PostData> =
-        PostsApi.INSTANCE.getBeforePostsByAuthorId(
+        postsApi.getBeforePostsByAuthorId(
             authorId = authorId,
             id = id,
             count = count
@@ -136,7 +145,7 @@ class NetworkPostRepository : PostRepository {
      * @return List<PostData> Список последних постов.
      */
     override suspend fun getLatestPostsByAuthorId(authorId: Long, count: Int): List<PostData> =
-        PostsApi.INSTANCE.getLatestPostsByAuthorId(
+        postsApi.getLatestPostsByAuthorId(
             authorId = authorId, count = count
         )
 }

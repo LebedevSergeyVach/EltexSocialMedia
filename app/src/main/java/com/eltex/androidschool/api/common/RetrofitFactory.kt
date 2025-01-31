@@ -4,6 +4,7 @@ import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFact
 import kotlinx.serialization.json.Json
 
 import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 
@@ -39,11 +40,10 @@ object RetrofitFactory {
      * @return Настроенный экземпляр Retrofit.
      * @see [OkHttpClientFactory]
      */
-    val INSTANCE: Retrofit by lazy {
+    fun createRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
-            .client(OkHttpClientFactory.INSTANCE)
+            .client(okHttpClient)
             .baseUrl(API_BASE_URL)
             .addConverterFactory(json.asConverterFactory(JSON_TYPE))
             .build()
-    }
 }
