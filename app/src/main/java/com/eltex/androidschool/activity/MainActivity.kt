@@ -14,6 +14,8 @@ import com.eltex.androidschool.R
 import com.eltex.androidschool.ui.common.EdgeToEdgeHelper
 import com.eltex.androidschool.utils.LocaleContextWrapper
 
+import dagger.hilt.android.AndroidEntryPoint
+
 import java.util.Locale
 
 /**
@@ -24,6 +26,7 @@ import java.util.Locale
  *
  * @see AppCompatActivity Базовый класс для активностей, использующих функции библиотеки поддержки.
  */
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity(R.layout.main_activity) {
 
     override fun onCreate(savedInstanceState: Bundle?) {

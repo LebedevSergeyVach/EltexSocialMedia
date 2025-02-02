@@ -19,6 +19,11 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
+
 /**
  * ViewModel для управления данными о местах работы пользователя.
  *
@@ -29,9 +34,10 @@ import kotlinx.coroutines.withContext
  * @property userId Идентификатор пользователя, для которого загружаются данные.
  * @see ViewModel
  */
-class JobViewModel(
+@HiltViewModel(assistedFactory = JobViewModel.ViewModelFactory::class)
+class JobViewModel @AssistedInject constructor(
     private val repository: JobRepository,
-    private val userId: Long = BuildConfig.USER_ID,
+    @Assisted private val userId: Long = BuildConfig.USER_ID,
 ) : ViewModel() {
 
     /**
@@ -144,5 +150,10 @@ class JobViewModel(
      */
     override fun onCleared() {
         viewModelScope.cancel()
+    }
+
+    @AssistedFactory
+    interface ViewModelFactory {
+        fun create(userId: Long = 0L): JobViewModel
     }
 }

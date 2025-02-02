@@ -15,6 +15,11 @@ import com.eltex.androidschool.data.users.UserData
 import com.eltex.androidschool.repository.users.UserRepository
 import com.eltex.androidschool.viewmodel.status.StatusLoad
 
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
+
 /**
  * ViewModel для управления состоянием пользователей.
  *
@@ -26,9 +31,10 @@ import com.eltex.androidschool.viewmodel.status.StatusLoad
  * @see UserRepository Интерфейс репозитория, который используется в этом ViewModel.
  * @see UserState Состояние, которое управляется этим ViewModel.
  */
-class UserViewModel(
+@HiltViewModel(assistedFactory = UserViewModel.ViewModelFactory::class)
+class UserViewModel @AssistedInject constructor(
     private val repository: UserRepository,
-    private val userId: Long,
+    @Assisted private val userId: Long,
 ) : ViewModel() {
 
     /**
@@ -102,5 +108,10 @@ class UserViewModel(
      */
     override fun onCleared() {
         viewModelScope.cancel()
+    }
+
+    @AssistedFactory
+    interface ViewModelFactory {
+        fun create(userId: Long = 0L): UserViewModel
     }
 }

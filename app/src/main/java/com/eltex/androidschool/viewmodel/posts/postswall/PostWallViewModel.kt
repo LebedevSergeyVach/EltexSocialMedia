@@ -2,10 +2,12 @@ package com.eltex.androidschool.viewmodel.posts.postswall
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /**
  * ViewModel для управления состоянием постов на стене пользователя.
@@ -15,7 +17,8 @@ import kotlinx.coroutines.launch
  * @property postWallStore Хранилище (Store), которое управляет состоянием постов и эффектами.
  * @see ViewModel
  */
-class PostWallViewModel(
+@HiltViewModel
+class PostWallViewModel @Inject constructor(
     private val postWallStore: PostWallStore,
 ) : ViewModel() {
 

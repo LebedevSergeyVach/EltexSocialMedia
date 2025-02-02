@@ -3,10 +3,14 @@ package com.eltex.androidschool.factory.events
 import com.eltex.androidschool.effecthandler.events.EventEffectHandler
 import com.eltex.androidschool.reducer.events.EventReducer
 import com.eltex.androidschool.repository.events.EventRepository
-import com.eltex.androidschool.ui.events.EventUiModelMapper
 import com.eltex.androidschool.viewmodel.events.events.EventMessage
 import com.eltex.androidschool.viewmodel.events.events.EventState
 import com.eltex.androidschool.viewmodel.events.events.EventStore
+
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 
 /**
  * Фабрика для создания хранилищ (Store) связанных с событиями.
@@ -18,9 +22,10 @@ import com.eltex.androidschool.viewmodel.events.events.EventStore
  * @see EventStore
  * @see EventRepository
  */
-class EventStoreFactory(
-    private val repository: EventRepository,
-) {
+@Module
+@InstallIn(ViewModelComponent::class)
+class EventStoreFactory {
+
     /**
      * Создает экземпляр [EventStore], который управляет состоянием и логикой для отображения событий.
      *
@@ -32,12 +37,13 @@ class EventStoreFactory(
      * @see EventMessage
      * @see EventState
      */
-    fun createEventFactory(): EventStore = EventStore(
-        reducer = EventReducer(),
-        effectHandler = EventEffectHandler(
-            repository = repository,
-            mapper = EventUiModelMapper(),
-        ),
+    @Provides
+    fun createEventFactory(
+        reducer: EventReducer,
+        effectHandler: EventEffectHandler,
+    ): EventStore = EventStore(
+        reducer = reducer,
+        effectHandler = effectHandler,
         initMessages = setOf(EventMessage.Refresh),
         initState = EventState()
     )

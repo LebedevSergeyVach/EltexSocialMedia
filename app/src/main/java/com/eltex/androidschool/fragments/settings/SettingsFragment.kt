@@ -27,6 +27,7 @@ import com.eltex.androidschool.databinding.FragmentSettingsBinding
 import com.eltex.androidschool.utils.Logger
 import com.eltex.androidschool.utils.showMaterialDialog
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
+import dagger.hilt.android.AndroidEntryPoint
 
 import java.util.Locale
 
@@ -38,6 +39,7 @@ import java.util.Locale
  *
  * @see Fragment Базовый класс для фрагментов, использующих функции библиотеки поддержки.
  */
+@AndroidEntryPoint
 class SettingsFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

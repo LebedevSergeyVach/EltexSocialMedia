@@ -2,6 +2,7 @@ package com.eltex.androidschool.repository.users
 
 import com.eltex.androidschool.api.users.UsersApi
 import com.eltex.androidschool.data.users.UserData
+import javax.inject.Inject
 
 /**
  * Репозиторий для работы с данными пользователей, полученными из сети.
@@ -11,7 +12,7 @@ import com.eltex.androidschool.data.users.UserData
  * @see UsersApi Интерфейс для работы с API полльзователей.
  * @see suspend Функции, которые могут быть приостановлены и возобновлены позже.
  */
-class NetworkUserRepository(
+class NetworkUserRepository @Inject constructor(
     private val usersApi: UsersApi,
 ) : UserRepository {
 

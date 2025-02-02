@@ -5,6 +5,8 @@ import com.eltex.androidschool.data.posts.PostData
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
+import javax.inject.Inject
+
 /**
  * Маппер для преобразования данных поста (PostData) в модель UI (PostUiModel).
  *
@@ -14,7 +16,7 @@ import java.time.format.DateTimeFormatter
  * @see PostData Класс, представляющий данные поста.
  * @see PostUiModel Класс, представляющий модель UI для поста.
  */
-class PostUiModelMapper {
+class PostUiModelMapper @Inject constructor() {
     private companion object {
         /**
          * Форматтер для преобразования даты и времени в строку.

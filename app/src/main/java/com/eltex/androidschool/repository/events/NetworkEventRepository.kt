@@ -8,7 +8,10 @@ import com.eltex.androidschool.data.events.EventData
 import com.eltex.androidschool.data.media.MediaDto
 import com.eltex.androidschool.repository.media.uploadMedia
 import com.eltex.androidschool.viewmodel.common.FileModel
+
 import java.time.Instant
+
+import javax.inject.Inject
 
 /**
  * Репозиторий для работы с данными событий через сетевой API.
@@ -20,7 +23,7 @@ import java.time.Instant
  * @see EventsApi API для работы с событиями.
  * @see suspend Функции, которые могут быть приостановлены и возобновлены позже.
  */
-class NetworkEventRepository(
+class NetworkEventRepository @Inject constructor(
     private val eventsApi: EventsApi,
     private val mediaApi: MediaApi,
 ) : EventRepository {

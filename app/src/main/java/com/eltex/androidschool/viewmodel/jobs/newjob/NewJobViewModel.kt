@@ -13,6 +13,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
+
 /**
  * ViewModel для создания новой вакансии.
  * Отвечает за сохранение новой вакансии и управление состоянием экрана создания вакансии.
@@ -20,9 +25,10 @@ import kotlinx.coroutines.launch
  * @param repository Репозиторий для работы с вакансиями.
  * @param jobId ID вакансии (по умолчанию 0L, если вакансия новая).
  */
-class NewJobViewModel(
+@HiltViewModel(assistedFactory = NewJobViewModel.ViewModelFactory::class)
+class NewJobViewModel @AssistedInject constructor(
     private val repository: JobRepository,
-    private val jobId: Long = 0L,
+    @Assisted private val jobId: Long = 0L,
 ) : ViewModel() {
 
     /**
@@ -99,5 +105,10 @@ class NewJobViewModel(
      */
     override fun onCleared() {
         viewModelScope.cancel()
+    }
+
+    @AssistedFactory
+    interface ViewModelFactory {
+        fun create(jobId: Long = 0L): NewJobViewModel
     }
 }

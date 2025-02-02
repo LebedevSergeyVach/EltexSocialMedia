@@ -13,6 +13,8 @@ import com.eltex.androidschool.viewmodel.posts.post.PostMessage
 import com.eltex.androidschool.viewmodel.posts.post.PostState
 import com.eltex.androidschool.viewmodel.posts.post.PostStatus
 
+import javax.inject.Inject
+
 /**
  * Редьюсер для постов. Этот класс реализует интерфейс [Reducer] и отвечает за обработку сообщений,
  * связанных с постами, и обновление состояния приложения.
@@ -22,7 +24,7 @@ import com.eltex.androidschool.viewmodel.posts.post.PostStatus
  * @see PostMessage Сообщения, которые могут изменять состояние постов.
  * @see PostEffect Эффекты, которые выполняются в ответ на сообщения.
  */
-class PostReducer : Reducer<PostState, PostEffect, PostMessage> {
+class PostReducer @Inject constructor() : Reducer<PostState, PostEffect, PostMessage> {
 
     companion object {
         /**

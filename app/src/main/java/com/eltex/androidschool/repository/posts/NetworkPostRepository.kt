@@ -1,14 +1,16 @@
 package com.eltex.androidschool.repository.posts
 
 import android.content.ContentResolver
-import com.eltex.androidschool.api.media.MediaApi
 
+import com.eltex.androidschool.api.media.MediaApi
 import com.eltex.androidschool.data.media.MediaDto
 import com.eltex.androidschool.api.posts.PostsApi
 import com.eltex.androidschool.data.common.Attachment
 import com.eltex.androidschool.data.posts.PostData
 import com.eltex.androidschool.repository.media.uploadMedia
 import com.eltex.androidschool.viewmodel.common.FileModel
+
+import javax.inject.Inject
 
 /**
  * Репозиторий для работы с данными постов через сетевой API.
@@ -18,7 +20,7 @@ import com.eltex.androidschool.viewmodel.common.FileModel
  * @see PostsApi Интерфейс для работы с API постов.
  * @see suspend Функции, которые могут быть приостановлены и возобновлены позже.
  */
-class NetworkPostRepository(
+class NetworkPostRepository @Inject constructor(
     private val postsApi: PostsApi,
     private val mediaApi: MediaApi,
 ) : PostRepository {

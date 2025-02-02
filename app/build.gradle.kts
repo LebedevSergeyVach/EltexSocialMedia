@@ -10,6 +10,7 @@ plugins {
     alias(libs.plugins.protobuf)
     alias(libs.plugins.room)
     alias(libs.plugins.ksp)
+    alias(libs.plugins.daggerHilt)
     id("kotlin-parcelize")
 }
 
@@ -22,7 +23,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 1
-        versionName = "v0.19.0 31.01.2025"
+        versionName = "v0.20.0 02.02.2025"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -255,5 +256,14 @@ dependencies {
      *
      * https://github.com/square/leakcanary
      */
-    implementation(libs.leakcanary.android.test)
+    testImplementation(libs.leakcanary.android.test)
+
+    /**
+     * DI Dependency injection with Hilt
+     *
+     * https://developer.android.com/training/dependency-injection/hilt-android#kts
+     * https://blog.mindorks.com/dagger-hilt-tutorial/
+     */
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
 }

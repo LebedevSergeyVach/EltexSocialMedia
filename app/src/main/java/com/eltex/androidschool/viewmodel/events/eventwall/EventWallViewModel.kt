@@ -14,12 +14,16 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 import com.eltex.androidschool.BuildConfig
-
 import com.eltex.androidschool.data.events.EventData
 import com.eltex.androidschool.repository.events.EventRepository
 import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.ui.events.EventUiModelMapper
 import com.eltex.androidschool.viewmodel.status.StatusLoad
+
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
 
 /**
  * ViewModel для управления состоянием событий конкретного автора.
@@ -29,9 +33,10 @@ import com.eltex.androidschool.viewmodel.status.StatusLoad
  * @property userId Идентификатор пользователя, чьи события загружаются (по умолчанию используется `BuildConfig.USER_ID`).
  * @see ViewModel
  */
-class EventWallViewModel(
+@HiltViewModel(assistedFactory = EventWallViewModel.ViewModelFactory::class)
+class EventWallViewModel @AssistedInject constructor(
     private val repository: EventRepository,
-    private val userId: Long = BuildConfig.USER_ID,
+    @Assisted private val userId: Long = BuildConfig.USER_ID,
 ) : ViewModel() {
 
     /**
@@ -240,5 +245,10 @@ class EventWallViewModel(
      */
     override fun onCleared() {
         viewModelScope.cancel()
+    }
+
+    @AssistedFactory
+    interface ViewModelFactory {
+        fun create(userId: Long = BuildConfig.USER_ID): EventWallViewModel
     }
 }

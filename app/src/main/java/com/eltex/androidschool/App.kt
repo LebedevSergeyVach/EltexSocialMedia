@@ -1,9 +1,8 @@
 package com.eltex.androidschool
 
 import android.app.Application
-import com.eltex.androidschool.di.DependencyContainer
-import com.eltex.androidschool.di.DependencyContainerImpl
-import com.eltex.androidschool.di.DependencyContainerProvider
+
+import dagger.hilt.android.HiltAndroidApp
 
 /**
  * Основной класс приложения, который предоставляет контейнер зависимостей.
@@ -13,15 +12,5 @@ import com.eltex.androidschool.di.DependencyContainerProvider
  * @see DependencyContainerProvider
  * @see DependencyContainerImpl
  */
-class App : Application(), DependencyContainerProvider {
-    private val container: DependencyContainerImpl by lazy {
-        DependencyContainerImpl()
-    }
-
-    /**
-     * Возвращает экземпляр контейнера зависимостей.
-     *
-     * @return [DependencyContainer] Контейнер зависимостей.
-     */
-    override fun getContainer(): DependencyContainer = container
-}
+@HiltAndroidApp
+class App : Application()

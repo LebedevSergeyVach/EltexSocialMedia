@@ -44,7 +44,6 @@ import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
 import com.eltex.androidschool.data.common.AttachmentTypeFile
 import com.eltex.androidschool.databinding.FragmentNewOrUpdateEventBinding
-import com.eltex.androidschool.di.DependencyContainerProvider
 import com.eltex.androidschool.utils.Logger
 import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.showMaterialDialog
@@ -59,6 +58,8 @@ import com.eltex.androidschool.viewmodel.events.newevent.NewEventViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.withCreationCallback
 
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
@@ -81,6 +82,7 @@ import java.util.Locale
  * @see NewEventViewModel ViewModel для управления созданием и обновлением событий.
  * @see ToolBarViewModel ViewModel для управления состоянием панели инструментов.
  */
+@AndroidEntryPoint
 class NewOrUpdateEventFragment : Fragment() {
 
     companion object {
@@ -143,11 +145,13 @@ class NewOrUpdateEventFragment : Fragment() {
          *
          *  @see NewEventViewModel
          */
-        val newEventViewModel by viewModels<NewEventViewModel> {
-            (requireContext().applicationContext as DependencyContainerProvider)
-                .getContainer()
-                .getNewEventViewModelFactory(eventId = eventId)
-        }
+        val newEventViewModel by viewModels<NewEventViewModel>(
+            extrasProducer = {
+                defaultViewModelCreationExtras.withCreationCallback<NewEventViewModel.ViewModelFactory> { factory ->
+                    factory.create(eventId = eventId)
+                }
+            }
+        )
 
         binding.optionSwitch.setOnCheckedChangeListener { _, isChecked ->
             requireContext().singleVibrationWithSystemCheck(35)

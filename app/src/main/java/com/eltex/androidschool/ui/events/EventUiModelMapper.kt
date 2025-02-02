@@ -5,6 +5,8 @@ import com.eltex.androidschool.data.events.EventData
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
+import javax.inject.Inject
+
 /**
  * Маппер для преобразования данных события (EventData) в модель UI (EventUiModel).
  *
@@ -14,7 +16,7 @@ import java.time.format.DateTimeFormatter
  * @see EventData Класс, представляющий данные события.
  * @see EventUiModel Класс, представляющий модель UI для события.
  */
-class EventUiModelMapper {
+class EventUiModelMapper @Inject constructor() {
     private companion object {
         /**
          * Форматтер для преобразования даты и времени в строку.

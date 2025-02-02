@@ -1,17 +1,19 @@
 package com.eltex.androidschool.fragments.users
 
 import android.graphics.drawable.Drawable
+
 import android.os.Bundle
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import androidx.activity.OnBackPressedCallback
 
 import androidx.appcompat.widget.Toolbar
+
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
-
 import androidx.core.view.isVisible
 
 import androidx.fragment.app.Fragment
@@ -23,13 +25,16 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewmodel.viewModelFactory
-import androidx.navigation.NavController
 
+import androidx.navigation.NavController
 import androidx.navigation.NavOptions
+
 import androidx.navigation.fragment.findNavController
+
 import androidx.recyclerview.widget.RecyclerView
+
 import androidx.viewpager2.widget.ViewPager2
+
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -37,56 +42,49 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
-
 import com.eltex.androidschool.R
 import com.eltex.androidschool.BuildConfig
-import com.eltex.androidschool.databinding.FragmentUserBinding
-
 import com.eltex.androidschool.adapter.events.EventAdapter
 import com.eltex.androidschool.adapter.job.JobAdapter
 import com.eltex.androidschool.adapter.posts.PostAdapter
 import com.eltex.androidschool.adapter.users.UserPagerAdapter
-import com.eltex.androidschool.di.DependencyContainerProvider
+import com.eltex.androidschool.databinding.FragmentUserBinding
 import com.eltex.androidschool.effecthandler.posts.PostWallEffectHandler
-import com.eltex.androidschool.viewmodel.common.SharedViewModel
-
 import com.eltex.androidschool.fragments.events.NewOrUpdateEventFragment
 import com.eltex.androidschool.fragments.jobs.NewOrUpdateJobFragment
 import com.eltex.androidschool.fragments.posts.NewOrUpdatePostFragment
 import com.eltex.androidschool.reducer.posts.PostWallReducer
 import com.eltex.androidschool.repository.events.NetworkEventRepository
-import com.eltex.androidschool.repository.jobs.NetworkJobRepository
-import com.eltex.androidschool.repository.posts.NetworkPostRepository
 import com.eltex.androidschool.repository.users.NetworkUserRepository
-
 import com.eltex.androidschool.ui.common.OffsetDecoration
 import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.ui.jobs.JobUiModel
 import com.eltex.androidschool.ui.posts.PostPagingMapper
 import com.eltex.androidschool.ui.posts.PostUiModel
-import com.eltex.androidschool.ui.posts.PostUiModelMapper
-
 import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.showMaterialDialogWithTwoButtons
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
-
+import com.eltex.androidschool.viewmodel.common.SharedViewModel
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
-import com.eltex.androidschool.viewmodel.events.eventwall.EventWallViewModel
-
 import com.eltex.androidschool.viewmodel.events.eventwall.EventWallState
+import com.eltex.androidschool.viewmodel.events.eventwall.EventWallViewModel
 import com.eltex.androidschool.viewmodel.jobs.jobswall.JobState
 import com.eltex.androidschool.viewmodel.jobs.jobswall.JobViewModel
-import com.eltex.androidschool.viewmodel.posts.postswall.PostWallViewModel
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallMessage
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallState
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallStore
+import com.eltex.androidschool.viewmodel.posts.postswall.PostWallViewModel
 import com.eltex.androidschool.viewmodel.user.UserState
 import com.eltex.androidschool.viewmodel.user.UserViewModel
 
 import com.google.android.material.tabs.TabLayoutMediator
+
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.withCreationCallback
+
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
 /**
  * Фрагмент для отображения информации о пользователе.
@@ -99,6 +97,7 @@ import com.google.android.material.tabs.TabLayoutMediator
  * @see UserViewModel ViewModel для управления состоянием пользователей.
  * @see ToolBarViewModel ViewModel для управления состоянием панели инструментов.
  */
+@AndroidEntryPoint
 class UserFragment : Fragment() {
 
     /**
@@ -151,11 +150,13 @@ class UserFragment : Fragment() {
          * @see viewModels Делегат для получения ViewModel, привязанного к фрагменту.
          * @see NetworkUserRepository Репозиторий для работы с данными пользователя.
          */
-        val userViewModel by viewModels<UserViewModel> {
-            (requireContext().applicationContext as DependencyContainerProvider)
-                .getContainer()
-                .getAccountViewModelFactory(userId = userId)
-        }
+        val userViewModel by viewModels<UserViewModel>(
+            extrasProducer = {
+                defaultViewModelCreationExtras.withCreationCallback<UserViewModel.ViewModelFactory> { factory ->
+                    factory.create(userId = userId)
+                }
+            }
+        )
 
         /**
          * ViewModel для управления постами пользователя.
@@ -175,11 +176,7 @@ class UserFragment : Fragment() {
          * @see PostWallReducer Редуктор для обработки сообщений.
          * @see PostWallEffectHandler Обработчик эффектов для выполнения побочных действий.
          */
-        val postViewModel by viewModels<PostWallViewModel> {
-            (requireContext().applicationContext as DependencyContainerProvider)
-                .getContainer()
-                .getPostsWallViewModelFactory(userId = userId)
-        }
+        val postViewModel: PostWallViewModel by viewModels()
 
         /**
          * ViewModel для управления событиями пользователя.
@@ -194,17 +191,21 @@ class UserFragment : Fragment() {
          * @see viewModels Делегат для получения ViewModel, привязанного к фрагменту.
          * @see NetworkEventRepository Репозиторий для работы с данными о событиях.
          */
-        val eventViewModel by viewModels<EventWallViewModel> {
-            (requireContext().applicationContext as DependencyContainerProvider)
-                .getContainer()
-                .getEventsWallViewModelFactory(userId = userId)
-        }
+        val eventViewModel by viewModels<EventWallViewModel>(
+            extrasProducer = {
+                defaultViewModelCreationExtras.withCreationCallback<EventWallViewModel.ViewModelFactory> { factory ->
+                    factory.create(userId = userId)
+                }
+            }
+        )
 
-        val jobViewModel by viewModels<JobViewModel> {
-            (requireContext().applicationContext as DependencyContainerProvider)
-                .getContainer()
-                .getJobWallViewModelFactory(userId = userId)
-        }
+        val jobViewModel by viewModels<JobViewModel>(
+            extrasProducer = {
+                defaultViewModelCreationExtras.withCreationCallback<JobViewModel.ViewModelFactory> { factory ->
+                    factory.create(userId = userId)
+                }
+            }
+        )
 
         binding.swiperRefresh.setOnRefreshListener {
             loadingDataFromTheViewModel(
