@@ -1,6 +1,7 @@
 package com.eltex.androidschool.reducer.posts
 
 import arrow.core.Either
+
 import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.effects.posts.PostWallEffect
 import com.eltex.androidschool.model.posts.PostWithError
@@ -11,9 +12,9 @@ import com.eltex.androidschool.utils.Logger
 import com.eltex.androidschool.viewmodel.posts.post.PostStatus
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallMessage
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallState
+
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import javax.inject.Inject
 
 /**
  * Редьюсер для управления состоянием постов конкретного пользователя (стены пользователя).

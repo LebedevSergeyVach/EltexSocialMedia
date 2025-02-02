@@ -28,11 +28,9 @@ import androidx.lifecycle.lifecycleScope
 
 import androidx.navigation.NavController
 import androidx.navigation.NavOptions
-
 import androidx.navigation.fragment.findNavController
 
 import androidx.recyclerview.widget.RecyclerView
-
 import androidx.viewpager2.widget.ViewPager2
 
 import com.bumptech.glide.Glide
@@ -42,8 +40,8 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 
-import com.eltex.androidschool.R
 import com.eltex.androidschool.BuildConfig
+import com.eltex.androidschool.R
 import com.eltex.androidschool.adapter.events.EventAdapter
 import com.eltex.androidschool.adapter.job.JobAdapter
 import com.eltex.androidschool.adapter.posts.PostAdapter
@@ -176,7 +174,13 @@ class UserFragment : Fragment() {
          * @see PostWallReducer Редуктор для обработки сообщений.
          * @see PostWallEffectHandler Обработчик эффектов для выполнения побочных действий.
          */
-        val postViewModel: PostWallViewModel by viewModels()
+        val postViewModel: PostWallViewModel by viewModels(
+            extrasProducer = {
+                defaultViewModelCreationExtras.withCreationCallback<PostWallViewModel.ViewModelFactory> { factory ->
+                    factory.create(userId = userId)
+                }
+            }
+        )
 
         /**
          * ViewModel для управления событиями пользователя.

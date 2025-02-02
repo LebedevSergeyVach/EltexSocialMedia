@@ -24,7 +24,7 @@ import dagger.hilt.android.components.ViewModelComponent
  */
 @Module
 @InstallIn(ViewModelComponent::class)
-class EventStoreFactory {
+class EventStoreModule {
 
     /**
      * Создает экземпляр [EventStore], который управляет состоянием и логикой для отображения событий.

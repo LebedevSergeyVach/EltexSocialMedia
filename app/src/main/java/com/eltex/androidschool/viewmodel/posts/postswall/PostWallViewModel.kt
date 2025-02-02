@@ -2,11 +2,17 @@ package com.eltex.androidschool.viewmodel.posts.postswall
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import dagger.assisted.AssistedInject
+
+import com.eltex.androidschool.BuildConfig
+
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
 import dagger.hilt.android.lifecycle.HiltViewModel
+
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+
 import javax.inject.Inject
 
 /**
@@ -17,9 +23,10 @@ import javax.inject.Inject
  * @property postWallStore Хранилище (Store), которое управляет состоянием постов и эффектами.
  * @see ViewModel
  */
-@HiltViewModel
+@HiltViewModel(assistedFactory = PostWallViewModel.ViewModelFactory::class)
 class PostWallViewModel @Inject constructor(
     private val postWallStore: PostWallStore,
+    @Assisted private val userId: Long = BuildConfig.USER_ID,
 ) : ViewModel() {
 
     /**
@@ -60,5 +67,10 @@ class PostWallViewModel @Inject constructor(
      */
     override fun onCleared() {
         viewModelScope.cancel()
+    }
+
+    @AssistedFactory
+    interface ViewModelFactory {
+        fun create(userId: Long = BuildConfig.USER_ID): PostWallViewModel
     }
 }
