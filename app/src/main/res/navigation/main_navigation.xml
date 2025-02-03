@@ -76,7 +76,12 @@
         android:id="@+id/settingsFragment"
         android:name="com.eltex.androidschool.fragments.settings.SettingsFragment"
         android:label="@string/settings"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings">
+
+        <action
+            android:id="@+id/action_settingsFragment_to_listAppUpdatesFragment"
+            app:destination="@id/listAppUpdatesFragment" />
+    </fragment>
 
     <!-- Глобальное действие для перехода к SettingsFragment -->
     <action
@@ -110,12 +115,7 @@
 
     <fragment
         android:id="@+id/listAppUpdatesFragment"
-        android:name="com.eltex.androidschool.fragments.settings.ListAppUpdatesFragment"
+        android:name="com.eltex.androidschool.fragments.update.ListAppUpdatesFragment"
         android:label="@string/update_application"
-        tools:layout="@layout/fragment_update" >
-
-        <action
-            android:id="@+id/action_listAppUpdatesFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_update" />
 </navigation>

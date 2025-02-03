@@ -47,11 +47,6 @@ import java.util.Locale
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
 
-    private companion object {
-        private const val GITHUB_LINK_PROJECT =
-            "https://github.com/LebedevSergeyVach/EltexSocialMedia"
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -126,17 +121,17 @@ class SettingsFragment : Fragment() {
 
         binding.textVersionApplication.text = getAppVersionName(requireContext())
 
-        binding.textVersionApplication.setOnClickListener {
-            requireParentFragment().requireParentFragment().findNavController()
-                .navigate(
-                    R.id.action_listAppUpdatesFragment_to_settingsFragment,
-                    NavOptions.Builder()
-                        .setEnterAnim(R.anim.slide_in_right)
-                        .setExitAnim(R.anim.slide_out_left)
-                        .setPopEnterAnim(R.anim.slide_in_left)
-                        .setPopExitAnim(R.anim.slide_out_right)
-                        .build()
-                )
+        binding.buttonOpenVersionApplication.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_settingsFragment_to_listAppUpdatesFragment,
+                null,
+                NavOptions.Builder()
+                    .setEnterAnim(R.anim.slide_in_right)
+                    .setExitAnim(R.anim.slide_out_left)
+                    .setPopEnterAnim(R.anim.slide_in_left)
+                    .setPopExitAnim(R.anim.slide_out_right)
+                    .build()
+            )
         }
 
         return binding.root
