@@ -13,7 +13,7 @@ import com.eltex.androidschool.data.common.Attachment
  * @property authorAvatar URL аватара автора поста. Может быть null, если аватар не задан. Используется для отображения изображения автора.
  * @property published Дата и время публикации события.
  * @property optionConducting Вариант проведения события.
- * @property dataEvent Дата и время события.
+ * @property dateEvent Дата и время события.
  * @property content Содержание события.
  * @property link Ссылка на событие.
  * @property likedByMe Флаг, указывающий, лайкнул ли текущий пользователь это событие.
@@ -30,7 +30,7 @@ data class EventUiModel(
     val authorAvatar: String? = null,
     val published: String = "",
     val optionConducting: String = "",
-    val dataEvent: String = "",
+    val dateEvent: String = "",
     val content: String = "",
     val link: String = "",
     val likedByMe: Boolean = false,

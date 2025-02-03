@@ -16,6 +16,7 @@ import kotlinx.coroutines.withContext
 import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.data.events.EventData
 import com.eltex.androidschool.repository.events.EventRepository
+import com.eltex.androidschool.ui.common.DateTimeUiFormatter
 import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.ui.events.EventUiModelMapper
 import com.eltex.androidschool.viewmodel.status.StatusLoad
@@ -24,6 +25,8 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
+
+import java.time.ZoneId
 
 /**
  * ViewModel для управления состоянием событий конкретного автора.
@@ -44,7 +47,11 @@ class EventWallViewModel @AssistedInject constructor(
      *
      * @see EventUiModelMapper Класс, отвечающий за преобразование данных в UI-модель.
      */
-    private val mapper = EventUiModelMapper()
+    private val mapper = EventUiModelMapper(
+        dateTimeUiFormatter = DateTimeUiFormatter(
+            zoneId = ZoneId.systemDefault()
+        )
+    )
 
     /**
      * Flow, хранящий текущее состояние событий.

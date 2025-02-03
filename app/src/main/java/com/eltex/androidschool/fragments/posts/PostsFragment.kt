@@ -1,9 +1,11 @@
 package com.eltex.androidschool.fragments.posts
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.Toolbar
 
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
@@ -24,7 +26,7 @@ import com.eltex.androidschool.R
 import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.adapter.posts.PostAdapter
 import com.eltex.androidschool.databinding.FragmentPostsBinding
-import com.eltex.androidschool.fragments.users.UserFragment
+import com.eltex.androidschool.fragments.users.AccountFragment
 import com.eltex.androidschool.ui.common.OffsetDecoration
 import com.eltex.androidschool.ui.posts.PostPagingMapper
 import com.eltex.androidschool.ui.posts.PostUiModel
@@ -69,84 +71,7 @@ class PostsFragment : Fragment() {
     ): View {
         val binding = FragmentPostsBinding.inflate(layoutInflater, container, false)
 
-        val adapter = PostAdapter(
-            object : PostAdapter.PostListener {
-                override fun onLikeClicked(post: PostUiModel) {
-                    viewModel.accept(message = PostMessage.Like(post = post))
-                }
-
-                override fun onShareClicked(post: PostUiModel) {}
-
-                override fun onDeleteClicked(post: PostUiModel) {
-                    showDeleteConfirmationDialog(
-                        title = getString(R.string.delete_post_title),
-                        message = getString(R.string.delete_post_message)
-                    ) {
-                        viewModel.accept(message = PostMessage.Delete(post = post))
-                    }
-                }
-
-                override fun onUpdateClicked(post: PostUiModel) {
-                    requireParentFragment().requireParentFragment().findNavController()
-                        .navigate(
-                            R.id.action_BottomNavigationFragment_to_newOrUpdatePostFragment,
-                            bundleOf(
-                                NewOrUpdatePostFragment.POST_ID to post.id,
-                                NewOrUpdatePostFragment.POST_CONTENT to post.content,
-                                NewOrUpdatePostFragment.IS_UPDATE to true,
-                            ),
-                            NavOptions.Builder()
-                                .setEnterAnim(R.anim.slide_in_right)
-                                .setExitAnim(R.anim.slide_out_left)
-                                .setPopEnterAnim(R.anim.slide_in_left)
-                                .setPopExitAnim(R.anim.slide_out_right)
-                                .build()
-                        )
-                }
-
-                override fun onGetUserClicked(post: PostUiModel) {
-                    if (post.authorId == BuildConfig.USER_ID) {
-                        val bottomNav = requireParentFragment().requireParentFragment()
-                            .requireView().findViewById<BottomNavigationView>(R.id.bottomNavigation)
-
-                        bottomNav.selectedItemId = R.id.userFragment
-
-                        findNavController().navigate(
-                            R.id.userFragment,
-                            null,
-                            NavOptions.Builder()
-                                .setEnterAnim(R.anim.slide_in_right)
-                                .setExitAnim(R.anim.slide_out_left)
-                                .setPopEnterAnim(R.anim.slide_in_left)
-                                .setPopExitAnim(R.anim.slide_out_right)
-                                .build()
-                        )
-                    } else {
-                        requireParentFragment().requireParentFragment().findNavController()
-                            .navigate(
-                                R.id.action_BottomNavigationFragment_to_userFragment,
-                                bundleOf(
-                                    UserFragment.USER_ID to post.authorId,
-                                    UserFragment.IC_PROFILE to false
-                                ),
-                                NavOptions.Builder()
-                                    .setEnterAnim(R.anim.slide_in_right)
-                                    .setExitAnim(R.anim.slide_out_left)
-                                    .setPopEnterAnim(R.anim.slide_in_left)
-                                    .setPopExitAnim(R.anim.slide_out_right)
-                                    .build()
-                            )
-                    }
-                }
-
-                override fun onRetryPageClicked() {
-                    viewModel.accept(PostMessage.Retry)
-                }
-            },
-
-            context = requireContext(),
-            currentUserId = BuildConfig.USER_ID
-        )
+        val adapter: PostAdapter = createPostAdapter()
 
         binding.list.adapter = adapter
 
@@ -192,6 +117,115 @@ class PostsFragment : Fragment() {
             scrollToTopAndRefresh(binding = binding)
         }
 
+        postViewModelState(binding = binding, adapter = adapter)
+
+        return binding.root
+    }
+
+    /**
+     * Создает и возвращает экземпляр [PostAdapter], который используется для отображения списка постов.
+     * Адаптер настраивается с помощью [PostListener], который обрабатывает различные действия пользователя,
+     * такие как лайк, удаление, обновление и переход к профилю пользователя.
+     *
+     * @return [PostAdapter] - адаптер для отображения постов.
+     *
+     * @see [PostAdapter] - класс адаптера, который управляет отображением списка постов.
+     * @see PostAdapter.PostListener - интерфейс, который определяет методы для обработки действий пользователя.
+     */
+    private fun createPostAdapter() = PostAdapter(
+        object : PostAdapter.PostListener {
+            override fun onLikeClicked(post: PostUiModel) {
+                viewModel.accept(message = PostMessage.Like(post = post))
+            }
+
+            override fun onShareClicked(post: PostUiModel) {}
+
+            override fun onDeleteClicked(post: PostUiModel) {
+                showDeleteConfirmationDialog(
+                    title = getString(R.string.delete_post_title),
+                    message = getString(R.string.delete_post_message)
+                ) {
+                    viewModel.accept(message = PostMessage.Delete(post = post))
+                }
+            }
+
+            override fun onUpdateClicked(post: PostUiModel) {
+                requireParentFragment().requireParentFragment().findNavController()
+                    .navigate(
+                        R.id.action_BottomNavigationFragment_to_newOrUpdatePostFragment,
+                        bundleOf(
+                            NewOrUpdatePostFragment.POST_ID to post.id,
+                            NewOrUpdatePostFragment.POST_CONTENT to post.content,
+                            NewOrUpdatePostFragment.IS_UPDATE to true,
+                        ),
+                        NavOptions.Builder()
+                            .setEnterAnim(R.anim.slide_in_right)
+                            .setExitAnim(R.anim.slide_out_left)
+                            .setPopEnterAnim(R.anim.slide_in_left)
+                            .setPopExitAnim(R.anim.slide_out_right)
+                            .build()
+                    )
+            }
+
+            override fun onGetUserClicked(post: PostUiModel) {
+                if (post.authorId == BuildConfig.USER_ID) {
+                    val bottomNav = requireParentFragment().requireParentFragment()
+                        .requireView().findViewById<BottomNavigationView>(R.id.bottomNavigation)
+
+                    bottomNav.selectedItemId = R.id.userFragment
+
+                    findNavController().navigate(
+                        R.id.userFragment,
+                        null,
+                        NavOptions.Builder()
+                            .setEnterAnim(R.anim.slide_in_right)
+                            .setExitAnim(R.anim.slide_out_left)
+                            .setPopEnterAnim(R.anim.slide_in_left)
+                            .setPopExitAnim(R.anim.slide_out_right)
+                            .build()
+                    )
+                } else {
+                    requireParentFragment().requireParentFragment().findNavController()
+                        .navigate(
+                            R.id.action_BottomNavigationFragment_to_userFragment,
+                            bundleOf(
+                                AccountFragment.USER_ID to post.authorId,
+                                AccountFragment.IC_PROFILE to false
+                            ),
+                            NavOptions.Builder()
+                                .setEnterAnim(R.anim.slide_in_right)
+                                .setExitAnim(R.anim.slide_out_left)
+                                .setPopEnterAnim(R.anim.slide_in_left)
+                                .setPopExitAnim(R.anim.slide_out_right)
+                                .build()
+                        )
+                }
+            }
+
+            override fun onRetryPageClicked() {
+                viewModel.accept(PostMessage.Retry)
+            }
+        },
+
+        context = requireContext(),
+        currentUserId = BuildConfig.USER_ID
+    )
+
+    /**
+     * Настраивает наблюдение за состоянием [ViewModel] и обновляет UI в соответствии с текущим состоянием.
+     * Метод связывает [PostState] с элементами UI, такими как [ProgressBar], [SwipeRefreshLayout] и [RecyclerView].
+     *
+     * @param binding [FragmentPostsBinding] - объект binding, который предоставляет доступ к элементам UI.
+     * @param adapter [PostAdapter] - адаптер, который управляет отображением списка постов.
+     *
+     * @see [PostState] - класс, который представляет состояние экрана с постами.
+     * @see [PostMessage] - класс, который представляет сообщения, отправляемые во ViewModel.
+     * @see [PostPagingMapper] - класс, который преобразует состояние в список данных для адаптера
+     */
+    private fun postViewModelState(
+        binding: FragmentPostsBinding,
+        adapter: PostAdapter,
+    ) {
         viewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { postState: PostState ->
@@ -223,8 +257,6 @@ class PostsFragment : Fragment() {
                 )
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
-
-        return binding.root
     }
 
     /**
@@ -265,5 +297,14 @@ class PostsFragment : Fragment() {
             message = message,
             onDeleteConfirmed = onDeleteConfirmed
         )
+    }
+
+    private fun transparency() {
+        val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
+        toolbar.setBackgroundColor(Color.TRANSPARENT)
+
+        val bottomNavigation =
+            requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigation)
+        bottomNavigation.setBackgroundColor(Color.TRANSPARENT)
     }
 }

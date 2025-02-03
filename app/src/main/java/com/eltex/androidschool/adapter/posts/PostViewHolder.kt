@@ -28,6 +28,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 
 import com.eltex.androidschool.R
+import com.eltex.androidschool.data.common.Attachment
 import com.eltex.androidschool.databinding.CardPostBinding
 import com.eltex.androidschool.ui.posts.PostUiModel
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
@@ -86,6 +87,49 @@ class PostViewHolder(
 
         val radius = context.resources.getDimensionPixelSize(R.dimen.radius_for_rounding_images)
 
+        renderingUserAvatar(post = post)
+
+        binding.skeletonAttachment.showSkeleton()
+
+        if (post.attachment != null) {
+            renderingImageAttachment(attachment = post.attachment, radius = radius)
+        } else {
+            binding.skeletonAttachment.showOriginal()
+            binding.attachment.isVisible = false
+        }
+
+        SpannableString(binding.content.text)
+
+        updateLike(likeByMe = post.likedByMe)
+
+        binding.menu.isVisible = post.authorId == currentUserId
+
+        binding.share.setOnClickListener {
+            sharePost(post = post)
+        }
+
+        binding.cardPost.setOnLongClickListener {
+            sharePost(post = post)
+            true
+        }
+    }
+
+    /**
+     * Отображает аватар пользователя в элементе интерфейса, используя библиотеку Glide.
+     * Если аватар недоступен или его загрузка завершилась ошибкой, отображается заглушка и инициалы пользователя.
+     *
+     * @param post Экземпляр [PostUiModel], содержащий данные о посте, включая аватар автора и его имя.
+     *
+     * @see PostUiModel Модель данных поста, содержащая информацию об авторе и его аватаре.
+     * @see Glide Библиотека для загрузки и отображения изображений.
+     * @see RequestListener Интерфейс для обработки событий загрузки изображений.
+     *
+     * @property post.authorAvatar URL аватара автора. Может быть null или пустым.
+     * @property post.author Имя автора, используемое для отображения инициалов, если аватар недоступен.
+     * @property binding.avatar ImageView для отображения аватара.
+     * @property binding.initial TextView для отображения инициалов автора.
+     */
+    private fun renderingUserAvatar(post: PostUiModel) {
         if (!post.authorAvatar.isNullOrEmpty()) {
             Glide.with(binding.root)
                 .load(post.authorAvatar)
@@ -130,60 +174,61 @@ class PostViewHolder(
             binding.initial.text = post.author.take(1)
             binding.initial.isVisible = true
         }
+    }
 
-        binding.skeletonAttachment.showSkeleton()
+    /**
+     * Отображает вложение (изображение) в элементе интерфейса, используя библиотеку Glide.
+     * Если загрузка изображения завершилась ошибкой, отображается заглушка.
+     * Изображение отображается с закругленными углами и эффектом перехода (cross-fade).
+     *
+     * @param attachment Экземпляр [Attachment], содержащий данные о вложении, включая URL изображения.
+     * @param radius Радиус закругления углов изображения (в пикселях).
+     *
+     * @see Attachment Модель данных вложения, содержащая URL изображения.
+     * @see Glide Библиотека для загрузки и отображения изображений.
+     * @see RequestListener Интерфейс для обработки событий загрузки изображений.
+     * @see RoundedCorners Трансформация для закругления углов изображения.
+     * @see DrawableTransitionOptions Опции для анимации перехода при загрузке изображения.
+     *
+     * @property attachment.url URL изображения, которое необходимо загрузить.
+     * @property binding.attachment ImageView для отображения вложения.
+     * @property binding.skeletonAttachment Элемент интерфейса, используемый для отображения скелетона (заглушки) во время загрузки.
+     */
+    private fun renderingImageAttachment(
+        attachment: Attachment,
+        radius: Int
+    ) {
+        Glide.with(binding.root)
+            .load(attachment.url)
+            .listener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    binding.skeletonAttachment.showOriginal()
+                    binding.attachment.setImageResource(R.drawable.error_placeholder)
 
-        if (post.attachment != null) {
-            Glide.with(binding.root)
-                .load(post.attachment.url)
-                .listener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable>,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        binding.skeletonAttachment.showOriginal()
-                        binding.attachment.setImageResource(R.drawable.error_placeholder)
+                    return false
+                }
 
-                        return false
-                    }
+                override fun onResourceReady(
+                    resource: Drawable,
+                    model: Any,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    binding.skeletonAttachment.showOriginal()
 
-                    override fun onResourceReady(
-                        resource: Drawable,
-                        model: Any,
-                        target: Target<Drawable>?,
-                        dataSource: DataSource,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        binding.skeletonAttachment.showOriginal()
-
-                        return false
-                    }
-                })
-                .transform(RoundedCorners(radius))
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .error(R.drawable.error_placeholder)
-                .into(binding.attachment)
-        } else {
-            binding.skeletonAttachment.showOriginal()
-            binding.attachment.isVisible = false
-        }
-
-        SpannableString(binding.content.text)
-
-        updateLike(post.likedByMe)
-
-        binding.menu.isVisible = post.authorId == currentUserId
-
-        binding.share.setOnClickListener {
-            sharePost(post)
-        }
-
-        binding.cardPost.setOnLongClickListener {
-            sharePost(post)
-            true
-        }
+                    return false
+                }
+            })
+            .transform(RoundedCorners(radius))
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .error(R.drawable.error_placeholder)
+            .into(binding.attachment)
     }
 
     /**

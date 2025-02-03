@@ -1,6 +1,7 @@
 package com.eltex.androidschool.reducer.posts
 
 import arrow.core.Either
+
 import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.effects.posts.PostWallEffect
 import com.eltex.androidschool.model.posts.PostWithError
@@ -11,8 +12,7 @@ import com.eltex.androidschool.utils.Logger
 import com.eltex.androidschool.viewmodel.posts.post.PostStatus
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallMessage
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallState
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
+
 import javax.inject.Inject
 
 /**
@@ -26,9 +26,8 @@ import javax.inject.Inject
  * @see PostWallMessage Сообщения, которые могут изменять состояние постов.
  * @see PostWallEffect Эффекты, которые выполняются в ответ на сообщения.
  */
-class PostWallReducer @AssistedInject constructor(
-    @Assisted private val userId: Long,
-) : Reducer<PostWallState, PostWallEffect, PostWallMessage> {
+class PostWallReducer @Inject constructor() :
+    Reducer<PostWallState, PostWallEffect, PostWallMessage> {
 
     companion object {
         /**
@@ -171,7 +170,7 @@ class PostWallReducer @AssistedInject constructor(
                     null
                 } else {
                     PostWallEffect.LoadNextPage(
-                        authorId = userId,
+                        authorId = old.userId,
                         id = old.posts.last().id,
                         count = PAGE_SIZE
                     )
@@ -222,7 +221,7 @@ class PostWallReducer @AssistedInject constructor(
                         ),
 
                         action = PostWallEffect.LoadNextPage(
-                            authorId = userId,
+                            authorId = old.userId,
                             id = nextId,
                             count = PAGE_SIZE
                         )
@@ -240,7 +239,7 @@ class PostWallReducer @AssistedInject constructor(
                 ),
 
                 action = PostWallEffect.LoadInitialPage(
-                    authorId = userId,
+                    authorId = old.userId,
                     count = PAGE_SIZE
                 )
             )

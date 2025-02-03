@@ -112,7 +112,7 @@
     <string name="theme_in_application_description">Here you can choose an application theme from the ones presented. "System theme" - select the theme of the application as in the system on the device.</string>
     <string name="vibration_in_application_title">Vibration switch</string>
     <string name="vibration_in_application_description">This switch allows you to turn on and off the vibration response in the app based on your actions.</string>
-
+    
     <string name="option_switch_title">Event Switch</string>
     <string name="option_switch_description">This switch allows you to select whether the event will be online or offline. If the switch is on, the event will be online and you will need to specify the event link, otherwise it will be offline and you will need to specify the event address.</string>
     <string name="date_picker_title">Date and time selection</string>
@@ -138,4 +138,19 @@
     <string name="password">Password</string>
     <string name="confirm_the_password">Confirm the password</string>
     <string name="no_account_to_registration">No account? Register!</string>
+
+    <string name="date">Date</string>
+    <string name="version">Version</string>
+    <string name="update_application">Updates</string>
+    <string name="application_versions">Application versions</string>
+    <string name="v0_10_0_description">The project is written with reactive programming using Retrofit2 + RxJava3 on Retrofit2 + Coroutines</string>
+    <string name="v0_11_0_description">Implemented a fragment with the user`s page</string>
+    <string name="v0_13_0_description">Implemented a fragment with a list of all users. Added new features in the app settings.</string>
+    <string name="v0_14_0_description">The MVI architecture has been added to the project for working with and interacting with the server. Now all data from the server is downloaded gradually and processed in real time.</string>
+    <string name="v0_15_0_description">Implemented work with the list of user`s places of work.</string>
+    <string name="v0_16_0_description">To animate the loading of a list of posts or events in the UI, the Skeleton Layout library is used: displaying skeletons during initial loading and loading of the next page.</string>
+    <string name="v0_17_0_description">Added date separators for the list of posts and events.</string>
+    <string name="v0_18_0_description">The Glide library is used to manage multimedia and download images from the server for display in the UI.</string>
+    <string name="v0_19_0_description">DI Dependency injection: Implementing DI using the factory pattern.</string>
+    <string name="v0_20_0_description">To implement the implementation of DI dependencies, the Dagger2-Hill library and the Singleton antipattern removal Factory are used.</string>
 </resources>

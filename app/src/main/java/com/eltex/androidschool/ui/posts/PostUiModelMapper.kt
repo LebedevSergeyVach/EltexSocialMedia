@@ -1,38 +1,33 @@
 package com.eltex.androidschool.ui.posts
 
 import com.eltex.androidschool.data.posts.PostData
-
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
+import com.eltex.androidschool.ui.common.DateTimeUiFormatter
 
 import javax.inject.Inject
 
 /**
- * Маппер для преобразования данных поста (PostData) в модель UI (PostUiModel).
+ * Маппер для преобразования данных поста ([PostData]) в модель UI ([PostUiModel]).
  *
  * Этот класс используется для преобразования данных, полученных из API, в формат,
  * подходящий для отображения в пользовательском интерфейсе.
  *
+ * @property dateTimeUiFormatter Форматтер даты и времени, используемый для преобразования [Instant] в строку.
+ *
  * @see PostData Класс, представляющий данные поста.
  * @see PostUiModel Класс, представляющий модель UI для поста.
+ * @see DateTimeUiFormatter Класс, отвечающий за форматирование даты и времени.
  */
-class PostUiModelMapper @Inject constructor() {
-    private companion object {
-        /**
-         * Форматтер для преобразования даты и времени в строку.
-         *
-         * Используется для форматирования даты и времени в формате "dd.MM.yy HH.mm".
-         */
-        val FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("dd.MM.yy HH:mm")
-    }
+class PostUiModelMapper @Inject constructor(
+    private val dateTimeUiFormatter: DateTimeUiFormatter
+) {
 
     /**
-     * Преобразует объект PostData в объект PostUiModel.
+     * Преобразует объект [PostData] в объект [PostUiModel].
      *
      * Этот метод преобразует данные поста в формат, подходящий для отображения в UI.
      *
-     * @param post Объект PostData, который нужно преобразовать.
-     * @return Объект PostUiModel, представляющий пост в UI.
+     * @param post Объект [PostData], который нужно преобразовать.
+     * @return Объект [PostUiModel], представляющий пост в UI.
      */
     fun map(post: PostData): PostUiModel = with(post) {
         PostUiModel(
@@ -41,7 +36,7 @@ class PostUiModelMapper @Inject constructor() {
             author = author,
             authorId = authorId,
             authorAvatar = authorAvatar,
-            published = FORMATTER.format(published.atZone(ZoneId.systemDefault())),
+            published = dateTimeUiFormatter.format(instant = published),
             likedByMe = likedByMe,
             likes = likeOwnerIds.size,
             attachment = attachment,

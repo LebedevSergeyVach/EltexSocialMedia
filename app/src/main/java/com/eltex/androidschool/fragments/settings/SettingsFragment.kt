@@ -1,12 +1,15 @@
 package com.eltex.androidschool.fragments.settings
 
 import android.annotation.SuppressLint
+
 import android.content.Context
 import android.content.res.Configuration
-import android.graphics.drawable.InsetDrawable
-import android.os.Build
 
+import android.graphics.drawable.InsetDrawable
+
+import android.os.Build
 import android.os.Bundle
+
 import android.util.TypedValue
 
 import android.view.LayoutInflater
@@ -20,6 +23,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.view.menu.MenuBuilder
 
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import com.eltex.androidschool.BuildConfig
 
 import com.eltex.androidschool.R
@@ -41,6 +46,7 @@ import java.util.Locale
  */
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -48,6 +54,8 @@ class SettingsFragment : Fragment() {
         val binding = FragmentSettingsBinding.inflate(inflater, container, false)
 
         updateButtonTexts(binding = binding)
+
+        initVibrationSwitch(binding = binding)
 
         binding.chooseButtonSettingsLanguage.setOnClickListener { view: View ->
             showLanguagePopupMenu(view, binding = binding)
@@ -113,7 +121,18 @@ class SettingsFragment : Fragment() {
 
         binding.textVersionApplication.text = getAppVersionName(requireContext())
 
-        initVibrationSwitch(binding = binding)
+        binding.buttonOpenVersionApplication.setOnClickListener {
+            findNavController().navigate(
+                R.id.action_settingsFragment_to_listAppUpdatesFragment,
+                null,
+                NavOptions.Builder()
+                    .setEnterAnim(R.anim.slide_in_right)
+                    .setExitAnim(R.anim.slide_out_left)
+                    .setPopEnterAnim(R.anim.slide_in_left)
+                    .setPopExitAnim(R.anim.slide_out_right)
+                    .build()
+            )
+        }
 
         return binding.root
     }

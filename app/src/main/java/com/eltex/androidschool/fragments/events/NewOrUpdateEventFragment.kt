@@ -17,6 +17,8 @@ import androidx.appcompat.widget.Toolbar
 
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 
@@ -366,6 +368,8 @@ class NewOrUpdateEventFragment : Fragment() {
         toolbar.title =
             if (isUpdate) getString(R.string.update_event_title) else getString(R.string.new_event_title)
 
+        keyboardScrolling(binding = binding)
+
         return binding.root
     }
 
@@ -668,5 +672,29 @@ class NewOrUpdateEventFragment : Fragment() {
         binding.buttonRemoveImage.isEnabled = blocking
 
         toolBarViewModel.setSaveVisible(blocking)
+    }
+
+    private fun keyboardScrolling(binding: FragmentNewOrUpdateEventBinding) {
+        val scrollView = binding.scrollView
+        val editText = binding.content
+
+        editText.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                scrollView.post {
+                    scrollView.smoothScrollTo(0, editText.bottom)
+                }
+            }
+        }
+
+        // Автоматическая прокрутка при появлении клавиатуры
+//        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+//            val imeVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
+//            if (imeVisible) {
+//                scrollView.post {
+//                    scrollView.smoothScrollTo(0, editText.bottom)
+//                }
+//            }
+//            insets
+//        }
     }
 }

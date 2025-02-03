@@ -7,7 +7,7 @@
 
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragments.users.UserFragment">
+    tools:context=".fragments.users.AccountFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swiperRefresh"

@@ -6,7 +6,7 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 
 import com.eltex.androidschool.fragments.events.EventsFragment
 import com.eltex.androidschool.fragments.posts.PostsFragment
-import com.eltex.androidschool.fragments.users.UserFragment
+import com.eltex.androidschool.fragments.users.AccountFragment
 
 class ViewPagerAdapter(
     fragment: Fragment
@@ -15,7 +15,7 @@ class ViewPagerAdapter(
     private val fragments = listOf(
         PostsFragment(),
         EventsFragment(),
-        UserFragment()
+        AccountFragment()
     )
 
     override fun getItemCount(): Int = fragments.size

@@ -28,6 +28,7 @@ import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 
 import com.eltex.androidschool.R
+import com.eltex.androidschool.data.common.Attachment
 import com.eltex.androidschool.databinding.CardEventBinding
 import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
@@ -77,7 +78,7 @@ class EventViewHolder(
         binding.author.text = event.author
         binding.published.text = event.published
         binding.optionConducting.text = event.optionConducting
-        binding.dataEvent.text = event.dataEvent
+        binding.dataEvent.text = event.dateEvent
         binding.content.text = event.content
 
         if (event.link.isNotEmpty()) {
@@ -92,6 +93,52 @@ class EventViewHolder(
 
         val radius = context.resources.getDimensionPixelSize(R.dimen.radius_for_rounding_images)
 
+        renderingUserAvatar(event = event)
+
+        binding.skeletonAttachment.showSkeleton()
+
+        if (event.attachment != null) {
+            renderingImageAttachment(event.attachment, radius)
+        } else {
+            binding.skeletonAttachment.showOriginal()
+            binding.attachment.isVisible = false
+        }
+
+        SpannableString(binding.link.text)
+        SpannableString(binding.content.text)
+
+        updateLike(event.likedByMe)
+        updateParticipate(event.participatedByMe)
+
+        binding.menu.isVisible = event.authorId == currentUserId
+
+        binding.share.setOnClickListener {
+            shareEvent(event)
+        }
+
+        binding.cardEvent.setOnLongClickListener {
+            shareEvent(event)
+
+            true
+        }
+    }
+
+    /**
+     * Отображает аватар пользователя в элементе интерфейса, используя библиотеку Glide.
+     * Если аватар недоступен или его загрузка завершилась ошибкой, отображается заглушка и инициалы пользователя.
+     *
+     * @param event Экземпляр [EventUiModel], содержащий данные о посте, включая аватар автора и его имя.
+     *
+     * @see EventUiModel Модель данных поста, содержащая информацию об авторе и его аватаре.
+     * @see Glide Библиотека для загрузки и отображения изображений.
+     * @see RequestListener Интерфейс для обработки событий загрузки изображений.
+     *
+     * @property event.authorAvatar URL аватара автора. Может быть null или пустым.
+     * @property event.author Имя автора, используемое для отображения инициалов, если аватар недоступен.
+     * @property event.avatar ImageView для отображения аватара.
+     * @property event.initial TextView для отображения инициалов автора.
+     */
+    private fun renderingUserAvatar(event: EventUiModel) {
         if (!event.authorAvatar.isNullOrEmpty()) {
             Glide.with(binding.root)
                 .load(event.authorAvatar)
@@ -136,64 +183,61 @@ class EventViewHolder(
             binding.initial.text = event.author.take(1)
             binding.initial.isVisible = true
         }
+    }
 
-        binding.skeletonAttachment.showSkeleton()
+    /**
+     * Отображает вложение (изображение) в элементе интерфейса, используя библиотеку Glide.
+     * Если загрузка изображения завершилась ошибкой, отображается заглушка.
+     * Изображение отображается с закругленными углами и эффектом перехода (cross-fade).
+     *
+     * @param attachment Экземпляр [Attachment], содержащий данные о вложении, включая URL изображения.
+     * @param radius Радиус закругления углов изображения (в пикселях).
+     *
+     * @see Attachment Модель данных вложения, содержащая URL изображения.
+     * @see Glide Библиотека для загрузки и отображения изображений.
+     * @see RequestListener Интерфейс для обработки событий загрузки изображений.
+     * @see RoundedCorners Трансформация для закругления углов изображения.
+     * @see DrawableTransitionOptions Опции для анимации перехода при загрузке изображения.
+     *
+     * @property attachment.url URL изображения, которое необходимо загрузить.
+     * @property binding.attachment ImageView для отображения вложения.
+     * @property binding.skeletonAttachment Элемент интерфейса, используемый для отображения скелетона (заглушки) во время загрузки.
+     */
+    private fun renderingImageAttachment(
+        attachment: Attachment,
+        radius: Int
+    ) {
+        Glide.with(binding.root)
+            .load(attachment.url)
+            .listener(object : RequestListener<Drawable> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Drawable>,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    binding.skeletonAttachment.showOriginal()
+                    binding.attachment.setImageResource(R.drawable.error_placeholder)
 
-        if (event.attachment != null) {
-            Glide.with(binding.root)
-                .load(event.attachment.url)
-                .listener(object : RequestListener<Drawable> {
-                    override fun onLoadFailed(
-                        e: GlideException?,
-                        model: Any?,
-                        target: Target<Drawable>,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        binding.skeletonAttachment.showOriginal()
-                        binding.attachment.setImageResource(R.drawable.error_placeholder)
+                    return false
+                }
 
-                        return false
-                    }
+                override fun onResourceReady(
+                    resource: Drawable,
+                    model: Any,
+                    target: Target<Drawable>?,
+                    dataSource: DataSource,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    binding.skeletonAttachment.showOriginal()
 
-                    override fun onResourceReady(
-                        resource: Drawable,
-                        model: Any,
-                        target: Target<Drawable>?,
-                        dataSource: DataSource,
-                        isFirstResource: Boolean
-                    ): Boolean {
-                        binding.skeletonAttachment.showOriginal()
-
-                        return false
-                    }
-                })
-                .transform(RoundedCorners(radius))
-                .transition(DrawableTransitionOptions.withCrossFade())
-                .error(R.drawable.error_placeholder)
-                .into(binding.attachment)
-        } else {
-            binding.skeletonAttachment.showOriginal()
-            binding.attachment.isVisible = false
-        }
-
-
-        SpannableString(binding.link.text)
-        SpannableString(binding.content.text)
-
-        updateLike(event.likedByMe)
-        updateParticipate(event.participatedByMe)
-
-        binding.menu.isVisible = event.authorId == currentUserId
-
-        binding.share.setOnClickListener {
-            shareEvent(event)
-        }
-
-        binding.cardEvent.setOnLongClickListener {
-            shareEvent(event)
-
-            true
-        }
+                    return false
+                }
+            })
+            .transform(RoundedCorners(radius))
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .error(R.drawable.error_placeholder)
+            .into(binding.attachment)
     }
 
     /**
@@ -223,7 +267,7 @@ class EventViewHolder(
                             + "\n\n" + context.getString(R.string.published) + ":\n"
                             + event.published
                             + "\n\n" + context.getString(R.string.data_event) + ":\n"
-                            + event.dataEvent
+                            + event.dateEvent
                             + "\n\n" + event.optionConducting
                             + "\n\n" + context.getString(R.string.event) + ":\n" + event.content
                             + "\n\n" + context.getString(R.string.link) + ":\n" + event.link

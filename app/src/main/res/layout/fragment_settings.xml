@@ -128,10 +128,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_weight="1"
-
-        android:padding="@dimen/padding_title_for_settings_24dp"
         android:layout_marginTop="20dp"
+
+        android:layout_weight="1"
+        android:padding="@dimen/padding_title_for_settings_24dp"
 
         android:text="@string/vibration_response_app"
         android:textSize="24sp"
@@ -197,6 +197,22 @@
 
     </com.google.android.material.card.MaterialCardView>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonOpenVersionApplication"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+
+        android:backgroundTint="@color/active_element"
+        android:text="@string/application_versions"
+        android:textColor="@color/white"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/text_version_application"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
     <TextView
         android:id="@+id/text_version_application"
 
@@ -214,6 +230,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
 
-        tools:text="v1.15.0" />
+        tools:text="v0.20.0 Release" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

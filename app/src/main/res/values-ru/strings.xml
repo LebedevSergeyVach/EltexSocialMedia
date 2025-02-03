@@ -138,4 +138,19 @@
     <string name="password">Пароль</string>
     <string name="confirm_the_password">Подтвердите пароль</string>
     <string name="no_account_to_registration">Нет аккаунта? Зарегистрируйтесь!</string>
+
+    <string name="date">Дата</string>
+    <string name="version">Версия</string>
+    <string name="update_application">Обновления</string>
+    <string name="application_versions">Версии приложения</string>
+    <string name="v0_10_0_description">Проект написан с использованием реактивного программирования с использованием Retrofit2 + RxJava3 на основе Retrofit2 + Coroutines.</string>
+    <string name="v0_11_0_description">Реализован фрагмент со страницей пользователя.</string>
+    <string name="v0_13_0_description">Реализован фрагмент со списком всех пользователей. Добавлены новые функции в настройках приложения.</string>
+    <string name="v0_14_0_description">В проект была добавлена архитектура MVI для работы с сервером и взаимодействия с ним. Теперь все данные с сервера загружаются постепенно и обрабатываются в режиме реального времени.</string>
+    <string name="v0_15_0_description">Реализована работа со списком мест работы пользователя.</string>
+    <string name="v0_16_0_description">Чтобы анимировать загрузку списка записей или событий в пользовательском интерфейсе, используется библиотека макетов скелетов: отображение скелетов во время начальной загрузки и загрузки следующей страницы.</string>
+    <string name="v0_17_0_description">Добавлены разделители дат для списка записей и событий.</string>
+    <string name="v0_18_0_description">Библиотека Glide используется для управления мультимедиа и загрузки изображений с сервера для отображения в пользовательском интерфейсе.</string>
+    <string name="v0_19_0_description">DI Внедрение зависимостей: Реализация DI с использованием заводского шаблона.</string>
+    <string name="v0_20_0_description">Для реализации внедрения зависимостей DI используется библиотека Dagger2-Hill и паттерн Фабрика для удаления антипаттерн Singleton.</string>
 </resources>

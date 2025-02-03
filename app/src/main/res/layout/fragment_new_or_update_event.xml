@@ -9,11 +9,12 @@
     tools:context=".fragments.posts.NewOrUpdatePostFragment">
 
     <ScrollView
+        android:id="@+id/scrollView"
+
         android:layout_width="0dp"
         android:layout_height="0dp"
 
         android:layout_marginBottom="34dp"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,6 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
+            android:minHeight="1000dp"
             android:orientation="vertical"
             android:paddingBottom="?actionBarSize">
 
@@ -280,6 +282,7 @@
             android:layout_marginBottom="10dp"
             android:backgroundTint="@color/active_element"
             android:text="@string/camera"
+            android:textColor="@color/white"
             app:icon="@drawable/ic_add_photo_bold_24"
             app:iconTint="@color/white" />
 
@@ -294,6 +297,7 @@
             android:layout_marginBottom="10dp"
             android:backgroundTint="@color/active_element"
             android:text="@string/gallery"
+            android:textColor="@color/white"
             app:icon="@drawable/ic_add_image_gallery_bold_24"
             app:iconTint="@color/white" />
 

@@ -140,6 +140,7 @@
             android:layout_marginBottom="10dp"
             android:backgroundTint="@color/active_element"
             android:text="@string/camera"
+            android:textColor="@color/white"
             app:icon="@drawable/ic_add_photo_bold_24"
             app:iconTint="@color/white" />
 
@@ -154,6 +155,7 @@
             android:layout_marginBottom="10dp"
             android:backgroundTint="@color/active_element"
             android:text="@string/gallery"
+            android:textColor="@color/white"
             app:icon="@drawable/ic_add_image_gallery_bold_24"
             app:iconTint="@color/white" />
 

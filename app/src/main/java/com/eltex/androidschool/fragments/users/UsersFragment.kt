@@ -92,8 +92,8 @@ class UsersFragment : Fragment() {
                             .navigate(
                                 R.id.action_usersFragment_to_userFragment2,
                                 bundleOf(
-                                    UserFragment.USER_ID to user.id,
-                                    UserFragment.IC_PROFILE to false
+                                    AccountFragment.USER_ID to user.id,
+                                    AccountFragment.IC_PROFILE to false
                                 ),
                                 NavOptions.Builder()
                                     .setEnterAnim(R.anim.slide_in_right)
