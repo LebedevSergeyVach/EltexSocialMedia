@@ -26,7 +26,6 @@ import com.eltex.androidschool.databinding.FragmentUsersBinding
 
 import com.eltex.androidschool.data.users.UserData
 import com.eltex.androidschool.adapter.users.UserAdapter
-import com.eltex.androidschool.di.DependencyContainerProvider
 import com.eltex.androidschool.repository.users.NetworkUserRepository
 import com.eltex.androidschool.ui.common.OffsetDecoration
 import com.eltex.androidschool.viewmodel.users.UsersState
@@ -34,6 +33,7 @@ import com.eltex.androidschool.viewmodel.users.UsersViewModel
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.toast
+import dagger.hilt.android.AndroidEntryPoint
 
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -48,6 +48,7 @@ import kotlinx.coroutines.flow.onEach
  * @see UsersViewModel ViewModel для управления состоянием списка пользователей.
  * @see UserAdapter Адаптер для отображения списка пользователей.
  */
+@AndroidEntryPoint
 class UsersFragment : Fragment() {
 
     /**
@@ -61,11 +62,7 @@ class UsersFragment : Fragment() {
      * @see NetworkUserRepository Репозиторий для получения данных о пользователях.
      * @see viewModelFactory Фабрика для создания ViewModel с зависимостями.
      */
-    private val viewModel by viewModels<UsersViewModel> {
-        (requireContext().applicationContext as DependencyContainerProvider)
-            .getContainer()
-            .getUsersViewModelFactory()
-    }
+    private val viewModel by viewModels<UsersViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -95,8 +92,8 @@ class UsersFragment : Fragment() {
                             .navigate(
                                 R.id.action_usersFragment_to_userFragment2,
                                 bundleOf(
-                                    UserFragment.USER_ID to user.id,
-                                    UserFragment.IC_PROFILE to false
+                                    AccountFragment.USER_ID to user.id,
+                                    AccountFragment.IC_PROFILE to false
                                 ),
                                 NavOptions.Builder()
                                     .setEnterAnim(R.anim.slide_in_right)

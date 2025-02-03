@@ -11,6 +11,8 @@ import com.eltex.androidschool.viewmodel.events.events.EventMessage
 import com.eltex.androidschool.viewmodel.events.events.EventState
 import com.eltex.androidschool.viewmodel.events.events.EventStatus
 
+import javax.inject.Inject
+
 /**
  * Редьюсер для событий. Этот класс реализует интерфейс [Reducer] и отвечает за обработку сообщений,
  * связанных с событиями, и обновление состояния приложения.
@@ -20,7 +22,7 @@ import com.eltex.androidschool.viewmodel.events.events.EventStatus
  * @see EventEffect Сообщения, которые могут изменять состояние событий.
  * @see EventMessage Эффекты, которые выполняются в ответ на сообщения.
  */
-class EventReducer : Reducer<EventState, EventEffect, EventMessage> {
+class EventReducer @Inject constructor() : Reducer<EventState, EventEffect, EventMessage> {
 
     companion object {
         /**

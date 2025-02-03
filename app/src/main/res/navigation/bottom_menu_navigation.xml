@@ -19,8 +19,8 @@
 
     <fragment
         android:id="@+id/userFragment"
-        android:name="com.eltex.androidschool.fragments.users.UserFragment"
-        tools:layout="@layout/fragment_user" />
+        android:name="com.eltex.androidschool.fragments.users.AccountFragment"
+        tools:layout="@layout/fragment_account" />
 
     <fragment
         android:id="@+id/usersFragment"

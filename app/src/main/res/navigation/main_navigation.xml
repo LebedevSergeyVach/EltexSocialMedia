@@ -57,12 +57,12 @@
     <fragment
         android:id="@+id/newOrUpdateJobFragment"
         android:name="com.eltex.androidschool.fragments.jobs.NewOrUpdateJobFragment"
-        tools:layout="@layout/fragment_new_or_update_job"/>
+        tools:layout="@layout/fragment_new_or_update_job" />
 
     <fragment
         android:id="@+id/userFragment"
-        android:name="com.eltex.androidschool.fragments.users.UserFragment"
-        tools:layout="@layout/fragment_user">
+        android:name="com.eltex.androidschool.fragments.users.AccountFragment"
+        tools:layout="@layout/fragment_account">
 
         <action
             android:id="@+id/action_userFragment_to_newOrUpdatePostFragment"
@@ -107,4 +107,15 @@
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right" />
+
+    <fragment
+        android:id="@+id/listAppUpdatesFragment"
+        android:name="com.eltex.androidschool.fragments.settings.ListAppUpdatesFragment"
+        android:label="@string/update_application"
+        tools:layout="@layout/fragment_update" >
+
+        <action
+            android:id="@+id/action_listAppUpdatesFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
 </navigation>

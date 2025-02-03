@@ -7,6 +7,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
 /**
  * ViewModel для управления состоянием постов.
  * Этот класс взаимодействует с [PostStore] для получения состояния постов и обработки сообщений,
@@ -15,7 +18,8 @@ import kotlinx.coroutines.launch
  * @property postStore Хранилище (Store), которое управляет состоянием постов и эффектами.
  * @see ViewModel
  */
-class PostViewModel(
+@HiltViewModel
+class PostViewModel @Inject constructor(
     private val postStore: PostStore,
 ) : ViewModel() {
 

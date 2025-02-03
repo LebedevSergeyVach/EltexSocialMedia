@@ -112,6 +112,7 @@
     <string name="theme_in_application_description">Здесь вы можете выбрать тему приложения из представленных. "Системная тема" - выбрать тему приложения как в системе на устройстве.</string>
     <string name="vibration_in_application_title">Переключатель вибрации</string>
     <string name="vibration_in_application_description">Данный переключатель позвоялет включать и отключать виброотклик в приложении от Ваших действий.</string>
+    <string name="update_application">Обновления Академия Eltex</string>
 
     <string name="option_switch_title">Переключатель события</string>
     <string name="option_switch_description">Этот переключатель позволяет выбрать, будет ли событие онлайн или оффлайн. Если переключатель включен, событие будет онлайн и Вам необходимо указать ссылку проведения события, иначе — оффлайн и Вам будет необходимо указать адрес проведения события.</string>

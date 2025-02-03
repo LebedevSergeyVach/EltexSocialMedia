@@ -5,6 +5,8 @@ import com.eltex.androidschool.data.jobs.JobData
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
+import javax.inject.Inject
+
 /**
  * Маппер для преобразования данных о местах работы из `JobData` в `JobUiModel`.
  *
@@ -13,7 +15,7 @@ import java.time.format.DateTimeFormatter
  * @see JobData
  * @see JobUiModel
  */
-class JobUiModelMapper {
+class JobUiModelMapper @Inject constructor() {
     private companion object {
         val FORMATTER: DateTimeFormatter = DateTimeFormatter.ofPattern("dd MMM yyyy")
     }

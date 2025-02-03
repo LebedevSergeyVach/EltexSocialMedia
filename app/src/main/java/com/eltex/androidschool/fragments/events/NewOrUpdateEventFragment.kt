@@ -17,6 +17,8 @@ import androidx.appcompat.widget.Toolbar
 
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 
@@ -44,7 +46,6 @@ import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
 import com.eltex.androidschool.data.common.AttachmentTypeFile
 import com.eltex.androidschool.databinding.FragmentNewOrUpdateEventBinding
-import com.eltex.androidschool.di.DependencyContainerProvider
 import com.eltex.androidschool.utils.Logger
 import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.showMaterialDialog
@@ -59,6 +60,8 @@ import com.eltex.androidschool.viewmodel.events.newevent.NewEventViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.withCreationCallback
 
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
@@ -81,6 +84,7 @@ import java.util.Locale
  * @see NewEventViewModel ViewModel для управления созданием и обновлением событий.
  * @see ToolBarViewModel ViewModel для управления состоянием панели инструментов.
  */
+@AndroidEntryPoint
 class NewOrUpdateEventFragment : Fragment() {
 
     companion object {
@@ -143,11 +147,13 @@ class NewOrUpdateEventFragment : Fragment() {
          *
          *  @see NewEventViewModel
          */
-        val newEventViewModel by viewModels<NewEventViewModel> {
-            (requireContext().applicationContext as DependencyContainerProvider)
-                .getContainer()
-                .getNewEventViewModelFactory(eventId = eventId)
-        }
+        val newEventViewModel by viewModels<NewEventViewModel>(
+            extrasProducer = {
+                defaultViewModelCreationExtras.withCreationCallback<NewEventViewModel.ViewModelFactory> { factory ->
+                    factory.create(eventId = eventId)
+                }
+            }
+        )
 
         binding.optionSwitch.setOnCheckedChangeListener { _, isChecked ->
             requireContext().singleVibrationWithSystemCheck(35)
@@ -361,6 +367,8 @@ class NewOrUpdateEventFragment : Fragment() {
 
         toolbar.title =
             if (isUpdate) getString(R.string.update_event_title) else getString(R.string.new_event_title)
+
+        keyboardScrolling(binding = binding)
 
         return binding.root
     }
@@ -664,5 +672,29 @@ class NewOrUpdateEventFragment : Fragment() {
         binding.buttonRemoveImage.isEnabled = blocking
 
         toolBarViewModel.setSaveVisible(blocking)
+    }
+
+    private fun keyboardScrolling(binding: FragmentNewOrUpdateEventBinding) {
+        val scrollView = binding.scrollView
+        val editText = binding.content
+
+        editText.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                scrollView.post {
+                    scrollView.smoothScrollTo(0, editText.bottom)
+                }
+            }
+        }
+
+        // Автоматическая прокрутка при появлении клавиатуры
+//        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+//            val imeVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
+//            if (imeVisible) {
+//                scrollView.post {
+//                    scrollView.smoothScrollTo(0, editText.bottom)
+//                }
+//            }
+//            insets
+//        }
     }
 }

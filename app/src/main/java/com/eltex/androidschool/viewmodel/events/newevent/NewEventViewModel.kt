@@ -15,6 +15,11 @@ import com.eltex.androidschool.viewmodel.common.FileModel
 import com.eltex.androidschool.repository.events.EventRepository
 import com.eltex.androidschool.viewmodel.status.StatusLoad
 
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
+
 /**
  * ViewModel для управления созданием и обновлением событий.
  *
@@ -26,9 +31,10 @@ import com.eltex.androidschool.viewmodel.status.StatusLoad
  * @see ViewModel Базовый класс для ViewModel, использующих функции библиотеки поддержки.
  * @see EventRepository Репозиторий для работы с данными событий.
  */
-class NewEventViewModel(
+@HiltViewModel(assistedFactory = NewEventViewModel.ViewModelFactory::class)
+class NewEventViewModel @AssistedInject constructor(
     private val repository: EventRepository,
-    private val eventId: Long = 0L,
+    @Assisted private val eventId: Long = 0L,
 ) : ViewModel() {
 
     /**
@@ -137,5 +143,10 @@ class NewEventViewModel(
      */
     override fun onCleared() {
         viewModelScope.cancel()
+    }
+
+    @AssistedFactory
+    interface ViewModelFactory {
+        fun create(eventId: Long = 0L): NewEventViewModel
     }
 }

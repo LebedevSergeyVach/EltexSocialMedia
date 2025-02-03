@@ -18,6 +18,8 @@ import kotlinx.coroutines.flow.filterIsInstance
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.merge
 
+import javax.inject.Inject
+
 /**
  * Обработчик эффектов для постов на стене пользователя. Этот класс реализует интерфейс [EffectHandler] и отвечает за
  * обработку различных эффектов, таких как загрузка постов, лайки и удаление.
@@ -25,7 +27,7 @@ import kotlinx.coroutines.flow.merge
  * @param repository Репозиторий для работы с постами в сети.
  * @param mapper Маппер для преобразования моделей данных в UI-модели.
  */
-class PostWallEffectHandler(
+class PostWallEffectHandler @Inject constructor(
     private val repository: PostRepository,
     private val mapper: PostUiModelMapper,
 ) : EffectHandler<PostWallEffect, PostWallMessage> {
@@ -137,7 +139,12 @@ class PostWallEffectHandler(
                     repository.deleteById(postId = postEffect.post.id)
                 } catch (e: Exception) {
                     if (e is CancellationException) throw e
-                    PostWallMessage.DeleteError(PostWithError(post = postEffect.post, throwable = e))
+                    PostWallMessage.DeleteError(
+                        PostWithError(
+                            post = postEffect.post,
+                            throwable = e
+                        )
+                    )
                 }
             }
             .filterIsInstance<PostWallMessage.DeleteError>()

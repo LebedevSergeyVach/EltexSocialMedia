@@ -2,13 +2,16 @@ package com.eltex.androidschool.repository.jobs
 
 import com.eltex.androidschool.api.jobs.JobsApi
 import com.eltex.androidschool.data.jobs.JobData
+
 import java.time.Instant
+
+import javax.inject.Inject
 
 /**
  * Реализация интерфейса JobRepository, использующая сетевой API для работы с вакансиями.
  */
-class NetworkJobRepository(
-    private val  jobsApi: JobsApi,
+class NetworkJobRepository @Inject constructor(
+    private val jobsApi: JobsApi,
 ) : JobRepository {
 
     /**

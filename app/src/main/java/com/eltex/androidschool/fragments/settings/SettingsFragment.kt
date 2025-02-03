@@ -1,12 +1,15 @@
 package com.eltex.androidschool.fragments.settings
 
 import android.annotation.SuppressLint
+
 import android.content.Context
 import android.content.res.Configuration
-import android.graphics.drawable.InsetDrawable
-import android.os.Build
 
+import android.graphics.drawable.InsetDrawable
+
+import android.os.Build
 import android.os.Bundle
+
 import android.util.TypedValue
 
 import android.view.LayoutInflater
@@ -20,6 +23,8 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.view.menu.MenuBuilder
 
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
 import com.eltex.androidschool.BuildConfig
 
 import com.eltex.androidschool.R
@@ -27,6 +32,7 @@ import com.eltex.androidschool.databinding.FragmentSettingsBinding
 import com.eltex.androidschool.utils.Logger
 import com.eltex.androidschool.utils.showMaterialDialog
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
+import dagger.hilt.android.AndroidEntryPoint
 
 import java.util.Locale
 
@@ -38,7 +44,14 @@ import java.util.Locale
  *
  * @see Fragment Базовый класс для фрагментов, использующих функции библиотеки поддержки.
  */
+@AndroidEntryPoint
 class SettingsFragment : Fragment() {
+
+    private companion object {
+        private const val GITHUB_LINK_PROJECT =
+            "https://github.com/LebedevSergeyVach/EltexSocialMedia"
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -46,6 +59,8 @@ class SettingsFragment : Fragment() {
         val binding = FragmentSettingsBinding.inflate(inflater, container, false)
 
         updateButtonTexts(binding = binding)
+
+        initVibrationSwitch(binding = binding)
 
         binding.chooseButtonSettingsLanguage.setOnClickListener { view: View ->
             showLanguagePopupMenu(view, binding = binding)
@@ -111,7 +126,18 @@ class SettingsFragment : Fragment() {
 
         binding.textVersionApplication.text = getAppVersionName(requireContext())
 
-        initVibrationSwitch(binding = binding)
+        binding.textVersionApplication.setOnClickListener {
+            requireParentFragment().requireParentFragment().findNavController()
+                .navigate(
+                    R.id.action_listAppUpdatesFragment_to_settingsFragment,
+                    NavOptions.Builder()
+                        .setEnterAnim(R.anim.slide_in_right)
+                        .setExitAnim(R.anim.slide_out_left)
+                        .setPopEnterAnim(R.anim.slide_in_left)
+                        .setPopExitAnim(R.anim.slide_out_right)
+                        .build()
+                )
+        }
 
         return binding.root
     }

@@ -1,32 +1,33 @@
 package com.eltex.androidschool.reducer.posts
 
 import arrow.core.Either
-import com.eltex.androidschool.BuildConfig
 
+import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.effects.posts.PostWallEffect
 import com.eltex.androidschool.model.posts.PostWithError
 import com.eltex.androidschool.mvi.Reducer
 import com.eltex.androidschool.mvi.ReducerResult
-import com.eltex.androidschool.reducer.posts.PostReducer.Companion
 import com.eltex.androidschool.ui.posts.PostUiModel
 import com.eltex.androidschool.utils.Logger
+import com.eltex.androidschool.viewmodel.posts.post.PostStatus
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallMessage
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallState
-import com.eltex.androidschool.viewmodel.posts.post.PostStatus
+
+import javax.inject.Inject
 
 /**
  * Редьюсер для управления состоянием постов конкретного пользователя (стены пользователя).
  * Этот класс обрабатывает сообщения (Intents) и обновляет состояние постов на основе этих сообщений.
  *
  * @property userId Идентификатор пользователя, чьи посты загружаются и обрабатываются.
+ *
  * @see Reducer Интерфейс, который реализует этот класс.
  * @see PostWallState Состояние, связанное с постами на стене пользователя.
  * @see PostWallMessage Сообщения, которые могут изменять состояние постов.
  * @see PostWallEffect Эффекты, которые выполняются в ответ на сообщения.
  */
-class PostWallReducer(
-    private val userId: Long
-) : Reducer<PostWallState, PostWallEffect, PostWallMessage> {
+class PostWallReducer @Inject constructor() :
+    Reducer<PostWallState, PostWallEffect, PostWallMessage> {
 
     companion object {
         /**
@@ -169,7 +170,7 @@ class PostWallReducer(
                     null
                 } else {
                     PostWallEffect.LoadNextPage(
-                        authorId = userId,
+                        authorId = old.userId,
                         id = old.posts.last().id,
                         count = PAGE_SIZE
                     )
@@ -188,7 +189,7 @@ class PostWallReducer(
                 newState = when (val messageResult = message.result) {
                     is Either.Right -> {
                         val postUiModels: List<PostUiModel> = messageResult.value
-                        val loadingFinished: Boolean = postUiModels.size < PostReducer.PAGE_SIZE
+                        val loadingFinished: Boolean = postUiModels.size < PAGE_SIZE
 
                         old.copy(
                             statusPost = PostStatus.Idle(loadingFinished = loadingFinished),
@@ -220,7 +221,7 @@ class PostWallReducer(
                         ),
 
                         action = PostWallEffect.LoadNextPage(
-                            authorId = userId,
+                            authorId = old.userId,
                             id = nextId,
                             count = PAGE_SIZE
                         )
@@ -238,7 +239,7 @@ class PostWallReducer(
                 ),
 
                 action = PostWallEffect.LoadInitialPage(
-                    authorId = userId,
+                    authorId = old.userId,
                     count = PAGE_SIZE
                 )
             )

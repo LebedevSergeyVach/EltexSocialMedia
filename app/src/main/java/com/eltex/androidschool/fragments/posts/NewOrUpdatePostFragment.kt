@@ -44,7 +44,6 @@ import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
 import com.eltex.androidschool.data.common.AttachmentTypeFile
 import com.eltex.androidschool.databinding.FragmentNewOrUpdatePostBinding
-import com.eltex.androidschool.di.DependencyContainerProvider
 import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.toast
 import com.eltex.androidschool.utils.vibrateWithEffect
@@ -52,6 +51,9 @@ import com.eltex.androidschool.viewmodel.common.FileModel
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 import com.eltex.androidschool.viewmodel.posts.newposts.NewPostState
 import com.eltex.androidschool.viewmodel.posts.newposts.NewPostViewModel
+
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.withCreationCallback
 
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
@@ -69,6 +71,7 @@ import java.io.File
  * @see NewPostViewModel ViewModel для управления созданием и обновлением постов.
  * @see ToolBarViewModel ViewModel для управления состоянием панели инструментов.
  */
+@AndroidEntryPoint
 class NewOrUpdatePostFragment : Fragment() {
 
     companion object {
@@ -113,11 +116,13 @@ class NewOrUpdatePostFragment : Fragment() {
          *
          * @see NewPostViewModel
          */
-        val newPostViewModel by viewModels<NewPostViewModel> {
-            (requireContext().applicationContext as DependencyContainerProvider)
-                .getContainer()
-                .getNewPostViewModelFactory(postId = postId)
-        }
+        val newPostViewModel by viewModels<NewPostViewModel>(
+            extrasProducer = {
+                defaultViewModelCreationExtras.withCreationCallback<NewPostViewModel.ViewModelFactory> { factory ->
+                    factory.create(postId = postId)
+                }
+            }
+        )
 
         /**
          * URI для временного хранения фотографии, которая будет прикреплена к посту.

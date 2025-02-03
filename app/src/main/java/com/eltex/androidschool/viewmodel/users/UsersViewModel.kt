@@ -15,6 +15,10 @@ import com.eltex.androidschool.data.users.UserData
 import com.eltex.androidschool.repository.users.UserRepository
 import com.eltex.androidschool.viewmodel.status.StatusLoad
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
+
 /**
  * ViewModel для управления состоянием списка пользователей.
  *
@@ -28,7 +32,8 @@ import com.eltex.androidschool.viewmodel.status.StatusLoad
  * @see UsersState Состояние списка пользователей.
  * @see StatusLoad Состояние загрузки данных (Idle, Loading, Error).
  */
-class UsersViewModel(
+@HiltViewModel
+class UsersViewModel @Inject constructor(
     private val repository: UserRepository,
 ) : ViewModel() {
 

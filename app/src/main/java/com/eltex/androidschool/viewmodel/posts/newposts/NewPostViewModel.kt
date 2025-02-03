@@ -16,10 +16,15 @@ import com.eltex.androidschool.viewmodel.common.FileModel
 import com.eltex.androidschool.repository.posts.PostRepository
 import com.eltex.androidschool.viewmodel.status.StatusLoad
 
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedFactory
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
+
 /**
  * ViewModel для управления созданием и обновлением постов.
  *
- * Этот ViewModel отвечает за логику создания нового поста или обновления существующего. Он взаимодействует с репозиторием для сохранения данных и управляет состоянием экрана.
+ * Эта ViewModel отвечает за логику создания нового поста или обновления существующего. Он взаимодействует с репозиторием для сохранения данных и управляет состоянием экрана.
  *
  * @param repository Репозиторий для работы с данными постов. Используется для сохранения и обновления постов.
  * @param postId Идентификатор поста. По умолчанию 0, если создается новый пост. Если указан, то происходит обновление существующего поста.
@@ -28,9 +33,10 @@ import com.eltex.androidschool.viewmodel.status.StatusLoad
  * @see PostRepository Интерфейс репозитория для работы с данными постов.
  * @see NewPostState Состояние, управляемое этим ViewModel.
  */
-class NewPostViewModel(
+@HiltViewModel(assistedFactory = NewPostViewModel.ViewModelFactory::class)
+class NewPostViewModel @AssistedInject constructor(
     private val repository: PostRepository,
-    private val postId: Long = 0L,
+    @Assisted private val postId: Long = 0L,
 ) : ViewModel() {
 
     /**
@@ -71,8 +77,7 @@ class NewPostViewModel(
 
         viewModelScope.launch {
             try {
-                val post: PostData = repository.
-                save(
+                val post: PostData = repository.save(
                     postId = postId,
                     content = content,
                     fileModel = _state.value.file,
@@ -135,5 +140,10 @@ class NewPostViewModel(
      */
     override fun onCleared() {
         viewModelScope.cancel()
+    }
+
+    @AssistedFactory
+    interface ViewModelFactory {
+        fun create(postId: Long = 0L): NewPostViewModel
     }
 }

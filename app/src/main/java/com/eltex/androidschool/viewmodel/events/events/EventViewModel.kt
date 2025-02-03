@@ -7,6 +7,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
+
 /**
  * ViewModel для управления состоянием событий.
  * Этот класс взаимодействует с [EventStore] для получения состояния событий и обработки сообщений,
@@ -15,7 +18,8 @@ import kotlinx.coroutines.launch
  * @property eventStore Хранилище (Store), которое управляет состоянием событий и эффектами.
  * @see ViewModel
  */
-class EventViewModel(
+@HiltViewModel
+class EventViewModel @Inject constructor(
     private val eventStore: EventStore,
 ) : ViewModel() {
 

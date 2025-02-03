@@ -5,13 +5,17 @@ import com.eltex.androidschool.effecthandler.posts.PostWallEffectHandler
 import com.eltex.androidschool.reducer.posts.PostReducer
 import com.eltex.androidschool.reducer.posts.PostWallReducer
 import com.eltex.androidschool.repository.posts.PostRepository
-import com.eltex.androidschool.ui.posts.PostUiModelMapper
 import com.eltex.androidschool.viewmodel.posts.post.PostMessage
 import com.eltex.androidschool.viewmodel.posts.post.PostState
 import com.eltex.androidschool.viewmodel.posts.post.PostStore
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallMessage
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallState
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallStore
+
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ViewModelComponent
 
 /**
  * Фабрика для создания хранилищ (Store) связанных с постами.
@@ -24,10 +28,9 @@ import com.eltex.androidschool.viewmodel.posts.postswall.PostWallStore
  * @see PostWallStore
  * @see PostRepository
  */
-
-class PostStoreFactory(
-    private val repository: PostRepository,
-) {
+@Module
+@InstallIn(ViewModelComponent::class)
+class PostStoreModule {
 
     /**
      * Создает экземпляр [PostStore], который управляет состоянием и логикой для отображения одного поста.
@@ -40,12 +43,13 @@ class PostStoreFactory(
      * @see PostMessage
      * @see PostState
      */
-    fun createPostFactory(): PostStore = PostStore(
-        reducer = PostReducer(),
-        effectHandler = PostEffectHandler(
-            repository = repository,
-            mapper = PostUiModelMapper()
-        ),
+    @Provides
+    fun createPostFactory(
+        reducer: PostReducer,
+        effectHandler: PostEffectHandler,
+    ): PostStore = PostStore(
+        reducer = reducer,
+        effectHandler = effectHandler,
         initMessages = setOf(PostMessage.Refresh),
         initState = PostState(),
     )
@@ -62,12 +66,13 @@ class PostStoreFactory(
      * @see PostWallMessage
      * @see PostWallState
      */
-    fun createPostsWallFactory(userId: Long): PostWallStore = PostWallStore(
-        reducer = PostWallReducer(userId = userId),
-        effectHandler = PostWallEffectHandler(
-            repository = repository,
-            mapper = PostUiModelMapper()
-        ),
+    @Provides
+    fun createPostsWallFactory(
+        reducer: PostWallReducer,
+        effectHandler: PostWallEffectHandler,
+    ): PostWallStore = PostWallStore(
+        reducer = reducer,
+        effectHandler = effectHandler,
         initMessages = setOf(PostWallMessage.Refresh),
         initState = PostWallState(),
     )

@@ -23,7 +23,6 @@ import androidx.navigation.fragment.findNavController
 import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentNewOrUpdateJobBinding
-import com.eltex.androidschool.di.DependencyContainerProvider
 import com.eltex.androidschool.utils.Logger
 import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.showMaterialDialog
@@ -34,6 +33,8 @@ import com.eltex.androidschool.viewmodel.jobs.newjob.NewJobState
 import com.eltex.androidschool.viewmodel.jobs.newjob.NewJobViewModel
 
 import com.google.android.material.datepicker.MaterialDatePicker
+import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.withCreationCallback
 
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
@@ -53,6 +54,7 @@ import java.util.Locale
  * @see NewJobViewModel ViewModel для управления созданием и обновлением мест работы.
  * @see ToolBarViewModel ViewModel для управления состоянием панели инструментов.
  */
+@AndroidEntryPoint
 class NewOrUpdateJobFragment : Fragment() {
 
     companion object {
@@ -85,11 +87,13 @@ class NewOrUpdateJobFragment : Fragment() {
 
         val toolbarViewModel by activityViewModels<ToolBarViewModel>()
 
-        val newJobViewModel by viewModels<NewJobViewModel> {
-            (requireContext().applicationContext as DependencyContainerProvider)
-                .getContainer()
-                .getNewJobViewModelFactory(jobId = jobId)
-        }
+        val newJobViewModel by viewModels<NewJobViewModel>(
+            extrasProducer = {
+                defaultViewModelCreationExtras.withCreationCallback<NewJobViewModel.ViewModelFactory> { factory ->
+                    factory.create(jobId = jobId)
+                }
+            }
+        )
 
         binding.textCompanyName.editText?.setText(companyName)
         binding.textPosition.editText?.setText(position)

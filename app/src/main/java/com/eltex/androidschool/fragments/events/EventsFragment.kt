@@ -15,36 +15,30 @@ import androidx.fragment.app.viewModels
 
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewmodel.viewModelFactory
 
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 
 import androidx.recyclerview.widget.RecyclerView
 
-import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
+import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.adapter.events.EventAdapterDifferentTypesView
 import com.eltex.androidschool.databinding.FragmentEventsBinding
-import com.eltex.androidschool.di.DependencyContainerProvider
-import com.eltex.androidschool.effecthandler.events.EventEffectHandler
-import com.eltex.androidschool.fragments.users.UserFragment
-import com.eltex.androidschool.reducer.events.EventReducer
-import com.eltex.androidschool.repository.events.NetworkEventRepository
+import com.eltex.androidschool.fragments.users.AccountFragment
 import com.eltex.androidschool.ui.common.OffsetDecoration
 import com.eltex.androidschool.ui.events.EventPagingMapper
 import com.eltex.androidschool.ui.events.EventUiModel
-import com.eltex.androidschool.ui.events.EventUiModelMapper
 import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.showMaterialDialogWithTwoButtons
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
 import com.eltex.androidschool.viewmodel.events.events.EventMessage
 import com.eltex.androidschool.viewmodel.events.events.EventState
-import com.eltex.androidschool.viewmodel.events.events.EventStore
 import com.eltex.androidschool.viewmodel.events.events.EventViewModel
 
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -61,6 +55,7 @@ import kotlinx.coroutines.flow.onEach
  * @see EventAdapterDifferentTypesView Адаптер для отображения списка событий.
  * @see OffsetDecoration Декорация для добавления отступов между элементами RecyclerView.
  */
+@AndroidEntryPoint
 class EventsFragment : Fragment() {
 
     /**
@@ -68,11 +63,7 @@ class EventsFragment : Fragment() {
      *
      * @see EventViewModel
      */
-    private val viewModel by viewModels<EventViewModel> {
-        (requireContext().applicationContext as DependencyContainerProvider)
-            .getContainer()
-            .getEventsViewModelFactory()
-    }
+    private val viewModel by viewModels<EventViewModel>()
 
     /**
      * Создает и возвращает представление для этого фрагмента.
@@ -88,91 +79,7 @@ class EventsFragment : Fragment() {
     ): View {
         val binding = FragmentEventsBinding.inflate(layoutInflater, container, false)
 
-        val adapter = EventAdapterDifferentTypesView(
-            object : EventAdapterDifferentTypesView.EventListener {
-                override fun onLikeClicked(event: EventUiModel) {
-                    viewModel.accept(message = EventMessage.Like(event = event))
-                }
-
-                override fun onParticipateClicked(event: EventUiModel) {
-                    viewModel.accept(message = EventMessage.Participation(event = event))
-                }
-
-                override fun onShareClicked(event: EventUiModel) {}
-
-                override fun onDeleteClicked(event: EventUiModel) {
-                    showDeleteConfirmationDialog(
-                        title = getString(R.string.delete_event_title),
-                        message = getString(R.string.delete_event_message)
-                    ) {
-                        viewModel.accept(message = EventMessage.Delete(event = event))
-                    }
-                }
-
-                override fun onUpdateClicked(event: EventUiModel) {
-                    requireParentFragment().requireParentFragment().findNavController()
-                        .navigate(
-                            R.id.action_BottomNavigationFragment_to_newOrUpdateEventFragment,
-                            bundleOf(
-                                NewOrUpdateEventFragment.EVENT_ID to event.id,
-                                NewOrUpdateEventFragment.EVENT_CONTENT to event.content,
-                                NewOrUpdateEventFragment.EVENT_LINK to event.link,
-                                NewOrUpdateEventFragment.EVENT_DATE to event.dataEvent,
-                                NewOrUpdateEventFragment.EVENT_OPTION to event.optionConducting,
-                                NewOrUpdateEventFragment.IS_UPDATE to true,
-                            ),
-                            NavOptions.Builder()
-                                .setEnterAnim(R.anim.slide_in_right)
-                                .setExitAnim(R.anim.slide_out_left)
-                                .setPopEnterAnim(R.anim.slide_in_left)
-                                .setPopExitAnim(R.anim.slide_out_right)
-                                .build()
-                        )
-                }
-
-                override fun onGetUserClicked(event: EventUiModel) {
-                    if (event.authorId == BuildConfig.USER_ID) {
-                        val bottomNav = requireParentFragment().requireParentFragment()
-                            .requireView().findViewById<BottomNavigationView>(R.id.bottomNavigation)
-
-                        bottomNav.selectedItemId = R.id.userFragment
-
-                        findNavController().navigate(
-                            R.id.userFragment,
-                            null,
-                            NavOptions.Builder()
-                                .setEnterAnim(R.anim.slide_in_right)
-                                .setExitAnim(R.anim.slide_out_left)
-                                .setPopEnterAnim(R.anim.slide_in_left)
-                                .setPopExitAnim(R.anim.slide_out_right)
-                                .build()
-                        )
-                    } else {
-                        requireParentFragment().requireParentFragment().findNavController()
-                            .navigate(
-                                R.id.action_BottomNavigationFragment_to_userFragment,
-                                bundleOf(
-                                    UserFragment.USER_ID to event.authorId,
-                                    UserFragment.IC_PROFILE to false
-                                ),
-                                NavOptions.Builder()
-                                    .setEnterAnim(R.anim.slide_in_right)
-                                    .setExitAnim(R.anim.slide_out_left)
-                                    .setPopEnterAnim(R.anim.slide_in_left)
-                                    .setPopExitAnim(R.anim.slide_out_right)
-                                    .build()
-                            )
-                    }
-                }
-
-                override fun onRetryPageClicked() {
-                    viewModel.accept(EventMessage.Retry)
-                }
-            },
-
-            context = requireContext(),
-            currentUserId = BuildConfig.USER_ID
-        )
+        val adapter: EventAdapterDifferentTypesView = createEventAdapterDifferentTypesView()
 
         binding.list.adapter = adapter
 
@@ -218,6 +125,122 @@ class EventsFragment : Fragment() {
             scrollToTopAndRefresh(binding = binding)
         }
 
+        eventViewModelState(binding = binding, adapter = adapter)
+
+        return binding.root
+    }
+
+    /**
+     * Создает и возвращает экземпляр [EventAdapterDifferentTypesView], который используется для отображения списка событий.
+     * Адаптер настраивается с помощью [EventListener], который обрабатывает различные действия пользователя,
+     * такие как лайк, удаление, обновление и переход к профилю пользователя.
+     *
+     * @return [EventAdapterDifferentTypesView] - адаптер для отображения постов.
+     *
+     * @see [EventAdapterDifferentTypesView] - класс адаптера, который управляет отображением списка событий.
+     * @see EventAdapterDifferentTypesView.EventListener - интерфейс, который определяет методы для обработки действий пользователя.
+     */
+    private fun createEventAdapterDifferentTypesView() = EventAdapterDifferentTypesView(
+        object : EventAdapterDifferentTypesView.EventListener {
+            override fun onLikeClicked(event: EventUiModel) {
+                viewModel.accept(message = EventMessage.Like(event = event))
+            }
+
+            override fun onParticipateClicked(event: EventUiModel) {
+                viewModel.accept(message = EventMessage.Participation(event = event))
+            }
+
+            override fun onShareClicked(event: EventUiModel) {}
+
+            override fun onDeleteClicked(event: EventUiModel) {
+                showDeleteConfirmationDialog(
+                    title = getString(R.string.delete_event_title),
+                    message = getString(R.string.delete_event_message)
+                ) {
+                    viewModel.accept(message = EventMessage.Delete(event = event))
+                }
+            }
+
+            override fun onUpdateClicked(event: EventUiModel) {
+                requireParentFragment().requireParentFragment().findNavController()
+                    .navigate(
+                        R.id.action_BottomNavigationFragment_to_newOrUpdateEventFragment,
+                        bundleOf(
+                            NewOrUpdateEventFragment.EVENT_ID to event.id,
+                            NewOrUpdateEventFragment.EVENT_CONTENT to event.content,
+                            NewOrUpdateEventFragment.EVENT_LINK to event.link,
+                            NewOrUpdateEventFragment.EVENT_DATE to event.dateEvent,
+                            NewOrUpdateEventFragment.EVENT_OPTION to event.optionConducting,
+                            NewOrUpdateEventFragment.IS_UPDATE to true,
+                        ),
+                        NavOptions.Builder()
+                            .setEnterAnim(R.anim.slide_in_right)
+                            .setExitAnim(R.anim.slide_out_left)
+                            .setPopEnterAnim(R.anim.slide_in_left)
+                            .setPopExitAnim(R.anim.slide_out_right)
+                            .build()
+                    )
+            }
+
+            override fun onGetUserClicked(event: EventUiModel) {
+                if (event.authorId == BuildConfig.USER_ID) {
+                    val bottomNav = requireParentFragment().requireParentFragment()
+                        .requireView().findViewById<BottomNavigationView>(R.id.bottomNavigation)
+
+                    bottomNav.selectedItemId = R.id.userFragment
+
+                    findNavController().navigate(
+                        R.id.userFragment,
+                        null,
+                        NavOptions.Builder()
+                            .setEnterAnim(R.anim.slide_in_right)
+                            .setExitAnim(R.anim.slide_out_left)
+                            .setPopEnterAnim(R.anim.slide_in_left)
+                            .setPopExitAnim(R.anim.slide_out_right)
+                            .build()
+                    )
+                } else {
+                    requireParentFragment().requireParentFragment().findNavController()
+                        .navigate(
+                            R.id.action_BottomNavigationFragment_to_userFragment,
+                            bundleOf(
+                                AccountFragment.USER_ID to event.authorId,
+                                AccountFragment.IC_PROFILE to false
+                            ),
+                            NavOptions.Builder()
+                                .setEnterAnim(R.anim.slide_in_right)
+                                .setExitAnim(R.anim.slide_out_left)
+                                .setPopEnterAnim(R.anim.slide_in_left)
+                                .setPopExitAnim(R.anim.slide_out_right)
+                                .build()
+                        )
+                }
+            }
+
+            override fun onRetryPageClicked() {
+                viewModel.accept(EventMessage.Retry)
+            }
+        },
+
+        context = requireContext(),
+        currentUserId = BuildConfig.USER_ID
+    )
+
+    /**
+     * Настраивает наблюдение за состоянием [ViewModel] и обновляет UI в соответствии с текущим состоянием.
+     * Метод связывает [EventState] с элементами UI, такими [как] ProgressBar, [SwipeRefreshLayout] и [RecyclerView].
+     *
+     * @param binding [FragmentEventsBinding] - объект binding, который предоставляет доступ к элементам UI.
+     * @param adapter [EventAdapterDifferentTypesView] - адаптер, который управляет отображением списка событий.
+     *
+     * @see [EventState] - класс, который представляет состояние экрана с постами.
+     * @see [EventMessage] - класс, который представляет сообщения, отправляемые во ViewModel.
+     * @see [EventPagingMapper] - класс, который преобразует состояние в список данных для адаптера
+     */
+    private fun eventViewModelState(
+        binding: FragmentEventsBinding,
+        adapter: EventAdapterDifferentTypesView,
+    ) {
         viewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { eventState: EventState ->
@@ -249,8 +272,6 @@ class EventsFragment : Fragment() {
                 )
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
-
-        return binding.root
     }
 
     /**
