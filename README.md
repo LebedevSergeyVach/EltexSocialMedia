@@ -27,6 +27,7 @@ The [**Glide**](https://github.com/bumptech/glide) library is used to manage mul
 Basic settings for the application's appearance are implemented, such as: language selection (Russian, English, system) and theme selection (dark, light, system). The ability to enable and disable vibration feedback in the application, display the size and clear the application cache has also been added.
 
 #### Documentation for the project [**documentation**](documentation/documentation.md).
+#### View images of the mobile app [Eltex Academy](#images)
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Version](https://img.shields.io/badge/Version-0.21.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.21.0)
@@ -53,10 +54,27 @@ Basic settings for the application's appearance are implemented, such as: langua
 > - Add registration and authorization to the app.
 > - Implement a fragment with the display of data about the post/ event (image/video, data, users who liked/participated).
 >
-> ### Помощь в развитии проекта:
+> ### Project development assistance:
 > - If you find a bug or have an idea for improvement, please create [**issue**](https://github.com/LebedevSergeyVach/EltexSocialMedia/issues).
 > - You can also suggest your changes or implement new features/functions via [**pull request**](https://github.com/LebedevSergeyVach/EltexSocialMedia/pulls).
 
+> [!WARNING]
+> ### **Compilation of the project**
+> 
+> At the moment, there is no registration or authorization in the application, user data is installed during compilation.
+> In order to build a project, you need to create `**secrets.properties**` in the root of the project:
+>
+>```properties
+>    API_KEY="The key to access the server" Name: Authorization (apiKey) String
+>    AUTHORIZATION="Authorization token" Name: Api-Key (apiKey) String
+>    USER_ID=User ID Long
+>```
+
+> [!IMPORTANT]
+> ### **Project Description**
+> 
+> An educational project for the development of Android applications in Java and Kotlin from Eltex Academy.
+> The application is a social network that will allow users to create posts and events, indicate their places of work.
 
 ---
 
@@ -99,6 +117,7 @@ Basic settings for the application's appearance are implemented, such as: langua
 Реализованы базовые настройки внешнего вида приложения, такие как: выбор языка (Русский, Английский, системный) и выбор темы (темная, светлая, системная). Также добавлена возможность включения и отключения виброотклика в приложении, показ размера и очистка кэша приложения.
 
 #### Документация к проеку [**documentation**](documentation/documentation.md).
+#### Посмотреть изображения мобильного приложения [Eltex Academy](#images)
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Version](https://img.shields.io/badge/Version-0.21.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.21.0)
@@ -129,6 +148,24 @@ Basic settings for the application's appearance are implemented, such as: langua
 > - Если Вы нашли баг или у вас есть идея для улучшения, пожалуйста, создайте [**issue**](https://github.com/LebedevSergeyVach/EltexSocialMedia/issues).
 > - Вы также можете предложить свои изменения или реализацию новых фишек/функций через [**pull request**](https://github.com/LebedevSergeyVach/EltexSocialMedia/pulls).
 
+> [!WARNING]
+> ### **Компиляция проекта**
+>
+> На данный момент в приложении нет регистрации и авторизации, данные пользователя устанавливаются во время компиляции.
+> Для того, чтобы собрать проект, необходимо создать `**secrets.properties**` в корне проект:
+>
+>```properties
+>    API_KEY="Ключ для доступа к серверу" Name: Authorization (apiKey) String
+>    AUTHORIZATION="Токен авторизации" Name: Api-Key (apiKey) String
+>    USER_ID=ID пользователя Long
+>```
+
+> [!IMPORTANT]
+> ### **Описание проекта**
+>
+> Образовательный проект по разработке Android-приложений на Java и Kotlin от Eltex Academy.
+> Приложение представляет собой социальную сеть, которая позволит пользователям создавать посты и события, указывать места своей работы.
+
 ---
 
 ### [Анатолий Спитченко](https://gitflic.ru/user/onotole) - Android-Разработчик и преподаватель курса
@@ -141,23 +178,22 @@ Basic settings for the application's appearance are implemented, such as: langua
 
 ---
 
----
-
+<a name="images"></a>
 ## Images mobile application of the [**Eltex Social Media**](https://github.com/LebedevSergeyVach/EltexSocialMedia/)
 
 <div style="display: flex; justify-content: space-between; align-items: center;">
-  <img src="assets/media/application/posts.jpg" alt="Entry" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/events.jpg" alt="Entry" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/new_post.jpg" alt="Entry" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/new_event.jpg" alt="Entry" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/account.jpg" alt="Entry" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/jobs.jpg" alt="Entry" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/new_job.jpg" alt="Entry" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/settings.jpg" alt="Entry" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/users.jpg" alt="Entry" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/updates.jpg" alt="Entry" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/skeleton.jpg" alt="Entry" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-
+  <img src="assets/media/application/posts.jpg" alt="Posts" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/events.jpg" alt="Events" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/new_post.jpg" alt="New post" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/new_event.jpg" alt="New event" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/account.jpg" alt="account" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/jobs.jpg" alt="jobs" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/new_job.jpg" alt="New Job" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/settings.jpg" alt="Settings" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/users.jpg" alt="Users" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/updates.jpg" alt="Updates" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/skeleton.jpg" alt="Skeleton" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/settings_light_en.jpg" alt="Settings light en" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
 </div>
 
 ---
