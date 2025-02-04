@@ -138,3 +138,26 @@ Basic settings for the application's appearance are implemented, such as: langua
 ---
 
 #### [README](README.md) [ВВЕРХ](#вверх)
+
+---
+
+---
+
+## Images mobile application of the [**Eltex Social Media**](https://github.com/LebedevSergeyVach/EltexSocialMedia/)
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <img src="assets/media/application/posts.jpg" alt="Entry" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/events.jpg" alt="Entry" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/new_post.jpg" alt="Entry" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/new_event.jpg" alt="Entry" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/account.jpg" alt="Entry" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/jobs.jpg" alt="Entry" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/new_job.jpg" alt="Entry" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/settings.jpg" alt="Entry" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/users.jpg" alt="Entry" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/updates.jpg" alt="Entry" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/skeleton.jpg" alt="Entry" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+
+</div>
+
+---
