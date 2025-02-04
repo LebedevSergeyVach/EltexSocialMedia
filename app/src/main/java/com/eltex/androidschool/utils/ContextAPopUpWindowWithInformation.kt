@@ -101,9 +101,9 @@ fun Context.showMaterialDialogWithTwoButtons(
         messageView.textSize = messageTextSize
     }
 
-    dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
-        ?.setTextColor(getColor(R.color.soft_blue))
-
     dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE)
         ?.setTextColor(getColor(R.color.soft_red))
+
+    dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
+        ?.setTextColor(getColor(R.color.soft_blue))
 }
