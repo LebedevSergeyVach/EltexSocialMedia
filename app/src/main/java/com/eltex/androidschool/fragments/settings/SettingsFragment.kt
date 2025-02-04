@@ -23,17 +23,21 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.view.menu.MenuBuilder
 
 import androidx.fragment.app.Fragment
+
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-import com.eltex.androidschool.BuildConfig
 
+import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentSettingsBinding
 import com.eltex.androidschool.utils.Logger
 import com.eltex.androidschool.utils.showMaterialDialog
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
+import com.eltex.androidschool.utils.toast
+
 import dagger.hilt.android.AndroidEntryPoint
 
+import java.io.File
 import java.util.Locale
 
 /**
@@ -54,8 +58,8 @@ class SettingsFragment : Fragment() {
         val binding = FragmentSettingsBinding.inflate(inflater, container, false)
 
         updateButtonTexts(binding = binding)
-
         initVibrationSwitch(binding = binding)
+        updateCacheSize(binding = binding, anime = false)
 
         binding.chooseButtonSettingsLanguage.setOnClickListener { view: View ->
             showLanguagePopupMenu(view, binding = binding)
@@ -119,7 +123,7 @@ class SettingsFragment : Fragment() {
             true
         }
 
-        binding.textVersionApplication.text = getAppVersionName(requireContext())
+        binding.buttonOpenVersionApplication.text = getAppVersionName(requireContext())
 
         binding.buttonOpenVersionApplication.setOnClickListener {
             findNavController().navigate(
@@ -132,6 +136,13 @@ class SettingsFragment : Fragment() {
                     .setPopExitAnim(R.anim.slide_out_right)
                     .build()
             )
+        }
+
+        binding.buttonSettingsClearCache.setOnClickListener {
+            requireContext().singleVibrationWithSystemCheck(35L)
+            clearCache(requireContext())
+            updateCacheSize(binding = binding, anime = true)
+            requireContext().toast(R.string.cleared_cache)
         }
 
         return binding.root
@@ -351,20 +362,14 @@ class SettingsFragment : Fragment() {
      * Возвращает имя версии приложения.
      *
      * @param context Контекст приложения.
-     * @return Имя версии приложения (например, "1.0.0").
+     * @return Имя версии приложения (например, "Academy Eltex v1.0.0").
      *
      * @throws Exception Может быть выброшено, если не удалось получить информацию о версии.
      */
     private fun getAppVersionName(context: Context): String {
         return try {
-            val buildVariant: String = if (BuildConfig.DEBUG) {
-                "Debug"
-            } else {
-                "Release"
-            }
-
             val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
-            getString(R.string.app_name) + " " + packageInfo.versionName.toString() + " " + buildVariant
+            getString(R.string.app_name) + " " + packageInfo.versionName.toString()
         } catch (e: Exception) {
             getString(R.string.unknown_error)
         }
@@ -451,5 +456,88 @@ class SettingsFragment : Fragment() {
             message = message,
             buttonText = buttonText
         )
+    }
+
+    /**
+     * Возвращает размер кэша приложения в удобочитаемом формате (например, "1.23 MB").
+     *
+     * @param context Контекст приложения.
+     * @return Строка с размером кэша.
+     */
+    private fun getCacheSize(context: Context): String {
+        val cacheDir: File = context.cacheDir
+        val size: Long
+
+        fun calculateSize(file: File): Long {
+            if (file.isDirectory) {
+                return file.listFiles()?.sumOf { fileCache: File ->
+                    calculateSize(fileCache)
+                } ?: 0
+            }
+
+            return file.length()
+        }
+
+        size = calculateSize(cacheDir)
+
+        return when {
+            size < 1024 -> "$size B"
+            size < 1024 * 1024 -> "%.2f KB".format(size / 1024.0)
+            else -> "%.2f MB".format(size / (1024.0 * 1024.0))
+        }
+    }
+
+    /**
+     * Очищает кэш приложения.
+     *
+     * @param context Контекст приложения.
+     */
+    private fun clearCache(context: Context) {
+        val cacheDir: File = context.cacheDir
+
+        fun deleteFiles(file: File) {
+            if (file.isDirectory) {
+                file.listFiles()?.forEach { fileCache: File ->
+                    deleteFiles(fileCache)
+                }
+            }
+
+            file.delete()
+        }
+
+        deleteFiles(cacheDir)
+    }
+
+    /**
+     * Обновляет текст с размером кэша.
+     *
+     * @param binding Binding для макета фрагмента настроек.
+     * @param animate Нужно ли показать анимацию смена текста (по умолчанию true)
+     */
+    private fun updateCacheSize(
+        binding: FragmentSettingsBinding,
+        anime: Boolean = true
+    ) {
+        val textCache = buildString {
+            append(getString(R.string.application_cache_size))
+            append(": ")
+            append(getCacheSize(requireContext()))
+        }
+
+        if (anime) {
+            binding.textSettingsCache.animate()
+                .alpha(0f)
+                .setDuration(200)
+                .withEndAction {
+                    binding.textSettingsCache.text = textCache
+                    binding.textSettingsCache.animate()
+                        .alpha(1f)
+                        .setDuration(200)
+                        .start()
+                }
+                .start()
+        } else {
+            binding.textSettingsCache.text = textCache
+        }
     }
 }

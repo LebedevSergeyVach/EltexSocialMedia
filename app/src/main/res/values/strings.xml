@@ -112,7 +112,11 @@
     <string name="theme_in_application_description">Here you can choose an application theme from the ones presented. "System theme" - select the theme of the application as in the system on the device.</string>
     <string name="vibration_in_application_title">Vibration switch</string>
     <string name="vibration_in_application_description">This switch allows you to turn on and off the vibration response in the app based on your actions.</string>
-    
+    <string name="data_and_cache_app">Data and cache application</string>
+    <string name="clear_cache">Clear the cache</string>
+    <string name="application_cache_size">Cache size</string>
+    <string name="cleared_cache">The application cache has been cleared</string>
+
     <string name="option_switch_title">Event Switch</string>
     <string name="option_switch_description">This switch allows you to select whether the event will be online or offline. If the switch is on, the event will be online and you will need to specify the event link, otherwise it will be offline and you will need to specify the event address.</string>
     <string name="date_picker_title">Date and time selection</string>
@@ -153,4 +157,5 @@
     <string name="v0_18_0_description">The Glide library is used to manage multimedia and download images from the server for display in the UI.</string>
     <string name="v0_19_0_description">DI Dependency injection: Implementing DI using the factory pattern.</string>
     <string name="v0_20_0_description">To implement the implementation of DI dependencies, the Dagger2-Hill library and the Singleton antipattern removal Factory are used.</string>
+    <string name="v0_21_0_description">The app settings have been updated. Added cache cleanup.</string>
 </resources>

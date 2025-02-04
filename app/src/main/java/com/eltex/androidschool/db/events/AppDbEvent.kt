@@ -103,11 +103,11 @@ abstract class AppDbEvent : RoomDatabase() {
                     return appDbEvent
                 }
 
-                val dbFile = application.getDatabasePath(EventTableInfo.DB_NAME)
-
-                if (!dbFile.exists() || isDatabaseEmpty(dbFile)) {
-                    copyDatabaseFromAssets(application, dbFile)
-                }
+//                val dbFile = application.getDatabasePath(EventTableInfo.DB_NAME)
+//
+//                if (!dbFile.exists() || isDatabaseEmpty(dbFile)) {
+//                    copyDatabaseFromAssets(application, dbFile)
+//                }
 
                 val appDbEvent: AppDbEvent =
                     Room.databaseBuilder(

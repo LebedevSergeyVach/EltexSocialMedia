@@ -53,11 +53,11 @@ abstract class AppDbPost : RoomDatabase() {
                     return appDbPost
                 }
 
-                val dbFile = application.getDatabasePath(PostTableInfo.DB_NAME)
-
-                if (!dbFile.exists() || isDatabaseEmpty(dbFile)) {
-                    copyDatabaseFromAssets(application, dbFile)
-                }
+//                val dbFile = application.getDatabasePath(PostTableInfo.DB_NAME)
+//
+//                if (!dbFile.exists() || isDatabaseEmpty(dbFile)) {
+//                    copyDatabaseFromAssets(application, dbFile)
+//                }
 
                 val appDbPost: AppDbPost =
                     Room.databaseBuilder(
