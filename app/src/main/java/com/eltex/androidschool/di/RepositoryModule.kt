@@ -16,7 +16,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface PostRepositoryModule {
+interface RepositoryModule {
 
     @Binds
     fun bindNetworkPostRepository(implRepository: NetworkPostRepository): PostRepository
