@@ -115,7 +115,9 @@
     <string name="data_and_cache_app">Data and cache application</string>
     <string name="clear_cache">Clear the cache</string>
     <string name="application_cache_size">Cache size</string>
+    <string name="application_cache_size_app">Application cache size</string>
     <string name="cleared_cache">The application cache has been cleared</string>
+    <string name="data_and_cache_description">You can clear the entire cache of this application. All important data will be saved. Only temporary and unnecessary files such as images, text, etc. will be deleted.</string>
 
     <string name="option_switch_title">Event Switch</string>
     <string name="option_switch_description">This switch allows you to select whether the event will be online or offline. If the switch is on, the event will be online and you will need to specify the event link, otherwise it will be offline and you will need to specify the event address.</string>

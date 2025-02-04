@@ -145,6 +145,21 @@ class SettingsFragment : Fragment() {
             requireContext().toast(R.string.cleared_cache)
         }
 
+        binding.cardSettingsCache.setOnLongClickListener {
+            displayingDialogWindowWithInformation(
+                title = getString(R.string.data_and_cache_app),
+                message = buildString {
+                    append(getString(R.string.application_cache_size_app))
+                    append(": ")
+                    append(getCacheSize(requireContext()))
+                    append("\n")
+                    append(getString(R.string.data_and_cache_description))
+                },
+            )
+
+            true
+        }
+
         return binding.root
     }
 
@@ -454,7 +469,7 @@ class SettingsFragment : Fragment() {
         requireContext().showMaterialDialog(
             title = title,
             message = message,
-            buttonText = buttonText
+            buttonText = buttonText,
         )
     }
 
