@@ -19,7 +19,7 @@
         android:elevation="10dp"
         android:textStyle="bold"
 
-        app:menu="@menu/new_or_update_post_menu" />
+        app:menu="@menu/new_or_update_menu" />
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/toolbarContainer"

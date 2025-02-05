@@ -87,7 +87,7 @@ class ToolbarFragment : Fragment() {
         requireActivity().menuInflater.inflate(R.menu.menu_all_users, menu)
         requireActivity().menuInflater.inflate(R.menu.menu_settings, menu)
 
-        val newPostItem = binding.toolbar.menu.findItem(R.id.save_post)
+        val newPostItem = binding.toolbar.menu.findItem(R.id.save)
 
         val settingsItem = binding.toolbar.menu.findItem(R.id.settings)
 

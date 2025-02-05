@@ -115,8 +115,6 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.activity)
-    implementation(libs.androidx.constraintlayout)
-    implementation(libs.androidx.material3.android)
     implementation(libs.androidx.ui.tooling.preview.android)
     implementation(libs.activity)
     implementation(libs.androidx.foundation.android)
@@ -126,9 +124,10 @@ dependencies {
 
     /**
      * Constraintlayout
+     *
      *  https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout
      */
-    implementation(libs.androidx.constraintlayout.v220)
+    implementation(libs.androidx.constraintlayout)
 
     // ViewModel
     implementation(libs.androidx.lifecycle.viewmodel.ktx)

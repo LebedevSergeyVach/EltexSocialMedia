@@ -17,8 +17,6 @@ import androidx.appcompat.widget.Toolbar
 
 import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
 
