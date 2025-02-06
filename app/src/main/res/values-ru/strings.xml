@@ -6,6 +6,7 @@
     <string name="not_implemented">Не реализовано</string>
 
     <string name="shared">Поделиться</string>
+    <string name="save">Сохранить</string>
 
     <string name="create_post">Создать пост</string>
     <string name="new_post_title">Новый пост</string>
@@ -149,15 +150,14 @@
     <string name="version">Версия</string>
     <string name="update_application">Обновления</string>
     <string name="application_versions">Версии приложения</string>
-    <string name="v0_10_0_description">Проект написан с использованием реактивного программирования с использованием Retrofit2 + RxJava3 на основе Retrofit2 + Coroutines.</string>
+    <string name="repository_on_Github">Репозиторий на Github</string>
+    <string name="v0_10_0_description">Проект переписан с использованием реактивного программирования с Retrofit2 + RxJava3 на Retrofit2 + Coroutines.</string>
     <string name="v0_11_0_description">Реализован фрагмент со страницей пользователя.</string>
     <string name="v0_13_0_description">Реализован фрагмент со списком всех пользователей. Добавлены новые функции в настройках приложения.</string>
     <string name="v0_14_0_description">В проект была добавлена архитектура MVI для работы с сервером и взаимодействия с ним. Теперь все данные с сервера загружаются постепенно и обрабатываются в режиме реального времени.</string>
     <string name="v0_15_0_description">Реализована работа со списком мест работы пользователя.</string>
-    <string name="v0_16_0_description">Чтобы анимировать загрузку списка записей или событий в пользовательском интерфейсе, используется библиотека макетов скелетов: отображение скелетов во время начальной загрузки и загрузки следующей страницы.</string>
-    <string name="v0_17_0_description">Добавлены разделители дат для списка записей и событий.</string>
+    <string name="v0_16_0_description">Чтобы анимировать загрузку списка записей или событий в пользовательском интерфейсе, используется библиотека SkeletonLayout: отображение скелетов во время начальной загрузки и загрузки следующей страницы.</string>
     <string name="v0_18_0_description">Библиотека Glide используется для управления мультимедиа и загрузки изображений с сервера для отображения в пользовательском интерфейсе.</string>
-    <string name="v0_19_0_description">DI Внедрение зависимостей: Реализация DI с использованием заводского шаблона.</string>
-    <string name="v0_20_0_description">Для реализации внедрения зависимостей DI используется библиотека Dagger2-Hill и паттерн Фабрика для удаления антипаттерн Singleton.</string>
-    <string name="v0_21_0_description">Обновлены настройки приложение. Добавлена очистка кэша.</string>
+    <string name="v0_20_0_description">Для реализации внедрения зависимостей DI используется библиотека Dagger2-Hill и паттерн Фабрика для удаления антипаттерна Singleton.</string>
+    <string name="v0_21_1_description">Обновлены настройки приложение. Добавлена очистка кэша. Добавлен фрагмент с обновлениями приложения.</string>
 </resources>

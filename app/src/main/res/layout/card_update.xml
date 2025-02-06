@@ -13,14 +13,14 @@
         android:layout_height="wrap_content"
 
         android:layout_marginStart="8dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="16dp"
 
         tools:context=".activity.SplashActivity">
 
         <TextView
-            android:id="@+id/version"
+            android:id="@+id/textVersionAndDateUpdate"
 
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -36,61 +36,43 @@
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Версия обновления и дата обновления" />
 
-
-        <TextView
-            android:id="@+id/dateUpdate"
-
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-
-            android:layout_marginTop="8dp
-"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textSize="@dimen/size_title_sp"
-            app:layout_constraintEnd_toEndOf="@id/version"
-            app:layout_constraintStart_toStartOf="@id/version"
-            app:layout_constraintTop_toBottomOf="@id/version"
-            tools:text="Версия обновления и дата обновления" />
-
         <androidx.constraintlayout.widget.Barrier
             android:id="@+id/headerBarrier"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="version, dateUpdate" />
+            app:constraint_referenced_ids="textVersionAndDateUpdate" />
 
         <TextView
-            android:id="@+id/descriptionUpdate"
+            android:id="@+id/textDescriptionUpdate"
 
             android:layout_width="0dp"
             android:layout_height="wrap_content"
 
-            android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="32dp"
             android:autoLink="web"
             android:textColorLink="@color/active_element"
-            android:textSize="@dimen/size_text_sp"
-            app:layout_constraintEnd_toEndOf="@id/dateUpdate"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="@id/textVersionAndDateUpdate"
+            app:layout_constraintStart_toStartOf="@id/textVersionAndDateUpdate"
             app:layout_constraintTop_toBottomOf="@id/headerBarrier"
             tools:text="@tools:sample/lorem[20]" />
 
-        <TextView
-            android:id="@+id/link"
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/buttonOpenGitHubRepository"
 
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
-            android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
-            android:layout_marginTop="16dp"
-            android:autoLink="web"
-            android:textColorLink="@color/active_element"
-            android:textSize="@dimen/size_text_sp"
-            app:layout_constraintEnd_toEndOf="@id/dateUpdate"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/descriptionUpdate"
-            tools:text="https://github.com/LebedevSergeyVach/EltexSocialMedia" />
+            android:layout_marginTop="32dp"
+            android:backgroundTint="@color/active_element"
+            android:text="@string/repository_on_Github"
+            android:textColor="@color/white"
+            app:icon="@drawable/ic_github_24"
+            app:iconTint="@color/white"
+            app:layout_constraintEnd_toEndOf="@id/textVersionAndDateUpdate"
+            app:layout_constraintStart_toStartOf="@id/textVersionAndDateUpdate"
+            app:layout_constraintTop_toBottomOf="@id/textDescriptionUpdate" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

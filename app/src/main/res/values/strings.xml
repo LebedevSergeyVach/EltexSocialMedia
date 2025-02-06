@@ -6,6 +6,7 @@
     <string name="not_implemented">Not implemented</string>
 
     <string name="shared">Shared</string>
+    <string name="save">Save</string>
 
     <string name="create_post">Create post</string>
     <string name="new_post_title">New Post</string>
@@ -149,15 +150,14 @@
     <string name="version">Version</string>
     <string name="update_application">Updates</string>
     <string name="application_versions">Application versions</string>
+    <string name="repository_on_Github">The repository on Github</string>
     <string name="v0_10_0_description">The project is written with reactive programming using Retrofit2 + RxJava3 on Retrofit2 + Coroutines</string>
     <string name="v0_11_0_description">Implemented a fragment with the user`s page</string>
     <string name="v0_13_0_description">Implemented a fragment with a list of all users. Added new features in the app settings.</string>
     <string name="v0_14_0_description">The MVI architecture has been added to the project for working with and interacting with the server. Now all data from the server is downloaded gradually and processed in real time.</string>
     <string name="v0_15_0_description">Implemented work with the list of user`s places of work.</string>
     <string name="v0_16_0_description">To animate the loading of a list of posts or events in the UI, the Skeleton Layout library is used: displaying skeletons during initial loading and loading of the next page.</string>
-    <string name="v0_17_0_description">Added date separators for the list of posts and events.</string>
     <string name="v0_18_0_description">The Glide library is used to manage multimedia and download images from the server for display in the UI.</string>
-    <string name="v0_19_0_description">DI Dependency injection: Implementing DI using the factory pattern.</string>
     <string name="v0_20_0_description">To implement the implementation of DI dependencies, the Dagger2-Hill library and the Singleton antipattern removal Factory are used.</string>
-    <string name="v0_21_0_description">The app settings have been updated. Added cache cleanup.</string>
+    <string name="v0_21_1_description">The app settings have been updated. Added cache cleanup. A fragment with application updates has been added.</string>
 </resources>
