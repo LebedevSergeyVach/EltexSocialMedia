@@ -236,7 +236,7 @@ class EventViewHolder(
             })
             .transform(RoundedCorners(radius))
             .transition(DrawableTransitionOptions.withCrossFade())
-            .error(R.drawable.error_placeholder)
+            .error(R.drawable.ic_404_24)
             .into(binding.attachment)
     }
 
