@@ -245,10 +245,13 @@ dependencies {
 
     /**
      * Glide
+     * BlurTransformation glide-transformations
      *
      * https://github.com/bumptech/glide
+     * https://github.com/wasabeef/glide-transformations
      */
     implementation(libs.glide)
+    implementation(libs.glide.transformations)
 
     /**
      * LeakCanary - проверка на утечки памяти

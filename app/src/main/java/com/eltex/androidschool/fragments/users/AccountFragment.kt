@@ -37,6 +37,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 
@@ -619,7 +620,7 @@ class AccountFragment : Fragment() {
                                     isFirstResource: Boolean
                                 ): Boolean {
                                     binding.avatarUser.setImageResource(R.drawable.avatar_background)
-                                    binding.initial.text = user.name.take(2)
+                                    binding.initial.text = user.name.take(1)
                                     binding.initial.setTextColor(
                                         ContextCompat.getColor(
                                             binding.root.context,
@@ -643,6 +644,7 @@ class AccountFragment : Fragment() {
                                     return false
                                 }
                             })
+                            .transition(DrawableTransitionOptions.withCrossFade(500))
                             .into(binding.avatarUser)
                     } else {
                         binding.avatarUser.setImageResource(R.drawable.avatar_background)
