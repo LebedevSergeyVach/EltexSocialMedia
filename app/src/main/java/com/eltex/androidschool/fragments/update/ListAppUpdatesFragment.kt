@@ -40,80 +40,66 @@ class ListAppUpdatesFragment : Fragment() {
     private fun createListUpdatesApp() = listOf(
         UpdateData(
             id = 0,
-            version = "v0.10.0 Release",
+            version = "v0.10.0",
             date = "03.01.2025",
             description = getString(R.string.v0_10_0_description),
-            link = "github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.10.0"
+            link = "https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.10.0"
         ),
         UpdateData(
             id = 1,
-            version = "v0.11.0 Release",
+            version = "v0.11.0",
             date = "04.01.2025",
             description = getString(R.string.v0_11_0_description),
-            link = "github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.11.0"
+            link = "https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.11.0"
         ),
         UpdateData(
             id = 2,
-            version = "v0.13.0 Release",
+            version = "v0.13.0",
             date = "12.01.2025",
             description = getString(R.string.v0_13_0_description),
-            link = "github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.13.0"
+            link = "https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.13.0"
         ),
         UpdateData(
             id = 3,
-            version = "v0.14.0 Release",
+            version = "v0.14.0",
             date = "17.01.2025",
             description = getString(R.string.v0_14_0_description),
-            link = "github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.14.0"
+            link = "https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.14.0"
         ),
         UpdateData(
             id = 4,
-            version = "v0.15.2 Release",
+            version = "v0.15.2",
             date = "21.01.2025",
             description = getString(R.string.v0_15_0_description),
-            link = "github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.15.2"
+            link = "https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.15.2"
         ),
         UpdateData(
             id = 5,
-            version = "v0.16.0 Release",
+            version = "v0.16.0",
             date = "23.01.2025",
             description = getString(R.string.v0_16_0_description),
-            link = "github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.16.0"
+            link = "https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.16.0"
         ),
         UpdateData(
             id = 6,
-            version = "v0.17.2 Release",
-            date = "25.01.2025",
-            description = getString(R.string.v0_17_0_description),
-            link = "github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.17.2"
+            version = "v0.18.1",
+            date = "30.01.2025",
+            description = getString(R.string.v0_18_0_description),
+            link = "https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.18.1"
         ),
         UpdateData(
             id = 7,
-            version = "v0.18.1 Release",
-            date = "30.01.2025",
-            description = getString(R.string.v0_18_0_description),
-            link = "github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.18.1"
+            version = "v0.20.0",
+            date = "03.02.2025",
+            description = getString(R.string.v0_20_0_description),
+            link = "https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.20.0"
         ),
         UpdateData(
             id = 8,
-            version = "v0.19.0 Release",
-            date = "31.01.2025",
-            description = getString(R.string.v0_19_0_description),
-            link = "github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.19.0"
-        ),
-        UpdateData(
-            id = 9,
-            version = "v0.20.0 Release",
-            date = "03.02.2025",
-            description = getString(R.string.v0_20_0_description),
-            link = "github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.20.0"
-        ),
-        UpdateData(
-            id = 10,
-            version = "v0.21.0 Release",
+            version = "v0.21.1",
             date = "04.02.2025",
-            description = getString(R.string.v0_21_0_description),
-            link = "github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.21.0"
+            description = getString(R.string.v0_21_1_description),
+            link = "https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.21.0"
         ),
     )
         .reversed()

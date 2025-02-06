@@ -217,7 +217,7 @@ class EventViewHolder(
                     isFirstResource: Boolean
                 ): Boolean {
                     binding.skeletonAttachment.showOriginal()
-                    binding.attachment.setImageResource(R.drawable.error_placeholder)
+                    binding.attachment.setImageResource(R.drawable.ic_404_24)
 
                     return false
                 }

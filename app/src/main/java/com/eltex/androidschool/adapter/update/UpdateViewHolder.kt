@@ -1,6 +1,9 @@
 package com.eltex.androidschool.adapter.update
 
 import android.content.Context
+import android.content.Intent
+
+import android.net.Uri
 
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
@@ -22,17 +25,20 @@ class UpdateViewHolder(
      * @param updateData Данные об обновлении.
      */
     fun bind(updateData: UpdateData) {
-        binding.version.text = buildString {
+        binding.textVersionAndDateUpdate.text = buildString {
             append(context.getString(R.string.version))
             append(": ")
             append(updateData.version)
-        }
-        binding.dateUpdate.text = buildString {
+            append(" | ")
             append(context.getString(R.string.date))
             append(": ")
             append(updateData.date)
         }
-        binding.descriptionUpdate.text = updateData.description
-        binding.link.text = updateData.link
+
+        binding.textDescriptionUpdate.text = updateData.description
+
+        binding.buttonOpenGitHubRepository.setOnClickListener {
+            context.startActivity(Intent(Intent.ACTION_VIEW).setData(Uri.parse(updateData.link)))
+        }
     }
 }
