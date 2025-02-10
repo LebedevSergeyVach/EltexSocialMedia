@@ -5,15 +5,10 @@
 
     <color name="red">#FF0000</color>
     <color name="blue">#0000FF</color>
-    <color name="green">#00FF00</color>
-    <color name="yellow">#FFE500</color>
-    <color name="purple">#F700FF</color>
-    <color name="lilac">#9C27B0</color>
-    <color name="violet">#673AB7</color>
     <color name="gray">#545454</color>
 
     <color name="background_color_of_the_refresh_circle">#f8f9fc</color>
-    <color name="black_white_theme">#000000</color>
+    <color name="inversion_black_white_theme">#000000</color>
     <color name="toast_custom">#f8f9fc</color>
 
     <color name="soft_red">#FF4141</color>
@@ -24,24 +19,7 @@
     #0c5df3 #083ffe #3060FF
     <color name="active_element">@color/soft_blue</color>
 
-    #FF6200EE
-    <color name="switch_off_back">#6E00B0</color>
-
-    <color name="custom_date_picker_primary">@color/active_element</color>
-    <color name="custom_date_picker_on_primary">@color/white</color>
-    <color name="custom_date_picker_secondary">@color/active_element</color>
-    <color name="custom_date_picker_on_secondary">@color/white</color>
-
-    <color name="custom_time_picker_primary">@color/active_element</color>
-    <color name="custom_time_picker_on_primary">@color/white</color>
-    <color name="custom_time_picker_secondary">@color/active_element</color>
-    <color name="custom_time_picker_on_secondary">@color/white</color>
-    
     <color name="confetti_blue">#03A9F4</color>
-    <color name="confetti_red">#E91E63</color>
-    <color name="confetti_green">#8BC34A</color>
-    <color name="confetti_orange">#FF9800</color>
-    <color name="confetti_yellow">#FFEB3B</color>
 
 
     <color name="splash_screen">@color/white</color>

@@ -4,8 +4,7 @@
         <!-- Customize your theme here. -->
     </style>
 
-    Splash screen theme.
-
+    <!--Splash screen theme.-->
     <style name="Theme.MyApp.SplashScreen" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/splash_screen</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/eltex_logo_foreground</item>

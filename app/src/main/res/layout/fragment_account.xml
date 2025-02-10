@@ -102,7 +102,7 @@
 
                 app:tabIndicatorColor="@color/active_element"
                 app:tabSelectedTextColor="@color/active_element"
-                app:tabTextColor="@color/black_white_theme" />
+                app:tabTextColor="@color/inversion_black_white_theme" />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPagerPostsAndEvents"
