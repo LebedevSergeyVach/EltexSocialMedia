@@ -15,4 +15,3 @@
     app:navGraph="@navigation/main_navigation"
 
     tools:context=".activity.MainActivity" />
-

@@ -27,7 +27,7 @@ import java.util.Locale
  * @see AppCompatActivity Базовый класс для активностей, использующих функции библиотеки поддержки.
  */
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(R.layout.main_activity) {
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

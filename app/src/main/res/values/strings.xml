@@ -3,11 +3,14 @@
     <string name="app_name_icon" translatable="false">Eltex Academy</string>
 
     <string name="app_not_found">Application not found</string>
+    <string name="not_implemented">Not implemented</string>
 
     <string name="shared">Shared</string>
     <string name="save">Save</string>
 
+    <string name="create_post">Create post</string>
     <string name="new_post_title">New Post</string>
+    <string name="save_post">Save post</string>
     <string name="update_post_title">Updating the post</string>
     <string name="new_post_content_hint">Write content for your new post! Don`t forget to add an image for your new post! You can select a photo from the bottom.</string>
     <string name="delete_post">Delete post</string>
@@ -18,6 +21,8 @@
     <string name="camera">Camera</string>
 
     <string name="new_event_title">New event</string>
+    <string name="save_event">Save event</string>
+    <string name="create_event">Create event</string>
     <string name="update_event_title">Updating the event</string>
     <string name="new_event_content_hint">Write a description for your new event! Don`t forget to add an image for your new post! You can select a photo from the bottom.</string>
     <string name="new_event_link_hint">Insert the link of your event!</string>
@@ -26,6 +31,8 @@
     <string name="new_event_options_hint">How will your event go? Online or Offline?</string>
     <string name="delete_event">Delete event</string>
     <string name="update_event">Update event</string>
+
+    <string name="changed">Changed</string>
 
     <string name="error_text_post_is_empty">The text of the post is not written</string>
     <string name="error_text_event_is_empty">Not all fields have been entered!</string>
@@ -38,17 +45,24 @@
     <string name="post">Post</string>
     <string name="posts">Posts</string>
     <string name="events">Events</string>
+    <string name="user">User</string>
     <string name="users">Users</string>
     <string name="account">Account</string>
+    <string name="profile">Profile</string>
     <string name="jobs">Jobs</string>
+    <string name="job">Job</string>
 
     <string name="company_name">Company name</string>
     <string name="position">Position</string>
     <string name="company_data_and_your_position">Company data and your position</string>
     <string name="the_period_of_employment_in_the_company">The period of employment in the company</string>
+    <string name="beginning_of_the_work_period">Beginning of the work period</string>
+    <string name="end_of_the_working_period">End of the working period</string>
+    <string name="save_job_data">Save job data</string>
     <string name="new_job">New Job</string>
     <string name="update_job_data">Update job data</string>
     <string name="working_period">Working period</string>
+    <string name="select_date_working_period">Select date working period</string>
     <string name="select_working_period">Select the period of operation</string>
     <string name="data_entry_card_title">Company Information</string>
     <string name="data_entry_card_description">Here you need to enter information about the company and your position.</string>
@@ -64,6 +78,7 @@
     <string name="cancel">Cancel</string>
     <string name="delete">Remove</string>
 
+    <string name="retry">Retry</string>
     <string name="network_error">Network error</string>
     <string name="unknown_error">Unknown error</string>
 
@@ -74,7 +89,9 @@
     <string name="select_time">Select time</string>
     <string name="select_date_and_time">Date and time</string>
     <string name="thanks">Thanks</string>
+    <string name="thanks_">Thanks!</string>
 
+    <!-- Settings Application -->
     <string name="settings">Settings</string>
     <string name="сhanging_the_application_language">Changing the application language</string>
     <string name="changing_the_app_theme">Changing the app theme</string>
@@ -82,6 +99,7 @@
     <string name="choose_theme">Choose a theme</string>
     <string name="light_theme">Light theme</string>
     <string name="dark_theme">Dark theme</string>
+    <string name="amoled_theme">AMOLED Theme</string>
     <string name="system_theme">System theme</string>
     <string name="russian">Russian</string>
     <string name="english">English</string>
@@ -112,8 +130,22 @@
     <string name="no_events">There are no events yet</string>
     <string name="no_jobs">There is no information about the work yet</string>
 
+    <string name="new_post_short_label">New post</string>
+    <string name="new_post_long_label">Go to create a new post</string>
+    <string name="new_event_short_label">New event</string>
+    <string name="new_event_long_label">Go to create a new event</string>
+
     <string name="today">Today</string>
     <string name="yesterday">Yesterday</string>
+
+    <string name="registration">Registration</string>
+    <string name="authorization">Authorization</string>
+    <string name="login_account">Login to your account</string>
+    <string name="login_no_transferred">Login</string>
+    <string name="name">Name</string>
+    <string name="password">Password</string>
+    <string name="confirm_the_password">Confirm the password</string>
+    <string name="no_account_to_registration">No account? Register!</string>
 
     <string name="date">Date</string>
     <string name="version">Version</string>

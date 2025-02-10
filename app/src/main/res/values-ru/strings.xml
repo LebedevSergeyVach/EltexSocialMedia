@@ -91,6 +91,7 @@
     <string name="thanks">Спасибо</string>
     <string name="thanks_">Спасибо!</string>
 
+    <!-- Настройки проложения -->
     <string name="settings">Настройки</string>
     <string name="сhanging_the_application_language">Смена языка приложения</string>
     <string name="changing_the_app_theme">Смена темы приложения</string>

@@ -149,6 +149,7 @@ dependencies {
      *
      * https://developer.android.com/reference/android/window/SplashScreen
      * https://developer.android.com/reference/androidx/core/splashscreen/SplashScreen
+     * https://developer.android.com/develop/ui/views/launch/splash-screen
      *
      * https://github.com/patildnyaneshwar/SplashScreen
      */

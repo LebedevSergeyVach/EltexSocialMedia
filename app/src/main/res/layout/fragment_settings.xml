@@ -182,11 +182,6 @@
 
                     android:backgroundTint="@color/active_element"
 
-                    android:checked="false"
-                    android:textOff="@string/offline"
-
-                    android:textOn="@string/online"
-
                     app:thumbTint="@drawable/switch_thumb_tint"
                     app:trackTint="@drawable/switch_track_tint"
 

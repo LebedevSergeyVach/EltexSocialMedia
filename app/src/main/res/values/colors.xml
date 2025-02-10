@@ -21,6 +21,5 @@
 
     <color name="confetti_blue">#03A9F4</color>
 
-
     <color name="splash_screen">@color/white</color>
 </resources>
