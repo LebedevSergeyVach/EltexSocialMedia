@@ -125,20 +125,41 @@ dependencies {
     /**
      * Constraintlayout
      *
-     *  https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout
+     * https://developer.android.com/jetpack/androidx/releases/constraintlayout
+     * https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout
      */
     implementation(libs.androidx.constraintlayout)
 
-    // ViewModel
+    /**
+     * ViewModel Lifecycle
+     *
+     * https://developer.android.com/jetpack/androidx/releases/lifecycle
+     */
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
-    // ViewParticleEmitter ANIM
+    /**
+     * ViewParticleEmitter ANIM
+     *
+     * https://github.com/jinatonic/confetti
+     */
     implementation(libs.confetti)
 
-    // SplashScreen
+    /**
+     * SplashScreen
+     *
+     * https://developer.android.com/reference/android/window/SplashScreen
+     * https://developer.android.com/reference/androidx/core/splashscreen/SplashScreen
+     *
+     * https://github.com/patildnyaneshwar/SplashScreen
+     */
     implementation(libs.androidx.core.splashscreen)
 
-    // Serialization
+    /**
+     * Serialization
+     *
+     * https://github.com/Kotlin/kotlinx.serialization
+     * https://kotlinlang.org/docs/serialization.html
+     */
     implementation(libs.kotlinx.serialization.json)
 
     // Preferences DataStore Jetpack
@@ -175,7 +196,10 @@ dependencies {
      * https://github.com/square/okhttp
      * https://square.github.io/okhttp/
      */
+    // define a BOM and its version
     implementation(platform(libs.okhttp.bom))
+
+    // define any required OkHttp artifacts without version
     implementation(libs.okhttp)
     implementation(libs.logging.interceptor)
 
@@ -191,7 +215,12 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
 
-    // SwipeRefreshLayout
+    /**
+     * SwipeRefreshLayout
+     *
+     * https://developer.android.com/reference/androidx/swiperefreshlayout/widget/SwipeRefreshLayout
+     * https://developer.android.com/develop/ui/views/touch-and-input/swipe/add-swipe-interface
+     */
     implementation(libs.androidx.swiperefreshlayout)
 
     /**
@@ -231,6 +260,7 @@ dependencies {
      * and concurrent programming
      *
      * https://arrow-kt.io/learn/quickstart/
+     * https://github.com/arrow-kt/arrow-core
      *
      * implementation("io.arrow-kt:arrow-fx-coroutines:1.2.4")
      */
