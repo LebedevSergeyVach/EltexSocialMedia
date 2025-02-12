@@ -1,9 +1,7 @@
 package com.eltex.androidschool.api.events
 
-import com.eltex.androidschool.api.common.RetrofitFactory
 import com.eltex.androidschool.data.events.EventData
 
-import retrofit2.create
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET

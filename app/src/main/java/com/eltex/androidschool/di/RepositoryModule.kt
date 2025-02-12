@@ -19,7 +19,7 @@ import dagger.hilt.components.SingletonComponent
 interface RepositoryModule {
 
     @Binds
-    fun bindNetworkPostRepository(implRepository: NetworkPostRepository): PostRepository
+    fun bindNetworkPostRepository(implPostRepository: NetworkPostRepository): PostRepository
 
     @Binds
     fun bindNetworkEventRepository(implEventRepository: NetworkEventRepository): EventRepository

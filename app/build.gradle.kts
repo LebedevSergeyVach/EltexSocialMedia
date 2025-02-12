@@ -19,7 +19,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.eltex.androidschool"
+        applicationId = "com.eltex.androidschool.social.media.network"
         minSdk = 24
         targetSdk = 35
         versionCode = 1
@@ -163,10 +163,18 @@ dependencies {
      */
     implementation(libs.kotlinx.serialization.json)
 
-    // Preferences DataStore Jetpack
+    /**
+     * Preferences DataStore Jetpack
+     *
+     * https://developer.android.com/topic/libraries/architecture/datastore?hl=ru#kts
+     */
     implementation(libs.androidx.datastore.preferences)
 
-    // Proto DataStore Jetpack
+    /**
+     * Proto DataStore Jetpack
+     *
+     * https://developer.android.com/topic/libraries/architecture/datastore?hl=ru#kts
+     */
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.datastore.core)
     implementation(libs.protobuf.javalite)
