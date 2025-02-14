@@ -7,7 +7,6 @@ coreSplashscreen = "1.0.1"
 datastorePreferences = "1.1.2"
 desugar_jdk_libs = "2.1.4"
 glide = "4.16.0"
-glideTransformations = "4.3.0"
 hiltAndroid = "2.51.1"
 kotlin = "2.0.21"
 coreKtx = "1.15.0"
@@ -61,7 +60,6 @@ arrow-core = { module = "io.arrow-kt:arrow-core", version.ref = "arrowCore" }
 confetti = { module = "com.github.jinatonic.confetti:confetti", version.ref = "confetti" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
-glide-transformations = { module = "jp.wasabeef:glide-transformations", version.ref = "glideTransformations" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hiltAndroid" }
 hilt-android-compiler = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hiltAndroid" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }

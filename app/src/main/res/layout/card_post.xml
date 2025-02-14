@@ -148,7 +148,7 @@
 
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/image"
-                    android:minHeight="200dp"
+
                     tools:src="@tools:sample/backgrounds/scenic[10]" />
 
             </com.faltenreich.skeletonlayout.SkeletonLayout>

@@ -645,6 +645,13 @@ class AccountFragment : Fragment() {
                                 }
                             })
                             .transition(DrawableTransitionOptions.withCrossFade(500))
+                            .error(R.drawable.error_placeholder)
+                            .thumbnail(
+                                Glide.with(binding.root)
+                                    .load(user.avatar)
+                                    .override(50, 50)
+                                    .circleCrop()
+                            )
                             .into(binding.avatarUser)
                     } else {
                         binding.avatarUser.setImageResource(R.drawable.avatar_background)

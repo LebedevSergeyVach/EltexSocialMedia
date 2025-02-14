@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 
@@ -85,6 +86,14 @@ class UserViewHolder(
                         return false
                     }
                 })
+                .transition(DrawableTransitionOptions.withCrossFade(500))
+                .error(R.drawable.error_placeholder)
+                .thumbnail(
+                    Glide.with(binding.root)
+                        .load(user.avatar)
+                        .override(50, 50)
+                        .circleCrop()
+                )
                 .into(binding.avatar)
         } else {
             binding.avatar.setImageResource(R.drawable.avatar_background)

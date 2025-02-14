@@ -45,6 +45,7 @@
         <activity
             android:name=".activity.MainActivity"
             android:exported="false"
+            android:theme="@style/Theme.HelloEltex"
             android:windowSoftInputMode="adjustResize">
 
             <intent-filter>

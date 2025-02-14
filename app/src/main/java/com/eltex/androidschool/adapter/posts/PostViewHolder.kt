@@ -25,7 +25,6 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 
 import com.eltex.androidschool.R
@@ -36,7 +35,6 @@ import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
 
 import com.github.jinatonic.confetti.CommonConfetti
-import jp.wasabeef.glide.transformations.BlurTransformation
 
 /**
  * ViewHolder для отображения элемента списка постов.
@@ -172,6 +170,12 @@ class PostViewHolder(
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .transition(DrawableTransitionOptions.withCrossFade(500))
                 .error(R.drawable.error_placeholder)
+                .thumbnail(
+                    Glide.with(binding.root)
+                        .load(post.authorAvatar)
+                        .override(50, 50)
+                        .circleCrop()
+                )
                 .into(binding.avatar)
         } else {
             binding.avatar.setImageResource(R.drawable.avatar_background)
@@ -233,7 +237,6 @@ class PostViewHolder(
                 Glide.with(binding.root)
                     .load(attachment.url)
                     .override(50, 50)
-                    .apply(RequestOptions.bitmapTransform(BlurTransformation(25)))
             )
             .diskCacheStrategy(DiskCacheStrategy.ALL)
             .transform(RoundedCorners(radius))

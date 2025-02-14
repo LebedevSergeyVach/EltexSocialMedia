@@ -290,12 +290,12 @@ class PostsFragment : Fragment() {
     private fun showDeleteConfirmationDialog(
         title: String,
         message: String,
-        onDeleteConfirmed: () -> Unit
+        onDeleteConfirmed: () -> Unit,
     ) {
         requireContext().showMaterialDialogWithTwoButtons(
             title = title,
             message = message,
-            onDeleteConfirmed = onDeleteConfirmed
+            onDeleteConfirmed = onDeleteConfirmed,
         )
     }
 
