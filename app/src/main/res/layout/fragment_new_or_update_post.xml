@@ -12,8 +12,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
 
-        android:layout_marginBottom="34dp"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,7 +22,7 @@
             android:layout_height="wrap_content"
 
             android:orientation="vertical"
-            android:paddingBottom="?actionBarSize">
+            android:paddingBottom="?attr/actionBarSize">
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
@@ -62,9 +60,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
 
-                android:layout_marginStart="@dimen/common_spacing"
-                android:layout_marginEnd="@dimen/common_spacing"
-                android:layout_marginBottom="@dimen/common_spacing"
+                android:layout_marginHorizontal="@dimen/common_spacing"
+                android:layout_marginBottom="?attr/actionBarSize"
 
                 app:cardCornerRadius="20dp"
                 app:cardElevation="2dp">

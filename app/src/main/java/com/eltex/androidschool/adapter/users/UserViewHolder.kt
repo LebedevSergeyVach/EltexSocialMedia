@@ -49,7 +49,17 @@ class UserViewHolder(
         binding.name.text = user.name
         binding.login.text = user.login
 
-        if (user.avatar.isNotEmpty()) {
+        binding.avatar.setImageResource(R.drawable.avatar_background)
+        binding.initial.text = user.name.take(1)
+        binding.initial.setTextColor(
+            ContextCompat.getColor(
+                binding.root.context,
+                R.color.white
+            )
+        )
+        binding.initial.isVisible = true
+
+        if (!user.avatar.isNullOrEmpty()) {
             Glide.with(binding.root)
                 .load(user.avatar)
                 .circleCrop()
@@ -93,11 +103,18 @@ class UserViewHolder(
                         .load(user.avatar)
                         .override(50, 50)
                         .circleCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                 )
                 .into(binding.avatar)
         } else {
             binding.avatar.setImageResource(R.drawable.avatar_background)
             binding.initial.text = user.name.take(1)
+            binding.initial.setTextColor(
+                ContextCompat.getColor(
+                    binding.root.context,
+                    R.color.white
+                )
+            )
             binding.initial.isVisible = true
         }
     }

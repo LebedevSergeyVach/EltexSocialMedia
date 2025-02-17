@@ -20,7 +20,7 @@ data class UserData(
     @SerialName("name")
     val name: String = "",
     @SerialName("avatar")
-    val avatar: String = "",
+    val avatar: String? = null,
     @SerialName("login")
     val login: String = "",
 )

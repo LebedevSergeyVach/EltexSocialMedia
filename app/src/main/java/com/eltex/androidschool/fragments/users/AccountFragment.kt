@@ -607,7 +607,17 @@ class AccountFragment : Fragment() {
                 userState.users?.firstOrNull()?.let { user ->
                     binding.nameUser.text = user.name
 
-                    if (user.avatar.isNotEmpty()) {
+                    binding.avatarUser.setImageResource(R.drawable.avatar_background)
+                    binding.initial.text = user.name.take(1)
+                    binding.initial.setTextColor(
+                        ContextCompat.getColor(
+                            binding.root.context,
+                            R.color.white
+                        )
+                    )
+                    binding.initial.isVisible = true
+
+                    if (!user.avatar.isNullOrEmpty()) {
                         Glide.with(binding.root)
                             .load(user.avatar)
                             .circleCrop()
@@ -651,11 +661,18 @@ class AccountFragment : Fragment() {
                                     .load(user.avatar)
                                     .override(50, 50)
                                     .circleCrop()
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
                             )
                             .into(binding.avatarUser)
                     } else {
                         binding.avatarUser.setImageResource(R.drawable.avatar_background)
                         binding.initial.text = user.name.take(1)
+                        binding.initial.setTextColor(
+                            ContextCompat.getColor(
+                                binding.root.context,
+                                R.color.white
+                            )
+                        )
                         binding.initial.isVisible = true
                     }
 

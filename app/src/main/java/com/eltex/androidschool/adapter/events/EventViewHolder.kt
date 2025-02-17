@@ -139,6 +139,16 @@ class EventViewHolder(
      * @property event.initial TextView для отображения инициалов автора.
      */
     private fun renderingUserAvatar(event: EventUiModel) {
+        binding.avatar.setImageResource(R.drawable.avatar_background)
+        binding.initial.text = event.author.take(1)
+        binding.initial.setTextColor(
+            ContextCompat.getColor(
+                binding.root.context,
+                R.color.white
+            )
+        )
+        binding.initial.isVisible = true
+
         if (!event.authorAvatar.isNullOrEmpty()) {
             Glide.with(binding.root)
                 .load(event.authorAvatar)
@@ -183,11 +193,18 @@ class EventViewHolder(
                         .load(event.authorAvatar)
                         .override(50, 50)
                         .circleCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
                 )
                 .into(binding.avatar)
         } else {
             binding.avatar.setImageResource(R.drawable.avatar_background)
             binding.initial.text = event.author.take(1)
+            binding.initial.setTextColor(
+                ContextCompat.getColor(
+                    binding.root.context,
+                    R.color.white
+                )
+            )
             binding.initial.isVisible = true
         }
     }
@@ -248,6 +265,7 @@ class EventViewHolder(
                 Glide.with(binding.root)
                     .load(attachment.url)
                     .override(50, 50)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
             )
             .into(binding.attachment)
     }

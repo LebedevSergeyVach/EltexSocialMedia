@@ -88,9 +88,7 @@ class ToolbarFragment : Fragment() {
         requireActivity().menuInflater.inflate(R.menu.menu_settings, menu)
 
         val newPostItem = binding.toolbar.menu.findItem(R.id.save)
-
         val settingsItem = binding.toolbar.menu.findItem(R.id.settings)
-
         val allUsersItem = binding.toolbar.menu.findItem(R.id.all_users)
 
         toolBarViewModel.saveVisible.onEach { display: Boolean ->
