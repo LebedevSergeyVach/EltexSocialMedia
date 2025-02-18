@@ -46,19 +46,6 @@ class UserViewHolder(
      * @see UserData Модель данных пользователя.
      */
     fun bindUser(user: UserData) {
-        binding.name.text = user.name
-        binding.login.text = user.login
-
-        binding.avatar.setImageResource(R.drawable.avatar_background)
-        binding.initial.text = user.name.take(1)
-        binding.initial.setTextColor(
-            ContextCompat.getColor(
-                binding.root.context,
-                R.color.white
-            )
-        )
-        binding.initial.isVisible = true
-
         if (!user.avatar.isNullOrEmpty()) {
             Glide.with(binding.root)
                 .load(user.avatar)

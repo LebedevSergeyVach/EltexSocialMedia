@@ -327,7 +327,7 @@ class NewOrUpdateEventFragment : Fragment() {
                         content = newContent,
                         link = newLink,
                         option = newOption,
-                        data = newDate,
+                        date = newDate,
                         contentResolver = requireContext().contentResolver,
                         onProgress = { progress ->
                             binding.progressBar.setProgressCompat(progress, true)

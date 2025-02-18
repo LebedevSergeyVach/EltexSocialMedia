@@ -9,4 +9,6 @@ data class AuthData(
     val id: Long = 0L,
     @SerialName("token")
     val token: String = "",
+    @SerialName("avatar")
+    val avatar: String = "",
 )

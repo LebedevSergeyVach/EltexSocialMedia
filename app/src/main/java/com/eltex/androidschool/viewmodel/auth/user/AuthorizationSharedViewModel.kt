@@ -18,8 +18,11 @@ import javax.inject.Inject
 class AuthorizationSharedViewModel @Inject constructor(
     private val userPreferences: UserPreferences
 ) : ViewModel() {
-    private val _isAuthorized = MutableStateFlow(true)
+    private val _isAuthorized = MutableStateFlow(false)
     val isAuthorized: StateFlow<Boolean> = _isAuthorized.asStateFlow()
+
+    private val _isLoading = MutableStateFlow(true)
+    val isLoading: StateFlow<Boolean> = _isLoading.asStateFlow()
 
     init {
         checkAuthState()
@@ -30,10 +33,16 @@ class AuthorizationSharedViewModel @Inject constructor(
             try {
                 userPreferences.authTokenFlow.collect { authToken ->
                     _isAuthorized.value = authToken != null
+                    _isLoading.value = false
                 }
             } catch (e: Exception) {
                 _isAuthorized.value = false
+                _isLoading.value = false
             }
         }
+    }
+
+    suspend fun clearUserData() {
+        userPreferences.clearAuthData()
     }
 }

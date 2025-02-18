@@ -9,16 +9,17 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.runBlocking
 
+import okio.IOException
+
 import javax.inject.Inject
 
 @HiltViewModel
 class AccountViewModel @Inject constructor(
     private val userPreferences: UserPreferences,
 ) : ViewModel() {
-    private val _userId: Long = runBlocking {
-        userPreferences.userIdFlow.first()
-    }
-        ?: 3L
+    private val _userId = runBlocking {
+        userPreferences.userIdFlow.first()?.toLong()
+    } ?: throw IOException("USER ID NOT FOUND")
 
     val userId: Long = _userId
 }

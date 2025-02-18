@@ -8,34 +8,47 @@
 
     tools:context=".fragments.auth.RegistrationFragment">
 
-    <ImageView
-        android:id="@+id/imageUserSelectAvatar"
+    <com.faltenreich.skeletonlayout.SkeletonLayout
+        android:id="@+id/skeletonImageAvatar"
 
         android:layout_width="200dp"
         android:layout_height="200dp"
 
         android:layout_marginBottom="@dimen/margin_horizontal_for_InputLayout_authorization_16"
 
-        android:contentDescription="@string/login_account"
-        android:src="@drawable/avatar_background"
-
         app:layout_constraintBottom_toTopOf="@id/cardDataEntryUser"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
 
-    <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        app:maskColor="@color/gray"
+        app:maskCornerRadius="1000dp"
+        app:shimmerAngle="20"
+        app:shimmerColor="@color/active_element"
+        app:shimmerDurationInMillis="750">
 
-        android:contentDescription="@string/login_account"
-        android:src="@drawable/ic_add_photo_bold_24"
+        <ImageView
+            android:id="@+id/imageUserSelectAvatar"
 
-        app:layout_constraintBottom_toBottomOf="@id/imageUserSelectAvatar"
-        app:layout_constraintEnd_toEndOf="@id/imageUserSelectAvatar"
-        app:layout_constraintStart_toStartOf="@id/imageUserSelectAvatar"
-        app:layout_constraintTop_toTopOf="@id/imageUserSelectAvatar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
 
-        app:tint="@color/white" />
+            android:layout_gravity="center"
+            android:contentDescription="@string/login_account"
+            android:src="@drawable/avatar_background" />
+
+        <ImageView
+            android:id="@+id/imagePhoto"
+
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+
+            android:layout_gravity="center"
+            android:contentDescription="@string/gallery"
+            android:src="@drawable/ic_add_photo_bold_24"
+
+            app:tint="@color/white" />
+
+    </com.faltenreich.skeletonlayout.SkeletonLayout>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardDataEntryUser"
@@ -46,8 +59,9 @@
         android:layout_height="wrap_content"
 
         android:layout_marginHorizontal="@dimen/margin_horizontal_for_InputLayout_authorization_16"
+        android:layout_marginBottom="32dp"
 
-        app:cardCornerRadius="20dp"
+        app:cardCornerRadius="15dp"
         app:cardElevation="2dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
@@ -65,8 +79,6 @@
             android:padding="16dp">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textLoginUser"
-
                 style="@style/CustomTextInputLayout"
 
                 android:layout_width="match_parent"
@@ -76,16 +88,43 @@
                 app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textLoginUser"
+
                     style="@style/CustomTextViewStyle"
 
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+
+                    android:ellipsize="end"
+                    android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textPasswordUserOne"
+                style="@style/CustomTextInputLayout"
 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="16dp"
+
+                android:hint="@string/name"
+                app:endIconMode="clear_text">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textNameUser"
+
+                    style="@style/CustomTextViewStyle"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:ellipsize="end"
+                    android:maxLines="1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 style="@style/CustomTextInputLayout"
 
                 android:layout_width="match_parent"
@@ -97,31 +136,15 @@
                 app:endIconMode="password_toggle">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textPasswordUser"
+
                     style="@style/CustomTextViewStyle"
 
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
 
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textPasswordUserTwo"
-
-                style="@style/CustomTextInputLayout"
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_marginTop="16dp"
-
-                android:hint="@string/confirm_the_password"
-                app:endIconMode="password_toggle">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    style="@style/CustomTextViewStyle"
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:ellipsize="end"
+                    android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -130,7 +153,7 @@
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/buttonAuthorizationAccount"
+        android:id="@+id/buttonRegistrationAccount"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -148,5 +171,42 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardDataEntryUser" />
 
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/buttonToAuthorizationAccount"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_gravity="center"
+
+        android:layout_marginHorizontal="@dimen/margin_horizontal_for_InputLayout_authorization_16"
+        android:layout_marginTop="@dimen/margin_horizontal_for_InputLayout_authorization_16"
+
+        android:backgroundTint="@color/active_element"
+        android:text="@string/back_authorization"
+        android:textColor="@color/white"
+        app:icon="@drawable/ic_arrow_back_24"
+        app:iconTint="@color/white"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonRegistrationAccount" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressBar"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/background_progress_bar"
+        android:padding="8dp"
+        app:indicatorColor="@color/active_element"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:trackThickness="6dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

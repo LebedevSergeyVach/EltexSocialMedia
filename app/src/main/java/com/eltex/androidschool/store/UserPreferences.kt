@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
+import com.eltex.androidschool.utils.Logger
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -26,15 +27,17 @@ class UserPreferences @Inject constructor(
             preferences[AUTH_TOKEN_KEY]
         }
 
-    val userIdFlow: Flow<Long?> = dataStore.data
+    val userIdFlow: Flow<String?> = dataStore.data
         .map { preferences: Preferences ->
-            preferences[USER_ID_KEY]?.toLong()
+            preferences[USER_ID_KEY]
         }
 
-    suspend fun saveUserCredentials(authToken: String, userId: Long) {
+    suspend fun saveUserCredentials(authToken: String, userId: String) {
+        Logger.e("UserPreferences: userId = $userId")
+
         dataStore.edit { preferences: MutablePreferences ->
             preferences[AUTH_TOKEN_KEY] = authToken
-            preferences[USER_ID_KEY] = userId.toString()
+            preferences[USER_ID_KEY] = userId
         }
     }
 

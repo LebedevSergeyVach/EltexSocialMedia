@@ -58,8 +58,9 @@ class AuthorizationViewModel @Inject constructor(
         }
     }
 
-    fun updateButtonState(username: String, password: String) {
-        val isButtonEnabled = username.isNotBlank() && password.isNotBlank()
+    fun updateButtonState(login: String, password: String) {
+        val isButtonEnabled: Boolean = login.isNotBlank() && password.isNotBlank()
+
         _state.update { stateAuthorization: AuthorizationState ->
             stateAuthorization.copy(
                 isButtonEnabled = isButtonEnabled,

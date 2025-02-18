@@ -1,25 +1,33 @@
 package com.eltex.androidschool.fragments.auth
 
 import android.os.Bundle
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import androidx.activity.OnBackPressedCallback
+
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
+
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+
 import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentAuthorizationBinding
 import com.eltex.androidschool.fragments.common.ToolbarFragment
-import com.eltex.androidschool.utils.getErrorTextAuth
+import com.eltex.androidschool.utils.getErrorTextAuthorization
 import com.eltex.androidschool.utils.toast
 import com.eltex.androidschool.viewmodel.auth.authorizations.AuthorizationState
 import com.eltex.androidschool.viewmodel.auth.authorizations.AuthorizationViewModel
+
 import dagger.hilt.android.AndroidEntryPoint
+
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -37,9 +45,24 @@ class AuthorizationFragment : Fragment() {
         monitoringButtonStatus(binding = binding)
 
         binding.buttonAuthorizationAccount.setOnClickListener {
-            val username = binding.textLoginUser.text?.toString().orEmpty().trimStart().trimEnd()
+            val login = binding.textLoginUser.text?.toString().orEmpty().trimStart().trimEnd()
             val password = binding.textPasswordUser.text?.toString().orEmpty().trimStart().trimEnd()
-            viewModel.login(login = username, password = password)
+
+            viewModel.login(login = login, password = password)
+        }
+
+        binding.buttonToRegistrationAccount.setOnClickListener {
+            requireActivity().supportFragmentManager.commit {
+                setCustomAnimations(
+                    R.anim.slide_in_right,
+                    R.anim.slide_out_left,
+                    R.anim.slide_in_left,
+                    R.anim.slide_out_right
+                )
+                replace(R.id.container, RegistrationFragment())
+                setReorderingAllowed(true)
+                remove(this@AuthorizationFragment)
+            }
         }
 
         viewModelStateLifecycle(binding = binding)
@@ -79,7 +102,7 @@ class AuthorizationFragment : Fragment() {
                     }
                 }
 
-                state.statusAuthorization.throwableOrNull?.getErrorTextAuth(requireContext())
+                state.statusAuthorization.throwableOrNull?.getErrorTextAuthorization(requireContext())
                     ?.let { errorText: CharSequence ->
                         requireContext().toast(errorText.toString())
 
@@ -93,15 +116,17 @@ class AuthorizationFragment : Fragment() {
 
     private fun monitoringButtonStatus(binding: FragmentAuthorizationBinding) {
         binding.textLoginUser.doAfterTextChanged { text ->
-            val username = text?.toString() ?: ""
+            val login = text?.toString() ?: ""
             val password = binding.textPasswordUser.text?.toString() ?: ""
-            viewModel.updateButtonState(username, password)
+
+            viewModel.updateButtonState(login = login, password = password)
         }
 
         binding.textPasswordUser.doAfterTextChanged { text ->
-            val username = binding.textLoginUser.text?.toString() ?: ""
+            val login = binding.textLoginUser.text?.toString() ?: ""
             val password = text?.toString() ?: ""
-            viewModel.updateButtonState(username, password)
+
+            viewModel.updateButtonState(login = login, password = password)
         }
     }
 
@@ -111,6 +136,7 @@ class AuthorizationFragment : Fragment() {
     ) {
         binding.textLoginUser.isEnabled = !blocking
         binding.textPasswordUser.isEnabled = !blocking
+        binding.buttonAuthorizationAccount.isEnabled != blocking
         binding.buttonToRegistrationAccount.isEnabled = !blocking
     }
 }

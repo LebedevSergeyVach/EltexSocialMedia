@@ -130,16 +130,6 @@ class PostViewHolder(
      * @property binding.initial TextView для отображения инициалов автора.
      */
     private fun renderingUserAvatar(post: PostUiModel) {
-        binding.avatar.setImageResource(R.drawable.avatar_background)
-        binding.initial.text = post.author.take(1)
-        binding.initial.setTextColor(
-            ContextCompat.getColor(
-                binding.root.context,
-                R.color.white
-            )
-        )
-        binding.initial.isVisible = true
-
         if (!post.authorAvatar.isNullOrEmpty()) {
             Glide.with(binding.root)
                 .load(post.authorAvatar)

@@ -373,11 +373,11 @@ class AccountFragment : Fragment() {
             object : LifecycleEventObserver {
                 override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
                     when (event) {
-                        Lifecycle.Event.ON_START -> toolbarViewModel.setSettingsAndAllUsersVisible(
+                        Lifecycle.Event.ON_START -> toolbarViewModel.setSettingsAndAllUsersLogoutVisible(
                             userId == accountUserId
                         )
 
-                        Lifecycle.Event.ON_STOP -> toolbarViewModel.setSettingsAndAllUsersVisible(
+                        Lifecycle.Event.ON_STOP -> toolbarViewModel.setSettingsAndAllUsersLogoutVisible(
                             false
                         )
 

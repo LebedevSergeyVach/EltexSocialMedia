@@ -8,12 +8,12 @@ import okio.IOException
 import retrofit2.HttpException
 
 /**
- * Расширение для класса Throwable, которое возвращает текстовое описание ошибки.
+ * Расширение для класса Throwable, которое возвращает текстовое описание ошибки при Авторизации.
  *
  * @param context Контекст приложения.
  * @return Текстовое описание ошибки.
  */
-fun Throwable.getErrorTextAuth(context: Context): CharSequence =
+fun Throwable.getErrorTextAuthorization(context: Context): CharSequence =
     when (this) {
         is IOException -> context.getString(R.string.network_error)
         is HttpException -> {
@@ -27,4 +27,22 @@ fun Throwable.getErrorTextAuth(context: Context): CharSequence =
         else -> context.getString(R.string.unknown_error)
     }
 
+/**
+ * Расширение для класса Throwable, которое возвращает текстовое описание ошибки при Регистрации.
+ *
+ * @param context Контекст приложения.
+ * @return Текстовое описание ошибки.
+ */
+fun Throwable.getErrorTextRegistration(context: Context): CharSequence =
+    when(this) {
+        is IOException -> context.getString(R.string.network_error)
+        is HttpException -> {
+            when (code()) {
+                403 -> context.getString(R.string.the_user_is_already_registered)
+                415 -> context.getString(R.string.incorrect_photo_format)
+                else -> context.getString(R.string.unknown_error)
+            }
+        }
 
+        else -> context.getString(R.string.unknown_error)
+    }

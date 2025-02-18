@@ -2,11 +2,9 @@ package com.eltex.androidschool.activity
 
 import android.content.Context
 import android.content.res.Configuration
-
 import android.os.Bundle
 
 import androidx.activity.enableEdgeToEdge
-
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 
