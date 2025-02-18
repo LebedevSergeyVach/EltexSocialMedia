@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
  */
 class OffsetDecoration(
     @Px private val offset: Int,
+    private val horizontal: Boolean = true,
 ) : ItemDecoration() {
 
     /**
@@ -33,8 +34,11 @@ class OffsetDecoration(
         state: RecyclerView.State,
     ) {
         outRect.top += offset
-        outRect.left += offset
-        outRect.right += offset
+
+        if (horizontal) {
+            outRect.left += offset
+            outRect.right += offset
+        }
 
         val lastVisibleItemPosition =
             (parent.layoutManager as? LinearLayoutManager)?.findLastVisibleItemPosition()
@@ -42,7 +46,7 @@ class OffsetDecoration(
         val lastItemPosition = parent.adapter?.itemCount?.minus(1)
 
         if (lastVisibleItemPosition == lastItemPosition) {
-            outRect.bottom += offset
+            outRect.bottom += offset * 2
         }
     }
 }

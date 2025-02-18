@@ -64,7 +64,12 @@ class UserPagerAdapter(
 
                 binding.postsRecyclerView.adapter = postAdapter
                 binding.postsRecyclerView.layoutManager = LinearLayoutManager(parent.context)
-                binding.postsRecyclerView.addItemDecoration(OffsetDecoration(offset))
+                binding.postsRecyclerView.addItemDecoration(
+                    OffsetDecoration(
+                        offset = offset,
+                        horizontal = false
+                    )
+                )
 
                 binding.postsRecyclerView.addOnChildAttachStateChangeListener(
                     object : RecyclerView.OnChildAttachStateChangeListener {
@@ -82,7 +87,8 @@ class UserPagerAdapter(
                     }
                 )
 
-                postAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+                postAdapter.registerAdapterDataObserver(object :
+                    RecyclerView.AdapterDataObserver() {
                     override fun onChanged() {
                         checkIfEmpty(binding)
                     }
@@ -110,9 +116,15 @@ class UserPagerAdapter(
 
                 binding.eventsRecyclerView.adapter = eventAdapter
                 binding.eventsRecyclerView.layoutManager = LinearLayoutManager(parent.context)
-                binding.eventsRecyclerView.addItemDecoration(OffsetDecoration(offset))
+                binding.eventsRecyclerView.addItemDecoration(
+                    OffsetDecoration(
+                        offset = offset,
+                        horizontal = false
+                    )
+                )
 
-                eventAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+                eventAdapter.registerAdapterDataObserver(object :
+                    RecyclerView.AdapterDataObserver() {
                     override fun onChanged() {
                         checkIfEmpty(binding)
                     }
@@ -140,7 +152,12 @@ class UserPagerAdapter(
 
                 binding.jobsRecyclerView.adapter = jobAdapter
                 binding.jobsRecyclerView.layoutManager = LinearLayoutManager(parent.context)
-                binding.jobsRecyclerView.addItemDecoration(OffsetDecoration(offset))
+                binding.jobsRecyclerView.addItemDecoration(
+                    OffsetDecoration(
+                        offset = offset,
+                        horizontal = false
+                    )
+                )
 
                 jobAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
                     override fun onChanged() {

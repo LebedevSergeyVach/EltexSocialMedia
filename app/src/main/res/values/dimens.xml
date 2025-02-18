@@ -2,23 +2,16 @@
 <resources>
     <dimen name="avatar_dp_size">40dp</dimen>
     <dimen name="menu_dp_size">48dp</dimen>
-
     <dimen name="indentation_between_main_objects">32dp</dimen>
-
     <dimen name="indent_end">16dp</dimen>
     <dimen name="size_title_sp">16sp</dimen>
-
     <dimen name="size_text_sp">14sp</dimen>
-
     <dimen name="list_offset">8dp</dimen>
     <dimen name="margin_start_4dp_contents_card">8dp</dimen>
-
     <dimen name="common_spacing">12dp</dimen>
     <dimen name="splash_icon_app">300dp</dimen>
-
     <dimen name="padding_title_for_settings_24dp">24dp</dimen>
-
     <dimen name="radius_for_rounding_images">22dp</dimen>
-
     <dimen name="margin_horizontal_for_InputLayout_authorization_16">16dp</dimen>
+    <dimen name="marginTopNoDataListAccount">200dp</dimen>
 </resources>

@@ -98,7 +98,7 @@ import kotlinx.coroutines.flow.onEach
 @AndroidEntryPoint
 class AccountFragment : Fragment() {
 
-    private val accountViewModel: AccountViewModel by activityViewModels()
+    private val accountViewModel: AccountViewModel by viewModels()
 
     /**
      * ViewModel для управления состоянием панели инструментов (Toolbar).
@@ -270,7 +270,7 @@ class AccountFragment : Fragment() {
             jobViewModel = jobViewModel, userId = userId, accountUserId = accountUserId,
         )
 
-        val offset = resources.getDimensionPixelSize(R.dimen.list_offset)
+        val offset: Int = resources.getDimensionPixelSize(R.dimen.list_offset)
 
         /**
          * Адаптер для ViewPager2, который объединяет адаптеры постов, событий и мест работы.
@@ -619,20 +619,11 @@ class AccountFragment : Fragment() {
                 userState.users?.firstOrNull()?.let { user: UserData ->
                     binding.nameUser.text = user.name
 
-                    binding.avatarUser.setImageResource(R.drawable.avatar_background)
-                    binding.initial.text = user.name.take(1)
-                    binding.initial.setTextColor(
-                        ContextCompat.getColor(
-                            binding.root.context,
-                            R.color.white
-                        )
-                    )
-                    binding.initial.isVisible = true
+                    binding.skeletonAttachment.showSkeleton()
 
                     if (!user.avatar.isNullOrEmpty()) {
                         Glide.with(binding.root)
                             .load(user.avatar)
-                            .circleCrop()
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .listener(object : RequestListener<Drawable> {
                                 override fun onLoadFailed(
@@ -641,7 +632,14 @@ class AccountFragment : Fragment() {
                                     target: Target<Drawable>,
                                     isFirstResource: Boolean
                                 ): Boolean {
-                                    binding.avatarUser.setImageResource(R.drawable.avatar_background)
+                                    binding.skeletonAttachment.showOriginal()
+
+                                    binding.avatarUser.setBackgroundColor(
+                                        ContextCompat.getColor(
+                                            binding.root.context,
+                                            R.color.active_element
+                                        )
+                                    )
                                     binding.initial.text = user.name.take(1)
                                     binding.initial.setTextColor(
                                         ContextCompat.getColor(
@@ -661,23 +659,30 @@ class AccountFragment : Fragment() {
                                     dataSource: DataSource,
                                     isFirstResource: Boolean
                                 ): Boolean {
+                                    binding.skeletonAttachment.showOriginal()
                                     binding.initial.isVisible = false
 
                                     return false
                                 }
                             })
                             .transition(DrawableTransitionOptions.withCrossFade(500))
-                            .error(R.drawable.error_placeholder)
+                            .error(R.drawable.ic_404_24)
                             .thumbnail(
                                 Glide.with(binding.root)
                                     .load(user.avatar)
                                     .override(50, 50)
-                                    .circleCrop()
                                     .diskCacheStrategy(DiskCacheStrategy.ALL)
                             )
                             .into(binding.avatarUser)
                     } else {
-                        binding.avatarUser.setImageResource(R.drawable.avatar_background)
+                        binding.skeletonAttachment.showOriginal()
+
+                        binding.avatarUser.setBackgroundColor(
+                            ContextCompat.getColor(
+                                binding.root.context,
+                                R.color.active_element
+                            )
+                        )
                         binding.initial.text = user.name.take(1)
                         binding.initial.setTextColor(
                             ContextCompat.getColor(

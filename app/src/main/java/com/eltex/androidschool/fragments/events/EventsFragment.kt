@@ -11,7 +11,6 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 
 import androidx.lifecycle.flowWithLifecycle
@@ -59,7 +58,7 @@ import kotlinx.coroutines.flow.onEach
 @AndroidEntryPoint
 class EventsFragment : Fragment() {
 
-    private val accountViewModel: AccountViewModel by activityViewModels()
+    private val accountViewModel: AccountViewModel by viewModels()
 
     /**
      * ViewModel для управления состоянием событий.
@@ -194,10 +193,10 @@ class EventsFragment : Fragment() {
                     val bottomNav = requireParentFragment().requireParentFragment()
                         .requireView().findViewById<BottomNavigationView>(R.id.bottomNavigation)
 
-                    bottomNav.selectedItemId = R.id.userFragment
+                    bottomNav.selectedItemId = R.id.accountFragment
 
                     findNavController().navigate(
-                        R.id.userFragment,
+                        R.id.accountFragment,
                         null,
                         NavOptions.Builder()
                             .setEnterAnim(R.anim.slide_in_right)

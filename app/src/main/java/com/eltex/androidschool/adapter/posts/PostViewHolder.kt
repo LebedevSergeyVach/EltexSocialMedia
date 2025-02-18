@@ -130,6 +130,8 @@ class PostViewHolder(
      * @property binding.initial TextView для отображения инициалов автора.
      */
     private fun renderingUserAvatar(post: PostUiModel) {
+        showPlaceholder(post = post)
+
         if (!post.authorAvatar.isNullOrEmpty()) {
             Glide.with(binding.root)
                 .load(post.authorAvatar)
@@ -142,15 +144,7 @@ class PostViewHolder(
                         target: Target<Drawable>,
                         isFirstResource: Boolean
                     ): Boolean {
-                        binding.avatar.setImageResource(R.drawable.avatar_background)
-                        binding.initial.text = post.author.take(1)
-                        binding.initial.setTextColor(
-                            ContextCompat.getColor(
-                                binding.root.context,
-                                R.color.white
-                            )
-                        )
-                        binding.initial.isVisible = true
+                        showPlaceholder(post = post)
 
                         return false
                     }
@@ -167,7 +161,6 @@ class PostViewHolder(
                         return false
                     }
                 })
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .transition(DrawableTransitionOptions.withCrossFade(500))
                 .error(R.drawable.error_placeholder)
                 .thumbnail(
@@ -179,15 +172,7 @@ class PostViewHolder(
                 )
                 .into(binding.avatar)
         } else {
-            binding.avatar.setImageResource(R.drawable.avatar_background)
-            binding.initial.text = post.author.take(1)
-            binding.initial.setTextColor(
-                ContextCompat.getColor(
-                    binding.root.context,
-                    R.color.white
-                )
-            )
-            binding.initial.isVisible = true
+            showPlaceholder(post = post)
         }
     }
 
@@ -363,5 +348,12 @@ class PostViewHolder(
                 ).oneShot()
             }
         }
+    }
+
+    private fun showPlaceholder(post: PostUiModel) {
+        binding.avatar.setImageResource(R.drawable.avatar_background)
+        binding.initial.text = post.author.take(1)
+        binding.initial.setTextColor(ContextCompat.getColor(binding.root.context, R.color.white))
+        binding.initial.isVisible = true
     }
 }

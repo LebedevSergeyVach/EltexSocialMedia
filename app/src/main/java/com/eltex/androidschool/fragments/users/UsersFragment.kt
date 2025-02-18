@@ -11,7 +11,6 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 
 import androidx.lifecycle.flowWithLifecycle
@@ -22,7 +21,6 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 
 import com.eltex.androidschool.R
-import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.databinding.FragmentUsersBinding
 
 import com.eltex.androidschool.data.users.UserData
@@ -53,7 +51,7 @@ import kotlinx.coroutines.flow.onEach
 @AndroidEntryPoint
 class UsersFragment : Fragment() {
 
-    private val accountViewModel: AccountViewModel by activityViewModels()
+    private val accountViewModel: AccountViewModel by viewModels()
 
     /**
      * ViewModel для управления состоянием списка пользователей.

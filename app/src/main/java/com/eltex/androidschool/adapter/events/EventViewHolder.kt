@@ -95,7 +95,7 @@ class EventViewHolder(
 
         renderingUserAvatar(event = event)
 
-         binding.skeletonAttachment.showSkeleton()
+        binding.skeletonAttachment.showSkeleton()
 
         if (event.attachment != null) {
             renderingImageAttachment(event.attachment, radius)
@@ -139,15 +139,7 @@ class EventViewHolder(
      * @property event.initial TextView для отображения инициалов автора.
      */
     private fun renderingUserAvatar(event: EventUiModel) {
-        binding.avatar.setImageResource(R.drawable.avatar_background)
-        binding.initial.text = event.author.take(1)
-        binding.initial.setTextColor(
-            ContextCompat.getColor(
-                binding.root.context,
-                R.color.white
-            )
-        )
-        binding.initial.isVisible = true
+        showPlaceholder(event = event)
 
         if (!event.authorAvatar.isNullOrEmpty()) {
             Glide.with(binding.root)
@@ -161,15 +153,7 @@ class EventViewHolder(
                         target: Target<Drawable>,
                         isFirstResource: Boolean
                     ): Boolean {
-                        binding.avatar.setImageResource(R.drawable.avatar_background)
-                        binding.initial.text = event.author.take(1)
-                        binding.initial.setTextColor(
-                            ContextCompat.getColor(
-                                binding.root.context,
-                                R.color.white
-                            )
-                        )
-                        binding.initial.isVisible = true
+                        showPlaceholder(event = event)
 
                         return false
                     }
@@ -197,15 +181,7 @@ class EventViewHolder(
                 )
                 .into(binding.avatar)
         } else {
-            binding.avatar.setImageResource(R.drawable.avatar_background)
-            binding.initial.text = event.author.take(1)
-            binding.initial.setTextColor(
-                ContextCompat.getColor(
-                    binding.root.context,
-                    R.color.white
-                )
-            )
-            binding.initial.isVisible = true
+            showPlaceholder(event = event)
         }
     }
 
@@ -415,5 +391,12 @@ class EventViewHolder(
                 ).oneShot()
             }
         }
+    }
+
+    private fun showPlaceholder(event: EventUiModel) {
+        binding.avatar.setImageResource(R.drawable.avatar_background)
+        binding.initial.text = event.author.take(1)
+        binding.initial.setTextColor(ContextCompat.getColor(binding.root.context, R.color.white))
+        binding.initial.isVisible = true
     }
 }

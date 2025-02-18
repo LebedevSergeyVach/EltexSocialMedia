@@ -72,7 +72,7 @@ Basic settings for the application's appearance are implemented, such as: langua
 > [!WARNING]
 > ### **Compilation of the project**
 >
-> In order to build a project, you need to create `**secrets.properties**` in the root of the project:
+> In order to build a project, you need to create **`secrets.properties`** in the root of the project:
 >
 >```properties
 >    API_KEY="The key to access the server" Name: Authorization (apiKey) String
@@ -165,7 +165,7 @@ Basic settings for the application's appearance are implemented, such as: langua
 > [!WARNING]
 > ### **Компиляция проекта**
 >
-> Для того, чтобы собрать проект, необходимо создать `**secrets.properties**` в корне проект:
+> Для того, чтобы собрать проект, необходимо создать **`secrets.properties`** в корне проект:
 >
 >```properties
 >    API_KEY="Ключ для доступа к серверу" Name: Authorization (apiKey) String
