@@ -79,8 +79,11 @@
     <string name="delete">Удалить</string>
 
     <string name="retry">Повторить</string>
-    <string name="network_error">Ошибка сети</string>
     <string name="unknown_error">Неизвестная ошибка</string>
+    <string name="no_connection_server_error">Отсутствует соединение с сервером, проверьте ваше интернет соединение и повторите позднее.</string>
+    <string name="incorrect_username_or_password_error">Неправильный логин или пароль.</string>
+    <string name="incorrect_data_error">Неверные данные</string>
+    <string name="ok">Ок</string>
 
     <string name="online">Онлайн</string>
     <string name="offline">Офла́йн</string>
@@ -146,6 +149,8 @@
     <string name="password">Пароль</string>
     <string name="confirm_the_password">Подтвердите пароль</string>
     <string name="no_account_to_registration">Нет аккаунта? Зарегистрируйтесь!</string>
+    <string name="incorrect_password">Неправильный пароль</string>
+    <string name="user_not_registered">Данного пользователя не существует</string>
 
     <string name="date">Дата</string>
     <string name="version">Версия</string>

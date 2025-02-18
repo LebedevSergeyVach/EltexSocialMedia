@@ -2,11 +2,13 @@ package com.eltex.androidschool.viewmodel.posts.postswall
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.eltex.androidschool.BuildConfig
+
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+
 import dagger.hilt.android.lifecycle.HiltViewModel
+
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -22,7 +24,7 @@ import kotlinx.coroutines.launch
 @HiltViewModel(assistedFactory = PostWallViewModel.ViewModelFactory::class)
 class PostWallViewModel @AssistedInject constructor(
     private val postWallStore: PostWallStore,
-    @Assisted val userId: Long = BuildConfig.USER_ID,
+    @Assisted val userId: Long,
 ) : ViewModel() {
 
     /**

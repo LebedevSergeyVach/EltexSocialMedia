@@ -333,7 +333,7 @@ class EventViewHolder(
             buttonClickAnimation(
                 button = binding.like,
                 condition = likeByMe,
-                confetti = likeByMe,
+                confetti = false,
                 causeVibration = true
             )
         }
@@ -348,7 +348,7 @@ class EventViewHolder(
             buttonClickAnimation(
                 button = binding.participate,
                 condition = participateByMe,
-                confetti = participateByMe,
+                confetti = false,
                 causeVibration = true
             )
         }

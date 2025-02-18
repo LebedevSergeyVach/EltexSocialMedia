@@ -315,7 +315,7 @@ class PostViewHolder(
             buttonClickAnimation(
                 button = binding.like,
                 condition = likeByMe,
-                confetti = likeByMe,
+                confetti = false,
                 causeVibration = true
             )
         }

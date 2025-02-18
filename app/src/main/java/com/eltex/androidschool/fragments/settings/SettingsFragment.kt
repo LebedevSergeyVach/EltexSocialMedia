@@ -140,7 +140,7 @@ class SettingsFragment : Fragment() {
         }
 
         binding.buttonSettingsClearCache.setOnClickListener {
-            clearCacheApplication(binding)
+            clearCacheApplication(binding = binding)
         }
 
         binding.buttonSettingsClearCache.setOnLongClickListener {
@@ -183,8 +183,8 @@ class SettingsFragment : Fragment() {
                     append("\n")
                     append(getString(R.string.data_and_cache_description))
                 },
-                textButtonThanks = getString(R.string.thanks),
-                textButtonClearCache = getString(R.string.clear_cache),
+                textButtonCancel = getString(R.string.thanks),
+                textButtonDelete = getString(R.string.clear_cache),
             ) {
                 clearCacheApplication(binding)
             }
@@ -519,15 +519,15 @@ class SettingsFragment : Fragment() {
     private fun showDeleteConfirmationDialog(
         title: String,
         message: String,
-        textButtonThanks: String,
-        textButtonClearCache: String,
+        textButtonCancel: String,
+        textButtonDelete: String,
         onDeleteConfirmed: () -> Unit,
     ) {
         requireContext().showMaterialDialogWithTwoButtons(
             title = title,
             message = message,
-            cancelButtonText = textButtonThanks,
-            deleteButtonText = textButtonClearCache,
+            cancelButtonText = textButtonCancel,
+            deleteButtonText = textButtonDelete,
             onDeleteConfirmed = onDeleteConfirmed,
         )
     }

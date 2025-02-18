@@ -81,6 +81,10 @@
     <string name="retry">Retry</string>
     <string name="network_error">Network error</string>
     <string name="unknown_error">Unknown error</string>
+    <string name="no_connection_server_error">There is no connection to the server, check your internet connection and try again later.</string>
+    <string name="incorrect_username_or_password_error">Incorrect username or password.</string>
+    <string name="incorrect_data_error">Incorrect data</string>
+    <string name="ok">Ok</string>
 
     <string name="online">Online</string>
     <string name="offline">Offline</string>
@@ -146,6 +150,9 @@
     <string name="password">Password</string>
     <string name="confirm_the_password">Confirm the password</string>
     <string name="no_account_to_registration">No account? Register!</string>
+    <string name="incorrect_password">Incorrect password</string>
+    <string name="user_not_registered">This user does not exist</string>
+
 
     <string name="date">Date</string>
     <string name="version">Version</string>

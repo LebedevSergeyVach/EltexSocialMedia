@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context=".fragments.auth.RegistrationFragment">
+
+    <ImageView
+        android:id="@+id/imageUserSelectAvatar"
+
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+
+        android:layout_marginBottom="@dimen/margin_horizontal_for_InputLayout_authorization_16"
+
+        android:contentDescription="@string/login_account"
+        android:src="@drawable/avatar_background"
+
+        app:layout_constraintBottom_toTopOf="@id/cardDataEntryUser"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+
+        android:contentDescription="@string/login_account"
+        android:src="@drawable/ic_add_photo_bold_24"
+
+        app:layout_constraintBottom_toBottomOf="@id/imageUserSelectAvatar"
+        app:layout_constraintEnd_toEndOf="@id/imageUserSelectAvatar"
+        app:layout_constraintStart_toStartOf="@id/imageUserSelectAvatar"
+        app:layout_constraintTop_toTopOf="@id/imageUserSelectAvatar"
+
+        app:tint="@color/white" />
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardDataEntryUser"
+
+        style="@style/CustomTextViewStyle"
+
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+
+        android:layout_marginHorizontal="@dimen/margin_horizontal_for_InputLayout_authorization_16"
+
+        app:cardCornerRadius="20dp"
+        app:cardElevation="2dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+
+            android:padding="16dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textLoginUser"
+
+                style="@style/CustomTextInputLayout"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:hint="@string/login_no_transferred"
+                app:endIconMode="clear_text">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/CustomTextViewStyle"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textPasswordUserOne"
+
+                style="@style/CustomTextInputLayout"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="16dp"
+
+                android:hint="@string/password"
+                app:endIconMode="password_toggle">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/CustomTextViewStyle"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textPasswordUserTwo"
+
+                style="@style/CustomTextInputLayout"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="16dp"
+
+                android:hint="@string/confirm_the_password"
+                app:endIconMode="password_toggle">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    style="@style/CustomTextViewStyle"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/buttonAuthorizationAccount"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_gravity="center"
+
+        android:layout_marginHorizontal="@dimen/margin_horizontal_for_InputLayout_authorization_16"
+        android:layout_marginTop="@dimen/margin_horizontal_for_InputLayout_authorization_16"
+
+        android:backgroundTint="@color/active_element"
+        android:text="@string/registration"
+        android:textColor="@color/white"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardDataEntryUser" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

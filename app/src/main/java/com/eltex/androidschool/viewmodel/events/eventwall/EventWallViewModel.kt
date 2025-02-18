@@ -13,7 +13,6 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.data.events.EventData
 import com.eltex.androidschool.repository.events.EventRepository
 import com.eltex.androidschool.ui.common.DateTimeUiFormatter
@@ -39,7 +38,7 @@ import java.time.ZoneId
 @HiltViewModel(assistedFactory = EventWallViewModel.ViewModelFactory::class)
 class EventWallViewModel @AssistedInject constructor(
     private val repository: EventRepository,
-    @Assisted private val userId: Long = BuildConfig.USER_ID,
+    @Assisted private val userId: Long,
 ) : ViewModel() {
 
     /**
@@ -256,6 +255,6 @@ class EventWallViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface ViewModelFactory {
-        fun create(userId: Long = BuildConfig.USER_ID): EventWallViewModel
+        fun create(userId: Long): EventWallViewModel
     }
 }

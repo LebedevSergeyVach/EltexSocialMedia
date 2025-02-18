@@ -1,5 +1,7 @@
 package com.eltex.androidschool.di
 
+import com.eltex.androidschool.repository.auth.AuthRepository
+import com.eltex.androidschool.repository.auth.NetworkAuthRepository
 import com.eltex.androidschool.repository.events.EventRepository
 import com.eltex.androidschool.repository.events.NetworkEventRepository
 import com.eltex.androidschool.repository.jobs.JobRepository
@@ -29,4 +31,7 @@ interface RepositoryModule {
 
     @Binds
     fun bindNetworkJobRepository(impJobRepository: NetworkJobRepository): JobRepository
+
+    @Binds
+    fun bindNetworkAuthRepository(implAuthRepository: NetworkAuthRepository): AuthRepository
 }

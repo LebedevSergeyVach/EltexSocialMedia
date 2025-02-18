@@ -9,6 +9,7 @@ import android.view.ViewGroup
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
 
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -20,12 +21,15 @@ import androidx.navigation.ui.setupWithNavController
 import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentToolbarBinding
+import com.eltex.androidschool.fragments.auth.AuthorizationFragment
 import com.eltex.androidschool.utils.Logger
 import com.eltex.androidschool.utils.toast
+import com.eltex.androidschool.viewmodel.auth.user.AuthorizationSharedViewModel
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
 
 /**
  * Фрагмент, отвечающий за отображение панели инструментов.
@@ -37,6 +41,8 @@ import kotlinx.coroutines.flow.onEach
  * @see ToolBarViewModel ViewModel для управления состоянием панели инструментов.
  */
 class ToolbarFragment : Fragment() {
+
+    private val authorizationSharedViewModel: AuthorizationSharedViewModel by activityViewModels()
 
     /**
      * Вызывается при присоединении фрагмента к контексту.
@@ -70,6 +76,14 @@ class ToolbarFragment : Fragment() {
             requireNotNull(childFragmentManager.findFragmentById(R.id.toolbarContainer)).findNavController()
 
         binding.toolbar.setupWithNavController(navController)
+
+        lifecycleScope.launch {
+            authorizationSharedViewModel.isAuthorized.collect { isAuthorized ->
+                if (!isAuthorized) {
+                    navigateToAuthorizationFragment()
+                }
+            }
+        }
 
         /**
          * ViewModel для управления состоянием панели инструментов (Toolbar).
@@ -148,6 +162,14 @@ class ToolbarFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun navigateToAuthorizationFragment() {
+        requireActivity().supportFragmentManager.commit {
+            replace(R.id.container, AuthorizationFragment())
+            setReorderingAllowed(true)
+            remove(this@ToolbarFragment)
+        }
     }
 
     /**

@@ -12,6 +12,7 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 
 import androidx.lifecycle.flowWithLifecycle
@@ -23,7 +24,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 
 import com.eltex.androidschool.R
-import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.adapter.posts.PostAdapter
 import com.eltex.androidschool.databinding.FragmentPostsBinding
 import com.eltex.androidschool.fragments.users.AccountFragment
@@ -34,6 +34,7 @@ import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.showMaterialDialogWithTwoButtons
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
+import com.eltex.androidschool.viewmodel.auth.user.AccountViewModel
 import com.eltex.androidschool.viewmodel.posts.post.PostMessage
 import com.eltex.androidschool.viewmodel.posts.post.PostState
 import com.eltex.androidschool.viewmodel.posts.post.PostViewModel
@@ -59,6 +60,8 @@ import kotlinx.coroutines.flow.onEach
 @AndroidEntryPoint
 class PostsFragment : Fragment() {
 
+    private val accountViewModel: AccountViewModel by activityViewModels()
+
     /**
      * ViewModel для управления состоянием постов.
      *
@@ -72,7 +75,9 @@ class PostsFragment : Fragment() {
     ): View {
         val binding = FragmentPostsBinding.inflate(layoutInflater, container, false)
 
-        val adapter: PostAdapter = createPostAdapter()
+        val adapter: PostAdapter = createPostAdapter(
+            accountViewModel = accountViewModel,
+        )
 
         binding.list.adapter = adapter
 
@@ -133,7 +138,9 @@ class PostsFragment : Fragment() {
      * @see [PostAdapter] - класс адаптера, который управляет отображением списка постов.
      * @see PostAdapter.PostListener - интерфейс, который определяет методы для обработки действий пользователя.
      */
-    private fun createPostAdapter() = PostAdapter(
+    private fun createPostAdapter(
+        accountViewModel: AccountViewModel,
+    ) = PostAdapter(
         object : PostAdapter.PostListener {
             override fun onLikeClicked(post: PostUiModel) {
                 viewModel.accept(message = PostMessage.Like(post = post))
@@ -169,7 +176,7 @@ class PostsFragment : Fragment() {
             }
 
             override fun onGetUserClicked(post: PostUiModel) {
-                if (post.authorId == BuildConfig.USER_ID) {
+                if (post.authorId == accountViewModel.userId) {
                     val bottomNav = requireParentFragment().requireParentFragment()
                         .requireView().findViewById<BottomNavigationView>(R.id.bottomNavigation)
 
@@ -209,7 +216,7 @@ class PostsFragment : Fragment() {
         },
 
         context = requireContext(),
-        currentUserId = BuildConfig.USER_ID
+        currentUserId = accountViewModel.userId,
     )
 
     /**
