@@ -49,15 +49,7 @@ class UserViewHolder(
         binding.name.text = user.name
         binding.login.text = user.login
 
-        binding.avatar.setImageResource(R.drawable.avatar_background)
-        binding.initial.text = user.name.take(1)
-        binding.initial.setTextColor(
-            ContextCompat.getColor(
-                binding.root.context,
-                R.color.white
-            )
-        )
-        binding.initial.isVisible = true
+        showPlaceholder(user = user)
 
         if (!user.avatar.isNullOrEmpty()) {
             Glide.with(binding.root)
@@ -71,15 +63,7 @@ class UserViewHolder(
                         target: Target<Drawable>,
                         isFirstResource: Boolean
                     ): Boolean {
-                        binding.avatar.setImageResource(R.drawable.avatar_background)
-                        binding.initial.text = user.name.take(1)
-                        binding.initial.setTextColor(
-                            ContextCompat.getColor(
-                                binding.root.context,
-                                R.color.white
-                            )
-                        )
-                        binding.initial.isVisible = true
+                        showPlaceholder(user = user)
 
                         return false
                     }
@@ -107,15 +91,14 @@ class UserViewHolder(
                 )
                 .into(binding.avatar)
         } else {
-            binding.avatar.setImageResource(R.drawable.avatar_background)
-            binding.initial.text = user.name.take(1)
-            binding.initial.setTextColor(
-                ContextCompat.getColor(
-                    binding.root.context,
-                    R.color.white
-                )
-            )
-            binding.initial.isVisible = true
+            showPlaceholder(user = user)
         }
+    }
+
+    private fun showPlaceholder(user: UserData) {
+        binding.avatar.setImageResource(R.drawable.avatar_background)
+        binding.initial.text = user.name.take(1)
+        binding.initial.setTextColor(ContextCompat.getColor(binding.root.context, R.color.white))
+        binding.initial.isVisible = true
     }
 }

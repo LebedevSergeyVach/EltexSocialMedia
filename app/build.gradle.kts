@@ -23,7 +23,7 @@ android {
         minSdk = 24
         targetSdk = 35
         versionCode = 1
-        versionName = "v0.21.2"
+        versionName = "v1.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -37,10 +37,7 @@ android {
             }
 
         buildConfigField("String", "API_KEY", secretsProperties.getProperty("API_KEY"))
-        // TODO Registration and Login User
-        buildConfigField("String", "AUTHORIZATION", secretsProperties.getProperty("AUTHORIZATION"))
-        // TODO Get ID registration User
-        buildConfigField("Long", "USER_ID", secretsProperties.getProperty("USER_ID"))
+        buildConfigField("String", "URL_SERVER", secretsProperties.getProperty("URL_SERVER"))
     }
 
     buildTypes {

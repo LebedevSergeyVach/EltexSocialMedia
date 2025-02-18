@@ -18,13 +18,8 @@
         tools:layout="@layout/fragment_events"/>
 
     <fragment
-        android:id="@+id/userFragment"
+        android:id="@+id/accountFragment"
         android:name="com.eltex.androidschool.fragments.users.AccountFragment"
         tools:layout="@layout/fragment_account" />
-
-    <fragment
-        android:id="@+id/usersFragment"
-        android:name="com.eltex.androidschool.fragments.users.UsersFragment"
-        tools:layout="@layout/fragment_users" />
 
 </navigation>

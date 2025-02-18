@@ -8,6 +8,7 @@ import android.view.ViewGroup
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.NavController
 
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -49,6 +50,8 @@ class BottomNavigationFragment : Fragment() {
             requireNotNull(childFragmentManager.findFragmentById(R.id.container)).findNavController()
 
         binding.bottomNavigation.setupWithNavController(navController)
+
+//        displayingIconsInBottomNavigate(navController = navController, binding = binding)
 
         val postsClickListener = View.OnClickListener {
             findNavController()
@@ -120,7 +123,7 @@ class BottomNavigationFragment : Fragment() {
                         .start()
                 }
 
-                R.id.userFragment -> {
+                R.id.accountFragment -> {
                     binding.news.animate()
                         .scaleX(1F)
                         .scaleY(1F)
@@ -131,5 +134,62 @@ class BottomNavigationFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    private fun displayingIconsInBottomNavigate(
+        navController: NavController,
+        binding: FragmentBottomNavigationBinding
+    ) {
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.postsFragment -> {
+                    updateBottomNavigationIcons(
+                        postsIconRes = R.drawable.ic_posts_active_24,
+                        eventsIconRes = R.drawable.ic_events_passive_24,
+                        accountIconRes = R.drawable.ic_account_passive_24,
+                        binding = binding,
+                    )
+                }
+
+                R.id.eventsFragment -> {
+                    updateBottomNavigationIcons(
+                        postsIconRes = R.drawable.ic_posts_passive_24,
+                        eventsIconRes = R.drawable.ic_events_active_24,
+                        accountIconRes = R.drawable.ic_account_passive_24,
+                        binding = binding,
+                    )
+                }
+
+                R.id.accountFragment -> {
+                    updateBottomNavigationIcons(
+                        postsIconRes = R.drawable.ic_posts_passive_24,
+                        eventsIconRes = R.drawable.ic_events_passive_24,
+                        accountIconRes = R.drawable.ic_account_active_24,
+                        binding = binding,
+                    )
+                }
+
+                else -> {
+                    updateBottomNavigationIcons(
+                        postsIconRes = R.drawable.ic_posts_passive_24,
+                        eventsIconRes = R.drawable.ic_events_passive_24,
+                        accountIconRes = R.drawable.ic_account_passive_24,
+                        binding = binding,
+                    )
+                }
+            }
+        }
+    }
+
+    private fun updateBottomNavigationIcons(
+        postsIconRes: Int,
+        eventsIconRes: Int,
+        accountIconRes: Int,
+        binding: FragmentBottomNavigationBinding
+    ) {
+        val menu = binding.bottomNavigation.menu
+        menu.findItem(R.id.postsFragment).setIcon(postsIconRes)
+        menu.findItem(R.id.eventsFragment).setIcon(eventsIconRes)
+        menu.findItem(R.id.accountFragment).setIcon(accountIconRes)
     }
 }

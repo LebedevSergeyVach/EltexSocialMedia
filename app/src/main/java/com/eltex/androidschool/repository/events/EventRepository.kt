@@ -1,7 +1,6 @@
 package com.eltex.androidschool.repository.events
 
 import android.content.ContentResolver
-import android.content.Context
 
 import com.eltex.androidschool.data.events.EventData
 import com.eltex.androidschool.viewmodel.common.FileModel
@@ -54,7 +53,7 @@ interface EventRepository {
      * @param content Содержание события.
      * @param link Ссылка на событие.
      * @param option Дополнительная опция.
-     * @param data Дата события.
+     * @param date Дата события.
      * @return [EventData] Обновленное или сохраненное событие.
      */
     suspend fun save(
@@ -62,7 +61,7 @@ interface EventRepository {
         content: String,
         link: String,
         option: String,
-        data: String,
+        date: String,
         fileModel: FileModel?,
         contentResolver: ContentResolver,
         onProgress: (Int) -> Unit,

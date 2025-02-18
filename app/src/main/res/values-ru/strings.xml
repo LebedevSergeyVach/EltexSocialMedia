@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Академия Eltex</string>
+    <string name="app_name">Eltex Social Media</string>
 
     <string name="app_not_found">Приложение не найдено</string>
     <string name="not_implemented">Не реализовано</string>
@@ -81,6 +81,10 @@
     <string name="retry">Повторить</string>
     <string name="network_error">Ошибка сети</string>
     <string name="unknown_error">Неизвестная ошибка</string>
+    <string name="no_connection_server_error">Отсутствует соединение с сервером, проверьте ваше интернет соединение и повторите позднее.</string>
+    <string name="incorrect_username_or_password_error">Неправильный логин или пароль.</string>
+    <string name="incorrect_data_error">Неверные данные</string>
+    <string name="ok">Ок</string>
 
     <string name="online">Онлайн</string>
     <string name="offline">Офла́йн</string>
@@ -146,19 +150,19 @@
     <string name="password">Пароль</string>
     <string name="confirm_the_password">Подтвердите пароль</string>
     <string name="no_account_to_registration">Нет аккаунта? Зарегистрируйтесь!</string>
+    <string name="incorrect_password">Неправильный пароль</string>
+    <string name="user_not_registered">Данного пользователя не существует</string>
+    <string name="logout">Выход</string>
+    <string name="logout_account">Выход из аккаунта</string>
+    <string name="confirmation_of_account_logout">Вы уверены, что хотите выйти из приложения? Все важные и временные данные приложения будут удалены!</string>
+    <string name="back_authorization">Вернуться ко входу в аккаунт</string>
+    <string name="the_user_is_already_registered">Пользователь уже зарегистрирован</string>
+    <string name="incorrect_photo_format">Incorrect photo format</string>
 
     <string name="date">Дата</string>
     <string name="version">Версия</string>
     <string name="update_application">Обновления</string>
     <string name="application_versions">Версии приложения</string>
     <string name="repository_on_Github">Репозиторий на Github</string>
-    <string name="v0_10_0_description">Проект переписан с использованием реактивного программирования с Retrofit2 + RxJava3 на Retrofit2 + Coroutines.</string>
-    <string name="v0_11_0_description">Реализован фрагмент со страницей пользователя.</string>
-    <string name="v0_13_0_description">Реализован фрагмент со списком всех пользователей. Добавлены новые функции в настройках приложения.</string>
-    <string name="v0_14_0_description">В проект была добавлена архитектура MVI для работы с сервером и взаимодействия с ним. Теперь все данные с сервера загружаются постепенно и обрабатываются в режиме реального времени.</string>
-    <string name="v0_15_0_description">Реализована работа со списком мест работы пользователя.</string>
-    <string name="v0_16_0_description">Чтобы анимировать загрузку списка записей или событий в пользовательском интерфейсе, используется библиотека SkeletonLayout: отображение скелетов во время начальной загрузки и загрузки следующей страницы.</string>
-    <string name="v0_18_0_description">Библиотека Glide используется для управления мультимедиа и загрузки изображений с сервера для отображения в пользовательском интерфейсе.</string>
-    <string name="v0_20_0_description">Для реализации внедрения зависимостей DI используется библиотека Dagger2-Hill и паттерн Фабрика для удаления антипаттерна Singleton.</string>
-    <string name="v0_21_1_description">Обновлены настройки приложение. Добавлена очистка кэша. Добавлен фрагмент с обновлениями приложения.</string>
+    <string name="v1_0_0_description">Вышла первая версия приложения Eltex Social Media. Приложение представляет собой социальную сеть, которая позволит пользователям создавать посты и события, указывать места своей работы.</string>
 </resources>

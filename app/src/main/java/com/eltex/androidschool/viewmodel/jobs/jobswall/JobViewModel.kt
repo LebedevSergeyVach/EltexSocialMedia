@@ -3,7 +3,6 @@ package com.eltex.androidschool.viewmodel.jobs.jobswall
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
-import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.data.jobs.JobData
 import com.eltex.androidschool.repository.jobs.JobRepository
 import com.eltex.androidschool.ui.jobs.JobUiModel
@@ -37,7 +36,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 @HiltViewModel(assistedFactory = JobViewModel.ViewModelFactory::class)
 class JobViewModel @AssistedInject constructor(
     private val repository: JobRepository,
-    @Assisted private val userId: Long = BuildConfig.USER_ID,
+    @Assisted private val userId: Long,
 ) : ViewModel() {
 
     /**
@@ -154,6 +153,6 @@ class JobViewModel @AssistedInject constructor(
 
     @AssistedFactory
     interface ViewModelFactory {
-        fun create(userId: Long = 0L): JobViewModel
+        fun create(userId: Long): JobViewModel
     }
 }

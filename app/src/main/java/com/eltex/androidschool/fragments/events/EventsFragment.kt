@@ -22,7 +22,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 
 import com.eltex.androidschool.R
-import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.adapter.events.EventAdapterDifferentTypesView
 import com.eltex.androidschool.databinding.FragmentEventsBinding
 import com.eltex.androidschool.fragments.users.AccountFragment
@@ -33,6 +32,7 @@ import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.showMaterialDialogWithTwoButtons
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
+import com.eltex.androidschool.viewmodel.auth.user.AccountViewModel
 import com.eltex.androidschool.viewmodel.events.events.EventMessage
 import com.eltex.androidschool.viewmodel.events.events.EventState
 import com.eltex.androidschool.viewmodel.events.events.EventViewModel
@@ -58,6 +58,8 @@ import kotlinx.coroutines.flow.onEach
 @AndroidEntryPoint
 class EventsFragment : Fragment() {
 
+    private val accountViewModel: AccountViewModel by viewModels()
+
     /**
      * ViewModel для управления состоянием событий.
      *
@@ -79,7 +81,9 @@ class EventsFragment : Fragment() {
     ): View {
         val binding = FragmentEventsBinding.inflate(layoutInflater, container, false)
 
-        val adapter: EventAdapterDifferentTypesView = createEventAdapterDifferentTypesView()
+        val adapter: EventAdapterDifferentTypesView = createEventAdapterDifferentTypesView(
+            accountViewModel = accountViewModel,
+        )
 
         binding.list.adapter = adapter
 
@@ -140,7 +144,9 @@ class EventsFragment : Fragment() {
      * @see [EventAdapterDifferentTypesView] - класс адаптера, который управляет отображением списка событий.
      * @see EventAdapterDifferentTypesView.EventListener - интерфейс, который определяет методы для обработки действий пользователя.
      */
-    private fun createEventAdapterDifferentTypesView() = EventAdapterDifferentTypesView(
+    private fun createEventAdapterDifferentTypesView(
+        accountViewModel: AccountViewModel,
+    ) = EventAdapterDifferentTypesView(
         object : EventAdapterDifferentTypesView.EventListener {
             override fun onLikeClicked(event: EventUiModel) {
                 viewModel.accept(message = EventMessage.Like(event = event))
@@ -183,14 +189,14 @@ class EventsFragment : Fragment() {
             }
 
             override fun onGetUserClicked(event: EventUiModel) {
-                if (event.authorId == BuildConfig.USER_ID) {
+                if (event.authorId == accountViewModel.userId) {
                     val bottomNav = requireParentFragment().requireParentFragment()
                         .requireView().findViewById<BottomNavigationView>(R.id.bottomNavigation)
 
-                    bottomNav.selectedItemId = R.id.userFragment
+                    bottomNav.selectedItemId = R.id.accountFragment
 
                     findNavController().navigate(
-                        R.id.userFragment,
+                        R.id.accountFragment,
                         null,
                         NavOptions.Builder()
                             .setEnterAnim(R.anim.slide_in_right)
@@ -223,7 +229,7 @@ class EventsFragment : Fragment() {
         },
 
         context = requireContext(),
-        currentUserId = BuildConfig.USER_ID
+        currentUserId = accountViewModel.userId,
     )
 
     /**
