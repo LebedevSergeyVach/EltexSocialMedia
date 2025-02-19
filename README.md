@@ -44,17 +44,65 @@ Basic settings for the application's appearance are implemented, such as: langua
 ---
 
 > [!IMPORTANT]
-> ### **Project Description**
+> ## **Project Description**
 >
 > An educational project for the development of Android applications in Java and Kotlin from Eltex Academy.
-> The application is a social network that will allow users to create posts and events, indicate their places of work.
+> The application is a social network that will allow users to create posts and events, indicate their places of work and much more.
 
 > [!NOTE]
+> ## **Features and functionality of the application**
+>
+> ### **Posts**
+> - Create, edit, and delete posts:
+> - - Write a text for a new post.
+> - - Attach an image to a new post.
+> - - Edit or delete an existing post.
+> - Watch the feed of posts from all users.
+> - Please like the post.
+>
+> ### **Events**
+> - Create, edit, and delete events:
+> - - Write a text for a new event.
+> - - Choose the date and time for the event.
+> - - Attach a link or an address for the event.
+> - - Attach an image to a new event.
+> - - Edit or delete existing events.
+> - Watch the feed of events from all users.
+> - Please likes and participate in the event.
+>
+> ### **Account**
+> - Registering a new account:
+> - - Specify the username, name, and avatar for your account.
+> - Manage your posts, events, and work/study information.
+>
+> ### **Profile**
+> - View the profile of other users.
+> - View all the posted information from the user.
+> - See the list of all users of the application.
+>
+> ### **Information about places of work**
+> - Create new information about your place of work/study:
+> - - Please provide information about the company: the name, your position, the reference and the period of employment.
+> - See other users' places of work/study.
+>
+> ### **Settings**
+> - Choose an application theme:
+> - - Light.
+> - - Dark .
+> - - System.
+> - Choose the application language:
+> - - English.
+> - - Russian.
+> - - System (may not work well on some devices).
+> - Turn on and off the vibration response in the app.
+> - Keep track of the cache size and also clear it in the application.
+> - Keep an eye on all app updates.
+>
 > ### **The project is under active development!**
 >
+> Application version 1.0.0
 > At the moment, work is underway to improve the functionality of the application, add new features to the project, as well as solve possible problems and bugs.
 >
-> ### The first version of the application has been released.
 > ### Further development plans:
 > - Add features to the app for working with voice posts/events and videos.
 > - Improve caching of data downloaded from the server.
@@ -137,17 +185,65 @@ Basic settings for the application's appearance are implemented, such as: langua
 ---
 
 > [!IMPORTANT]
-> ### **Описание проекта**
+> ## **Описание приложения**
 >
 > Образовательный проект по разработке Android-приложений на Java и Kotlin от Eltex Academy.
-> Приложение представляет собой социальную сеть, которая позволит пользователям создавать посты и события, указывать места своей работы.
+> Приложение представляет собой социальную сеть, которая позволит пользователям создавать посты и события, указывать места своей работы и многое другое.
 
-> [!NOTE]  
+> [!NOTE]
+> ## **Возможности и функционал приложения**
+>
+> ### **Посты**
+> - Создавайте, редактируйте и удаляйте посты:
+> - - Пишите текст для нового поста.
+> - - Прикрепляйте  изображение к новому посту.
+> - - Редактируйте  или удаляйте существующий пост.
+> - Смотрите ленту постов от всех пользователей.
+> - Ставьте лайк посту.
+>
+> ### **События**
+> - Создавайте, редактируйте и удаляйте события:
+> - - Пишите текст для нового события.
+> - - Выбирайте дату и время для проводимого события.
+> - - Прикрепляйте ссылку или адрес для проводимого события.
+> - - Прикрепляйте  изображение к новому событию.
+> - - Редактируйте или удаляйте существующие событие.
+> - Смотрите ленту событий от всех пользователей.
+> - Ставьте лайки и участвуйте в мероприятии.
+>
+> ### **Аккаунт**
+> - Регистрируете новый аккаунт:
+> - - Указывайте логин, имя и аватар для Вашего аккаунта.
+> - Управляйте своими постами, событиями и информации о работе/учебе.
+>
+> ### **Профиль**
+> - Просматривайте профиль других пользователей.
+> - Просматривайте всю выложенную информацию от пользователя.
+> - Смотрите список всех пользователей приложения.
+>
+> ### **Информация о местах работы**
+> - Создавайте новую информацию о месте Вашей работы/учебы:
+> - - Указывайте информацию о компании: название, Ваша должность, ссылка и промежуток трудоустройства.
+> - Смотрите места работы/учебы у других пользователей.
+>
+> ### **Настройки**
+> - Выбирайте тему приложения:
+> - - Светлая.
+> - - Темная.
+> - - Системная.
+> - Выбирайте язык приложения:
+> - - Русский.
+> - - Английский.
+> - - Системный (может плохо работать на некоторых устройствах).
+> - Включайте и отключайте виброотклик в приложении.
+> - Следите за размером кэша, а также очищайте его в приложении.
+> - Смотрите за всеми обновлениями приложения.
+>
 > ### **Проект находится в стадии активной разработки!**
 >
+> Версия приложения 1.0.0
 > На данный момент идет работа над улучшением функциональности приложения, добавления новых фишек в проект, а также решение возможных проблем и багов.
-> 
-> ### Была выпущена первая версия приложения.
+>
 > ### Планы дальнейшего развития:
 > - Добавить функции в приложение по работе с голосовыми постами/события и видео.
 > - Улучшить кэширование данных, загруженных с сервера.
