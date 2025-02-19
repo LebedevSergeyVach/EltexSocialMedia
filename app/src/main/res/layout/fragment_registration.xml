@@ -1,196 +1,202 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="match_parent">
 
-    tools:context=".fragments.auth.RegistrationFragment">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
 
-    <com.faltenreich.skeletonlayout.SkeletonLayout
-        android:id="@+id/skeletonImageAvatar"
+        tools:context=".fragments.auth.RegistrationFragment">
 
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        <com.faltenreich.skeletonlayout.SkeletonLayout
+            android:id="@+id/skeletonImageAvatar"
 
-        android:layout_marginBottom="@dimen/margin_horizontal_for_InputLayout_authorization_16"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
 
-        app:layout_constraintBottom_toTopOf="@id/cardDataEntryUser"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginBottom="@dimen/margin_horizontal_for_InputLayout_authorization_16"
 
-        app:maskColor="@color/gray"
-        app:maskCornerRadius="1000dp"
-        app:shimmerAngle="20"
-        app:shimmerColor="@color/active_element"
-        app:shimmerDurationInMillis="750">
+            app:layout_constraintBottom_toTopOf="@id/cardDataEntryUser"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
 
-        <ImageView
-            android:id="@+id/imageUserSelectAvatar"
+            app:maskColor="@color/gray"
+            app:maskCornerRadius="1000dp"
+            app:shimmerAngle="20"
+            app:shimmerColor="@color/active_element"
+            app:shimmerDurationInMillis="750">
 
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            <ImageView
+                android:id="@+id/imageUserSelectAvatar"
 
-            android:layout_gravity="center"
-            android:contentDescription="@string/login_account"
-            android:src="@drawable/avatar_background" />
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
 
-        <ImageView
-            android:id="@+id/imagePhoto"
+                android:layout_gravity="center"
+                android:contentDescription="@string/login_account"
+                android:src="@drawable/avatar_background" />
 
-            android:layout_width="120dp"
-            android:layout_height="120dp"
+            <ImageView
+                android:id="@+id/imagePhoto"
 
-            android:layout_gravity="center"
-            android:contentDescription="@string/gallery"
-            android:src="@drawable/ic_add_photo_bold_24"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
 
-            app:tint="@color/white" />
+                android:layout_gravity="center"
+                android:contentDescription="@string/gallery"
+                android:src="@drawable/ic_add_photo_bold_24"
 
-    </com.faltenreich.skeletonlayout.SkeletonLayout>
+                app:tint="@color/white" />
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardDataEntryUser"
+        </com.faltenreich.skeletonlayout.SkeletonLayout>
 
-        style="@style/CustomTextViewStyle"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardDataEntryUser"
 
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+            style="@style/CustomTextViewStyle"
 
-        android:layout_marginHorizontal="@dimen/margin_horizontal_for_InputLayout_authorization_16"
-        android:layout_marginBottom="60dp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
 
-        app:cardCornerRadius="15dp"
-        app:cardElevation="2dp"
+            android:layout_marginHorizontal="@dimen/margin_horizontal_for_InputLayout_authorization_16"
+            android:layout_marginBottom="60dp"
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+            app:cardCornerRadius="15dp"
+            app:cardElevation="2dp"
 
-        <LinearLayout
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+
+                android:padding="16dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/CustomTextInputLayout"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:hint="@string/login_no_transferred"
+                    app:endIconMode="clear_text">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textLoginUser"
+
+                        style="@style/CustomTextViewStyle"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:ellipsize="end"
+                        android:maxLines="1" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/CustomTextInputLayout"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="16dp"
+
+                    android:hint="@string/name"
+                    app:endIconMode="clear_text">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textNameUser"
+
+                        style="@style/CustomTextViewStyle"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:ellipsize="end"
+                        android:maxLines="1" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/CustomTextInputLayout"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginTop="16dp"
+
+                    android:hint="@string/password"
+                    app:endIconMode="password_toggle">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textPasswordUser"
+
+                        style="@style/CustomTextViewStyle"
+
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+
+                        android:ellipsize="end"
+                        android:maxLines="1" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/buttonRegistrationAccount"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:gravity="center_vertical"
-            android:orientation="vertical"
+            android:layout_gravity="center"
 
-            android:padding="16dp">
+            android:layout_marginHorizontal="@dimen/margin_horizontal_for_InputLayout_authorization_16"
+            android:layout_marginTop="@dimen/margin_horizontal_for_InputLayout_authorization_16"
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/CustomTextInputLayout"
+            android:backgroundTint="@color/active_element"
+            android:text="@string/registration"
+            android:textColor="@color/white"
 
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/cardDataEntryUser" />
 
-                android:hint="@string/login_no_transferred"
-                app:endIconMode="clear_text">
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/buttonToAuthorizationAccount"
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textLoginUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-                    style="@style/CustomTextViewStyle"
+            android:layout_gravity="center"
 
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+            android:layout_marginHorizontal="@dimen/margin_horizontal_for_InputLayout_authorization_16"
+            android:layout_marginTop="@dimen/margin_horizontal_for_InputLayout_authorization_16"
 
-                    android:ellipsize="end"
-                    android:maxLines="1" />
+            android:backgroundTint="@color/active_element"
+            android:text="@string/back_authorization"
+            android:textColor="@color/white"
+            app:icon="@drawable/ic_arrow_back_24"
+            app:iconTint="@color/white"
 
-            </com.google.android.material.textfield.TextInputLayout>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/buttonRegistrationAccount" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/CustomTextInputLayout"
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_marginTop="16dp"
-
-                android:hint="@string/name"
-                app:endIconMode="clear_text">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textNameUser"
-
-                    style="@style/CustomTextViewStyle"
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:ellipsize="end"
-                    android:maxLines="1" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/CustomTextInputLayout"
-
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-
-                android:layout_marginTop="16dp"
-
-                android:hint="@string/password"
-                app:endIconMode="password_toggle">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textPasswordUser"
-
-                    style="@style/CustomTextViewStyle"
-
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-
-                    android:ellipsize="end"
-                    android:maxLines="1" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-        </LinearLayout>
-
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/buttonRegistrationAccount"
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_gravity="center"
-
-        android:layout_marginHorizontal="@dimen/margin_horizontal_for_InputLayout_authorization_16"
-        android:layout_marginTop="@dimen/margin_horizontal_for_InputLayout_authorization_16"
-
-        android:backgroundTint="@color/active_element"
-        android:text="@string/registration"
-        android:textColor="@color/white"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cardDataEntryUser" />
-
-    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/buttonToAuthorizationAccount"
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_gravity="center"
-
-        android:layout_marginHorizontal="@dimen/margin_horizontal_for_InputLayout_authorization_16"
-        android:layout_marginTop="@dimen/margin_horizontal_for_InputLayout_authorization_16"
-
-        android:backgroundTint="@color/active_element"
-        android:text="@string/back_authorization"
-        android:textColor="@color/white"
-        app:icon="@drawable/ic_arrow_back_24"
-        app:iconTint="@color/white"
-
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/buttonRegistrationAccount" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/progressBar"
@@ -198,15 +204,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
+        android:layout_gravity="center"
         android:background="@drawable/background_progress_bar"
         android:padding="8dp"
         app:indicatorColor="@color/active_element"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-
         app:trackThickness="6dp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
