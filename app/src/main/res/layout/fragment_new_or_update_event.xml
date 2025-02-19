@@ -145,6 +145,8 @@
                 <EditText
                     android:id="@+id/link"
 
+                    style="@style/CustomTextViewStyle"
+
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
 
@@ -179,6 +181,8 @@
 
                 <EditText
                     android:id="@+id/content"
+
+                    style="@style/CustomTextViewStyle"
 
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

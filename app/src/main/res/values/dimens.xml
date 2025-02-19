@@ -13,5 +13,5 @@
     <dimen name="padding_title_for_settings_24dp">24dp</dimen>
     <dimen name="radius_for_rounding_images">22dp</dimen>
     <dimen name="margin_horizontal_for_InputLayout_authorization_16">16dp</dimen>
-    <dimen name="marginTopNoDataListAccount">200dp</dimen>
+    <dimen name="marginTopNoDataListAccount">150dp</dimen>
 </resources>
