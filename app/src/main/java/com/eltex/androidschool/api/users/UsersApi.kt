@@ -1,9 +1,7 @@
 package com.eltex.androidschool.api.users
 
-import com.eltex.androidschool.api.common.RetrofitFactory
 import com.eltex.androidschool.data.users.UserData
 
-import retrofit2.create
 import retrofit2.http.GET
 import retrofit2.http.Path
 

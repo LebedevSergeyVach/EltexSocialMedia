@@ -139,6 +139,8 @@ class EventViewHolder(
      * @property event.initial TextView для отображения инициалов автора.
      */
     private fun renderingUserAvatar(event: EventUiModel) {
+        showPlaceholder(event = event)
+
         if (!event.authorAvatar.isNullOrEmpty()) {
             Glide.with(binding.root)
                 .load(event.authorAvatar)
@@ -151,15 +153,7 @@ class EventViewHolder(
                         target: Target<Drawable>,
                         isFirstResource: Boolean
                     ): Boolean {
-                        binding.avatar.setImageResource(R.drawable.avatar_background)
-                        binding.initial.text = event.author.take(1)
-                        binding.initial.setTextColor(
-                            ContextCompat.getColor(
-                                binding.root.context,
-                                R.color.white
-                            )
-                        )
-                        binding.initial.isVisible = true
+                        showPlaceholder(event = event)
 
                         return false
                     }
@@ -176,12 +170,18 @@ class EventViewHolder(
                         return false
                     }
                 })
+                .transition(DrawableTransitionOptions.withCrossFade(500))
                 .error(R.drawable.error_placeholder)
+                .thumbnail(
+                    Glide.with(binding.root)
+                        .load(event.authorAvatar)
+                        .override(50, 50)
+                        .circleCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                )
                 .into(binding.avatar)
         } else {
-            binding.avatar.setImageResource(R.drawable.avatar_background)
-            binding.initial.text = event.author.take(1)
-            binding.initial.isVisible = true
+            showPlaceholder(event = event)
         }
     }
 
@@ -234,9 +234,15 @@ class EventViewHolder(
                     return false
                 }
             })
+            .transition(DrawableTransitionOptions.withCrossFade(500))
             .transform(RoundedCorners(radius))
-            .transition(DrawableTransitionOptions.withCrossFade())
             .error(R.drawable.ic_404_24)
+            .thumbnail(
+                Glide.with(binding.root)
+                    .load(attachment.url)
+                    .override(50, 50)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+            )
             .into(binding.attachment)
     }
 
@@ -303,7 +309,7 @@ class EventViewHolder(
             buttonClickAnimation(
                 button = binding.like,
                 condition = likeByMe,
-                confetti = likeByMe,
+                confetti = false,
                 causeVibration = true
             )
         }
@@ -318,7 +324,7 @@ class EventViewHolder(
             buttonClickAnimation(
                 button = binding.participate,
                 condition = participateByMe,
-                confetti = participateByMe,
+                confetti = false,
                 causeVibration = true
             )
         }
@@ -385,5 +391,12 @@ class EventViewHolder(
                 ).oneShot()
             }
         }
+    }
+
+    private fun showPlaceholder(event: EventUiModel) {
+        binding.avatar.setImageResource(R.drawable.avatar_background)
+        binding.initial.text = event.author.take(1)
+        binding.initial.setTextColor(ContextCompat.getColor(binding.root.context, R.color.white))
+        binding.initial.isVisible = true
     }
 }

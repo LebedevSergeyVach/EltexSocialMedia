@@ -2,11 +2,9 @@ package com.eltex.androidschool.activity
 
 import android.content.Context
 import android.content.res.Configuration
-
 import android.os.Bundle
 
 import androidx.activity.enableEdgeToEdge
-
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 
@@ -27,7 +25,7 @@ import java.util.Locale
  * @see AppCompatActivity Базовый класс для активностей, использующих функции библиотеки поддержки.
  */
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(R.layout.main_activity) {
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

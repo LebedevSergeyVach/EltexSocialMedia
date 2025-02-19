@@ -82,7 +82,7 @@ class NetworkEventRepository @Inject constructor(
      * @param content Содержимое события.
      * @param link Ссылка на событие.
      * @param option Дополнительная опция.
-     * @param data Дата события.
+     * @param date Дата события.
      * @return [EventData] Обновленное или сохраненное событие.
      */
     override suspend fun save(
@@ -90,7 +90,7 @@ class NetworkEventRepository @Inject constructor(
         content: String,
         link: String,
         option: String,
-        data: String,
+        date: String,
         fileModel: FileModel?,
         contentResolver: ContentResolver,
         onProgress: (Int) -> Unit,
@@ -109,7 +109,7 @@ class NetworkEventRepository @Inject constructor(
                 content = content,
                 link = link,
                 optionConducting = option,
-                dataEvent = Instant.parse(data),
+                dataEvent = Instant.parse(date),
                 attachment = Attachment(url = media.url, type = file.type),
             )
         } ?: EventData(
@@ -117,7 +117,7 @@ class NetworkEventRepository @Inject constructor(
             content = content,
             link = link,
             optionConducting = option,
-            dataEvent = Instant.parse(data),
+            dataEvent = Instant.parse(date),
         )
 
         return eventsApi.saveEvent(event = event)

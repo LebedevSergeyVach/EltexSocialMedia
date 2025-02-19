@@ -15,6 +15,11 @@ interface StatusLoad {
         get() = (this as? Error)?.exception
 
     /**
+     * Состаяние, когда загрузка произошла успешно (например данные авторизации коректны).
+     */
+    data object Success : StatusLoad
+
+    /**
      * Состояние, когда данные не загружаются.
      */
     data object Idle : StatusLoad

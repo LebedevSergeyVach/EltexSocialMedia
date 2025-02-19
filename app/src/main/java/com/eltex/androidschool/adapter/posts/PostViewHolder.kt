@@ -130,6 +130,8 @@ class PostViewHolder(
      * @property binding.initial TextView для отображения инициалов автора.
      */
     private fun renderingUserAvatar(post: PostUiModel) {
+        showPlaceholder(post = post)
+
         if (!post.authorAvatar.isNullOrEmpty()) {
             Glide.with(binding.root)
                 .load(post.authorAvatar)
@@ -142,15 +144,7 @@ class PostViewHolder(
                         target: Target<Drawable>,
                         isFirstResource: Boolean
                     ): Boolean {
-                        binding.avatar.setImageResource(R.drawable.avatar_background)
-                        binding.initial.text = post.author.take(1)
-                        binding.initial.setTextColor(
-                            ContextCompat.getColor(
-                                binding.root.context,
-                                R.color.white
-                            )
-                        )
-                        binding.initial.isVisible = true
+                        showPlaceholder(post = post)
 
                         return false
                     }
@@ -167,12 +161,18 @@ class PostViewHolder(
                         return false
                     }
                 })
+                .transition(DrawableTransitionOptions.withCrossFade(500))
                 .error(R.drawable.error_placeholder)
+                .thumbnail(
+                    Glide.with(binding.root)
+                        .load(post.authorAvatar)
+                        .override(50, 50)
+                        .circleCrop()
+                        .diskCacheStrategy(DiskCacheStrategy.ALL)
+                )
                 .into(binding.avatar)
         } else {
-            binding.avatar.setImageResource(R.drawable.avatar_background)
-            binding.initial.text = post.author.take(1)
-            binding.initial.isVisible = true
+            showPlaceholder(post = post)
         }
     }
 
@@ -225,8 +225,15 @@ class PostViewHolder(
                     return false
                 }
             })
+            .thumbnail(
+                Glide.with(binding.root)
+                    .load(attachment.url)
+                    .override(50, 50)
+                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+            )
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
             .transform(RoundedCorners(radius))
-            .transition(DrawableTransitionOptions.withCrossFade())
+            .transition(DrawableTransitionOptions.withCrossFade(500))
             .error(R.drawable.ic_404_24)
             .into(binding.attachment)
     }
@@ -283,7 +290,7 @@ class PostViewHolder(
             buttonClickAnimation(
                 button = binding.like,
                 condition = likeByMe,
-                confetti = likeByMe,
+                confetti = false,
                 causeVibration = true
             )
         }
@@ -341,5 +348,12 @@ class PostViewHolder(
                 ).oneShot()
             }
         }
+    }
+
+    private fun showPlaceholder(post: PostUiModel) {
+        binding.avatar.setImageResource(R.drawable.avatar_background)
+        binding.initial.text = post.author.take(1)
+        binding.initial.setTextColor(ContextCompat.getColor(binding.root.context, R.color.white))
+        binding.initial.isVisible = true
     }
 }

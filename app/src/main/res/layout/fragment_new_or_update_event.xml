@@ -145,6 +145,8 @@
                 <EditText
                     android:id="@+id/link"
 
+                    style="@style/CustomTextViewStyle"
+
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
 
@@ -172,15 +174,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                android:layout_marginStart="@dimen/common_spacing"
-                android:layout_marginTop="@dimen/common_spacing"
-                android:layout_marginEnd="@dimen/common_spacing"
+                android:layout_margin="@dimen/common_spacing"
 
                 app:cardCornerRadius="20dp"
                 app:cardElevation="2dp">
 
                 <EditText
                     android:id="@+id/content"
+
+                    style="@style/CustomTextViewStyle"
 
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -205,7 +207,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
 
-                android:layout_margin="@dimen/common_spacing"
+                android:layout_marginHorizontal="@dimen/common_spacing"
+                android:layout_marginBottom="?attr/actionBarSize"
 
                 app:cardCornerRadius="20dp"
                 app:cardElevation="2dp">

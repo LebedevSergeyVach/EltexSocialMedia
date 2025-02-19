@@ -2,21 +2,36 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+
+    tools:context=".fragments.auth.AuthorizationFragment">
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+
+        android:contentDescription="@string/login_account"
+        android:src="@drawable/eltex_logo_foreground"
+
+        app:layout_constraintBottom_toTopOf="@id/cardDataEntryUser"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardDataUser"
+        android:id="@+id/cardDataEntryUser"
 
         style="@style/CustomTextViewStyle"
 
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
-        android:layout_margin="@dimen/common_spacing"
+        android:layout_marginHorizontal="@dimen/margin_horizontal_for_InputLayout_authorization_16"
+        android:layout_marginBottom="60dp"
 
-        app:cardCornerRadius="20dp"
-        app:cardElevation="2dp"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="1dp"
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,8 +48,6 @@
             android:padding="16dp">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textLogin"
-
                 style="@style/CustomTextInputLayout"
 
                 android:layout_width="match_parent"
@@ -44,16 +57,19 @@
                 app:endIconMode="clear_text">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textLoginUser"
+
                     style="@style/CustomTextViewStyle"
 
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+
+                    android:ellipsize="end"
+                    android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/textPasswordOne"
-
                 style="@style/CustomTextInputLayout"
 
                 android:layout_width="match_parent"
@@ -65,12 +81,15 @@
                 app:endIconMode="password_toggle">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textPasswordUser"
+
                     style="@style/CustomTextViewStyle"
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
-                    android:inputType="textPassword" />
+                    android:ellipsize="end"
+                    android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -78,60 +97,60 @@
 
     </com.google.android.material.card.MaterialCardView>
 
-    <TextView
-        android:id="@+id/textError"
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/buttonAuthorizationAccount"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_marginHorizontal="12dp"
-        android:layout_marginTop="6dp"
+        android:layout_gravity="center"
 
-        android:gravity="center_horizontal"
-        android:textColor="@color/soft_red"
-        android:textSize="12sp"
-        android:textStyle="bold"
-
-        app:layout_constraintEnd_toEndOf="@id/cardDataUser"
-        app:layout_constraintStart_toStartOf="@id/cardDataUser"
-        app:layout_constraintTop_toBottomOf="@id/cardDataUser"
-
-        tools:text="Ошибка авторизации" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonLogin"
-
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:layout_marginHorizontal="12dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginHorizontal="@dimen/margin_horizontal_for_InputLayout_authorization_16"
+        android:layout_marginTop="@dimen/margin_horizontal_for_InputLayout_authorization_16"
 
         android:backgroundTint="@color/active_element"
         android:text="@string/login_account"
         android:textColor="@color/white"
 
-        app:layout_constraintEnd_toEndOf="@id/cardDataUser"
-        app:layout_constraintStart_toStartOf="@id/cardDataUser"
-        app:layout_constraintTop_toBottomOf="@id/cardDataUser" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardDataEntryUser" />
 
-    <TextView
-        android:id="@+id/textRegistrationButton"
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/buttonToRegistrationAccount"
 
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginHorizontal="12dp"
-        android:layout_marginTop="16dp"
+        android:layout_gravity="center"
 
-        android:gravity="center_horizontal"
+        android:layout_marginHorizontal="@dimen/margin_horizontal_for_InputLayout_authorization_16"
+        android:layout_marginTop="@dimen/margin_horizontal_for_InputLayout_authorization_16"
+
+        android:backgroundTint="@color/active_element"
         android:text="@string/no_account_to_registration"
-        android:textColor="@color/active_element"
-        android:textSize="16sp"
-        android:textStyle="bold"
+        android:textColor="@color/white"
 
-        app:layout_constraintEnd_toEndOf="@id/cardDataUser"
-        app:layout_constraintStart_toStartOf="@id/cardDataUser"
-        app:layout_constraintTop_toBottomOf="@id/buttonLogin" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/buttonAuthorizationAccount" />
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/progressBar"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:background="@drawable/background_progress_bar"
+        android:indeterminate="true"
+        android:padding="8dp"
+        app:indicatorColor="@color/active_element"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:trackThickness="6dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

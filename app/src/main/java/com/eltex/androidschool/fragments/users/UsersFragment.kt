@@ -21,7 +21,6 @@ import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 
 import com.eltex.androidschool.R
-import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.databinding.FragmentUsersBinding
 
 import com.eltex.androidschool.data.users.UserData
@@ -33,6 +32,7 @@ import com.eltex.androidschool.viewmodel.users.UsersViewModel
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.toast
+import com.eltex.androidschool.viewmodel.auth.user.AccountViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 import kotlinx.coroutines.flow.launchIn
@@ -50,6 +50,8 @@ import kotlinx.coroutines.flow.onEach
  */
 @AndroidEntryPoint
 class UsersFragment : Fragment() {
+
+    private val accountViewModel: AccountViewModel by viewModels()
 
     /**
      * ViewModel для управления состоянием списка пользователей.
@@ -85,7 +87,7 @@ class UsersFragment : Fragment() {
         val adapter = UserAdapter(
             object : UserAdapter.UserListener {
                 override fun onGetUserClicked(user: UserData) {
-                    if (user.id == BuildConfig.USER_ID) {
+                    if (user.id == accountViewModel.userId) {
                         findNavController().popBackStack()
                     } else {
                         requireParentFragment().findNavController()

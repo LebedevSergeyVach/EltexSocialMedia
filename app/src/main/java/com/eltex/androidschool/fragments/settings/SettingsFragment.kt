@@ -32,6 +32,7 @@ import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentSettingsBinding
 import com.eltex.androidschool.utils.Logger
 import com.eltex.androidschool.utils.showMaterialDialog
+import com.eltex.androidschool.utils.showMaterialDialogWithTwoButtons
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
 
@@ -139,10 +140,7 @@ class SettingsFragment : Fragment() {
         }
 
         binding.buttonSettingsClearCache.setOnClickListener {
-            requireContext().singleVibrationWithSystemCheck(35L)
-            clearCache(requireContext())
-            updateCacheSize(binding = binding, anime = true)
-            requireContext().toast(R.string.cleared_cache)
+            clearCacheApplication(binding = binding)
         }
 
         binding.buttonSettingsClearCache.setOnLongClickListener {
@@ -173,6 +171,23 @@ class SettingsFragment : Fragment() {
             )
 
             true
+        }
+
+        binding.cardSettingsCache.setOnClickListener {
+            showDeleteConfirmationDialog(
+                title = getString(R.string.data_and_cache_app),
+                message = buildString {
+                    append(getString(R.string.application_cache_size_app))
+                    append(": ")
+                    append(getCacheSize(requireContext()))
+                    append("\n")
+                    append(getString(R.string.data_and_cache_description))
+                },
+                textButtonCancel = getString(R.string.thanks),
+                textButtonDelete = getString(R.string.clear_cache),
+            ) {
+                clearCacheApplication(binding)
+            }
         }
 
         return binding.root
@@ -489,6 +504,35 @@ class SettingsFragment : Fragment() {
     }
 
     /**
+     * Показывает диалоговое окно с подтверждением очистки кеща.
+     *
+     * Эта функция отображает Material 3 диалог с двумя кнопками: "Спасибо" и "Очистить кэш".
+     * Кнопка "Отмена" закрывает диалог без выполнения каких-либо действий, а кнопка "Удалить"
+     * вызывает переданный коллбэк `onDeleteConfirmed`, который выполняет удаление.
+     *
+     * @param title Заголовок диалога. Обычно это текст, который кратко описывает действие, например, "Удаление поста".
+     * @param message Основной текст диалога. Это более подробное описание действия, например, "Вы уверены, что хотите удалить этот пост?".
+     * @param onDeleteConfirmed Коллбэк, который вызывается при нажатии на кнопку "Удалить". Этот коллбэк должен содержать логику удаления.
+     *
+     * @see Context.showMaterialDialogWithTwoButtons Функция, которая используется для отображения диалога с двумя кнопками.
+     */
+    private fun showDeleteConfirmationDialog(
+        title: String,
+        message: String,
+        textButtonCancel: String,
+        textButtonDelete: String,
+        onDeleteConfirmed: () -> Unit,
+    ) {
+        requireContext().showMaterialDialogWithTwoButtons(
+            title = title,
+            message = message,
+            cancelButtonText = textButtonCancel,
+            deleteButtonText = textButtonDelete,
+            onDeleteConfirmed = onDeleteConfirmed,
+        )
+    }
+
+    /**
      * Возвращает размер кэша приложения в удобочитаемом формате (например, "1.23 MB").
      *
      * @param context Контекст приложения.
@@ -569,5 +613,17 @@ class SettingsFragment : Fragment() {
         } else {
             binding.textSettingsCache.text = textCache
         }
+    }
+
+    /**
+     * Запуск очистки кеша приложеиния.
+     *
+     * @param binding Binding для макета фрагмента настроек.
+     */
+    private fun clearCacheApplication(binding: FragmentSettingsBinding) {
+        requireContext().singleVibrationWithSystemCheck(35L)
+        clearCache(requireContext())
+        updateCacheSize(binding = binding, anime = true)
+        requireContext().toast(R.string.cleared_cache)
     }
 }

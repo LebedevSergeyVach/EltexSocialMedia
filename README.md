@@ -30,7 +30,7 @@ Basic settings for the application's appearance are implemented, such as: langua
 #### View images of the mobile app [Eltex Academy](#images)
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Version](https://img.shields.io/badge/Version-0.21.1-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.21.1)
+[![Version](https://img.shields.io/badge/Version-1.0.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.0.0)
 
 <details open="open">
     <summary><h2>🚀 The stack of technologies used</h2></summary>
@@ -43,16 +43,27 @@ Basic settings for the application's appearance are implemented, such as: langua
 
 ---
 
+> [!IMPORTANT]
+> ### **Project Description**
+>
+> An educational project for the development of Android applications in Java and Kotlin from Eltex Academy.
+> The application is a social network that will allow users to create posts and events, indicate their places of work.
+
 > [!NOTE]
 > ### **The project is under active development!**
 >
 > At the moment, work is underway to improve the functionality of the application, add new features to the project, as well as solve possible problems and bugs.
 >
-> ### Required tasks for the release of Version 1.0.0:
-> - Add features to the app for working with images and videos. -> (Working with images is implemented).
-> - Add caching of data downloaded from the server.
-> - Add registration and authorization to the app.
-> - Implement a fragment with the display of data about the post/ event (image/video, data, users who liked/participated).
+> ### The first version of the application has been released.
+> ### Further development plans:
+> - Add features to the app for working with voice posts/events and videos.
+> - Improve caching of data downloaded from the server.
+> - Implement a fragment displaying data about a post/event:
+> - - Displaying information about a post/event;
+> - - Users who liked/participated;
+> - - Comments;
+> - - Displaying the location/event on the map;
+> - - Mentioning other users when creating a post/event.
 >
 > ### Project development assistance:
 > - If you find a bug or have an idea for improvement, please create [**issue**](https://github.com/LebedevSergeyVach/EltexSocialMedia/issues).
@@ -60,21 +71,13 @@ Basic settings for the application's appearance are implemented, such as: langua
 
 > [!WARNING]
 > ### **Compilation of the project**
-> 
-> At the moment, there is no registration or authorization in the application, user data is installed during compilation.
-> In order to build a project, you need to create `**secrets.properties**` in the root of the project:
+>
+> In order to build a project, you need to create **`secrets.properties`** in the root of the project:
 >
 >```properties
 >    API_KEY="The key to access the server" Name: Authorization (apiKey) String
->    AUTHORIZATION="Authorization token" Name: Api-Key (apiKey) String
->    USER_ID=User ID Long
+>    URL_SERVER="the URL of the connected server" String
 >```
-
-> [!IMPORTANT]
-> ### **Project Description**
-> 
-> An educational project for the development of Android applications in Java and Kotlin from Eltex Academy.
-> The application is a social network that will allow users to create posts and events, indicate their places of work.
 
 ---
 
@@ -120,7 +123,7 @@ Basic settings for the application's appearance are implemented, such as: langua
 #### Посмотреть изображения мобильного приложения [Eltex Academy](#images)
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Version](https://img.shields.io/badge/Version-0.21.1-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v0.21.1)
+[![Version](https://img.shields.io/badge/Version-1.0.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.0.0)
 
 <details open="open">
     <summary><h2>🚀 Стек используемых технологий</h2></summary>
@@ -133,16 +136,27 @@ Basic settings for the application's appearance are implemented, such as: langua
 
 ---
 
+> [!IMPORTANT]
+> ### **Описание проекта**
+>
+> Образовательный проект по разработке Android-приложений на Java и Kotlin от Eltex Academy.
+> Приложение представляет собой социальную сеть, которая позволит пользователям создавать посты и события, указывать места своей работы.
+
 > [!NOTE]  
 > ### **Проект находится в стадии активной разработки!**
 >
 > На данный момент идет работа над улучшением функциональности приложения, добавления новых фишек в проект, а также решение возможных проблем и багов.
 > 
-> ### Необходимые задачи для выхода Version 1.0.0:
-> - Добавить функции в приложение по работе с изображениями и видео. -> (Работа с изображениями реализована).
-> - Добавить кэширование данных, загруженных с сервера.
-> - Добавить регистрацию и авторизацию в приложение.
-> - Реализовать фрагмент с отображением данных о посте/событии (изображение/видео, данные, пользователи, поставевшие лайк/участие).
+> ### Была выпущена первая версия приложения.
+> ### Планы дальнейшего развития:
+> - Добавить функции в приложение по работе с голосовыми постами/события и видео.
+> - Улучшить кэширование данных, загруженных с сервера.
+> - Реализовать фрагмент с отображением данных о посте/событии:
+> - - Отображение информации о посте/событии;
+> - - Пользователи, поставившие лайк/участие;
+> - - Комментарии;
+> - - Отображение места/проведения события на карте;
+> - - Упоминание других пользователей при создании поста/события.
 >
 > ### Помощь в развитии проекта:
 > - Если Вы нашли баг или у вас есть идея для улучшения, пожалуйста, создайте [**issue**](https://github.com/LebedevSergeyVach/EltexSocialMedia/issues).
@@ -151,20 +165,12 @@ Basic settings for the application's appearance are implemented, such as: langua
 > [!WARNING]
 > ### **Компиляция проекта**
 >
-> На данный момент в приложении нет регистрации и авторизации, данные пользователя устанавливаются во время компиляции.
-> Для того, чтобы собрать проект, необходимо создать `**secrets.properties**` в корне проект:
+> Для того, чтобы собрать проект, необходимо создать **`secrets.properties`** в корне проект:
 >
 >```properties
 >    API_KEY="Ключ для доступа к серверу" Name: Authorization (apiKey) String
->    AUTHORIZATION="Токен авторизации" Name: Api-Key (apiKey) String
->    USER_ID=ID пользователя Long
+>    URL_SERVER="URL подключаемого сервера" String
 >```
-
-> [!IMPORTANT]
-> ### **Описание проекта**
->
-> Образовательный проект по разработке Android-приложений на Java и Kotlin от Eltex Academy.
-> Приложение представляет собой социальную сеть, которая позволит пользователям создавать посты и события, указывать места своей работы.
 
 ---
 
@@ -181,19 +187,76 @@ Basic settings for the application's appearance are implemented, such as: langua
 <a name="images"></a>
 ## Images mobile application of the [**Eltex Social Media**](https://github.com/LebedevSergeyVach/EltexSocialMedia/)
 
+### Authorization and Registration / Авторизация и Регистрация
+
 <div style="display: flex; justify-content: space-between; align-items: center;">
-  <img src="assets/media/application/posts.jpg" alt="Posts" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/events.jpg" alt="Events" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/new_post.jpg" alt="New post" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/new_event.jpg" alt="New event" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/account.jpg" alt="account" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/jobs.jpg" alt="jobs" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/new_job.jpg" alt="New Job" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/settings.jpg" alt="Settings" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/users.jpg" alt="Users" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/updates.jpg" alt="Updates" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/skeleton.jpg" alt="Skeleton" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/settings_light_en.jpg" alt="Settings light en" style="width: 130px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/authorization.jpg" alt="Authorization" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/registration.jpg" alt="Registration" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/registrationSamurai.jpg" alt="Registration" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+</div>
+
+### Posts / Посты
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <img src="assets/media/application/posts.jpg" alt="Posts" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/newPostCyberpunk.jpg" alt="Posts" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/newPostsLoading.jpg" alt="Posts" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+</div>
+
+### Events / События
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <img src="assets/media/application/events.jpg" alt="Events" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/newEvent.jpg" alt="Events" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/newEventImage.jpg" alt="Events" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+</div>
+
+### Account / Аккаунт
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <img src="assets/media/application/account.jpg" alt="Account" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/accountEvents.jpg" alt="Account" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/exitAccount.jpg" alt="Account" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+</div>
+
+### Profile / Профиль
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <img src="assets/media/application/profile.jpg" alt="Profile" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/profilePosts.jpg" alt="Profile" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/profileEvents.jpg" alt="Profile" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+</div>
+
+### Jobs / Места работы
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <img src="assets/media/application/jobs.jpg" alt="Jobs" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/newJob.jpg" alt="Jobs" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/newJobDate.jpg" alt="Jobs" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+</div>
+
+### Settings / Настройки
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <img src="assets/media/application/settings.jpg" alt="Settings" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/settingsCache.jpg" alt="Settings" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/settings_light_en.jpg" alt="Settings" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+</div>
+
+### Users and List of updates / Пользователи и Список обновлений
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <img src="assets/media/application/skeleton.jpg" alt="Users" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/users.jpg" alt="Users" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/updates.jpg" alt="Users" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+</div>
+
+### Loading animation / Анимация загрузки
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <img src="assets/media/application/splashScreen.jpg" alt="Loading animation" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/skeletonLayout.jpg" alt="Loading animation" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
+  <img src="assets/media/application/skeletonProfile.jpg" alt="Loading animation" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
 </div>
 
 ---

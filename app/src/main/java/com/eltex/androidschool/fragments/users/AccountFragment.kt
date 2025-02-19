@@ -37,15 +37,16 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 
-import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
 import com.eltex.androidschool.adapter.events.EventAdapter
 import com.eltex.androidschool.adapter.job.JobAdapter
 import com.eltex.androidschool.adapter.posts.PostAdapter
 import com.eltex.androidschool.adapter.users.UserPagerAdapter
+import com.eltex.androidschool.data.users.UserData
 import com.eltex.androidschool.databinding.FragmentAccountBinding
 import com.eltex.androidschool.fragments.events.NewOrUpdateEventFragment
 import com.eltex.androidschool.fragments.jobs.NewOrUpdateJobFragment
@@ -59,6 +60,7 @@ import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.showMaterialDialogWithTwoButtons
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
+import com.eltex.androidschool.viewmodel.auth.user.AccountViewModel
 import com.eltex.androidschool.viewmodel.common.SharedViewModel
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 import com.eltex.androidschool.viewmodel.events.eventwall.EventWallState
@@ -96,6 +98,8 @@ import kotlinx.coroutines.flow.onEach
 @AndroidEntryPoint
 class AccountFragment : Fragment() {
 
+    private val accountViewModel: AccountViewModel by viewModels()
+
     /**
      * ViewModel для управления состоянием панели инструментов (Toolbar).
      *
@@ -130,7 +134,9 @@ class AccountFragment : Fragment() {
     ): View {
         val binding = FragmentAccountBinding.inflate(layoutInflater)
 
-        val userId: Long = arguments?.getLong(USER_ID) ?: BuildConfig.USER_ID
+        val accountUserId = accountViewModel.userId
+
+        val userId: Long = arguments?.getLong(USER_ID) ?: accountUserId
         val icProfile: Boolean = arguments?.getBoolean(IC_PROFILE) ?: true
 
         /**
@@ -235,7 +241,7 @@ class AccountFragment : Fragment() {
          * @see PostAdapter Адаптер для отображения постов.
          */
         val postAdapter = createPostAdapter(
-            postViewModel = postViewModel, icProfile = icProfile
+            postViewModel = postViewModel, icProfile = icProfile, accountUserId = accountUserId,
         )
 
         /**
@@ -248,7 +254,7 @@ class AccountFragment : Fragment() {
          * @see EventAdapter Адаптер для отображения событий.
          */
         val eventAdapter = createEventAdapter(
-            eventViewModel = eventViewModel, icProfile = icProfile
+            eventViewModel = eventViewModel, icProfile = icProfile, accountUserId = accountUserId,
         )
 
         /**
@@ -261,10 +267,10 @@ class AccountFragment : Fragment() {
          * @see JobAdapter Адаптер для отображения мест работы.
          */
         val jobAdapter = createJobAdapter(
-            jobViewModel = jobViewModel, userId = userId
+            jobViewModel = jobViewModel, userId = userId, accountUserId = accountUserId,
         )
 
-        val offset = resources.getDimensionPixelSize(R.dimen.list_offset)
+        val offset: Int = resources.getDimensionPixelSize(R.dimen.list_offset)
 
         /**
          * Адаптер для ViewPager2, который объединяет адаптеры постов, событий и мест работы.
@@ -345,7 +351,10 @@ class AccountFragment : Fragment() {
         }
 
         userViewModelState(
-            userViewModel = userViewModel, binding = binding, userId = userId
+            userViewModel = userViewModel,
+            binding = binding,
+            userId = userId,
+            accountUserId = accountUserId,
         )
 
         postViewModelState(
@@ -364,11 +373,11 @@ class AccountFragment : Fragment() {
             object : LifecycleEventObserver {
                 override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
                     when (event) {
-                        Lifecycle.Event.ON_START -> toolbarViewModel.setSettingsAndAllUsersVisible(
-                            userId == BuildConfig.USER_ID
+                        Lifecycle.Event.ON_START -> toolbarViewModel.setSettingsAndAllUsersLogoutVisible(
+                            userId == accountUserId
                         )
 
-                        Lifecycle.Event.ON_STOP -> toolbarViewModel.setSettingsAndAllUsersVisible(
+                        Lifecycle.Event.ON_STOP -> toolbarViewModel.setSettingsAndAllUsersLogoutVisible(
                             false
                         )
 
@@ -393,7 +402,8 @@ class AccountFragment : Fragment() {
      */
     private fun createPostAdapter(
         postViewModel: PostWallViewModel,
-        icProfile: Boolean
+        icProfile: Boolean,
+        accountUserId: Long,
     ) = PostAdapter(
         listener = object : PostAdapter.PostListener {
             override fun onLikeClicked(post: PostUiModel) {
@@ -436,7 +446,7 @@ class AccountFragment : Fragment() {
         },
 
         context = requireContext(),
-        currentUserId = BuildConfig.USER_ID
+        currentUserId = accountUserId,
     )
 
     /**
@@ -450,7 +460,8 @@ class AccountFragment : Fragment() {
      */
     private fun createEventAdapter(
         eventViewModel: EventWallViewModel,
-        icProfile: Boolean
+        icProfile: Boolean,
+        accountUserId: Long,
     ) = EventAdapter(
         object : EventAdapter.EventListener {
             override fun onLikeClicked(event: EventUiModel) {
@@ -493,7 +504,7 @@ class AccountFragment : Fragment() {
         },
 
         context = requireContext(),
-        currentUserId = BuildConfig.USER_ID
+        currentUserId = accountUserId,
     )
 
     /**
@@ -507,7 +518,8 @@ class AccountFragment : Fragment() {
      */
     private fun createJobAdapter(
         jobViewModel: JobViewModel,
-        userId: Long
+        userId: Long,
+        accountUserId: Long,
     ) = JobAdapter(
         object : JobAdapter.JobListener {
             override fun onDeleteClicked(job: JobUiModel) {
@@ -543,8 +555,8 @@ class AccountFragment : Fragment() {
         },
 
         context = requireContext(),
-        currentUserId = BuildConfig.USER_ID,
-        authorId = userId
+        currentUserId = accountUserId,
+        authorId = userId,
     )
 
     /**
@@ -571,7 +583,8 @@ class AccountFragment : Fragment() {
     private fun userViewModelState(
         userViewModel: UserViewModel,
         binding: FragmentAccountBinding,
-        userId: Long
+        userId: Long,
+        accountUserId: Long,
     ) {
         userViewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
@@ -603,13 +616,14 @@ class AccountFragment : Fragment() {
                     userViewModel.consumerError()
                 }
 
-                userState.users?.firstOrNull()?.let { user ->
+                userState.users?.firstOrNull()?.let { user: UserData ->
                     binding.nameUser.text = user.name
 
-                    if (user.avatar.isNotEmpty()) {
+                    binding.skeletonAttachment.showSkeleton()
+
+                    if (!user.avatar.isNullOrEmpty()) {
                         Glide.with(binding.root)
                             .load(user.avatar)
-                            .circleCrop()
                             .diskCacheStrategy(DiskCacheStrategy.ALL)
                             .listener(object : RequestListener<Drawable> {
                                 override fun onLoadFailed(
@@ -618,8 +632,15 @@ class AccountFragment : Fragment() {
                                     target: Target<Drawable>,
                                     isFirstResource: Boolean
                                 ): Boolean {
-                                    binding.avatarUser.setImageResource(R.drawable.avatar_background)
-                                    binding.initial.text = user.name.take(2)
+                                    binding.skeletonAttachment.showOriginal()
+
+                                    binding.avatarUser.setBackgroundColor(
+                                        ContextCompat.getColor(
+                                            binding.root.context,
+                                            R.color.active_element
+                                        )
+                                    )
+                                    binding.initial.text = user.name.take(1)
                                     binding.initial.setTextColor(
                                         ContextCompat.getColor(
                                             binding.root.context,
@@ -638,19 +659,41 @@ class AccountFragment : Fragment() {
                                     dataSource: DataSource,
                                     isFirstResource: Boolean
                                 ): Boolean {
+                                    binding.skeletonAttachment.showOriginal()
                                     binding.initial.isVisible = false
 
                                     return false
                                 }
                             })
+                            .transition(DrawableTransitionOptions.withCrossFade(500))
+                            .error(R.drawable.ic_404_24)
+                            .thumbnail(
+                                Glide.with(binding.root)
+                                    .load(user.avatar)
+                                    .override(50, 50)
+                                    .diskCacheStrategy(DiskCacheStrategy.ALL)
+                            )
                             .into(binding.avatarUser)
                     } else {
-                        binding.avatarUser.setImageResource(R.drawable.avatar_background)
+                        binding.skeletonAttachment.showOriginal()
+
+                        binding.avatarUser.setBackgroundColor(
+                            ContextCompat.getColor(
+                                binding.root.context,
+                                R.color.active_element
+                            )
+                        )
                         binding.initial.text = user.name.take(1)
+                        binding.initial.setTextColor(
+                            ContextCompat.getColor(
+                                binding.root.context,
+                                R.color.white
+                            )
+                        )
                         binding.initial.isVisible = true
                     }
 
-                    if (userId != BuildConfig.USER_ID) {
+                    if (userId != accountUserId) {
                         val toolbar = requireActivity().findViewById<Toolbar>(R.id.toolbar)
 
                         toolbar.title = user.login

@@ -33,7 +33,7 @@
 
         <action
             android:id="@+id/action_BottomNavigationFragment_to_userFragment"
-            app:destination="@id/userFragment"
+            app:destination="@id/accountFragment"
 
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
@@ -60,7 +60,7 @@
         tools:layout="@layout/fragment_new_or_update_job" />
 
     <fragment
-        android:id="@+id/userFragment"
+        android:id="@+id/accountFragment"
         android:name="com.eltex.androidschool.fragments.users.AccountFragment"
         tools:layout="@layout/fragment_account">
 
@@ -101,7 +101,7 @@
 
         <action
             android:id="@+id/action_usersFragment_to_userFragment2"
-            app:destination="@id/userFragment" />
+            app:destination="@id/accountFragment" />
     </fragment>
 
     <action

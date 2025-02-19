@@ -90,7 +90,7 @@ class UsersViewModel @Inject constructor(
                 _state.update { stateUsers: UsersState ->
                     stateUsers.copy(
                         statusUsers = StatusLoad.Idle,
-                        users = users
+                        users = users.reversed()
                     )
                 }
             } catch (e: Exception) {

@@ -1,6 +1,5 @@
 package com.eltex.androidschool.viewmodel.posts.postswall
 
-import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.ui.posts.PostUiModel
 import com.eltex.androidschool.viewmodel.posts.post.PostStatus
 
@@ -16,7 +15,7 @@ data class PostWallState(
     val posts: List<PostUiModel> = emptyList(),
     val statusPost: PostStatus = PostStatus.Idle(),
     val singleError: Throwable? = null,
-    var userId: Long = BuildConfig.USER_ID,
+    var userId: Long = 0L,
 ) {
 
     /**

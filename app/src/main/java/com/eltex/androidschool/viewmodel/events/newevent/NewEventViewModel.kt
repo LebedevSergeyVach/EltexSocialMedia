@@ -1,6 +1,7 @@
 package com.eltex.androidschool.viewmodel.events.newevent
 
 import android.content.ContentResolver
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 
@@ -18,6 +19,7 @@ import com.eltex.androidschool.viewmodel.status.StatusLoad
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
+
 import dagger.hilt.android.lifecycle.HiltViewModel
 
 /**
@@ -60,13 +62,13 @@ class NewEventViewModel @AssistedInject constructor(
      * @param content Содержимое события.
      * @param link Ссылка на событие.
      * @param option Опция проведения события.
-     * @param data Дата события.
+     * @param date Дата события.
      */
     fun save(
         content: String,
         link: String,
         option: String,
-        data: String,
+        date: String,
         contentResolver: ContentResolver,
         onProgress: (Int) -> Unit
     ) {
@@ -83,7 +85,7 @@ class NewEventViewModel @AssistedInject constructor(
                     content = content,
                     link = link,
                     option = option,
-                    data = data,
+                    date = date,
                     fileModel = _state.value.file,
                     contentResolver = contentResolver,
                     onProgress = onProgress,

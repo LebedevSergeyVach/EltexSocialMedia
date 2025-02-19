@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.commit
 
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -20,12 +22,19 @@ import androidx.navigation.ui.setupWithNavController
 import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentToolbarBinding
+import com.eltex.androidschool.fragments.auth.AuthorizationFragment
 import com.eltex.androidschool.utils.Logger
+import com.eltex.androidschool.utils.showMaterialDialogWithTwoButtons
+import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
+import com.eltex.androidschool.viewmodel.auth.user.AuthorizationSharedViewModel
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import java.io.File
 
 /**
  * Фрагмент, отвечающий за отображение панели инструментов.
@@ -37,6 +46,8 @@ import kotlinx.coroutines.flow.onEach
  * @see ToolBarViewModel ViewModel для управления состоянием панели инструментов.
  */
 class ToolbarFragment : Fragment() {
+
+    private val authorizationSharedViewModel: AuthorizationSharedViewModel by activityViewModels()
 
     /**
      * Вызывается при присоединении фрагмента к контексту.
@@ -69,7 +80,20 @@ class ToolbarFragment : Fragment() {
         val navController =
             requireNotNull(childFragmentManager.findFragmentById(R.id.toolbarContainer)).findNavController()
 
-        binding.toolbar.setupWithNavController(navController)
+        lifecycleScope.launch {
+            authorizationSharedViewModel.isLoading.collect { isLoading ->
+                if (!isLoading) {
+                    authorizationSharedViewModel.isAuthorized.collect { isAuthorized ->
+                        if (!isAuthorized) {
+                            navigateToAuthorizationFragment()
+                        } else {
+                            navController.setGraph(R.navigation.main_navigation)
+                            binding.toolbar.setupWithNavController(navController = navController)
+                        }
+                    }
+                }
+            }
+        }
 
         /**
          * ViewModel для управления состоянием панели инструментов (Toolbar).
@@ -85,13 +109,13 @@ class ToolbarFragment : Fragment() {
 
         val menu = binding.toolbar.menu
         requireActivity().menuInflater.inflate(R.menu.menu_all_users, menu)
+        requireActivity().menuInflater.inflate(R.menu.menu_logout, menu)
         requireActivity().menuInflater.inflate(R.menu.menu_settings, menu)
 
         val newPostItem = binding.toolbar.menu.findItem(R.id.save)
-
         val settingsItem = binding.toolbar.menu.findItem(R.id.settings)
-
         val allUsersItem = binding.toolbar.menu.findItem(R.id.all_users)
+        val logoutItem = binding.toolbar.menu.findItem(R.id.logout)
 
         toolBarViewModel.saveVisible.onEach { display: Boolean ->
             newPostItem.isVisible = display
@@ -105,6 +129,11 @@ class ToolbarFragment : Fragment() {
 
         toolBarViewModel.allUsersVisible.onEach { display: Boolean ->
             allUsersItem.isVisible = display
+        }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        toolBarViewModel.logoutVisible.onEach { display: Boolean ->
+            logoutItem.isVisible = display
         }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -149,7 +178,46 @@ class ToolbarFragment : Fragment() {
             true
         }
 
+        logoutItem.setOnMenuItemClickListener {
+            showDeleteConfirmationDialog(
+                title = getString(R.string.logout_account),
+                message = getString(R.string.confirmation_of_account_logout),
+                textButtonCancel = getString(R.string.cancel),
+                textButtonDelete = getString(R.string.logout),
+            ) {
+                requireContext().singleVibrationWithSystemCheck(35)
+
+                runBlocking {
+                    authorizationSharedViewModel.clearUserData()
+                }
+
+                clearCache(context = requireContext())
+
+                requireActivity().supportFragmentManager.commit {
+                    setCustomAnimations(
+                        R.anim.slide_in_left,
+                        R.anim.slide_out_right,
+                        R.anim.slide_in_right,
+                        R.anim.slide_out_left,
+                    )
+                    replace(R.id.container, AuthorizationFragment())
+                    setReorderingAllowed(true)
+                    remove(this@ToolbarFragment)
+                }
+            }
+
+            true
+        }
+
         return binding.root
+    }
+
+    private fun navigateToAuthorizationFragment() {
+        requireActivity().supportFragmentManager.commit {
+            replace(R.id.container, AuthorizationFragment())
+            setReorderingAllowed(true)
+            remove(this@ToolbarFragment)
+        }
     }
 
     /**
@@ -177,5 +245,52 @@ class ToolbarFragment : Fragment() {
                 navController.navigate(R.id.action_BottomNavigationFragment_to_newOrUpdateEventFragment)
             }
         }
+    }
+
+    private fun showDeleteConfirmationDialog(
+        title: String,
+        message: String,
+        textButtonCancel: String,
+        textButtonDelete: String,
+        onDeleteConfirmed: () -> Unit,
+    ) {
+        requireContext().showMaterialDialogWithTwoButtons(
+            title = title,
+            message = message,
+            cancelButtonText = textButtonCancel,
+            deleteButtonText = textButtonDelete,
+            onDeleteConfirmed = onDeleteConfirmed,
+        )
+    }
+
+    /**
+     * Очищает кэш приложения.
+     *
+     * @param context Контекст приложения.
+     */
+    private fun clearCache(context: Context) {
+        val cacheDir: File = context.cacheDir
+
+        fun deleteFiles(file: File) {
+            if (file.isDirectory) {
+                file.listFiles()?.forEach { fileCache: File ->
+                    deleteFiles(fileCache)
+                }
+            }
+
+            file.delete()
+        }
+
+        deleteFiles(cacheDir)
+    }
+
+    private fun navigationIcon(binding: FragmentToolbarBinding) {
+        binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_24)
+        binding.toolbar.navigationIcon?.setTint(
+            ContextCompat.getColor(
+                requireContext(),
+                R.color.active_element
+            )
+        )
     }
 }

@@ -33,8 +33,7 @@
         <activity
             android:name=".activity.SplashActivity"
             android:exported="true"
-            android:theme="@style/Theme.MyApp.SplashScreen"
-            android:windowSoftInputMode="adjustResize">
+            android:theme="@style/Theme.MyApp.SplashScreen">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -45,7 +44,10 @@
 
         <activity
             android:name=".activity.MainActivity"
-            android:exported="false">
+            android:exported="false"
+            android:theme="@style/Theme.HelloEltex"
+            android:windowSoftInputMode="adjustResize">
+
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
 

@@ -3,16 +3,16 @@
 
     <item
         android:id="@+id/postsFragment"
-        android:icon="@drawable/ic_rss_feed_24"
+        android:icon="@drawable/ic_posts_active_24"
         android:title="@string/posts" />
 
     <item
         android:id="@+id/eventsFragment"
-        android:icon="@drawable/ic_calendar_24"
+        android:icon="@drawable/ic_events_active_24"
         android:title="@string/events" />
 
     <item
-        android:id="@+id/userFragment"
-        android:icon="@drawable/ic_account_24"
+        android:id="@+id/accountFragment"
+        android:icon="@drawable/ic_account_active_24"
         android:title="@string/account" />
 </menu>

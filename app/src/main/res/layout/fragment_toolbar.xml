@@ -30,7 +30,6 @@
         android:layout_height="0dp"
         android:layout_weight="1"
 
-        app:defaultNavHost="true"
-        app:navGraph="@navigation/main_navigation" />
+        app:defaultNavHost="true" />
 
 </LinearLayout>
