@@ -26,8 +26,10 @@ The [**Glide**](https://github.com/bumptech/glide) library is used to manage mul
 
 Basic settings for the application's appearance are implemented, such as: language selection (Russian, English, system) and theme selection (dark, light, system). The ability to enable and disable vibration feedback in the application, display the size and clear the application cache has also been added.
 
-#### Documentation for the project [**documentation**](documentation/documentation.md).
-#### View images of the mobile app [**Eltex Social Media**](documentation/README.md).
+---
+
+### Documentation for the project [**documentation**](documentation/documentation.md).
+### View images of the mobile app [**Eltex Social Media**](documentation/README.md).
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Version](https://img.shields.io/badge/Version-1.0.1-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.0.1)
@@ -167,8 +169,10 @@ Basic settings for the application's appearance are implemented, such as: langua
 
 Реализованы базовые настройки внешнего вида приложения, такие как: выбор языка (Русский, Английский, системный) и выбор темы (темная, светлая, системная). Также добавлена возможность включения и отключения виброотклика в приложении, показ размера и очистка кэша приложения.
 
-#### Документация к проеку [**documentation**](documentation/documentation.md).
-#### Посмотреть изображения мобильного приложения [**Eltex Social Media**](documentation/README.md).
+---
+
+### Документация к проеку [**documentation**](documentation/documentation.md).
+### Посмотреть изображения мобильного приложения [**Eltex Social Media**](documentation/README.md).
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Version](https://img.shields.io/badge/Version-1.0.1-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.0.1)
