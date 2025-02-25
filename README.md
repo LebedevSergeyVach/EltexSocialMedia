@@ -27,7 +27,7 @@ The [**Glide**](https://github.com/bumptech/glide) library is used to manage mul
 Basic settings for the application's appearance are implemented, such as: language selection (Russian, English, system) and theme selection (dark, light, system). The ability to enable and disable vibration feedback in the application, display the size and clear the application cache has also been added.
 
 #### Documentation for the project [**documentation**](documentation/documentation.md).
-#### View images of the mobile app [Eltex Academy](#images)
+#### View images of the mobile app [**Eltex Social Media**](documentation/README.md).
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Version](https://img.shields.io/badge/Version-1.0.1-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.0.1)
@@ -129,9 +129,9 @@ Basic settings for the application's appearance are implemented, such as: langua
 
 ---
 
-### [Anatoly Spitchenko](https://gitflic.ru/user/onotole) - Android developer and Course Teacher
+### [Anatoly Spitchenko](https://github.com/Onotole1) - Android developer and Course Teacher
 
-### [Lebedev Sergey Vyacheslav](https://github.com/LebedevSergeyVach) – Kotlin-Developer
+### [Lebedev Sergey Vyacheslav](https://github.com/LebedevSergeyVach) – Student of the course
 
 ---
 
@@ -168,7 +168,7 @@ Basic settings for the application's appearance are implemented, such as: langua
 Реализованы базовые настройки внешнего вида приложения, такие как: выбор языка (Русский, Английский, системный) и выбор темы (темная, светлая, системная). Также добавлена возможность включения и отключения виброотклика в приложении, показ размера и очистка кэша приложения.
 
 #### Документация к проеку [**documentation**](documentation/documentation.md).
-#### Посмотреть изображения мобильного приложения [Eltex Academy](#images)
+#### Посмотреть изображения мобильного приложения [**Eltex Social Media**](documentation/README.md).
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 [![Version](https://img.shields.io/badge/Version-1.0.1-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.0.1)
@@ -270,89 +270,11 @@ Basic settings for the application's appearance are implemented, such as: langua
 
 ---
 
-### [Анатолий Спитченко](https://gitflic.ru/user/onotole) - Android-Разработчик и преподаватель курса
+### [Анатолий Спитченко](https://github.com/Onotole1) - Android-Разработчик и преподаватель курса
 
-### [Лебедев Сергей Вячеславович](https://github.com/LebedevSergeyVach) – Kotlin-Разработчик
+### [Лебедев Сергей Вячеславович](https://github.com/LebedevSergeyVach) – Студент курса
 
 ---
 
 #### [README](README.md) [ВВЕРХ](#вверх)
 
----
-
-<a name="images"></a>
-## Images mobile application of the [**Eltex Social Media**](https://github.com/LebedevSergeyVach/EltexSocialMedia/)
-
-### Authorization and Registration / Авторизация и Регистрация
-
-<div style="display: flex; justify-content: space-between; align-items: center;">
-  <img src="assets/media/application/authorization.jpg" alt="Authorization" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/registration.jpg" alt="Registration" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/registrationSamurai.jpg" alt="Registration" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-</div>
-
-### Posts / Посты
-
-<div style="display: flex; justify-content: space-between; align-items: center;">
-  <img src="assets/media/application/posts.jpg" alt="Posts" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/newPostCyberpunk.jpg" alt="Posts" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/newPostsLoading.jpg" alt="Posts" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-</div>
-
-### Events / События
-
-<div style="display: flex; justify-content: space-between; align-items: center;">
-  <img src="assets/media/application/events.jpg" alt="Events" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/newEvent.jpg" alt="Events" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/newEventImage.jpg" alt="Events" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-</div>
-
-### Account / Аккаунт
-
-<div style="display: flex; justify-content: space-between; align-items: center;">
-  <img src="assets/media/application/account.jpg" alt="Account" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/accountEvents.jpg" alt="Account" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/exitAccount.jpg" alt="Account" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-</div>
-
-### Profile / Профиль
-
-<div style="display: flex; justify-content: space-between; align-items: center;">
-  <img src="assets/media/application/profile.jpg" alt="Profile" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/profilePosts.jpg" alt="Profile" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/profileEvents.jpg" alt="Profile" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-</div>
-
-### Jobs / Места работы
-
-<div style="display: flex; justify-content: space-between; align-items: center;">
-  <img src="assets/media/application/jobs.jpg" alt="Jobs" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/newJob.jpg" alt="Jobs" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/newJobDate.jpg" alt="Jobs" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-</div>
-
-### Settings / Настройки
-
-<div style="display: flex; justify-content: space-between; align-items: center;">
-  <img src="assets/media/application/settings.jpg" alt="Settings" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/settingsCache.jpg" alt="Settings" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/settings_light_en.jpg" alt="Settings" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-</div>
-
-### Users and List of updates / Пользователи и Список обновлений
-
-<div style="display: flex; justify-content: space-between; align-items: center;">
-  <img src="assets/media/application/skeleton.jpg" alt="Users" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/users.jpg" alt="Users" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/updates.jpg" alt="Users" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-</div>
-
-### Loading animation / Анимация загрузки
-
-<div style="display: flex; justify-content: space-between; align-items: center;">
-  <img src="assets/media/application/splashScreen.jpg" alt="Loading animation" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/skeletonLayout.jpg" alt="Loading animation" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-  <img src="assets/media/application/skeletonProfile.jpg" alt="Loading animation" style="width: 250px; margin: 5px; border: 5px solid #000000; border-radius: 15px;" />
-</div>
-
----
