@@ -31,6 +31,7 @@ import com.eltex.androidschool.R
 import com.eltex.androidschool.data.common.Attachment
 import com.eltex.androidschool.databinding.CardPostBinding
 import com.eltex.androidschool.ui.posts.PostUiModel
+import com.eltex.androidschool.utils.initialsOfUsername
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
 
@@ -131,6 +132,7 @@ class PostViewHolder(
      */
     private fun renderingUserAvatar(post: PostUiModel) {
         showPlaceholder(post = post)
+        binding.skeletonLayout.showSkeleton()
 
         if (!post.authorAvatar.isNullOrEmpty()) {
             Glide.with(binding.root)
@@ -156,6 +158,7 @@ class PostViewHolder(
                         dataSource: DataSource,
                         isFirstResource: Boolean
                     ): Boolean {
+                        binding.skeletonLayout.showOriginal()
                         binding.initial.isVisible = false
 
                         return false
@@ -350,10 +353,19 @@ class PostViewHolder(
         }
     }
 
+    /**
+     * Отображает плейсхолдер для поста, устанавливая изображение аватара,
+     * инициализируя текст с инициалами автора поста, устанавливая цвет текста,
+     * отображая оригинальное состояние макета и делая инициал видимым.
+     *
+     * @param post Объект [PostUiModel], содержащий информацию о посте.
+     * @see initialsOfUsername
+     */
     private fun showPlaceholder(post: PostUiModel) {
         binding.avatar.setImageResource(R.drawable.avatar_background)
-        binding.initial.text = post.author.take(1)
+        binding.initial.text = initialsOfUsername(name = post.author)
         binding.initial.setTextColor(ContextCompat.getColor(binding.root.context, R.color.white))
+        binding.skeletonLayout.showOriginal()
         binding.initial.isVisible = true
     }
 }

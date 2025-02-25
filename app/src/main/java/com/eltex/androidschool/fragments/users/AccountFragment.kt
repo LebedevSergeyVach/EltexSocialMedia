@@ -57,6 +57,7 @@ import com.eltex.androidschool.ui.jobs.JobUiModel
 import com.eltex.androidschool.ui.posts.PostPagingMapper
 import com.eltex.androidschool.ui.posts.PostUiModel
 import com.eltex.androidschool.utils.ErrorUtils.getErrorText
+import com.eltex.androidschool.utils.initialsOfUsername
 import com.eltex.androidschool.utils.showMaterialDialogWithTwoButtons
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
@@ -632,22 +633,7 @@ class AccountFragment : Fragment() {
                                     target: Target<Drawable>,
                                     isFirstResource: Boolean
                                 ): Boolean {
-                                    binding.skeletonAttachment.showOriginal()
-
-                                    binding.avatarUser.setBackgroundColor(
-                                        ContextCompat.getColor(
-                                            binding.root.context,
-                                            R.color.active_element
-                                        )
-                                    )
-                                    binding.initial.text = user.name.take(1)
-                                    binding.initial.setTextColor(
-                                        ContextCompat.getColor(
-                                            binding.root.context,
-                                            R.color.white
-                                        )
-                                    )
-                                    binding.initial.isVisible = true
+                                    showPlaceholder(binding, user)
 
                                     return false
                                 }
@@ -675,22 +661,7 @@ class AccountFragment : Fragment() {
                             )
                             .into(binding.avatarUser)
                     } else {
-                        binding.skeletonAttachment.showOriginal()
-
-                        binding.avatarUser.setBackgroundColor(
-                            ContextCompat.getColor(
-                                binding.root.context,
-                                R.color.active_element
-                            )
-                        )
-                        binding.initial.text = user.name.take(1)
-                        binding.initial.setTextColor(
-                            ContextCompat.getColor(
-                                binding.root.context,
-                                R.color.white
-                            )
-                        )
-                        binding.initial.isVisible = true
+                        showPlaceholder(binding, user)
                     }
 
                     if (userId != accountUserId) {
@@ -1000,5 +971,37 @@ class AccountFragment : Fragment() {
         }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, callback)
+    }
+
+    /**
+     * Отображает плейсхолдер для пользователя, устанавливая изображение аватара,
+     * инициализируя текст с инициалами пользователя, устанавливая цвет текста,
+     * отображая оригинальное состояние макета и делая инициал видимым.
+     *
+     * @param binding Объект [FragmentAccountBinding], используемый для доступа
+     * к элементам интерфейса.
+     * @param user Объект [UserData], содержащий информацию о пользователе.
+     * @see initialsOfUsername
+     */
+    private fun showPlaceholder(
+        binding: FragmentAccountBinding,
+        user: UserData
+    ) {
+        binding.skeletonAttachment.showOriginal()
+
+        binding.avatarUser.setBackgroundColor(
+            ContextCompat.getColor(
+                binding.root.context,
+                R.color.active_element
+            )
+        )
+        binding.initial.text = initialsOfUsername(user.name)
+        binding.initial.setTextColor(
+            ContextCompat.getColor(
+                binding.root.context,
+                R.color.white
+            )
+        )
+        binding.initial.isVisible = true
     }
 }

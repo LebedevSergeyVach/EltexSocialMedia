@@ -3,6 +3,7 @@
     <style name="Base.Theme.HelloEltex" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
 <!--         <item name="colorPrimary">@color/active_element</item>-->
+        <item name="android:statusBarColor">@color/splash_screen</item>
     </style>
 
     <style name="Theme.HelloEltex" parent="Base.Theme.HelloEltex" />

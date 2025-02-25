@@ -31,6 +31,7 @@ import com.eltex.androidschool.R
 import com.eltex.androidschool.data.common.Attachment
 import com.eltex.androidschool.databinding.CardEventBinding
 import com.eltex.androidschool.ui.events.EventUiModel
+import com.eltex.androidschool.utils.initialsOfUsername
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
 
@@ -140,6 +141,7 @@ class EventViewHolder(
      */
     private fun renderingUserAvatar(event: EventUiModel) {
         showPlaceholder(event = event)
+        binding.skeletonLayout.showSkeleton()
 
         if (!event.authorAvatar.isNullOrEmpty()) {
             Glide.with(binding.root)
@@ -165,6 +167,7 @@ class EventViewHolder(
                         dataSource: DataSource,
                         isFirstResource: Boolean
                     ): Boolean {
+                        binding.skeletonLayout.showOriginal()
                         binding.initial.isVisible = false
 
                         return false
@@ -393,10 +396,19 @@ class EventViewHolder(
         }
     }
 
+    /**
+     * Отображает плейсхолдер для события, устанавливая изображение аватара,
+     * инициализируя текст с инициалами автора события, устанавливая цвет текста,
+     * отображая оригинальное состояние макета и делая инициал видимым.
+     *
+     * @param event Объект [EventUiModel], содержащий информацию о событии.
+     * @see initialsOfUsername
+     */
     private fun showPlaceholder(event: EventUiModel) {
         binding.avatar.setImageResource(R.drawable.avatar_background)
-        binding.initial.text = event.author.take(1)
+        binding.initial.text = initialsOfUsername(name = event.author)
         binding.initial.setTextColor(ContextCompat.getColor(binding.root.context, R.color.white))
+        binding.skeletonLayout.showOriginal()
         binding.initial.isVisible = true
     }
 }

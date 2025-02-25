@@ -20,6 +20,7 @@ import com.bumptech.glide.request.target.Target
 import com.eltex.androidschool.R
 import com.eltex.androidschool.data.users.UserData
 import com.eltex.androidschool.databinding.CardUserBinding
+import com.eltex.androidschool.utils.initialsOfUsername
 
 /**
  * ViewHolder для отображения данных пользователя в RecyclerView.
@@ -50,6 +51,7 @@ class UserViewHolder(
         binding.login.text = user.login
 
         showPlaceholder(user = user)
+        binding.skeletonLayout.showSkeleton()
 
         if (!user.avatar.isNullOrEmpty()) {
             Glide.with(binding.root)
@@ -75,6 +77,7 @@ class UserViewHolder(
                         dataSource: DataSource,
                         isFirstResource: Boolean
                     ): Boolean {
+                        binding.skeletonLayout.showOriginal()
                         binding.initial.isVisible = false
 
                         return false
@@ -95,10 +98,19 @@ class UserViewHolder(
         }
     }
 
+    /**
+     * Отображает плейсхолдер для пользователя, устанавливая изображение аватара,
+     * инициализируя текст с инициалами пользователя, устанавливая цвет текста,
+     * отображая оригинальное состояние макета и делая инициал видимым.
+     *
+     * @param user Объект [UserData], содержащий информацию о пользователе.
+     * @see initialsOfUsername
+     */
     private fun showPlaceholder(user: UserData) {
         binding.avatar.setImageResource(R.drawable.avatar_background)
-        binding.initial.text = user.name.take(1)
+        binding.initial.text = initialsOfUsername(name = user.name)
         binding.initial.setTextColor(ContextCompat.getColor(binding.root.context, R.color.white))
+        binding.skeletonLayout.showOriginal()
         binding.initial.isVisible = true
     }
 }
