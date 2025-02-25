@@ -4,7 +4,9 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+
 import androidx.core.splashscreen.SplashScreen
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 
@@ -18,6 +20,8 @@ class SplashActivity : AppCompatActivity() {
 
         val splashScreen: SplashScreen = installSplashScreen()
         splashScreen.setKeepOnScreenCondition { true }
+
+        enableEdgeToEdge()
 
         startActivity(Intent(this@SplashActivity, MainActivity::class.java))
         finish()

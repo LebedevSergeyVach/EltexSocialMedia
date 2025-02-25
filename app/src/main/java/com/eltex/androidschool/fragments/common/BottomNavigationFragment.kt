@@ -17,6 +17,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.eltex.androidschool.R
 
 import com.eltex.androidschool.databinding.FragmentBottomNavigationBinding
+import com.eltex.androidschool.utils.Logger
 import com.eltex.androidschool.viewmodel.common.SharedViewModel
 
 /**
@@ -28,9 +29,11 @@ import com.eltex.androidschool.viewmodel.common.SharedViewModel
  * @see Fragment Базовый класс для фрагментов, использующих функции библиотеки поддержки.
  * @see FragmentBottomNavigationBinding Класс, сгенерированный из XML-файла макета для этого фрагмента.
  */
-class BottomNavigationFragment : Fragment() {
+class BottomNavigationFragment : Fragment(), FabVisibilityListener {
 
     private val sharedViewModel: SharedViewModel by activityViewModels()
+
+    private lateinit var binding: FragmentBottomNavigationBinding
 
     /**
      * Создает и возвращает представление для этого фрагмента.
@@ -44,7 +47,7 @@ class BottomNavigationFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentBottomNavigationBinding.inflate(inflater, container, false)
+        binding = FragmentBottomNavigationBinding.inflate(inflater, container, false)
 
         val navController =
             requireNotNull(childFragmentManager.findFragmentById(R.id.container)).findNavController()
@@ -134,6 +137,40 @@ class BottomNavigationFragment : Fragment() {
         }
 
         return binding.root
+    }
+
+    /**
+     * Показывает FloatingActionButton с анимацией.
+     */
+    override fun showFab() {
+        Logger.d("ПОКАЗ КНОПКИ!!!!")
+
+        if (binding.news.visibility == View.GONE) {
+            binding.news.visibility = View.VISIBLE
+            binding.news.animate()
+                .scaleX(1F)
+                .scaleY(1F)
+                .setDuration(200)
+                .start()
+        }
+    }
+
+    /**
+     * Скрывает FloatingActionButton с анимацией.
+     */
+    override fun hideFab() {
+        Logger.d("СКРЫТИЕ КНОПКИ!!!!")
+
+        if (binding.news.visibility == View.VISIBLE) {
+            binding.news.animate()
+                .scaleX(0F)
+                .scaleY(0F)
+                .setDuration(200)
+                .withEndAction {
+                    binding.news.visibility = View.GONE
+                }
+                .start()
+        }
     }
 
     private fun displayingIconsInBottomNavigate(

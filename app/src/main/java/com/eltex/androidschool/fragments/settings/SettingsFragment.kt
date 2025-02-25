@@ -140,7 +140,20 @@ class SettingsFragment : Fragment() {
         }
 
         binding.buttonSettingsClearCache.setOnClickListener {
-            clearCacheApplication(binding = binding)
+            showDeleteConfirmationDialog(
+                title = getString(R.string.data_and_cache_app),
+                message = buildString {
+                    append(getString(R.string.application_cache_size_app))
+                    append(": ")
+                    append(getCacheSize(requireContext()))
+                    append("\n")
+                    append(getString(R.string.data_and_cache_description))
+                },
+                textButtonCancel = getString(R.string.thanks),
+                textButtonDelete = getString(R.string.clear_cache),
+            ) {
+                clearCacheApplication(binding)
+            }
         }
 
         binding.buttonSettingsClearCache.setOnLongClickListener {

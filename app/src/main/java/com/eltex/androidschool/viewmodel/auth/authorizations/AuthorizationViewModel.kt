@@ -18,15 +18,34 @@ import kotlinx.coroutines.launch
 
 import javax.inject.Inject
 
+/**
+ * ViewModel для экрана авторизации.
+ * Управляет состоянием авторизации и взаимодействует с [AuthRepository] для выполнения входа в систему.
+ *
+ * @property repository Репозиторий для работы с аутентификацией.
+ */
 @HiltViewModel
 class AuthorizationViewModel @Inject constructor(
     private val repository: AuthRepository,
 ) : ViewModel() {
 
+    /**
+     * Внутренний [MutableStateFlow], хранящий состояние авторизации.
+     */
     private val _state: MutableStateFlow<AuthorizationState> =
         MutableStateFlow(AuthorizationState())
+
+    /**
+     * Публичный [StateFlow], предоставляющий состояние авторизации для UI.
+     */
     val state: StateFlow<AuthorizationState> = _state.asStateFlow()
 
+    /**
+     * Выполняет вход пользователя в систему.
+     *
+     * @param login Логин пользователя.
+     * @param password Пароль пользователя.
+     */
     fun login(login: String, password: String) {
         _state.update { stateAuthorization: AuthorizationState ->
             stateAuthorization.copy(
@@ -58,6 +77,12 @@ class AuthorizationViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Обновляет состояние кнопки в зависимости от введенных данных.
+     *
+     * @param login Логин пользователя.
+     * @param password Пароль пользователя.
+     */
     fun updateButtonState(login: String, password: String) {
         val isButtonEnabled: Boolean = login.isNotBlank() && password.isNotBlank()
 

@@ -29,7 +29,7 @@ import com.eltex.androidschool.fragments.users.AccountFragment
 import com.eltex.androidschool.ui.common.OffsetDecoration
 import com.eltex.androidschool.ui.posts.PostPagingMapper
 import com.eltex.androidschool.ui.posts.PostUiModel
-import com.eltex.androidschool.utils.getErrorText
+import com.eltex.androidschool.utils.ErrorUtils.getErrorText
 import com.eltex.androidschool.utils.showMaterialDialogWithTwoButtons
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
@@ -139,7 +139,7 @@ class PostsFragment : Fragment() {
      */
     private fun createPostAdapter(
         accountViewModel: AccountViewModel,
-    ) = PostAdapter(
+    ): PostAdapter = PostAdapter(
         object : PostAdapter.PostListener {
             override fun onLikeClicked(post: PostUiModel) {
                 viewModel.accept(message = PostMessage.Like(post = post))
@@ -264,13 +264,6 @@ class PostsFragment : Fragment() {
                 )
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
-    }
-
-    /**
-     * Прокручивает RecyclerView на самый верх.
-     */
-    private fun scrollToTo2p(binding: FragmentPostsBinding) {
-        binding.list.smoothScrollToPosition(0)
     }
 
     /**

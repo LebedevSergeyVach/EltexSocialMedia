@@ -30,7 +30,7 @@ Basic settings for the application's appearance are implemented, such as: langua
 #### View images of the mobile app [Eltex Academy](#images)
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Version](https://img.shields.io/badge/Version-1.0.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.0.0)
+[![Version](https://img.shields.io/badge/Version-1.0.1-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.0.1)
 
 <details open="open">
     <summary><h2>🚀 The stack of technologies used</h2></summary>
@@ -171,7 +171,7 @@ Basic settings for the application's appearance are implemented, such as: langua
 #### Посмотреть изображения мобильного приложения [Eltex Academy](#images)
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Version](https://img.shields.io/badge/Version-1.0.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.0.0)
+[![Version](https://img.shields.io/badge/Version-1.0.1-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.0.1)
 
 <details open="open">
     <summary><h2>🚀 Стек используемых технологий</h2></summary>

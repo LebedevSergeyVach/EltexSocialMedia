@@ -56,7 +56,7 @@ import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.ui.jobs.JobUiModel
 import com.eltex.androidschool.ui.posts.PostPagingMapper
 import com.eltex.androidschool.ui.posts.PostUiModel
-import com.eltex.androidschool.utils.getErrorText
+import com.eltex.androidschool.utils.ErrorUtils.getErrorText
 import com.eltex.androidschool.utils.showMaterialDialogWithTwoButtons
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast

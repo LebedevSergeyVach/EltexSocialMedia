@@ -21,7 +21,7 @@ import androidx.lifecycle.lifecycleScope
 import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentAuthorizationBinding
 import com.eltex.androidschool.fragments.common.ToolbarFragment
-import com.eltex.androidschool.utils.getErrorTextAuthorization
+import com.eltex.androidschool.utils.ErrorUtils.getErrorTextAuthorization
 import com.eltex.androidschool.utils.toast
 import com.eltex.androidschool.viewmodel.auth.authorizations.AuthorizationState
 import com.eltex.androidschool.viewmodel.auth.authorizations.AuthorizationViewModel
@@ -78,6 +78,11 @@ class AuthorizationFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Наблюдает за состоянием ViewModel и обновляет UI в зависимости от состояния.
+     *
+     * @param binding Привязка к макету фрагмента.
+     */
     private fun viewModelStateLifecycle(binding: FragmentAuthorizationBinding) {
         viewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
@@ -114,6 +119,11 @@ class AuthorizationFragment : Fragment() {
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
+    /**
+     * Мониторит изменения в полях ввода и обновляет состояние кнопки.
+     *
+     * @param binding Привязка к макету фрагмента.
+     */
     private fun monitoringButtonStatus(binding: FragmentAuthorizationBinding) {
         binding.textLoginUser.doAfterTextChanged { text ->
             val login = text?.toString() ?: ""
@@ -130,6 +140,12 @@ class AuthorizationFragment : Fragment() {
         }
     }
 
+    /**
+     * Блокирует или разблокирует UI в зависимости от состояния загрузки.
+     *
+     * @param binding Привязка к макету фрагмента.
+     * @param blocking Флаг, указывающий, нужно ли блокировать UI.
+     */
     private fun blockingUiWhenLoading(
         binding: FragmentAuthorizationBinding,
         blocking: Boolean,

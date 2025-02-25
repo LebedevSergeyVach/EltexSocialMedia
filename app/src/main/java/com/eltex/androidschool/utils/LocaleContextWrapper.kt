@@ -6,14 +6,14 @@ import android.content.res.Configuration
 
 import java.util.Locale
 
-class LocaleContextWrapper(base: Context, locale: Locale) : ContextWrapper(base) {
+class LocaleContextWrapper(base: Context) : ContextWrapper(base) {
     companion object {
         fun wrap(context: Context, locale: Locale): ContextWrapper {
             val resources = context.resources
             val configuration = Configuration(resources.configuration)
             configuration.setLocale(locale)
             val wrappedContext = context.createConfigurationContext(configuration)
-            return LocaleContextWrapper(wrappedContext, locale)
+            return LocaleContextWrapper(wrappedContext)
         }
     }
 }

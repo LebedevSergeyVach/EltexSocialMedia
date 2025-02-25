@@ -1,28 +1,45 @@
 package com.eltex.androidschool.repository.auth
 
 import android.content.ContentResolver
-import com.eltex.androidschool.BuildConfig
 
 import com.eltex.androidschool.api.auth.AuthApi
 import com.eltex.androidschool.data.auth.AuthData
 import com.eltex.androidschool.store.UserPreferences
-import com.eltex.androidschool.utils.Logger
 import com.eltex.androidschool.viewmodel.common.FileModel
+
 import okhttp3.MediaType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+
 import okio.Buffer
 import okio.BufferedSink
 import okio.IOException
 
 import javax.inject.Inject
 
+/**
+ * Реализация репозитория для работы с аутентификацией и регистрацией.
+ * Использует [AuthApi] для выполнения сетевых запросов и [UserPreferences] для сохранения данных пользователя.
+ *
+ * @property authApi API для работы с аутентификацией и регистрацией.
+ * @property userPreferences Хранилище для сохранения данных пользователя (токен и идентификатор).
+ */
 class NetworkAuthRepository @Inject constructor(
     private val authApi: AuthApi,
     private val userPreferences: UserPreferences,
 ) : AuthRepository {
+
+    /**
+     * Выполняет вход пользователя в систему.
+     *
+     * @param login Логин пользователя.
+     * @param password Пароль пользователя.
+     * @return Объект [AuthData], содержащий токен аутентификации и идентификатор пользователя.
+     *
+     * @throws IOException Если произошла ошибка сети.
+     * @see AuthData
+     */
     override suspend fun login(login: String, password: String): AuthData {
         val response: AuthData = authApi.login(
             login = login,
@@ -39,6 +56,21 @@ class NetworkAuthRepository @Inject constructor(
         return response
     }
 
+    /**
+     * Регистрирует нового пользователя в системе.
+     *
+     * @param login Логин пользователя.
+     * @param username Имя пользователя.
+     * @param password Пароль пользователя.
+     * @param fileModel Модель файла аватара пользователя. Может быть `null`, если файл не загружен.
+     * @param contentResolver [ContentResolver] для работы с файлом.
+     * @param onProgress Колбэк для отслеживания прогресса загрузки файла.
+     * @return Объект [AuthData], содержащий токен аутентификации и идентификатор пользователя.
+     *
+     * @throws IOException Если файл не найден или произошла ошибка сети.
+     * @see AuthData
+     * @see FileModel
+     */
     override suspend fun register(
         login: String,
         username: String,

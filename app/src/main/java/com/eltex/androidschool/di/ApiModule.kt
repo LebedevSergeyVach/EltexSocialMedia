@@ -33,12 +33,22 @@ import java.util.concurrent.TimeUnit
 
 import javax.inject.Singleton
 
+/**
+ * Модуль Dagger Hilt для предоставления зависимостей, связанных с API и сетевыми запросами.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 class ApiModule {
 
     private companion object {
+        /**
+         * Тип MIME для JSON.
+         */
         private val JSON_TYPE = "application/json".toMediaType()
+
+        /**
+         * Базовый URL сервера.
+         */
         private const val URL_SERVER = BuildConfig.URL_SERVER
     }
 
@@ -53,12 +63,27 @@ class ApiModule {
         coerceInputValues = true
     }
 
+    /**
+     * Предоставляет экземпляр [AuthInterceptor] для добавления заголовков аутентификации в запросы.
+     *
+     * @param userPreferences Хранилище для получения токена аутентификации.
+     * @return Экземпляр [AuthInterceptor].
+     *
+     * @see AuthInterceptor
+     */
     @Singleton
     @Provides
     fun provideAuthInterceptor(userPreferences: UserPreferences): AuthInterceptor =
         AuthInterceptor(userPreferences)
 
     /**
+     * Предоставляет экземпляр [OkHttpClient] с настроенными интерцепторами и таймаутами.
+     *
+     * @param authInterceptor Интерцептор для добавления заголовков аутентификации.
+     * @return Экземпляр [OkHttpClient].
+     *
+     * @see OkHttpClient
+     *
      * Фабрика для создания экземпляра OkHttpClient.
      *
      * Этот объект отвечает за настройку и создание экземпляра OkHttpClient, который используется для выполнения сетевых запросов.
@@ -101,6 +126,13 @@ class ApiModule {
             .build()
 
     /**
+     * Предоставляет экземпляр [Retrofit] для выполнения сетевых запросов.
+     *
+     * @param okHttpClient Клиент [OkHttpClient], используемый для запросов.
+     * @return Экземпляр [Retrofit].
+     *
+     * @see Retrofit
+     *
      * Фабрика для создания экземпляра Retrofit.
      *
      * Этот объект отвечает за настройку и создание экземпляра Retrofit, который используется для выполнения сетевых запросов.
@@ -125,21 +157,69 @@ class ApiModule {
             .addConverterFactory(json.asConverterFactory(JSON_TYPE))
             .build()
 
+    /**
+     * Предоставляет API для работы с постами.
+     *
+     * @param retrofit Экземпляр [Retrofit].
+     * @return Реализация интерфейса [PostsApi].
+     *
+     * @see PostsApi
+     */
     @Provides
     fun providePostsApi(retrofit: Retrofit): PostsApi = retrofit.create()
 
+    /**
+     * Предоставляет API для работы с событиями.
+     *
+     * @param retrofit Экземпляр [Retrofit].
+     * @return Реализация интерфейса [EventsApi].
+     *
+     * @see EventsApi
+     */
     @Provides
     fun provideEventsApi(retrofit: Retrofit): EventsApi = retrofit.create()
 
+    /**
+     * Предоставляет API для работы с пользователями.
+     *
+     * @param retrofit Экземпляр [Retrofit].
+     * @return Реализация интерфейса [UsersApi].
+     *
+     * @see UsersApi
+     */
     @Provides
     fun provideUsersApi(retrofit: Retrofit): UsersApi = retrofit.create()
 
+    /**
+     * Предоставляет API для работы с вакансиями.
+     *
+     * @param retrofit Экземпляр [Retrofit].
+     * @return Реализация интерфейса [JobsApi].
+     *
+     * @see JobsApi
+     */
     @Provides
     fun provideJobsApi(retrofit: Retrofit): JobsApi = retrofit.create()
 
+    /**
+     * Предоставляет API для работы с медиа.
+     *
+     * @param retrofit Экземпляр [Retrofit].
+     * @return Реализация интерфейса [MediaApi].
+     *
+     * @see MediaApi
+     */
     @Provides
     fun provideMediaApi(retrofit: Retrofit): MediaApi = retrofit.create()
 
+    /**
+     * Предоставляет API для работы с аутентификацией.
+     *
+     * @param retrofit Экземпляр [Retrofit].
+     * @return Реализация интерфейса [AuthApi].
+     *
+     * @see AuthApi
+     */
     @Provides
     fun provideAuthApi(retrofit: Retrofit): AuthApi = retrofit.create()
 }
