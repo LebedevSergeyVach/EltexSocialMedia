@@ -45,8 +45,8 @@ import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
 import com.eltex.androidschool.data.common.AttachmentTypeFile
 import com.eltex.androidschool.databinding.FragmentNewOrUpdateEventBinding
+import com.eltex.androidschool.utils.ErrorUtils.getErrorText
 import com.eltex.androidschool.utils.Logger
-import com.eltex.androidschool.utils.getErrorText
 import com.eltex.androidschool.utils.showMaterialDialog
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
@@ -59,6 +59,7 @@ import com.eltex.androidschool.viewmodel.events.newevent.NewEventViewModel
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
 

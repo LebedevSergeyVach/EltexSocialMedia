@@ -1,23 +1,30 @@
 package com.eltex.androidschool.fragments.auth
 
 import android.graphics.drawable.Drawable
+
 import android.net.Uri
 import android.os.Bundle
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.ImageOnly
+
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
+
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
+
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -25,19 +32,23 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
+
 import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
 import com.eltex.androidschool.data.common.AttachmentTypeFile
 import com.eltex.androidschool.databinding.FragmentRegistrationBinding
 import com.eltex.androidschool.fragments.common.ToolbarFragment
-import com.eltex.androidschool.utils.getErrorTextRegistration
+import com.eltex.androidschool.utils.ErrorUtils.getErrorTextRegistration
 import com.eltex.androidschool.utils.toast
 import com.eltex.androidschool.viewmodel.auth.registration.RegistrationState
 import com.eltex.androidschool.viewmodel.auth.registration.RegistrationViewModel
 import com.eltex.androidschool.viewmodel.common.FileModel
+
 import dagger.hilt.android.AndroidEntryPoint
+
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+
 import java.io.File
 
 @AndroidEntryPoint
@@ -110,6 +121,11 @@ class RegistrationFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Наблюдает за состоянием ViewModel и обновляет UI в зависимости от состояния.
+     *
+     * @param binding Привязка к макету фрагмента.
+     */
     private fun viewModelStateLifecycle(binding: FragmentRegistrationBinding) {
         viewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
@@ -203,6 +219,11 @@ class RegistrationFragment : Fragment() {
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
+    /**
+     * Мониторит изменения в полях ввода и обновляет состояние кнопки.
+     *
+     * @param binding Привязка к макету фрагмента.
+     */
     private fun monitoringButtonStatus(binding: FragmentRegistrationBinding) {
         binding.textLoginUser.doAfterTextChanged { text ->
             val login = text?.toString() ?: ""
@@ -241,6 +262,12 @@ class RegistrationFragment : Fragment() {
         }
     }
 
+    /**
+     * Блокирует или разблокирует UI в зависимости от состояния загрузки.
+     *
+     * @param binding Привязка к макету фрагмента.
+     * @param blocking Флаг, указывающий, нужно ли блокировать UI.
+     */
     private fun blockingUiWhenLoading(
         binding: FragmentRegistrationBinding,
         blocking: Boolean,
@@ -253,6 +280,11 @@ class RegistrationFragment : Fragment() {
         binding.imageUserSelectAvatar.isEnabled = !blocking
     }
 
+    /**
+     * Создает URI для временного файла изображения.
+     *
+     * @return URI созданного файла.
+     */
     private fun createPhotoUri(): Uri {
         val directory: File = requireContext().cacheDir.resolve("file_picker").apply {
             mkdir()

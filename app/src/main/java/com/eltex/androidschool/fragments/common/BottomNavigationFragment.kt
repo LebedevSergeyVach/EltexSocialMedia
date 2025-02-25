@@ -32,6 +32,8 @@ class BottomNavigationFragment : Fragment() {
 
     private val sharedViewModel: SharedViewModel by activityViewModels()
 
+    private lateinit var binding: FragmentBottomNavigationBinding
+
     /**
      * Создает и возвращает представление для этого фрагмента.
      *
@@ -44,7 +46,7 @@ class BottomNavigationFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentBottomNavigationBinding.inflate(inflater, container, false)
+        binding = FragmentBottomNavigationBinding.inflate(inflater, container, false)
 
         val navController =
             requireNotNull(childFragmentManager.findFragmentById(R.id.container)).findNavController()
@@ -136,6 +138,45 @@ class BottomNavigationFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Показывает FloatingActionButton с анимацией.
+     */
+    fun showFab() {
+        if (binding.news.visibility == View.GONE) {
+            binding.news.visibility = View.VISIBLE
+            binding.news.animate()
+                .scaleX(1F)
+                .scaleY(1F)
+                .setDuration(200)
+                .start()
+        }
+    }
+
+    /**
+     * Скрывает FloatingActionButton с анимацией.
+     */
+    fun hideFab() {
+        if (binding.news.visibility == View.VISIBLE) {
+            binding.news.animate()
+                .scaleX(0F)
+                .scaleY(0F)
+                .setDuration(200)
+                .withEndAction {
+                    binding.news.visibility = View.GONE
+                }
+                .start()
+        }
+    }
+
+    /**
+     * Обновляет иконки в нижней навигации в зависимости от текущего назначения.
+     *
+     * @param navController Объект [NavController], который управляет навигацией.
+     * @param binding Объект [FragmentBottomNavigationBinding], используемый для доступа
+     * к элементам интерфейса нижней навигации.
+     *
+     * @see updateBottomNavigationIcons
+     */
     private fun displayingIconsInBottomNavigate(
         navController: NavController,
         binding: FragmentBottomNavigationBinding
@@ -181,6 +222,17 @@ class BottomNavigationFragment : Fragment() {
         }
     }
 
+    /**
+     * Обновляет иконки нижней навигации на основе переданных ресурсов иконок.
+     *
+     * @param postsIconRes Ресурс иконки для вкладки постов.
+     * @param eventsIconRes Ресурс иконки для вкладки событий.
+     * @param accountIconRes Ресурс иконки для вкладки аккаунта.
+     * @param binding Объект [FragmentBottomNavigationBinding], используемый для доступа
+     * к элементам интерфейса нижней навигации.
+     *
+     * @see binding.bottomNavigation.menu
+     */
     private fun updateBottomNavigationIcons(
         postsIconRes: Int,
         eventsIconRes: Int,

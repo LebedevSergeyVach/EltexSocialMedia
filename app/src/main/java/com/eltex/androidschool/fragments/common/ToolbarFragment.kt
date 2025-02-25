@@ -212,6 +212,13 @@ class ToolbarFragment : Fragment() {
         return binding.root
     }
 
+    /**
+     * Переходит к фрагменту авторизации, заменяя текущий фрагмент.
+     *
+     * Это функция, которая не принимает параметров и не возвращает значений.
+     *
+     * @see AuthorizationFragment
+     */
     private fun navigateToAuthorizationFragment() {
         requireActivity().supportFragmentManager.commit {
             replace(R.id.container, AuthorizationFragment())
@@ -247,6 +254,18 @@ class ToolbarFragment : Fragment() {
         }
     }
 
+    /**
+     * Отображает диалог подтверждения удаления с двумя кнопками.
+     *
+     * @param title Заголовок диалога.
+     * @param message Сообщение, которое будет отображаться в диалоге.
+     * @param textButtonCancel Текст для кнопки отмены.
+     * @param textButtonDelete Текст для кнопки удаления.
+     * @param onDeleteConfirmed Лямбда-функция, которая будет вызвана,
+     * когда пользователь подтвердит удаление.
+     *
+     * @see requireContext().showMaterialDialogWithTwoButtons
+     */
     private fun showDeleteConfirmationDialog(
         title: String,
         message: String,
@@ -284,6 +303,14 @@ class ToolbarFragment : Fragment() {
         deleteFiles(cacheDir)
     }
 
+    /**
+     * Устанавливает иконку навигации для панели инструментов.
+     *
+     * @param binding Объект [FragmentToolbarBinding], используемый для доступа
+     * к элементам интерфейса панели инструментов.
+     *
+     * @see R.drawable.ic_arrow_back_24
+     */
     private fun navigationIcon(binding: FragmentToolbarBinding) {
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back_24)
         binding.toolbar.navigationIcon?.setTint(

@@ -3,7 +3,7 @@ package com.eltex.androidschool.adapter.common
 import androidx.recyclerview.widget.RecyclerView
 
 import com.eltex.androidschool.databinding.ItemErrorBinding
-import com.eltex.androidschool.utils.getErrorText
+import com.eltex.androidschool.utils.ErrorUtils.getErrorText
 
 /**
  * ViewHolder для отображения состояния ошибки в RecyclerView.

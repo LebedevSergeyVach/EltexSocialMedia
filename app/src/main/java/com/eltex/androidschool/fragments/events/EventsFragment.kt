@@ -28,7 +28,7 @@ import com.eltex.androidschool.fragments.users.AccountFragment
 import com.eltex.androidschool.ui.common.OffsetDecoration
 import com.eltex.androidschool.ui.events.EventPagingMapper
 import com.eltex.androidschool.ui.events.EventUiModel
-import com.eltex.androidschool.utils.getErrorText
+import com.eltex.androidschool.utils.ErrorUtils.getErrorText
 import com.eltex.androidschool.utils.showMaterialDialogWithTwoButtons
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
@@ -38,6 +38,7 @@ import com.eltex.androidschool.viewmodel.events.events.EventState
 import com.eltex.androidschool.viewmodel.events.events.EventViewModel
 
 import com.google.android.material.bottomnavigation.BottomNavigationView
+
 import dagger.hilt.android.AndroidEntryPoint
 
 import kotlinx.coroutines.flow.launchIn

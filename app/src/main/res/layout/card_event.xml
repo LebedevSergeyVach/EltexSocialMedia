@@ -19,35 +19,47 @@
 
         tools:context=".activity.SplashActivity">
 
-        <ImageView
-            android:id="@+id/avatar"
+        <com.faltenreich.skeletonlayout.SkeletonLayout
+            android:id="@+id/skeletonLayout"
 
             android:layout_width="@dimen/avatar_dp_size"
             android:layout_height="@dimen/avatar_dp_size"
-
             android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
-
-            android:importantForAccessibility="no"
-            android:src="@drawable/avatar_background"
 
             app:layout_constraintBottom_toBottomOf="@id/published"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/author" />
+            app:layout_constraintTop_toTopOf="@id/author"
 
-        <TextView
-            android:id="@+id/initial"
+            app:maskColor="@color/gray"
+            app:maskCornerRadius="1000dp"
+            app:shimmerAngle="20"
+            app:shimmerColor="@color/active_element"
+            app:shimmerDurationInMillis="750">
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            <ImageView
+                android:id="@+id/avatar"
 
-            android:textColor="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
 
-            app:layout_constraintBottom_toBottomOf="@id/avatar"
-            app:layout_constraintEnd_toEndOf="@id/avatar"
-            app:layout_constraintStart_toStartOf="@id/avatar"
-            app:layout_constraintTop_toTopOf="@id/avatar"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:importantForAccessibility="no"
+                android:src="@drawable/avatar_background" />
 
-            tools:text="L" />
+            <TextView
+                android:id="@+id/initial"
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/white"
+
+                tools:text="LS" />
+
+        </com.faltenreich.skeletonlayout.SkeletonLayout>
 
         <TextView
             android:id="@+id/author"
@@ -63,7 +75,7 @@
 
             app:layout_constraintBottom_toTopOf="@id/published"
             app:layout_constraintEnd_toStartOf="@id/menu"
-            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintStart_toEndOf="@id/skeletonLayout"
             app:layout_constraintTop_toTopOf="parent"
 
             tools:text="@tools:sample/full_names" />
@@ -81,9 +93,9 @@
             android:maxLines="1"
             android:textSize="@dimen/size_text_sp"
 
-            app:layout_constraintBottom_toBottomOf="@id/avatar"
+            app:layout_constraintBottom_toBottomOf="@id/skeletonLayout"
             app:layout_constraintEnd_toStartOf="@id/menu"
-            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintStart_toEndOf="@id/skeletonLayout"
             app:layout_constraintTop_toBottomOf="@id/author"
 
             tools:text="@tools:sample/date/ddmmyy" />
@@ -111,7 +123,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="avatar, author, published, menu" />
+            app:constraint_referenced_ids="skeletonLayout, author, published, menu" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardAttachment"

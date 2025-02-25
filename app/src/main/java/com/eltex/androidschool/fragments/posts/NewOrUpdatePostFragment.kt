@@ -45,7 +45,7 @@ import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
 import com.eltex.androidschool.data.common.AttachmentTypeFile
 import com.eltex.androidschool.databinding.FragmentNewOrUpdatePostBinding
-import com.eltex.androidschool.utils.getErrorText
+import com.eltex.androidschool.utils.ErrorUtils.getErrorText
 import com.eltex.androidschool.utils.toast
 import com.eltex.androidschool.utils.vibrateWithEffect
 import com.eltex.androidschool.viewmodel.common.FileModel
