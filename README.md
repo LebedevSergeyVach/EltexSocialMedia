@@ -100,7 +100,7 @@ Basic settings for the application's appearance are implemented, such as: langua
 >
 > ### **The project is under active development!**
 >
-> Application version 1.0.0
+> Application version 1.0.1
 > At the moment, work is underway to improve the functionality of the application, add new features to the project, as well as solve possible problems and bugs.
 >
 > ### Further development plans:
@@ -241,7 +241,7 @@ Basic settings for the application's appearance are implemented, such as: langua
 >
 > ### **Проект находится в стадии активной разработки!**
 >
-> Версия приложения 1.0.0
+> Версия приложения 1.0.1
 > На данный момент идет работа над улучшением функциональности приложения, добавления новых фишек в проект, а также решение возможных проблем и багов.
 >
 > ### Планы дальнейшего развития:
