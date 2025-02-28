@@ -164,5 +164,5 @@
     <string name="update_application">Updates</string>
     <string name="application_versions">Application versions</string>
     <string name="repository_on_Github">The repository on Github</string>
-    <string name="v1_0_0_description">The first version of the Eltex Social Media application has been released. The application is a social network that will allow users to create posts and events, indicate their places of work.</string>
+    <string name="v1_0_0_description">The first version of the Eltex Social Media application has been released. The application is a social network that will allow users to create posts and events, indicate their places of work.\n\nThe version has been updated to stable version 1.0.2. Fixes: animation of avatar loading, switching to the system language in the application settings.</string>
 </resources>

@@ -2,6 +2,7 @@ package com.eltex.androidschool.activity
 
 import android.content.Context
 import android.content.res.Configuration
+import android.content.res.Resources
 import android.os.Bundle
 
 import androidx.activity.enableEdgeToEdge
@@ -61,7 +62,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         val locale: Locale = if (languageCode != null) {
             Locale(languageCode)
         } else {
-            resources.configuration.locales[0]
+            Resources.getSystem().configuration.locales[0]
         }
 
         Locale.setDefault(locale)
@@ -85,16 +86,16 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
      * @see SharedPreferences Хранилище для сохранения настроек приложения.
      * @see LocaleContextWrapper Класс-обертка для применения локали к контексту.
      */
-    override fun attachBaseContext(newBase: Context) {
-        val sharedPreferences = newBase.getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
-        val languageCode = sharedPreferences.getString("Language", null)
-
-        val locale: Locale = if (languageCode != null) {
-            Locale(languageCode)
-        } else {
-            resources.configuration.locales[0]
-        }
-
-        super.attachBaseContext(LocaleContextWrapper.wrap(newBase, locale))
-    }
+//    override fun attachBaseContext(newBase: Context) {
+//        val sharedPreferences = newBase.getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
+//        val languageCode = sharedPreferences.getString("Language", null)
+//
+//        val locale: Locale = if (languageCode != null) {
+//            Locale(languageCode)
+//        } else {
+//            resources.configuration.locales[0]
+//        }
+//
+//        super.attachBaseContext(LocaleContextWrapper.wrap(newBase, locale))
+//    }
 }
