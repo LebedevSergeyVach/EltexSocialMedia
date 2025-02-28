@@ -58,10 +58,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
      */
     @Suppress("DEPRECATION")
     private fun setLocale(languageCode: String?) {
-        val locale = if (languageCode != null) {
+        val locale: Locale = if (languageCode != null) {
             Locale(languageCode)
         } else {
-            Locale.getDefault()
+            resources.configuration.locales[0]
         }
 
         Locale.setDefault(locale)
@@ -89,10 +89,10 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
         val sharedPreferences = newBase.getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
         val languageCode = sharedPreferences.getString("Language", null)
 
-        val locale = if (languageCode != null) {
+        val locale: Locale = if (languageCode != null) {
             Locale(languageCode)
         } else {
-            Locale.getDefault()
+            resources.configuration.locales[0]
         }
 
         super.attachBaseContext(LocaleContextWrapper.wrap(newBase, locale))

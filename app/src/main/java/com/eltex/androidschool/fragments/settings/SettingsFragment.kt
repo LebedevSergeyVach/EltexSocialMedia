@@ -365,10 +365,10 @@ class SettingsFragment : Fragment() {
      */
     @Suppress("DEPRECATION")
     private fun setLocale(languageCode: String?, binding: FragmentSettingsBinding) {
-        val locale = if (languageCode != null) {
+        val locale: Locale = if (languageCode != null) {
             Locale(languageCode)
         } else {
-            Locale.getDefault()
+            resources.configuration.locales[0]
         }
 
         Locale.setDefault(locale)
