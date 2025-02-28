@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 
 import android.content.Context
 import android.content.res.Configuration
+import android.content.res.Resources
 
 import android.graphics.drawable.InsetDrawable
 
@@ -140,67 +141,23 @@ class SettingsFragment : Fragment() {
         }
 
         binding.buttonSettingsClearCache.setOnClickListener {
-            showDeleteConfirmationDialog(
-                title = getString(R.string.data_and_cache_app),
-                message = buildString {
-                    append(getString(R.string.application_cache_size_app))
-                    append(": ")
-                    append(getCacheSize(requireContext()))
-                    append("\n")
-                    append(getString(R.string.data_and_cache_description))
-                },
-                textButtonCancel = getString(R.string.thanks),
-                textButtonDelete = getString(R.string.clear_cache),
-            ) {
-                clearCacheApplication(binding)
-            }
+            showingShowDeleteConfirmationDialogWithClearingCache(binding = binding)
         }
 
         binding.buttonSettingsClearCache.setOnLongClickListener {
-            displayingDialogWindowWithInformation(
-                title = getString(R.string.data_and_cache_app),
-                message = buildString {
-                    append(getString(R.string.application_cache_size_app))
-                    append(": ")
-                    append(getCacheSize(requireContext()))
-                    append("\n")
-                    append(getString(R.string.data_and_cache_description))
-                },
-            )
-
-            true
-        }
-
-        binding.cardSettingsCache.setOnLongClickListener {
-            displayingDialogWindowWithInformation(
-                title = getString(R.string.data_and_cache_app),
-                message = buildString {
-                    append(getString(R.string.application_cache_size_app))
-                    append(": ")
-                    append(getCacheSize(requireContext()))
-                    append("\n")
-                    append(getString(R.string.data_and_cache_description))
-                },
-            )
+            displayingDisplayingDialogWindowWithInformationWithInformationAboutCache()
 
             true
         }
 
         binding.cardSettingsCache.setOnClickListener {
-            showDeleteConfirmationDialog(
-                title = getString(R.string.data_and_cache_app),
-                message = buildString {
-                    append(getString(R.string.application_cache_size_app))
-                    append(": ")
-                    append(getCacheSize(requireContext()))
-                    append("\n")
-                    append(getString(R.string.data_and_cache_description))
-                },
-                textButtonCancel = getString(R.string.thanks),
-                textButtonDelete = getString(R.string.clear_cache),
-            ) {
-                clearCacheApplication(binding)
-            }
+            showingShowDeleteConfirmationDialogWithClearingCache(binding = binding)
+        }
+
+        binding.cardSettingsCache.setOnLongClickListener {
+            displayingDisplayingDialogWindowWithInformationWithInformationAboutCache()
+
+            true
         }
 
         return binding.root
@@ -368,7 +325,7 @@ class SettingsFragment : Fragment() {
         val locale: Locale = if (languageCode != null) {
             Locale(languageCode)
         } else {
-            resources.configuration.locales[0]
+            Resources.getSystem().configuration.locales[0]
         }
 
         Locale.setDefault(locale)
@@ -513,6 +470,61 @@ class SettingsFragment : Fragment() {
             title = title,
             message = message,
             buttonText = buttonText,
+        )
+    }
+
+    /**
+     * Отображает диалоговое окно подтверждения удаления кэша приложения.
+     *
+     * Вызывает тактильную вибрацию на устройстве и показывает диалог с заголовком и сообщением,
+     * информирующим пользователя о размере кэша приложения и его очистке.
+     *
+     * @param binding Объект привязки фрагмента, используемый для доступа к представлениям.
+     *
+     * @see showDeleteConfirmationDialog
+     * @see clearCacheApplication
+     *
+     * @throws IllegalArgumentException Если binding является null.
+     */
+    private fun showingShowDeleteConfirmationDialogWithClearingCache(binding: FragmentSettingsBinding) {
+        requireContext().singleVibrationWithSystemCheck(35L)
+
+        showDeleteConfirmationDialog(
+            title = getString(R.string.data_and_cache_app),
+            message = buildString {
+                append(getString(R.string.application_cache_size_app))
+                append(": ")
+                append(getCacheSize(requireContext()))
+                append("\n")
+                append(getString(R.string.data_and_cache_description))
+            },
+            textButtonCancel = getString(R.string.thanks),
+            textButtonDelete = getString(R.string.clear_cache),
+        ) {
+            clearCacheApplication(binding)
+        }
+    }
+
+    /**
+     * Отображает диалоговое окно с информацией о размере кэша приложения.
+     *
+     * Вызывает диалог с заголовком и сообщением, информирующим пользователя о размере кэша
+     * приложения и его очистке. Не требует подтверждения от пользователя.
+     *
+     * @see displayingDialogWindowWithInformation()
+     *
+     * @throws IllegalArgumentException Если binding является null.
+     */
+    private fun displayingDisplayingDialogWindowWithInformationWithInformationAboutCache() {
+        displayingDialogWindowWithInformation(
+            title = getString(R.string.data_and_cache_app),
+            message = buildString {
+                append(getString(R.string.application_cache_size_app))
+                append(": ")
+                append(getCacheSize(requireContext()))
+                append("\n")
+                append(getString(R.string.data_and_cache_description))
+            },
         )
     }
 

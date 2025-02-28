@@ -32,7 +32,7 @@ Basic settings for the application's appearance are implemented, such as: langua
 ### View images of the mobile app [**Eltex Social Media**](documentation/README.md).
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Version](https://img.shields.io/badge/Version-1.0.1-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.0.1)
+[![Version](https://img.shields.io/badge/Version-1.0.2-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.0.2)
 
 <details open="open">
     <summary><h2>🚀 The stack of technologies used</h2></summary>
@@ -95,14 +95,14 @@ Basic settings for the application's appearance are implemented, such as: langua
 > - Choose the application language:
 > - - English.
 > - - Russian.
-> - - System (may not work well on some devices).
+> - - System.
 > - Turn on and off the vibration response in the app.
 > - Keep track of the cache size and also clear it in the application.
 > - Keep an eye on all app updates.
 >
 > ### **The project is under active development!**
 >
-> Application version 1.0.1
+> Application version 1.0.2
 > At the moment, work is underway to improve the functionality of the application, add new features to the project, as well as solve possible problems and bugs.
 >
 > ### Further development plans:
@@ -175,7 +175,7 @@ Basic settings for the application's appearance are implemented, such as: langua
 ### Посмотреть изображения мобильного приложения [**Eltex Social Media**](documentation/README.md).
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Version](https://img.shields.io/badge/Version-1.0.1-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.0.1)
+[![Version](https://img.shields.io/badge/Version-1.0.2-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.0.2)
 
 <details open="open">
     <summary><h2>🚀 Стек используемых технологий</h2></summary>
@@ -238,14 +238,14 @@ Basic settings for the application's appearance are implemented, such as: langua
 > - Выбирайте язык приложения:
 > - - Русский.
 > - - Английский.
-> - - Системный (может плохо работать на некоторых устройствах).
+> - - Системный.
 > - Включайте и отключайте виброотклик в приложении.
 > - Следите за размером кэша, а также очищайте его в приложении.
 > - Смотрите за всеми обновлениями приложения.
 >
 > ### **Проект находится в стадии активной разработки!**
 >
-> Версия приложения 1.0.1
+> Версия приложения 1.0.2
 > На данный момент идет работа над улучшением функциональности приложения, добавления новых фишек в проект, а также решение возможных проблем и багов.
 >
 > ### Планы дальнейшего развития:
