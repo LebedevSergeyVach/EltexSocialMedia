@@ -34,6 +34,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+
 import java.io.File
 
 /**
@@ -111,11 +112,13 @@ class ToolbarFragment : Fragment() {
         requireActivity().menuInflater.inflate(R.menu.menu_all_users, menu)
         requireActivity().menuInflater.inflate(R.menu.menu_logout, menu)
         requireActivity().menuInflater.inflate(R.menu.menu_settings, menu)
+        requireActivity().menuInflater.inflate(R.menu.menu_rules, menu)
 
         val newPostItem = binding.toolbar.menu.findItem(R.id.save)
         val settingsItem = binding.toolbar.menu.findItem(R.id.settings)
         val allUsersItem = binding.toolbar.menu.findItem(R.id.all_users)
         val logoutItem = binding.toolbar.menu.findItem(R.id.logout)
+        val rulesItem = binding.toolbar.menu.findItem(R.id.rules)
 
         toolBarViewModel.saveVisible.onEach { display: Boolean ->
             newPostItem.isVisible = display
@@ -134,6 +137,11 @@ class ToolbarFragment : Fragment() {
 
         toolBarViewModel.logoutVisible.onEach { display: Boolean ->
             logoutItem.isVisible = display
+        }
+            .launchIn(viewLifecycleOwner.lifecycleScope)
+
+        toolBarViewModel.rulesVisible.onEach { display: Boolean ->
+            rulesItem.isVisible = display
         }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -209,6 +217,11 @@ class ToolbarFragment : Fragment() {
             true
         }
 
+        rulesItem.setOnMenuItemClickListener {
+            navigateToRulesFragment()
+            true
+        }
+
         return binding.root
     }
 
@@ -221,10 +234,25 @@ class ToolbarFragment : Fragment() {
      */
     private fun navigateToAuthorizationFragment() {
         requireActivity().supportFragmentManager.commit {
+            setCustomAnimations(
+                R.anim.slide_in_left,
+                R.anim.slide_out_right,
+                R.anim.slide_in_right,
+                R.anim.slide_out_left,
+            )
             replace(R.id.container, AuthorizationFragment())
             setReorderingAllowed(true)
             remove(this@ToolbarFragment)
         }
+    }
+
+    private fun navigateToRulesFragment() {
+        val navControllerForSettings =
+            (childFragmentManager.findFragmentById(R.id.toolbarContainer) as NavHostFragment).navController
+
+        navControllerForSettings.navigate(
+            R.id.action_global_rulesFragment
+        )
     }
 
     /**

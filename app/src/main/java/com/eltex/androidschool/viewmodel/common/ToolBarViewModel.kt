@@ -48,12 +48,20 @@ class ToolBarViewModel : ViewModel() {
     val allUsersVisible = _allUsersVisible.asStateFlow()
 
     /**
-     * Состояние видимости кнопки выйти из аккаунта.
+     * Состояние видимости кнопки Правила.
      *
-     * @property logoutVisible Поток состояния видимости кнопки списка всех пользователей.
+     * @property logoutVisible Поток состояния видимости кнопки Правила.
      */
     private val _logoutVisible = MutableStateFlow(false)
     val logoutVisible = _logoutVisible.asStateFlow()
+
+    /**
+     * Состояние видимости кнопки выйти из аккаунта.
+     *
+     * @property logoutVisible Поток состояния видимости кнопки выхода из приложения.
+     */
+    private val _rulesVisible = MutableStateFlow(false)
+    val rulesVisible = _rulesVisible.asStateFlow()
 
     /**
      * Устанавливает видимость кнопки сохранения.
@@ -100,5 +108,14 @@ class ToolBarViewModel : ViewModel() {
         _allUsersVisible.value = visible
         _settingsVisible.value = visible
         _logoutVisible.value = visible
+    }
+
+    /**
+     * Устанавливает видимость кнопки Правила.
+     *
+     * @param visible Видимость кнопки Правила.
+     */
+    fun setRulesVisible(visible: Boolean) {
+        _rulesVisible.value = visible
     }
 }

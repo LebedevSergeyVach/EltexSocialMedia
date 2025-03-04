@@ -112,6 +112,7 @@ class RegistrationFragment : Fragment() {
                 )
                 replace(R.id.container, AuthorizationFragment())
                 setReorderingAllowed(true)
+                addToBackStack(null)
                 remove(this@RegistrationFragment)
             }
         }

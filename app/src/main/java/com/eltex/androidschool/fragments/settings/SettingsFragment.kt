@@ -24,6 +24,10 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.appcompat.view.menu.MenuBuilder
 
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
@@ -36,6 +40,7 @@ import com.eltex.androidschool.utils.showMaterialDialog
 import com.eltex.androidschool.utils.showMaterialDialogWithTwoButtons
 import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.toast
+import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -52,6 +57,8 @@ import java.util.Locale
  */
 @AndroidEntryPoint
 class SettingsFragment : Fragment() {
+
+    private val toolbarViewModel by activityViewModels<ToolBarViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -160,6 +167,19 @@ class SettingsFragment : Fragment() {
             true
         }
 
+        viewLifecycleOwner.lifecycle.addObserver(
+            object : LifecycleEventObserver {
+                override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                    when (event) {
+                        Lifecycle.Event.ON_START -> toolbarViewModel.setRulesVisible(true)
+                        Lifecycle.Event.ON_STOP -> toolbarViewModel.setRulesVisible(false)
+                        Lifecycle.Event.ON_DESTROY -> source.lifecycle.removeObserver(this)
+                        else -> Unit
+                    }
+                }
+            }
+        )
+
         return binding.root
     }
 
@@ -211,7 +231,7 @@ class SettingsFragment : Fragment() {
         ).toInt()
 
         val popup = androidx.appcompat.widget.PopupMenu(view.context, view).apply {
-            inflate(R.menu.language_menu)
+            inflate(R.menu.menu_language)
 
             if (menu is MenuBuilder) {
                 val menuBuilder = menu as MenuBuilder

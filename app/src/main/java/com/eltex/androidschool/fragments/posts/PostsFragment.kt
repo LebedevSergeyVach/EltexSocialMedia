@@ -140,7 +140,7 @@ class PostsFragment : Fragment() {
     private fun createPostAdapter(
         accountViewModel: AccountViewModel,
     ): PostAdapter = PostAdapter(
-        object : PostAdapter.PostListener {
+        listener = object : PostAdapter.PostListener {
             override fun onLikeClicked(post: PostUiModel) {
                 viewModel.accept(message = PostMessage.Like(post = post))
             }

@@ -41,7 +41,13 @@
             app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_BottomNavigationFragment_to_newOrUpdateJobFragment"
-            app:destination="@id/newOrUpdateJobFragment" />
+            app:destination="@id/newOrUpdateJobFragment"
+
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
     </fragment>
 
     <fragment
@@ -81,6 +87,7 @@
         <action
             android:id="@+id/action_settingsFragment_to_listAppUpdatesFragment"
             app:destination="@id/listAppUpdatesFragment" />
+
     </fragment>
 
     <!-- Глобальное действие для перехода к SettingsFragment -->
@@ -118,4 +125,19 @@
         android:name="com.eltex.androidschool.fragments.update.ListAppUpdatesFragment"
         android:label="@string/update_application"
         tools:layout="@layout/fragment_update" />
+
+    <fragment
+        android:id="@+id/rulesFragment"
+        android:name="com.eltex.androidschool.fragments.rules.RulesFragment"
+        android:label="@string/rules"
+        tools:layout="@layout/fragment_rules" />
+
+    <action
+        android:id="@+id/action_global_rulesFragment"
+        app:destination="@id/rulesFragment"
+
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right" />
 </navigation>

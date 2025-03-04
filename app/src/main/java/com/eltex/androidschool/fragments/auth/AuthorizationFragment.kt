@@ -103,6 +103,7 @@ class AuthorizationFragment : Fragment() {
                         )
                         replace(R.id.container, ToolbarFragment())
                         setReorderingAllowed(true)
+                        addToBackStack(null)
                         remove(this@AuthorizationFragment)
                     }
                 }
