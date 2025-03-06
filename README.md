@@ -28,11 +28,48 @@ Basic settings for the application's appearance are implemented, such as: langua
 
 ---
 
+Here’s the rewritten version of your text in English:
+
+---
+
+## 🖥️ Server Infrastructure
+
+The project uses a [**home server**](https://socialmedianetwork.serphantom.space/) for backend deployment. This solution provides full control over the infrastructure, flexibility in configuration, and cost savings on cloud resources.
+
+### 🛠️ Key Technologies and Tools
+
+- **Docker** and **Docker Compose**: Used for containerization and service management. All system components (backend, database, web server) are deployed in isolated containers, simplifying deployment and scaling.
+- **Debian**: The server's operating system. Chosen for its stability, security, and extensive customization options.
+- **PostgreSQL**: A powerful and reliable relational database used for storing application data.
+- **Spring Boot**: A framework for backend development in **Kotlin**. It ensures high performance, ease of development, and seamless integration with other system components.
+- **Nginx**: A web server and reverse proxy server. Used for request routing, load balancing, and serving static files.
+- **HTTPS**: Ensures secure communication between the client and server using **SSL/TLS** certificates.
+- **ImageKit.io**: A service for image optimization and delivery. Integrated into the project for fast media file loading.
+
+### 📦 Deployment
+
+The project is deployed on the home server using **`docker-compose`**, which automates the launch of all necessary services. Below is an example configuration:
+
+### 🔒 Security
+
+- All external requests pass through **Nginx**, which provides protection against **DDoS** attacks and filters unwanted traffic.
+- Data encryption is ensured using **HTTPS** with certificates from [**Let's Encrypt**](https://letsencrypt.org/).
+- The **PostgreSQL** database is configured to use **SSL** for encrypted connections.
+
+### 🌐 Integration with [**ImageKit.io**](https://imagekit.io/)
+
+The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization and delivery. This allows:
+- Reducing server load through caching and **CDN**.
+- Automatically optimizing images for different devices and resolutions.
+- Simplifying media file management through a user-friendly interface.
+
+---
+
 ### Documentation for the project [**documentation**](documentation/documentation.md).
 ### View images of the mobile app [**Eltex Social Media**](documentation/README.md).
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Version](https://img.shields.io/badge/Version-1.0.2-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.0.2)
+[![Version](https://img.shields.io/badge/Version-1.1.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.1.0)
 
 <details open="open">
     <summary><h2>🚀 The stack of technologies used</h2></summary>
@@ -102,7 +139,7 @@ Basic settings for the application's appearance are implemented, such as: langua
 >
 > ### **The project is under active development!**
 >
-> Application version 1.0.2
+> Application version 1.1.0
 > At the moment, work is underway to improve the functionality of the application, add new features to the project, as well as solve possible problems and bugs.
 >
 > ### Further development plans:
@@ -171,11 +208,45 @@ Basic settings for the application's appearance are implemented, such as: langua
 
 ---
 
+## 🖥️ Серверная инфраструктура
+
+Проект использует [**домашний сервер**](https://socialmedianetwork.serphantom.space/) для развертывания бэкенда.
+Это решение обеспечивает полный контроль над инфраструктурой, гибкость в настройке и экономию на облачных ресурсах.
+
+### 🛠️ Основные технологии и инструменты
+
+- **Docker** и **Docker Compose**: Для контейнеризации и управления сервисами. Все компоненты системы (бэкенд, база данных, веб-сервер) развернуты в изолированных контейнерах, что упрощает развертывание и масштабирование.
+- **Debian**: Операционная система сервера. Выбор обусловлен стабильностью, безопасностью и широкими возможностями для настройки.
+- **PostgreSQL**: Мощная и надежная реляционная база данных, используемая для хранения данных приложения.
+- **Spring Boot**: Фреймворк для разработки бэкенда на **Kotlin**. Обеспечивает высокую производительность, простоту разработки и интеграцию с другими компонентами системы.
+- **Nginx**: Веб-сервер и обратный прокси-сервер. Используется для маршрутизации запросов, балансировки нагрузки и обслуживания статических файлов.
+- **HTTPS**: Для обеспечения безопасного соединения между клиентом и сервером используется **SSL/TLS** сертификат.
+- **ImageKit.io**: Сервис для оптимизации и доставки изображений. Интегрирован с проектом для быстрой загрузки медиафайлов.
+
+### 📦 Развертывание
+
+Для развертывания проекта на домашнем сервере используется **`docker-compose`**, который автоматизирует запуск всех необходимых сервисов. Пример конфигурации:
+
+### 🔒 Безопасность
+
+- Все внешние запросы проходят через **Nginx**, который обеспечивает защиту от **DDoS**-атак и фильтрацию нежелательного трафика.
+- Для шифрования данных используется **HTTPS** с сертификатами от [**Let's Encrypt**](https://letsencrypt.org/).
+- База данных **PostgreSQL** настроена на использование **SSL** для шифрования соединений.
+
+### 🌐 Интеграция с [**ImageKit.io**](https://imagekit.io/)
+
+Для оптимизации и доставки изображений используется сервис [**ImageKit.io**](https://imagekit.io/). Это позволяет:
+- Уменьшить нагрузку на сервер за счет кэширования и **CDN**.
+- Автоматически оптимизировать изображения для разных устройств и разрешений.
+- Упростить управление медиафайлами через удобный интерфейс.
+
+---
+
 ### Документация к проеку [**documentation**](documentation/documentation.md).
 ### Посмотреть изображения мобильного приложения [**Eltex Social Media**](documentation/README.md).
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Version](https://img.shields.io/badge/Version-1.0.2-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.0.2)
+[![Version](https://img.shields.io/badge/Version-1.1.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.1.0)
 
 <details open="open">
     <summary><h2>🚀 Стек используемых технологий</h2></summary>
@@ -245,7 +316,7 @@ Basic settings for the application's appearance are implemented, such as: langua
 >
 > ### **Проект находится в стадии активной разработки!**
 >
-> Версия приложения 1.0.2
+> Версия приложения 1.1.0
 > На данный момент идет работа над улучшением функциональности приложения, добавления новых фишек в проект, а также решение возможных проблем и багов.
 >
 > ### Планы дальнейшего развития:

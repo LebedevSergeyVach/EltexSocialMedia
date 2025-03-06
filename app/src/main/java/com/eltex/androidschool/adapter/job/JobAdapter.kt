@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 
 import com.eltex.androidschool.databinding.CardJobBinding
 import com.eltex.androidschool.ui.jobs.JobUiModel
-import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
+import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
 
 /**
  * Адаптер для отображения списка мест работы.

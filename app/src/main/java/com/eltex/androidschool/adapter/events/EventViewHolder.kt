@@ -31,9 +31,9 @@ import com.eltex.androidschool.R
 import com.eltex.androidschool.data.common.Attachment
 import com.eltex.androidschool.databinding.CardEventBinding
 import com.eltex.androidschool.ui.events.EventUiModel
-import com.eltex.androidschool.utils.initialsOfUsername
-import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
-import com.eltex.androidschool.utils.toast
+import com.eltex.androidschool.utils.common.initialsOfUsername
+import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
+import com.eltex.androidschool.utils.extensions.toast
 
 import com.github.jinatonic.confetti.CommonConfetti
 

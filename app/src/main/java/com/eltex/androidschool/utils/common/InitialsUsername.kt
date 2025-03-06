@@ -1,4 +1,4 @@
-package com.eltex.androidschool.utils
+package com.eltex.androidschool.utils.common
 
 /**
  * Генерирует инициалы пользователя на основе полного имени.

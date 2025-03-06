@@ -53,4 +53,10 @@
     <style name="Widget.App.PopupMenu" parent="Widget.MaterialComponents.PopupMenu">
         <item name="android:popupBackground">@drawable/popup_menu_background</item>
     </style>
+
+    <!-- Анимация для SettingsBottomSheetFragment -->
+    <style name="BottomSheetAnimation" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="android:windowEnterAnimation">@anim/slide_in_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_out_down</item>
+    </style>
 </resources>

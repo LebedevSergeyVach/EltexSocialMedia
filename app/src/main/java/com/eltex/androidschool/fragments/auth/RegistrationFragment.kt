@@ -38,8 +38,8 @@ import com.eltex.androidschool.R
 import com.eltex.androidschool.data.common.AttachmentTypeFile
 import com.eltex.androidschool.databinding.FragmentRegistrationBinding
 import com.eltex.androidschool.fragments.common.ToolbarFragment
-import com.eltex.androidschool.utils.ErrorUtils.getErrorTextRegistration
-import com.eltex.androidschool.utils.toast
+import com.eltex.androidschool.utils.extensions.ErrorUtils.getErrorTextRegistration
+import com.eltex.androidschool.utils.extensions.toast
 import com.eltex.androidschool.viewmodel.auth.registration.RegistrationState
 import com.eltex.androidschool.viewmodel.auth.registration.RegistrationViewModel
 import com.eltex.androidschool.viewmodel.common.FileModel
@@ -82,24 +82,24 @@ class RegistrationFragment : Fragment() {
 
         monitoringButtonStatus(binding = binding)
 
-        binding.progressBar.isVisible = false
-
         binding.buttonRegistrationAccount.setOnClickListener {
             val login = binding.textLoginUser.text?.toString().orEmpty().trimStart().trimEnd()
             val username = binding.textNameUser.text?.toString().orEmpty().trimStart().trimEnd()
             val password = binding.textPasswordUser.text?.toString().orEmpty().trimStart().trimEnd()
 
-            binding.progressBar.isVisible = true
-
-            viewModel.register(
-                login = login,
-                username = username,
-                password = password,
-                contentResolver = requireContext().contentResolver,
-                onProgress = { progress ->
-                    binding.progressBar.setProgressCompat(progress, true)
-                }
-            )
+            if (containsForbiddenWords(login) || containsForbiddenWords(username)) {
+                requireContext().toast(getString(R.string.you_cant_use_admin_in_login_or_username))
+            } else {
+                viewModel.register(
+                    login = login,
+                    username = username,
+                    password = password,
+                    contentResolver = requireContext().contentResolver,
+                    onProgress = { progress ->
+                        binding.progressBar.setProgressCompat(progress, true)
+                    }
+                )
+            }
         }
 
         binding.buttonToAuthorizationAccount.setOnClickListener {
@@ -112,6 +112,7 @@ class RegistrationFragment : Fragment() {
                 )
                 replace(R.id.container, AuthorizationFragment())
                 setReorderingAllowed(true)
+                addToBackStack(null)
                 remove(this@RegistrationFragment)
             }
         }
@@ -130,6 +131,8 @@ class RegistrationFragment : Fragment() {
         viewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { state: RegistrationState ->
+                binding.progressBar.isVisible = state.isLoading
+
                 binding.buttonRegistrationAccount.isEnabled = state.isButtonEnabled
                 binding.buttonRegistrationAccount.alpha = if (state.isButtonEnabled) 1f else 0.5f
 
@@ -259,6 +262,20 @@ class RegistrationFragment : Fragment() {
                 username = username,
                 password = password,
             )
+        }
+    }
+
+    /**
+     * Проверяет, содержит ли строка запрещенные слова ("admin" или "админ") в любом регистре.
+     *
+     * @param input Строка для проверки.
+     * @return `true`, если строка содержит запрещенные слова, иначе `false`.
+     */
+    private fun containsForbiddenWords(input: String): Boolean {
+        val forbiddenWords = listOf("admin", "админ")
+
+        return forbiddenWords.any { word ->
+            input.contains(word, ignoreCase = true)
         }
     }
 

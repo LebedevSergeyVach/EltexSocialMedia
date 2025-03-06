@@ -1,6 +1,7 @@
 package com.eltex.androidschool.fragments.posts
 
 import android.graphics.drawable.Drawable
+
 import android.net.Uri
 import android.os.Bundle
 
@@ -15,7 +16,6 @@ import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 
 import androidx.appcompat.widget.Toolbar
 
-import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -41,13 +41,15 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 
-import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
 import com.eltex.androidschool.data.common.AttachmentTypeFile
 import com.eltex.androidschool.databinding.FragmentNewOrUpdatePostBinding
-import com.eltex.androidschool.utils.ErrorUtils.getErrorText
-import com.eltex.androidschool.utils.toast
-import com.eltex.androidschool.utils.vibrateWithEffect
+import com.eltex.androidschool.fragments.common.SettingsBottomSheetFragment
+import com.eltex.androidschool.utils.extensions.ErrorUtils.getErrorText
+import com.eltex.androidschool.utils.extensions.showMaterialDialogWithTwoButtons
+import com.eltex.androidschool.utils.extensions.toast
+import com.eltex.androidschool.utils.extensions.vibrateWithEffect
+import com.eltex.androidschool.utils.helper.ImageHelper
 import com.eltex.androidschool.viewmodel.common.FileModel
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 import com.eltex.androidschool.viewmodel.posts.newposts.NewPostState
@@ -59,7 +61,6 @@ import dagger.hilt.android.lifecycle.withCreationCallback
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
-
 import java.io.File
 
 /**
@@ -82,11 +83,28 @@ class NewOrUpdatePostFragment : Fragment() {
         const val POST_CREATED_OR_UPDATED_KEY = "POST_CREATED_OR_UPDATED_KEY"
     }
 
+    /**
+     * Флаг, указывающий, включено ли сжатие изображений в приложении.
+     * По умолчанию установлен в `true`, что означает, что сжатие изображений включено.
+     *
+     * @property isCompressionEnabled Состояние сжатия изображений (включено/выключено).
+     */
+    private var isCompressionEnabled = true
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentNewOrUpdatePostBinding.inflate(layoutInflater)
+
+        /**
+         * Экземпляр класса `ImageHelper`, используемый для работы с изображениями.
+         * Инициализируется с контекстом текущего фрагмента или активности.
+         *
+         * @property imageHelper Вспомогательный объект для работы с изображениями.
+         * @see ImageHelper
+         */
+        val imageHelper = ImageHelper(requireContext())
 
         /**
          * ViewModel для управления состоянием панели инструментов.
@@ -103,6 +121,10 @@ class NewOrUpdatePostFragment : Fragment() {
 
         binding.progressBar.isVisible = false
         binding.content.setText(content)
+
+        binding.buttonOpenSettings.setOnClickListener {
+            showSettingsBottomSheet()
+        }
 
         blockingUiWhenLoading(
             binding = binding,
@@ -130,7 +152,16 @@ class NewOrUpdatePostFragment : Fragment() {
          *
          * @see createPhotoUri
          */
-        val photoUri: Uri = createPhotoUri()
+        val photoUri: Uri = imageHelper.createPhotoUri()
+
+        /**
+         * Временный файл, который может использоваться для хранения данных, связанных с временными метками или другими временными данными.
+         * Если файл не используется, значение равно `null`.
+         *
+         * @property timeFile Временный файл или `null`, если файл не создан.
+         * @see File
+         */
+        var timeFile: File? = null
 
         /**
          * Контракт для запуска активности съемки фотографии.
@@ -142,12 +173,39 @@ class NewOrUpdatePostFragment : Fragment() {
         val takePictureContract: ActivityResultLauncher<Uri> =
             registerForActivityResult(ActivityResultContracts.TakePicture()) { success: Boolean ->
                 if (success) {
-                    newPostViewModel.saveAttachmentFileType(
-                        FileModel(
-                            uri = photoUri,
-                            type = AttachmentTypeFile.IMAGE
+                    if (isCompressionEnabled) {
+                        val compressedFile = imageHelper.compressImage(photoUri)
+                        compressedFile?.let { file: File ->
+                            timeFile = file
+
+                            if (file.exists()) {
+                                newPostViewModel.saveAttachmentFileType(
+                                    FileModel(
+                                        uri = Uri.fromFile(file),
+                                        type = AttachmentTypeFile.IMAGE
+                                    )
+                                )
+                            } else {
+                                requireContext().showMaterialDialogWithTwoButtons(
+                                    title = getString(R.string.image_compression_error),
+                                    message = getString(R.string.image_compression_error_description),
+                                    cancelButtonText = getString(R.string.unplug),
+                                    deleteButtonText = getString(R.string.thanks),
+                                    onDeleteConfirmed = {
+                                        isCompressionEnabled = false
+                                        newPostViewModel.saveAttachmentFileType(null)
+                                    },
+                                )
+                            }
+                        }
+                    } else {
+                        newPostViewModel.saveAttachmentFileType(
+                            FileModel(
+                                uri = photoUri,
+                                type = AttachmentTypeFile.IMAGE
+                            )
                         )
-                    )
+                    }
                 }
             }
 
@@ -159,14 +217,41 @@ class NewOrUpdatePostFragment : Fragment() {
          * @see ActivityResultContracts.PickVisualMedia
          */
         val takePictureGalleryContract: ActivityResultLauncher<PickVisualMediaRequest> =
-            registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
-                uri?.let {
-                    newPostViewModel.saveAttachmentFileType(
-                        FileModel(
-                            uri = uri,
-                            type = AttachmentTypeFile.IMAGE
+            registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uriOrNull: Uri? ->
+                uriOrNull?.let { uri: Uri ->
+                    if (isCompressionEnabled) {
+                        val compressedFile = imageHelper.compressImage(uri)
+                        compressedFile?.let { file: File ->
+                            timeFile = file
+
+                            if (file.exists()) {
+                                newPostViewModel.saveAttachmentFileType(
+                                    FileModel(
+                                        uri = Uri.fromFile(file),
+                                        type = AttachmentTypeFile.IMAGE
+                                    )
+                                )
+                            } else {
+                                requireContext().showMaterialDialogWithTwoButtons(
+                                    title = getString(R.string.image_compression_error),
+                                    message = getString(R.string.image_compression_error_description),
+                                    cancelButtonText = getString(R.string.unplug),
+                                    deleteButtonText = getString(R.string.thanks),
+                                    onDeleteConfirmed = {
+                                        isCompressionEnabled = false
+                                        newPostViewModel.saveAttachmentFileType(null)
+                                    },
+                                )
+                            }
+                        }
+                    } else {
+                        newPostViewModel.saveAttachmentFileType(
+                            FileModel(
+                                uri = uri,
+                                type = AttachmentTypeFile.IMAGE
+                            )
                         )
-                    )
+                    }
                 }
             }
 
@@ -215,7 +300,9 @@ class NewOrUpdatePostFragment : Fragment() {
 
         observeState(
             newPostVewModel = newPostViewModel,
-            binding = binding
+            binding = binding,
+            imageHelper = imageHelper,
+            timeFile = timeFile,
         )
 
         viewLifecycleOwner.lifecycle.addObserver(
@@ -242,22 +329,33 @@ class NewOrUpdatePostFragment : Fragment() {
     }
 
     /**
-     * Наблюдает за состоянием ViewModel и обновляет UI в зависимости от изменений.
+     * Наблюдает за состоянием ViewModel (`NewPostViewModel`) и обновляет UI в зависимости от изменений состояния.
+     * Также управляет временными файлами и отображает ошибки, если они возникают.
      *
-     * Этот метод подписывается на изменения состояния ViewModel и обновляет UI, например, отображает или скрывает изображение,
-     * обрабатывает ошибки и навигацию.
+     * @param newPostVewModel ViewModel, которая предоставляет состояние для создания или обновления поста.
+     * @param binding Привязка данных для фрагмента `FragmentNewOrUpdatePostBinding`.
+     * @param imageHelper Вспомогательный класс для работы с изображениями.
+     * @param timeFile Временный файл, который может быть удален после завершения операции.
      *
-     * @param newPostVewModel ViewModel, за состоянием которой ведется наблюдение.
-     * @param binding Привязка данных для доступа к элементам UI.
+     * @see NewPostViewModel
+     * @see FragmentNewOrUpdatePostBinding
+     * @see ImageHelper
+     * @see File
      */
     private fun observeState(
         newPostVewModel: NewPostViewModel,
         binding: FragmentNewOrUpdatePostBinding,
+        imageHelper: ImageHelper,
+        timeFile: File?,
     ) {
         newPostVewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { newPostState: NewPostState ->
                 if (newPostState.post != null) {
+                    timeFile?.let { file: File ->
+                        imageHelper.deleteTempFile(file = file)
+                    }
+
                     requireActivity().supportFragmentManager.setFragmentResult(
                         POST_CREATED_OR_UPDATED_KEY,
                         bundleOf()
@@ -341,28 +439,6 @@ class NewOrUpdatePostFragment : Fragment() {
     }
 
     /**
-     * Создает URI для временного хранения фотографии.
-     *
-     * Этот метод создает файл в кэше приложения и возвращает URI для этого файла.
-     *
-     * @return URI для временного файла фотографии.
-     * @see FileProvider
-     */
-    private fun createPhotoUri(): Uri {
-        val directory: File = requireContext().cacheDir.resolve("file_picker").apply {
-            mkdir()
-        }
-
-        val file: File = directory.resolve("image")
-
-        return FileProvider.getUriForFile(
-            requireContext(),
-            "${BuildConfig.APPLICATION_ID}.fileprovider",
-            file
-        )
-    }
-
-    /**
      * Блокирует или разблокирует элементы пользовательского интерфейса во время загрузки.
      * Эта функция управляет состоянием элементов UI, таких как текстовое поле, кнопки и панель инструментов,
      *
@@ -384,5 +460,22 @@ class NewOrUpdatePostFragment : Fragment() {
         binding.buttonRemoveImage.isEnabled = blocking
 
         toolBarViewModel.setSaveVisible(blocking)
+    }
+
+    /**
+     * Отображает нижний лист (Bottom Sheet) с настройками, позволяя пользователю управлять сжатием изображений.
+     * При изменении состояния переключателя сжатия изображений обновляет значение переменной `isCompressionEnabled`.
+     *
+     * @see SettingsBottomSheetFragment
+     * @sample showSettingsBottomSheet()
+     */
+    private fun showSettingsBottomSheet() {
+        val bottomSheet = SettingsBottomSheetFragment(isCompressionEnabled)
+
+        bottomSheet.setOnCompressionToggleListener { isChecked ->
+            isCompressionEnabled = isChecked
+        }
+
+        bottomSheet.show(parentFragmentManager, bottomSheet.tag)
     }
 }

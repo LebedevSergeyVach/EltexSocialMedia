@@ -8,7 +8,7 @@ import com.eltex.androidschool.model.posts.PostWithError
 import com.eltex.androidschool.mvi.Reducer
 import com.eltex.androidschool.mvi.ReducerResult
 import com.eltex.androidschool.ui.posts.PostUiModel
-import com.eltex.androidschool.utils.Logger
+import com.eltex.androidschool.utils.helper.LoggerHelper
 import com.eltex.androidschool.viewmodel.posts.post.PostMessage
 import com.eltex.androidschool.viewmodel.posts.post.PostState
 import com.eltex.androidschool.viewmodel.posts.post.PostStatus
@@ -196,7 +196,7 @@ class PostReducer @Inject constructor() : Reducer<PostState, PostEffect, PostMes
 
                     is Either.Left -> {
                         if (BuildConfig.DEBUG) {
-                            Logger.e("NextPageLoaded: statusPost = ${PostStatus.NextPageError(reason = messageResult.value)}")
+                            LoggerHelper.e("NextPageLoaded: statusPost = ${PostStatus.NextPageError(reason = messageResult.value)}")
                         }
 
                         old.copy(

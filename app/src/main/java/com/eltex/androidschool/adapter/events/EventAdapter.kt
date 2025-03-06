@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+
 import androidx.appcompat.view.menu.MenuBuilder
 
 import androidx.appcompat.widget.PopupMenu
@@ -18,10 +19,8 @@ import androidx.recyclerview.widget.ListAdapter
 
 import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.CardEventBinding
-import com.eltex.androidschool.ui.common.PagingModel
 import com.eltex.androidschool.ui.events.EventUiModel
-import com.eltex.androidschool.ui.posts.PostUiModel
-import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
+import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
 
 /**
  * Адаптер для отображения списка событий в RecyclerView.

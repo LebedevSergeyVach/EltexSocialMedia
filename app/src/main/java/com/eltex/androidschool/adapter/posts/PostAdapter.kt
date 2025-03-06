@@ -29,7 +29,7 @@ import com.eltex.androidschool.databinding.ItemSkeletonPostBinding
 import com.eltex.androidschool.ui.common.PagingModel
 import com.eltex.androidschool.ui.posts.PostPagingModel
 import com.eltex.androidschool.ui.posts.PostUiModel
-import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
+import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
 
 /**
  * Адаптер для отображения списка постов в RecyclerView.

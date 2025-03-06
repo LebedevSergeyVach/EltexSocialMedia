@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package com.eltex.androidschool.utils
+package com.eltex.androidschool.utils.extensions
 
 import android.annotation.SuppressLint
 
@@ -10,6 +10,7 @@ import android.provider.Settings
 import android.os.Vibrator
 import android.os.VibrationEffect
 import com.eltex.androidschool.BuildConfig
+import com.eltex.androidschool.utils.helper.LoggerHelper
 
 /**
  * Вызывает простую вибрацию на определенное количество миллисекунд.
@@ -83,7 +84,7 @@ fun Context.singleVibrationWithSystemCheck(
 
         if (isVibrationEnabledInSystem) {
             if (BuildConfig.DEBUG) {
-                Logger.i("Произошла вибрация singleVibrationWithSystemCheck($milliseconds)")
+                LoggerHelper.i("Произошла вибрация singleVibrationWithSystemCheck($milliseconds)")
             }
 
             val vibrator = this.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator

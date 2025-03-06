@@ -23,7 +23,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:minHeight="950dp"
+            android:minHeight="970dp"
             android:orientation="vertical"
             android:paddingBottom="?actionBarSize">
 
@@ -279,14 +279,32 @@
             android:layout_height="wrap_content"
 
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginVertical="10dp"
+            android:layout_marginEnd="10dp"
             android:backgroundTint="@color/active_element"
             android:text="@string/camera"
             android:textColor="@color/white"
             app:icon="@drawable/ic_add_photo_bold_24"
             app:iconTint="@color/white" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/buttonOpenSettings"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center"
+            android:layout_marginVertical="10dp"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="@color/active_element"
+            android:contentDescription="@string/settings"
+            android:visibility="visible"
+
+            app:layout_constraintBottom_toBottomOf="@id/container"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:srcCompat="@drawable/ic_gear_wheel_24"
+            app:tint="@color/white" />
 
         <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/buttonSelectPhotoToGallery"
@@ -295,8 +313,7 @@
             android:layout_height="wrap_content"
 
             android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginVertical="10dp"
             android:backgroundTint="@color/active_element"
             android:text="@string/gallery"
             android:textColor="@color/white"

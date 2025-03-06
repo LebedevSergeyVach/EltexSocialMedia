@@ -1,4 +1,4 @@
-package com.eltex.androidschool.utils
+package com.eltex.androidschool.utils.helper
 
 import android.util.Log
 
@@ -9,7 +9,7 @@ import android.util.Log
  *
  * @see Log Класс Android для работы с логами.
  */
-object Logger {
+object LoggerHelper {
 
     /**
      * Общий тег для всех логов, выводимых этим классом.

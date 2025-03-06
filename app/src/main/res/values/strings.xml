@@ -69,6 +69,9 @@
     <string name="working_period_card_title">Working period</string>
     <string name="working_period_card_description">Here you need to specify the period of work in the company.</string>
 
+    <string name="image_compression_error">Image compression error</string>
+    <string name="image_compression_error_description">Your image could not be compressed or the image data was not found on the device. Please disable image compression by clicking on the button or in the additional image sending settings.</string>
+    <string name="unplug">Unplug</string>
     <string name="delete_post_title">Deleting a post</string>
     <string name="delete_post_message">Are you sure you want to delete this post?</string>
     <string name="delete_event_title">Deleting an event</string>
@@ -77,6 +80,11 @@
     <string name="delete_job_message">Are you sure you want to delete this place of work?</string>
     <string name="cancel">Cancel</string>
     <string name="delete">Remove</string>
+    <string name="additional_settings_for_the_image">Additional settings for the image</string>
+    <string name="compress_images">Compress images</string>
+    <string name="rules_for_publishing_content">Rules for publishing content</string>
+    <string name="compress_images_title">Image Compression</string>
+    <string name="compress_images_description">Image compression practically does not degrade the quality. The image metadata is deleted and the image resolution is optimized.</string>
 
     <string name="retry">Retry</string>
     <string name="network_error">Network error</string>
@@ -158,6 +166,7 @@
     <string name="back_authorization">Go back to logging in to your account</string>
     <string name="the_user_is_already_registered">The user is already registered</string>
     <string name="incorrect_photo_format">Incorrect photo format</string>
+    <string name="you_cant_use_admin_in_login_or_username">You cannot use admin in login or username</string>
 
     <string name="date">Date</string>
     <string name="version">Version</string>
@@ -165,4 +174,58 @@
     <string name="application_versions">Application versions</string>
     <string name="repository_on_Github">The repository on Github</string>
     <string name="v1_0_0_description">The first version of the Eltex Social Media application has been released. The application is a social network that will allow users to create posts and events, indicate their places of work.\n\nThe version has been updated to stable version 1.0.2. Fixes: animation of avatar loading, switching to the system language in the application settings.</string>
+    <string name="v1_1_0_description">Updates:\n\n●Added the ability to compress the image size before sending: the image metadata is deleted, and the image resolution is optimized.●The backend application runs on its own server.\n●The application usage rules and the user agreement have been added.</string>
+
+    <!-- Rules -->
+    <string name="rules">Rules</string>
+    <string name="rules_for_using_the_social_media_network">Rules for Using the Social Media Network</string>
+    <string name="rules_1">1. General Provisions</string>
+    <string name="rules_1_1">1.1. The social media network (hereinafter referred to as the "Platform") provides users with the ability to exchange information, create content, and interact with other users.</string>
+    <string name="rules_1_2">1.2. By using the Platform, you agree to these Rules and undertake to comply with them.</string>
+    <string name="rules_1_3">1.3. The Platform Administration reserves the right to change the Rules without prior notice.</string>
+    <string name="rules_2">2. Registration and Account</string>
+    <string name="rules_2_1">2.1. To use the Platform, you must register an account.</string>
+    <string name="rules_2_2">2.2. During registration, the user is required to provide accurate information.</string>
+    <string name="rules_2_3">2.3. The following is prohibited:\n● Creating multiple accounts for one user.\n● Using someone else\'s data for registration.\n● Registering accounts on behalf of legal entities without the Administration\'s approval.</string>
+    <string name="rules_2_4">2.4. The user is responsible for ensuring the security of their account. In case of lost access, the Administration must be notified immediately.</string>
+    <string name="rules_3">3. Creating and Publishing Content</string>
+    <string name="rules_3_1">3.1. Users can publish text posts, images, videos, and other materials (hereinafter referred to as "Content").</string>
+    <string name="rules_3_2">3.2. It is prohibited to publish Content that:\n● Violates the laws of the user\'s country of residence.\n● Contains profanity, insults, or threats.\n● Promotes violence, discrimination, or extremism.\n● Contains adult content (18+).\n● Violates the copyrights of third parties.</string>
+    <string name="rules_3_3">3.3. The user is fully responsible for the Content they publish.</string>
+    <string name="rules_3_4">3.4. The Administration reserves the right to remove Content that violates the Rules without warning.</string>
+    <string name="rules_4">4. Interaction with Other Users</string>
+    <string name="rules_4_1">4.1. Users can comment, like, and share other users\' Content.</string>
+    <string name="rules_4_2">4.2. The following is prohibited:\n● Posting offensive or provocative comments.\n● Distributing spam or advertising without the Administration\'s approval.\n● Using the Platform to harass or bully other users.</string>
+    <string name="rules_4_3">4.3. Users can block other users if their actions cause discomfort.</string>
+    <string name="rules_5">5. Events and Activities</string>
+    <string name="rules_5_1">5.1. Users can create events and invite other users.</string>
+    <string name="rules_5_2">5.2. An event must include:\n● A title.\n● A description.\n● The date and time of the event.\n● A link to the source (if applicable).</string>
+    <string name="rules_5_3">5.3. It is prohibited to create events that:\n● Violate the law.\n● Contain false information.\n● Promote illegal activities.</string>
+    <string name="rules_6">6. Companies and Workplaces</string>
+    <string name="rules_6_1">6.1. Users can specify companies where they have worked or are currently working.</string>
+    <string name="rules_6_2">6.2. Information about the company must include:\n● The company\'s name.\n● The user\'s position.\n● A link to the company\'s official website (if available).</string>
+    <string name="rules_6_3">6.3. The following is prohibited:\n● Providing false information about the company or position.\n● Using company information for advertising without the Administration\'s approval.</string>
+    <string name="rules_7">7. Privacy and User Data</string>
+    <string name="rules_7_1">7.1. The Platform is committed to protecting users\' personal data.</string>
+    <string name="rules_7_2">7.2. The user agrees to the processing of their data within the Platform\'s functionality.</string>
+    <string name="rules_7_3">7.3. The following is prohibited:\n● Sharing other users\' personal data without their consent.\n● Using user data for commercial purposes.</string>
+    <string name="rules_8">8. Violations and Sanctions</string>
+    <string name="rules_8_1">8.1. In case of violations of the Rules, the Administration may:\n● Issue a warning.\n● Remove Content.\n● Block the account.</string>
+    <string name="rules_8_2">8.2. The user may appeal the Administration\'s actions by contacting support.</string>
+    <string name="user_agreement">User Agreement</string>
+    <string name="user_agreement_1">1. Terms of Use</string>
+    <string name="user_agreement_1_1">1.1. By using the Platform, you confirm that you have read this Agreement and accept its terms.</string>
+    <string name="user_agreement_1_2">1.2. The Platform is provided "as is." The Administration does not guarantee uninterrupted operation or the absence of errors.</string>
+    <string name="user_agreement_2">2. User Rights and Responsibilities</string>
+    <string name="user_agreement_2_1">2.1. The user has the right to:\n● Create and publish Content.\n● Interact with other users.\n● Contact support.</string>
+    <string name="user_agreement_2_2">2.2. The user is required to:\n● Comply with the Rules and the law.\n● Not violate the rights of other users.</string>
+    <string name="user_agreement_3">3. Administration Rights and Responsibilities</string>
+    <string name="user_agreement_3_1">3.1. The Administration has the right to:\n● Remove Content that violates the Rules.\n● Block the accounts of violators.\n● Make changes to the Platform\'s functionality.</string>
+    <string name="user_agreement_3_2">3.2. The Administration is required to:\n● Ensure the Platform\'s functionality.\n● Protect users\' personal data.</string>
+    <string name="user_agreement_4">4. Liability</string>
+    <string name="user_agreement_4_1">4.1. The user is responsible for their actions on the Platform.</string>
+    <string name="user_agreement_4_2">4.2. The Administration is not responsible for Content posted by users.</string>
+    <string name="user_agreement_5">5. Final Provisions</string>
+    <string name="user_agreement_5_1">5.1. This Agreement is governed by the laws of the country where the Platform is registered.</string>
+    <string name="user_agreement_5_2">5.2. All disputes are resolved through negotiations. If an agreement cannot be reached, the dispute is referred to court.</string>
 </resources>

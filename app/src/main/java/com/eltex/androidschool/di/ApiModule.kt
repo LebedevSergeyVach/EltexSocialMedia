@@ -9,7 +9,7 @@ import com.eltex.androidschool.api.users.UsersApi
 import com.eltex.androidschool.api.jobs.JobsApi
 import com.eltex.androidschool.api.media.MediaApi
 import com.eltex.androidschool.store.UserPreferences
-import com.eltex.androidschool.utils.DnsSelector
+import com.eltex.androidschool.utils.helper.DnsSelectorHelper
 
 import dagger.Module
 import dagger.Provides
@@ -94,7 +94,7 @@ class ApiModule {
      * - Установлено время ожидания соединения в 30 секунд.
      * - В режиме отладки (BuildConfig.DEBUG) добавлен интерсептор [HttpLoggingInterceptor] для логирования тела запросов и ответов.
      * - Добавлен интерсептор для установки заголовков [API_KEY] и [API_AUTHORIZATION] на основе значений из [BuildConfig].
-     * - Используется пользовательская DNS-реализация [DnsSelector].
+     * - Используется пользовательская DNS-реализация [DnsSelectorHelper].
      *
      * Ленивая инициализация, чтобы создать экземпляр OkHttpClient только при первом обращении.
      * Этот клиент используется для выполнения сетевых запросов к API.
@@ -122,7 +122,7 @@ class ApiModule {
                         .build()
                 )
             }
-            .dns(DnsSelector())
+            .dns(DnsSelectorHelper())
             .build()
 
     /**

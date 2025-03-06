@@ -1,4 +1,4 @@
-package com.eltex.androidschool.utils
+package com.eltex.androidschool.utils.extensions
 
 import android.content.Context
 import android.graphics.Typeface

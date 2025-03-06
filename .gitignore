@@ -1,3 +1,6 @@
+# Android Studio
+
+.idea/
 .kotlin
 *.iml
 .gradle
@@ -13,8 +16,13 @@
 /captures
 .externalNativeBuild
 .cxx
+
+# Properties
+
 local.properties
-.idea/
 secrets.properties
+
+# Release
+
 release
 app/release

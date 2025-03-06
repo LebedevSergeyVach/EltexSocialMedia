@@ -28,10 +28,10 @@ import com.eltex.androidschool.fragments.users.AccountFragment
 import com.eltex.androidschool.ui.common.OffsetDecoration
 import com.eltex.androidschool.ui.events.EventPagingMapper
 import com.eltex.androidschool.ui.events.EventUiModel
-import com.eltex.androidschool.utils.ErrorUtils.getErrorText
-import com.eltex.androidschool.utils.showMaterialDialogWithTwoButtons
-import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
-import com.eltex.androidschool.utils.toast
+import com.eltex.androidschool.utils.extensions.ErrorUtils.getErrorText
+import com.eltex.androidschool.utils.extensions.showMaterialDialogWithTwoButtons
+import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
+import com.eltex.androidschool.utils.extensions.toast
 import com.eltex.androidschool.viewmodel.auth.user.AccountViewModel
 import com.eltex.androidschool.viewmodel.events.events.EventMessage
 import com.eltex.androidschool.viewmodel.events.events.EventState
