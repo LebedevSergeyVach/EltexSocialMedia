@@ -29,10 +29,10 @@ import com.eltex.androidschool.fragments.users.AccountFragment
 import com.eltex.androidschool.ui.common.OffsetDecoration
 import com.eltex.androidschool.ui.posts.PostPagingMapper
 import com.eltex.androidschool.ui.posts.PostUiModel
-import com.eltex.androidschool.utils.ErrorUtils.getErrorText
-import com.eltex.androidschool.utils.showMaterialDialogWithTwoButtons
-import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
-import com.eltex.androidschool.utils.toast
+import com.eltex.androidschool.utils.extensions.ErrorUtils.getErrorText
+import com.eltex.androidschool.utils.extensions.showMaterialDialogWithTwoButtons
+import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
+import com.eltex.androidschool.utils.extensions.toast
 import com.eltex.androidschool.viewmodel.auth.user.AccountViewModel
 import com.eltex.androidschool.viewmodel.posts.post.PostMessage
 import com.eltex.androidschool.viewmodel.posts.post.PostState

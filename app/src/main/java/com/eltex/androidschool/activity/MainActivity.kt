@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatDelegate
 
 import com.eltex.androidschool.R
 import com.eltex.androidschool.ui.common.EdgeToEdgeHelper
-import com.eltex.androidschool.utils.LocaleContextWrapper
+import com.eltex.androidschool.utils.common.LocaleContextWrapper
 
 import dagger.hilt.android.AndroidEntryPoint
 

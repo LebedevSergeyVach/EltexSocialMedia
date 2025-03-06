@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.ListAdapter
 import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.CardEventBinding
 import com.eltex.androidschool.ui.events.EventUiModel
-import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
+import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
 
 /**
  * Адаптер для отображения списка событий в RecyclerView.

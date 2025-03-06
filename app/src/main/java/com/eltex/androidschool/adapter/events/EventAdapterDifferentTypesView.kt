@@ -27,7 +27,7 @@ import com.eltex.androidschool.databinding.ItemSkeletonEventBinding
 import com.eltex.androidschool.ui.common.PagingModel
 import com.eltex.androidschool.ui.events.EventPagingModel
 import com.eltex.androidschool.ui.events.EventUiModel
-import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
+import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
 
 /**
  * Адаптер для отображения списка событий в RecyclerView с поддержкой различных типов элементов.

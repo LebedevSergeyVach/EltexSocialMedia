@@ -35,11 +35,11 @@ import androidx.navigation.fragment.findNavController
 import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentSettingsBinding
-import com.eltex.androidschool.utils.Logger
-import com.eltex.androidschool.utils.showMaterialDialog
-import com.eltex.androidschool.utils.showMaterialDialogWithTwoButtons
-import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
-import com.eltex.androidschool.utils.toast
+import com.eltex.androidschool.utils.helper.LoggerHelper
+import com.eltex.androidschool.utils.extensions.showMaterialDialog
+import com.eltex.androidschool.utils.extensions.showMaterialDialogWithTwoButtons
+import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
+import com.eltex.androidschool.utils.extensions.toast
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 
 import dagger.hilt.android.AndroidEntryPoint
@@ -363,8 +363,8 @@ class SettingsFragment : Fragment() {
         sharedPreferences.edit().putString("Language", languageCode).apply()
 
         if (BuildConfig.DEBUG) {
-            Logger.d("System locale: ${Locale.getDefault()}")
-            Logger.d("Updated configuration locale: ${resources.configuration.locale}")
+            LoggerHelper.d("System locale: ${Locale.getDefault()}")
+            LoggerHelper.d("Updated configuration locale: ${resources.configuration.locale}")
         }
 
         updateButtonTexts(binding = binding)

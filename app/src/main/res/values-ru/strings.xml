@@ -19,7 +19,9 @@
     <string name="remove_image">Удалить изображение</string>
     <string name="gallery">Галерея</string>
     <string name="camera">Камера</string>
-
+    <string name="image_compression_error">Ошибка сжатия изображения</string>
+    <string name="image_compression_error_description">Не удалось сжать ваше изображение или данные изображение не найдено на устройстве. Пожалуйста, отключите сжатие изображение нажав на кнопку или в дополнительный настройках отправки изображения.</string>
+    <string name="unplug">Отключить</string>
     <string name="new_event_title">Новое событие</string>
     <string name="save_event">Сохранить событие</string>
     <string name="create_event">Создать событие</string>
@@ -77,6 +79,11 @@
     <string name="delete_job_message">Вы уверены, что хотите удалить это место работы?</string>
     <string name="cancel">Отмена</string>
     <string name="delete">Удалить</string>
+    <string name="additional_settings_for_the_image">Дополнительные настройки для изображения</string>
+    <string name="compress_images">Сжимать изображения</string>
+    <string name="rules_for_publishing_content">Правила публикации контента</string>
+    <string name="compress_images_title">Сжатие изображения</string>
+    <string name="compress_images_description">Сжатие изображений практически не ухудшает качество. Метаданные изображения удаляются, а разрешение изображения оптимизируется.</string>
 
     <string name="retry">Повторить</string>
     <string name="network_error">Ошибка сети</string>
@@ -157,7 +164,8 @@
     <string name="confirmation_of_account_logout">Вы уверены, что хотите выйти из приложения? Все важные и временные данные приложения будут удалены!</string>
     <string name="back_authorization">Вернуться ко входу в аккаунт</string>
     <string name="the_user_is_already_registered">Пользователь уже зарегистрирован</string>
-    <string name="incorrect_photo_format">Incorrect photo format</string>
+    <string name="incorrect_photo_format">Неправильный формат фотографии</string>
+    <string name="you_cant_use_admin_in_login_or_username">Нельзя использовать admin в login или имени</string>
 
     <string name="date">Дата</string>
     <string name="version">Версия</string>
@@ -165,6 +173,7 @@
     <string name="application_versions">Версии приложения</string>
     <string name="repository_on_Github">Репозиторий на Github</string>
     <string name="v1_0_0_description">Вышла первая версия приложения Eltex Social Media. Приложение представляет собой социальную сеть, которая позволит пользователям создавать посты и события, указывать места своей работы.\n\nВерсия обновлена до стабильной версии 1.0.2. Исправлены ошибки: анимация загрузки аватара, переключение на системный язык в настройках приложения.</string>
+    <string name="v1_1_0_description">Обновления:\n\n●Добавлена возможность сжатия размера изображения перед отправкой: метаданные изображения удаляются, а разрешение изображения оптимизируется.\n●Бэкэнд приложение работает на собственном сервере.\n●Добавлены правила использования приложения и пользовательское соглашение.</string>
 
     <!-- Rules -->
     <string name="rules">Правила </string>

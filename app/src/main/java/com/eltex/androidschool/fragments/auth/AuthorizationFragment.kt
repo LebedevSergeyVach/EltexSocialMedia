@@ -21,8 +21,8 @@ import androidx.lifecycle.lifecycleScope
 import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentAuthorizationBinding
 import com.eltex.androidschool.fragments.common.ToolbarFragment
-import com.eltex.androidschool.utils.ErrorUtils.getErrorTextAuthorization
-import com.eltex.androidschool.utils.toast
+import com.eltex.androidschool.utils.extensions.ErrorUtils.getErrorTextAuthorization
+import com.eltex.androidschool.utils.extensions.toast
 import com.eltex.androidschool.viewmodel.auth.authorizations.AuthorizationState
 import com.eltex.androidschool.viewmodel.auth.authorizations.AuthorizationViewModel
 

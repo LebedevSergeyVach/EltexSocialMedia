@@ -56,11 +56,11 @@ import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.ui.jobs.JobUiModel
 import com.eltex.androidschool.ui.posts.PostPagingMapper
 import com.eltex.androidschool.ui.posts.PostUiModel
-import com.eltex.androidschool.utils.ErrorUtils.getErrorText
-import com.eltex.androidschool.utils.initialsOfUsername
-import com.eltex.androidschool.utils.showMaterialDialogWithTwoButtons
-import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
-import com.eltex.androidschool.utils.toast
+import com.eltex.androidschool.utils.extensions.ErrorUtils.getErrorText
+import com.eltex.androidschool.utils.common.initialsOfUsername
+import com.eltex.androidschool.utils.extensions.showMaterialDialogWithTwoButtons
+import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
+import com.eltex.androidschool.utils.extensions.toast
 import com.eltex.androidschool.viewmodel.auth.user.AccountViewModel
 import com.eltex.androidschool.viewmodel.common.SharedViewModel
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
@@ -99,6 +99,15 @@ import kotlinx.coroutines.flow.onEach
 @AndroidEntryPoint
 class AccountFragment : Fragment() {
 
+    /**
+     * Экземпляр ViewModel для работы с данными аккаунта пользователя.
+     * Инициализируется с использованием делегата `by viewModels()`, который предоставляет экземпляр ViewModel,
+     * связанный с текущим фрагментом или активностью.
+     *
+     * @property accountViewModel ViewModel для работы с данными аккаунта.
+     * @see AccountViewModel
+     * @see viewModels
+     */
     private val accountViewModel: AccountViewModel by viewModels()
 
     /**

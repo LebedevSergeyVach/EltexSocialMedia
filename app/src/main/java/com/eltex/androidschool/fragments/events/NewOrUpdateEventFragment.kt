@@ -1,6 +1,7 @@
 package com.eltex.androidschool.fragments.events
 
 import android.graphics.drawable.Drawable
+
 import android.net.Uri
 import android.os.Bundle
 
@@ -15,7 +16,6 @@ import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia
 
 import androidx.appcompat.widget.Toolbar
 
-import androidx.core.content.FileProvider
 import androidx.core.os.bundleOf
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -45,16 +45,21 @@ import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
 import com.eltex.androidschool.data.common.AttachmentTypeFile
 import com.eltex.androidschool.databinding.FragmentNewOrUpdateEventBinding
-import com.eltex.androidschool.utils.ErrorUtils.getErrorText
-import com.eltex.androidschool.utils.Logger
-import com.eltex.androidschool.utils.showMaterialDialog
-import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
-import com.eltex.androidschool.utils.toast
-import com.eltex.androidschool.utils.vibrateWithEffect
+import com.eltex.androidschool.databinding.FragmentNewOrUpdatePostBinding
+import com.eltex.androidschool.fragments.common.SettingsBottomSheetFragment
+import com.eltex.androidschool.utils.extensions.ErrorUtils.getErrorText
+import com.eltex.androidschool.utils.extensions.showMaterialDialog
+import com.eltex.androidschool.utils.extensions.showMaterialDialogWithTwoButtons
+import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
+import com.eltex.androidschool.utils.extensions.toast
+import com.eltex.androidschool.utils.extensions.vibrateWithEffect
+import com.eltex.androidschool.utils.helper.ImageHelper
+import com.eltex.androidschool.utils.helper.LoggerHelper
 import com.eltex.androidschool.viewmodel.common.FileModel
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 import com.eltex.androidschool.viewmodel.events.newevent.NewEventState
 import com.eltex.androidschool.viewmodel.events.newevent.NewEventViewModel
+import com.eltex.androidschool.viewmodel.posts.newposts.NewPostViewModel
 
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -99,7 +104,30 @@ class NewOrUpdateEventFragment : Fragment() {
         private const val OFFLINE: String = "OFFLINE"
     }
 
+    /**
+     * Флаг, указывающий, включено ли сжатие изображений в приложении.
+     * По умолчанию установлен в `true`, что означает, что сжатие изображений включено.
+     *
+     * @property isCompressionEnabled Состояние сжатия изображений (включено/выключено).
+     */
+    private var isCompressionEnabled = true
+
+    /**
+     * Переменная, хранящая выбранную пользователем дату.
+     * Если дата не выбрана, значение равно `null`.
+     *
+     * @property selectedDate Календарная дата, выбранная пользователем.
+     * @see Calendar
+     */
     private var selectedDate: Calendar? = null
+
+    /**
+     * Переменная, хранящая выбранное пользователем время.
+     * Если время не выбрано, значение равно `null`.
+     *
+     * @property selectedTime Календарное время, выбранное пользователем.
+     * @see Calendar
+     */
     private var selectedTime: Calendar? = null
 
     override fun onCreateView(
@@ -107,6 +135,15 @@ class NewOrUpdateEventFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentNewOrUpdateEventBinding.inflate(inflater, container, false)
+
+        /**
+         * Экземпляр класса `ImageHelper`, используемый для работы с изображениями.
+         * Инициализируется с контекстом текущего фрагмента или активности.
+         *
+         * @property imageHelper Вспомогательный объект для работы с изображениями.
+         * @see ImageHelper
+         */
+        val imageHelper = ImageHelper(requireContext())
 
         /**
          * Получаем ViewModel для управления состоянием панели инструментов
@@ -135,6 +172,10 @@ class NewOrUpdateEventFragment : Fragment() {
             } else {
                 eventWillTake + getString(R.string.offline)
             }
+
+        binding.buttonOpenSettings.setOnClickListener {
+            showSettingsBottomSheet()
+        }
 
         blockingUiWhenLoading(
             binding = binding,
@@ -249,7 +290,16 @@ class NewOrUpdateEventFragment : Fragment() {
          *
          * @see createPhotoUri
          */
-        val photoUri: Uri = createPhotoUri()
+        val photoUri: Uri = imageHelper.createPhotoUri()
+
+        /**
+         * Временный файл, который может использоваться для хранения данных, связанных с временными метками или другими временными данными.
+         * Если файл не используется, значение равно `null`.
+         *
+         * @property timeFile Временный файл или `null`, если файл не создан.
+         * @see File
+         */
+        var timeFile: File? = null
 
         /**
          * Контракт для запуска активности съемки фотографии.
@@ -261,12 +311,41 @@ class NewOrUpdateEventFragment : Fragment() {
         val takePictureContract: ActivityResultLauncher<Uri> =
             registerForActivityResult(ActivityResultContracts.TakePicture()) { success: Boolean ->
                 if (success) {
-                    newEventViewModel.saveAttachmentFileType(
-                        FileModel(
-                            uri = photoUri,
-                            type = AttachmentTypeFile.IMAGE
+                    if (isCompressionEnabled) {
+                        val compressedFile = imageHelper.compressImage(photoUri)
+                        compressedFile?.let { file: File ->
+                            timeFile = file
+
+                            if (file.exists()) {
+                                newEventViewModel.saveAttachmentFileType(
+                                    FileModel(
+                                        uri = Uri.fromFile(file),
+                                        type = AttachmentTypeFile.IMAGE
+                                    )
+                                )
+                            } else {
+                                requireContext().showMaterialDialogWithTwoButtons(
+                                    title = getString(R.string.image_compression_error),
+                                    message = getString(R.string.image_compression_error_description),
+                                    cancelButtonText = getString(R.string.unplug),
+                                    deleteButtonText = getString(R.string.thanks),
+                                    onDeleteConfirmed = {
+                                        isCompressionEnabled = false
+                                        newEventViewModel.saveAttachmentFileType(null)
+                                    },
+                                )
+                            }
+
+                            imageHelper.deleteTempFile(file = file)
+                        }
+                    } else {
+                        newEventViewModel.saveAttachmentFileType(
+                            FileModel(
+                                uri = photoUri,
+                                type = AttachmentTypeFile.IMAGE
+                            )
                         )
-                    )
+                    }
                 }
             }
 
@@ -278,14 +357,43 @@ class NewOrUpdateEventFragment : Fragment() {
          * @see ActivityResultContracts.PickVisualMedia
          */
         val takePictureGalleryContract: ActivityResultLauncher<PickVisualMediaRequest> =
-            registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
-                uri?.let {
-                    newEventViewModel.saveAttachmentFileType(
-                        FileModel(
-                            uri = uri,
-                            type = AttachmentTypeFile.IMAGE
+            registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uriOrNull: Uri? ->
+                uriOrNull?.let { uri: Uri ->
+                    if (isCompressionEnabled) {
+                        val compressedFile = imageHelper.compressImage(uri)
+                        compressedFile?.let { file: File ->
+                            timeFile = file
+
+                            if (file.exists()) {
+                                newEventViewModel.saveAttachmentFileType(
+                                    FileModel(
+                                        uri = Uri.fromFile(file),
+                                        type = AttachmentTypeFile.IMAGE
+                                    )
+                                )
+                            } else {
+                                requireContext().showMaterialDialogWithTwoButtons(
+                                    title = getString(R.string.image_compression_error),
+                                    message = getString(R.string.image_compression_error_description),
+                                    cancelButtonText = getString(R.string.unplug),
+                                    deleteButtonText = getString(R.string.thanks),
+                                    onDeleteConfirmed = {
+                                        isCompressionEnabled = false
+                                        newEventViewModel.saveAttachmentFileType(null)
+                                    },
+                                )
+                            }
+
+                            imageHelper.deleteTempFile(file = file)
+                        }
+                    } else {
+                        newEventViewModel.saveAttachmentFileType(
+                            FileModel(
+                                uri = uri,
+                                type = AttachmentTypeFile.IMAGE
+                            )
                         )
-                    )
+                    }
                 }
             }
 
@@ -345,7 +453,9 @@ class NewOrUpdateEventFragment : Fragment() {
 
         observeState(
             newEventViewModel = newEventViewModel,
-            binding = binding
+            binding = binding,
+            imageHelper = imageHelper,
+            timeFile = timeFile,
         )
 
         viewLifecycleOwner.lifecycle.addObserver(
@@ -381,15 +491,28 @@ class NewOrUpdateEventFragment : Fragment() {
      *
      * @param newEventViewModel ViewModel, за состоянием которой ведется наблюдение.
      * @param binding Привязка данных для доступа к элементам UI.
+     * @param imageHelper Вспомогательный класс для работы с изображениями.
+     * @param timeFile Временный файл, который может быть удален после завершения операции.
+     *
+     * @see NewPostViewModel
+     * @see FragmentNewOrUpdatePostBinding
+     * @see ImageHelper
+     * @see File
      */
     private fun observeState(
         newEventViewModel: NewEventViewModel,
         binding: FragmentNewOrUpdateEventBinding,
+        imageHelper: ImageHelper,
+        timeFile: File?,
     ) {
         newEventViewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { newEventState: NewEventState ->
                 if (newEventState.event != null) {
+                    timeFile?.let { file: File ->
+                        imageHelper.deleteTempFile(file = file)
+                    }
+
                     requireActivity().supportFragmentManager.setFragmentResult(
                         EVENT_CREATED_OR_UPDATED_KEY,
                         bundleOf()
@@ -598,7 +721,7 @@ class NewOrUpdateEventFragment : Fragment() {
             e.printStackTrace()
 
             if (BuildConfig.DEBUG) {
-                Logger.e(e.toString())
+                LoggerHelper.e(e.toString())
             }
         }
     }
@@ -619,28 +742,6 @@ class NewOrUpdateEventFragment : Fragment() {
             title = title,
             message = message,
             buttonText = buttonText
-        )
-    }
-
-    /**
-     * Создает URI для временного хранения фотографии.
-     *
-     * Этот метод создает файл в кэше приложения и возвращает URI для этого файла.
-     *
-     * @return URI для временного файла фотографии.
-     * @see FileProvider
-     */
-    private fun createPhotoUri(): Uri {
-        val directory: File = requireContext().cacheDir.resolve("file_picker").apply {
-            mkdir()
-        }
-
-        val file: File = directory.resolve("image")
-
-        return FileProvider.getUriForFile(
-            requireContext(),
-            "${BuildConfig.APPLICATION_ID}.fileprovider",
-            file
         )
     }
 
@@ -692,16 +793,22 @@ class NewOrUpdateEventFragment : Fragment() {
                 }
             }
         }
+    }
 
-        // Автоматическая прокрутка при появлении клавиатуры
-//        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
-//            val imeVisible = insets.isVisible(WindowInsetsCompat.Type.ime())
-//            if (imeVisible) {
-//                scrollView.post {
-//                    scrollView.smoothScrollTo(0, editText.bottom)
-//                }
-//            }
-//            insets
-//        }
+    /**
+     * Отображает нижний лист (Bottom Sheet) с настройками, позволяя пользователю управлять сжатием изображений.
+     * При изменении состояния переключателя сжатия изображений обновляет значение переменной `isCompressionEnabled`.
+     *
+     * @see SettingsBottomSheetFragment
+     * @sample showSettingsBottomSheet()
+     */
+    private fun showSettingsBottomSheet() {
+        val bottomSheet = SettingsBottomSheetFragment(isCompressionEnabled)
+
+        bottomSheet.setOnCompressionToggleListener { isChecked ->
+            isCompressionEnabled = isChecked
+        }
+
+        bottomSheet.show(parentFragmentManager, bottomSheet.tag)
     }
 }

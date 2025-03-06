@@ -23,10 +23,10 @@ import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentToolbarBinding
 import com.eltex.androidschool.fragments.auth.AuthorizationFragment
-import com.eltex.androidschool.utils.Logger
-import com.eltex.androidschool.utils.showMaterialDialogWithTwoButtons
-import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
-import com.eltex.androidschool.utils.toast
+import com.eltex.androidschool.utils.helper.LoggerHelper
+import com.eltex.androidschool.utils.extensions.showMaterialDialogWithTwoButtons
+import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
+import com.eltex.androidschool.utils.extensions.toast
 import com.eltex.androidschool.viewmodel.auth.user.AuthorizationSharedViewModel
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 
@@ -162,7 +162,7 @@ class ToolbarFragment : Fragment() {
                 requireContext().toast(R.string.unknown_error)
 
                 if (BuildConfig.DEBUG) {
-                    Logger.e("Navigation error: ${e.message}")
+                    LoggerHelper.e("Navigation error: ${e.message}")
                 }
             }
             true
@@ -180,7 +180,7 @@ class ToolbarFragment : Fragment() {
                 requireContext().toast(R.string.unknown_error)
 
                 if (BuildConfig.DEBUG) {
-                    Logger.e("Navigation error: ${e.message}")
+                    LoggerHelper.e("Navigation error: ${e.message}")
                 }
             }
             true

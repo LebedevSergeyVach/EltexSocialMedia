@@ -19,6 +19,8 @@ import javax.inject.Inject
  * Предоставляет доступ к токену аутентификации и идентификатору пользователя.
  *
  * @property userPreferences Хранилище для работы с данными пользователя.
+ * @see ViewModel
+ * @see HiltViewModel
  */
 @HiltViewModel
 class AccountViewModel @Inject constructor(
@@ -30,8 +32,8 @@ class AccountViewModel @Inject constructor(
      * Если токен отсутствует, возвращает `null`.
      *
      * @return [Flow], который эмитит токен аутентификации или `null`.
-     *
      * @see Flow
+     * @sample authTokenFlow
      */
     val authTokenFlow: Flow<String?> = userPreferences.authTokenFlow
 
@@ -40,8 +42,8 @@ class AccountViewModel @Inject constructor(
      * Если идентификатор отсутствует, возвращает `null`.
      *
      * @return [Flow], который эмитит идентификатор пользователя или `null`.
-     *
      * @see Flow
+     * @sample userIdFlow
      */
     val userIdFlow: Flow<String?> = userPreferences.userIdFlow
 
@@ -49,8 +51,9 @@ class AccountViewModel @Inject constructor(
      * Получает токен аутентификации.
      *
      * @return Токен аутентификации или `null`, если токен отсутствует.
-     *
      * @throws IOException Если произошла ошибка при получении токена.
+     * @see Flow.first
+     * @sample getAuthToken()
      */
     private suspend fun getAuthToken(): String? {
         return userPreferences.authTokenFlow.first()
@@ -60,8 +63,9 @@ class AccountViewModel @Inject constructor(
      * Получает идентификатор пользователя.
      *
      * @return Идентификатор пользователя или `null`, если идентификатор отсутствует.
-     *
      * @throws IOException Если произошла ошибка при получении идентификатора.
+     * @see Flow.first
+     * @sample getUserId()
      */
     private suspend fun getUserId(): Long? {
         return userPreferences.userIdFlow.first()?.toLong()
@@ -71,6 +75,8 @@ class AccountViewModel @Inject constructor(
      * Идентификатор пользователя.
      *
      * @throws IOException Если идентификатор пользователя не найден.
+     * @see runBlocking
+     * @sample userId
      */
     val userId: Long = runBlocking { getUserId() } ?: throw IOException("USER ID NOT FOUND")
 }

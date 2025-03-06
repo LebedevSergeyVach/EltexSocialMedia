@@ -20,7 +20,7 @@ import com.bumptech.glide.request.target.Target
 import com.eltex.androidschool.R
 import com.eltex.androidschool.data.users.UserData
 import com.eltex.androidschool.databinding.CardUserBinding
-import com.eltex.androidschool.utils.initialsOfUsername
+import com.eltex.androidschool.utils.common.initialsOfUsername
 
 /**
  * ViewHolder для отображения данных пользователя в RecyclerView.

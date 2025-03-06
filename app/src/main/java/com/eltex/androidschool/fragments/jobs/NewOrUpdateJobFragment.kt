@@ -23,11 +23,11 @@ import androidx.navigation.fragment.findNavController
 import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentNewOrUpdateJobBinding
-import com.eltex.androidschool.utils.ErrorUtils.getErrorText
-import com.eltex.androidschool.utils.Logger
-import com.eltex.androidschool.utils.showMaterialDialog
-import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
-import com.eltex.androidschool.utils.toast
+import com.eltex.androidschool.utils.extensions.ErrorUtils.getErrorText
+import com.eltex.androidschool.utils.helper.LoggerHelper
+import com.eltex.androidschool.utils.extensions.showMaterialDialog
+import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
+import com.eltex.androidschool.utils.extensions.toast
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 import com.eltex.androidschool.viewmodel.jobs.newjob.NewJobState
 import com.eltex.androidschool.viewmodel.jobs.newjob.NewJobViewModel
@@ -324,7 +324,7 @@ class NewOrUpdateJobFragment : Fragment() {
             e.printStackTrace()
 
             if (BuildConfig.DEBUG) {
-                Logger.e(e.toString())
+                LoggerHelper.e(e.toString())
             }
         }
     }

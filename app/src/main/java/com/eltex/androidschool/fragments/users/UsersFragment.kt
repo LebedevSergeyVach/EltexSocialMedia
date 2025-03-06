@@ -26,11 +26,11 @@ import com.eltex.androidschool.data.users.UserData
 import com.eltex.androidschool.adapter.users.UserAdapter
 import com.eltex.androidschool.repository.users.NetworkUserRepository
 import com.eltex.androidschool.ui.common.OffsetDecoration
-import com.eltex.androidschool.utils.ErrorUtils.getErrorText
+import com.eltex.androidschool.utils.extensions.ErrorUtils.getErrorText
 import com.eltex.androidschool.viewmodel.users.UsersState
 import com.eltex.androidschool.viewmodel.users.UsersViewModel
-import com.eltex.androidschool.utils.singleVibrationWithSystemCheck
-import com.eltex.androidschool.utils.toast
+import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
+import com.eltex.androidschool.utils.extensions.toast
 import com.eltex.androidschool.viewmodel.auth.user.AccountViewModel
 
 import dagger.hilt.android.AndroidEntryPoint
