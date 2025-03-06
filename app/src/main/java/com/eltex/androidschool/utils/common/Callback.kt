@@ -1,4 +1,4 @@
-package com.eltex.androidschool.utils
+package com.eltex.androidschool.utils.common
 
 /**
  * Интерфейс обратного вызова для обработки результатов асинхронных операций.

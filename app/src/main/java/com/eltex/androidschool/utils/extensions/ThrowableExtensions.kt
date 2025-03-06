@@ -1,4 +1,4 @@
-package com.eltex.androidschool.utils
+package com.eltex.androidschool.utils.extensions
 
 import android.content.Context
 import com.eltex.androidschool.R

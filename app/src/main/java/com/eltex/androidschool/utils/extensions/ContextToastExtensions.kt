@@ -1,6 +1,6 @@
 @file:Suppress("DEPRECATION")
 
-package com.eltex.androidschool.utils
+package com.eltex.androidschool.utils.extensions
 
 import android.annotation.SuppressLint
 import androidx.annotation.StringRes

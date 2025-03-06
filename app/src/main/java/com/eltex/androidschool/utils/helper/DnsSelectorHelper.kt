@@ -1,4 +1,4 @@
-package com.eltex.androidschool.utils
+package com.eltex.androidschool.utils.helper
 
 import okhttp3.Dns
 import java.net.Inet4Address
@@ -10,7 +10,7 @@ import java.net.InetAddress
  * Этот класс реализует интерфейс [Dns] из библиотеки OkHttp и переопределяет метод [lookup],
  * чтобы возвращать только IPv4 адреса.
  */
-class DnsSelector : Dns {
+class DnsSelectorHelper : Dns {
 
     /**
      * Метод для разрешения доменного имени в список IP-адресов.
