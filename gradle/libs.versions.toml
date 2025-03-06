@@ -1,6 +1,6 @@
 [versions]
 adapterRxjava3 = "2.11.0"
-agp = "8.8.2"
+agp = "8.9.0"
 arrowCore = "1.2.4"
 confetti = "1.1.2"
 coreSplashscreen = "1.0.1"
