@@ -15,4 +15,16 @@ data class NewEventState(
     val event: EventData? = null,
     val statusEvent: StatusLoad = StatusLoad.Idle,
     val file: FileModel? = null,
-)
+) {
+    /**
+     * Флаг, указывающий, выполняется ли загрузка.
+     */
+    val isLoading: Boolean
+        get() = statusEvent == StatusLoad.Loading
+
+    /**
+     * Флаг, указывающий, успешно ли выполнена регистрация.
+     */
+    val isSuccess: Boolean
+        get() = statusEvent == StatusLoad.Success
+}

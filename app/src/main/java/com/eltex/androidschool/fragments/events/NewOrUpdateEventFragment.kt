@@ -159,7 +159,6 @@ class NewOrUpdateEventFragment : Fragment() {
         val option = arguments?.getString(EVENT_OPTION) ?: ONLINE
         val isUpdate = arguments?.getBoolean(IS_UPDATE, false) ?: false
 
-        binding.progressBar.isVisible = false
         binding.content.setText(content)
         binding.link.setText(link)
         binding.optionSwitch.isChecked = option == ONLINE
@@ -176,12 +175,6 @@ class NewOrUpdateEventFragment : Fragment() {
         binding.buttonOpenSettings.setOnClickListener {
             showSettingsBottomSheet()
         }
-
-        blockingUiWhenLoading(
-            binding = binding,
-            toolBarViewModel = toolbarViewModel,
-            blocking = true,
-        )
 
         /**
          * Получаем ViewModel для управления созданием и обновлением событий
@@ -293,15 +286,6 @@ class NewOrUpdateEventFragment : Fragment() {
         val photoUri: Uri = imageHelper.createPhotoUri()
 
         /**
-         * Временный файл, который может использоваться для хранения данных, связанных с временными метками или другими временными данными.
-         * Если файл не используется, значение равно `null`.
-         *
-         * @property timeFile Временный файл или `null`, если файл не создан.
-         * @see File
-         */
-        var timeFile: File? = null
-
-        /**
          * Контракт для запуска активности съемки фотографии.
          *
          * После успешного завершения съемки фотографии, URI изображения сохраняется в ViewModel.
@@ -314,8 +298,6 @@ class NewOrUpdateEventFragment : Fragment() {
                     if (isCompressionEnabled) {
                         val compressedFile = imageHelper.compressImage(photoUri)
                         compressedFile?.let { file: File ->
-                            timeFile = file
-
                             if (file.exists()) {
                                 newEventViewModel.saveAttachmentFileType(
                                     FileModel(
@@ -324,19 +306,21 @@ class NewOrUpdateEventFragment : Fragment() {
                                     )
                                 )
                             } else {
+                                requireContext().singleVibrationWithSystemCheck(35L)
+
                                 requireContext().showMaterialDialogWithTwoButtons(
                                     title = getString(R.string.image_compression_error),
                                     message = getString(R.string.image_compression_error_description),
                                     cancelButtonText = getString(R.string.unplug),
                                     deleteButtonText = getString(R.string.thanks),
                                     onDeleteConfirmed = {
+                                        requireContext().singleVibrationWithSystemCheck(35L)
+
                                         isCompressionEnabled = false
                                         newEventViewModel.saveAttachmentFileType(null)
                                     },
                                 )
                             }
-
-                            imageHelper.deleteTempFile(file = file)
                         }
                     } else {
                         newEventViewModel.saveAttachmentFileType(
@@ -362,8 +346,6 @@ class NewOrUpdateEventFragment : Fragment() {
                     if (isCompressionEnabled) {
                         val compressedFile = imageHelper.compressImage(uri)
                         compressedFile?.let { file: File ->
-                            timeFile = file
-
                             if (file.exists()) {
                                 newEventViewModel.saveAttachmentFileType(
                                     FileModel(
@@ -372,19 +354,21 @@ class NewOrUpdateEventFragment : Fragment() {
                                     )
                                 )
                             } else {
+                                requireContext().singleVibrationWithSystemCheck(35L)
+
                                 requireContext().showMaterialDialogWithTwoButtons(
                                     title = getString(R.string.image_compression_error),
                                     message = getString(R.string.image_compression_error_description),
                                     cancelButtonText = getString(R.string.unplug),
                                     deleteButtonText = getString(R.string.thanks),
                                     onDeleteConfirmed = {
+                                        requireContext().singleVibrationWithSystemCheck(35L)
+
                                         isCompressionEnabled = false
                                         newEventViewModel.saveAttachmentFileType(null)
                                     },
                                 )
                             }
-
-                            imageHelper.deleteTempFile(file = file)
                         }
                     } else {
                         newEventViewModel.saveAttachmentFileType(
@@ -424,14 +408,6 @@ class NewOrUpdateEventFragment : Fragment() {
                     newContent.isNotEmpty() && newDate.isNotEmpty() &&
                     newOption.isNotEmpty() && newLink.isNotEmpty()
                 ) {
-                    binding.progressBar.isVisible = true
-
-                    blockingUiWhenLoading(
-                        binding = binding,
-                        toolBarViewModel = toolbarViewModel,
-                        blocking = false,
-                    )
-
                     newEventViewModel.save(
                         content = newContent,
                         link = newLink,
@@ -454,8 +430,7 @@ class NewOrUpdateEventFragment : Fragment() {
         observeState(
             newEventViewModel = newEventViewModel,
             binding = binding,
-            imageHelper = imageHelper,
-            timeFile = timeFile,
+            toolbarViewModel = toolbarViewModel,
         )
 
         viewLifecycleOwner.lifecycle.addObserver(
@@ -502,17 +477,20 @@ class NewOrUpdateEventFragment : Fragment() {
     private fun observeState(
         newEventViewModel: NewEventViewModel,
         binding: FragmentNewOrUpdateEventBinding,
-        imageHelper: ImageHelper,
-        timeFile: File?,
+        toolbarViewModel: ToolBarViewModel,
     ) {
         newEventViewModel.state
             .flowWithLifecycle(viewLifecycleOwner.lifecycle)
             .onEach { newEventState: NewEventState ->
-                if (newEventState.event != null) {
-                    timeFile?.let { file: File ->
-                        imageHelper.deleteTempFile(file = file)
-                    }
+                binding.progressBar.isVisible = newEventState.isLoading
 
+                blockingUiWhenLoading(
+                    binding = binding,
+                    toolBarViewModel = toolbarViewModel,
+                    blocking = newEventState.isLoading,
+                )
+
+                if (newEventState.event != null) {
                     requireActivity().supportFragmentManager.setFragmentResult(
                         EVENT_CREATED_OR_UPDATED_KEY,
                         bundleOf()
@@ -761,25 +739,26 @@ class NewOrUpdateEventFragment : Fragment() {
         toolBarViewModel: ToolBarViewModel,
         blocking: Boolean,
     ) {
-        binding.cardOption.isEnabled = blocking
-        binding.optionText.isEnabled = blocking
-        binding.optionSwitch.isEnabled = blocking
+        binding.cardOption.isEnabled = !blocking
+        binding.optionText.isEnabled = !blocking
+        binding.optionSwitch.isEnabled = !blocking
 
-        binding.cardDate.isEnabled = blocking
-        binding.dateText.isEnabled = blocking
-        binding.selectDateTimeButton.isEnabled = blocking
+        binding.cardDate.isEnabled = !blocking
+        binding.dateText.isEnabled = !blocking
+        binding.selectDateTimeButton.isEnabled = !blocking
 
-        binding.cardLink.isEnabled = blocking
-        binding.link.isEnabled = blocking
+        binding.cardLink.isEnabled = !blocking
+        binding.link.isEnabled = !blocking
 
-        binding.cardContent.isEnabled = blocking
-        binding.content.isEnabled = blocking
+        binding.cardContent.isEnabled = !blocking
+        binding.content.isEnabled = !blocking
 
-        binding.buttonSelectPhoto.isEnabled = blocking
-        binding.buttonSelectPhotoToGallery.isEnabled = blocking
-        binding.buttonRemoveImage.isEnabled = blocking
+        binding.buttonSelectPhoto.isEnabled = !blocking
+        binding.buttonSelectPhotoToGallery.isEnabled = !blocking
+        binding.buttonOpenSettings.isEnabled = !blocking
+        binding.buttonRemoveImage.isEnabled = !blocking
 
-        toolBarViewModel.setSaveVisible(blocking)
+        toolBarViewModel.setSaveVisible(!blocking)
     }
 
     private fun keyboardScrolling(binding: FragmentNewOrUpdateEventBinding) {
