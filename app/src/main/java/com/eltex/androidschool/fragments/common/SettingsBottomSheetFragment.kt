@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.BottomSheetSettingsBinding
 import com.eltex.androidschool.utils.extensions.showMaterialDialog
+import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
 
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
@@ -48,10 +49,14 @@ class SettingsBottomSheetFragment(
         binding.switchImageCompression.isChecked = isCompressionEnabled
 
         binding.switchImageCompression.setOnCheckedChangeListener { _, isChecked ->
+            requireContext().singleVibrationWithSystemCheck(35L)
+
             onCompressionToggle?.invoke(isChecked)
         }
 
         binding.cardImageCompression.setOnClickListener {
+            requireContext().singleVibrationWithSystemCheck(35L)
+
             binding.switchImageCompression.toggle()
         }
 

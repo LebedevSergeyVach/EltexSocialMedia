@@ -3,7 +3,7 @@
 
 ---
 
-**The project is written in the [Kotlin](https://kotlinlang.org) programming language**
+🚀 **The project is written in the [Kotlin](https://kotlinlang.org) programming language**
 
 Educational project Development of Android applications in Java and Kotlin from Eltex Academy.
 This project is based on the **MVVM** architecture **(Model-View-ViewModel)**.
@@ -25,10 +25,6 @@ To animate the loading of a list of posts or events in the **UI**, the [**Skelet
 The [**Glide**](https://github.com/bumptech/glide) library is used to manage multimedia and download images from the server for display in the **UI**.
 
 Basic settings for the application's appearance are implemented, such as: language selection (Russian, English, system) and theme selection (dark, light, system). The ability to enable and disable vibration feedback in the application, display the size and clear the application cache has also been added.
-
----
-
-Here’s the rewritten version of your text in English:
 
 ---
 
@@ -65,11 +61,11 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 
 ---
 
-### Documentation for the project [**documentation**](documentation/documentation.md).
-### View images of the mobile app [**Eltex Social Media**](documentation/README.md).
+### 📄 Documentation for the project [**documentation**](documentation/documentation.md).
+### 🖼️ View images of the mobile app [**Eltex Social Media**](documentation/README.md).
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Version](https://img.shields.io/badge/Version-1.1.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.1.0)
+[![Version](https://img.shields.io/badge/Version-1.1.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.1.1)
 
 <details open="open">
     <summary><h2>🚀 The stack of technologies used</h2></summary>
@@ -83,15 +79,15 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 ---
 
 > [!IMPORTANT]
-> ## **Project Description**
+> ## **📱 Project Description**
 >
 > An educational project for the development of Android applications in Java and Kotlin from Eltex Academy.
 > The application is a social network that will allow users to create posts and events, indicate their places of work and much more.
 
 > [!NOTE]
-> ## **Features and functionality of the application**
+> ## **✨ Features and functionality of the application**
 >
-> ### **Posts**
+> ### **📝 Posts**
 > - Create, edit, and delete posts:
 > - - Write a text for a new post.
 > - - Attach an image to a new post.
@@ -99,7 +95,7 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 > - Watch the feed of posts from all users.
 > - Please like the post.
 >
-> ### **Events**
+> ### **📅 Events**
 > - Create, edit, and delete events:
 > - - Write a text for a new event.
 > - - Choose the date and time for the event.
@@ -109,22 +105,22 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 > - Watch the feed of events from all users.
 > - Please likes and participate in the event.
 >
-> ### **Account**
+> ### **👤 Account**
 > - Registering a new account:
 > - - Specify the username, name, and avatar for your account.
 > - Manage your posts, events, and work/study information.
 >
-> ### **Profile**
+> ### **👥 Profile**
 > - View the profile of other users.
 > - View all the posted information from the user.
 > - See the list of all users of the application.
 >
-> ### **Information about places of work**
+> ### **🏢 Information about places of work**
 > - Create new information about your place of work/study:
 > - - Please provide information about the company: the name, your position, the reference and the period of employment.
 > - See other users' places of work/study.
 >
-> ### **Settings**
+> ### **⚙️ Settings**
 > - Choose an application theme:
 > - - Light.
 > - - Dark .
@@ -137,12 +133,12 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 > - Keep track of the cache size and also clear it in the application.
 > - Keep an eye on all app updates.
 >
-> ### **The project is under active development!**
+> ### **🚧 The project is under active development!**
 >
 > Application version 1.1.0
 > At the moment, work is underway to improve the functionality of the application, add new features to the project, as well as solve possible problems and bugs.
 >
-> ### Further development plans:
+> ### 📅 Further development plans:
 > - Add features to the app for working with voice posts/events and videos.
 > - Improve caching of data downloaded from the server.
 > - Implement a fragment displaying data about a post/event:
@@ -152,12 +148,12 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 > - - Displaying the location/event on the map;
 > - - Mentioning other users when creating a post/event.
 >
-> ### Project development assistance:
+> ### 🤝 Project development assistance:
 > - If you find a bug or have an idea for improvement, please create [**issue**](https://github.com/LebedevSergeyVach/EltexSocialMedia/issues).
 > - You can also suggest your changes or implement new features/functions via [**pull request**](https://github.com/LebedevSergeyVach/EltexSocialMedia/pulls).
 
 > [!WARNING]
-> ### **Compilation of the project**
+> ### **🔧 Compilation of the project**
 >
 > In order to build a project, you need to create **`secrets.properties`** in the root of the project:
 >
@@ -178,12 +174,12 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 
 ---
 
-# Социальная сеть Eltex
+# Социальная медиа сеть Eltex
 <a name="вверх"></a>
 
 ---
 
-**Проект написан на языке программирования [Kotlin](https://kotlinlang.org).**
+🚀 **Проект написан на языке программирования [Kotlin](https://kotlinlang.org).**
 
 Образовательный проект по разработке Android-приложений на Java и Kotlin от Eltex Academy.
 Данный проект основан по архитектуре **MVVM** **(Model-View-ViewModel)**.
@@ -242,11 +238,11 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 
 ---
 
-### Документация к проеку [**documentation**](documentation/documentation.md).
-### Посмотреть изображения мобильного приложения [**Eltex Social Media**](documentation/README.md).
+### 📄 Документация к проеку [**documentation**](documentation/documentation.md).
+### 🖼️ Посмотреть изображения мобильного приложения [**Eltex Social Media**](documentation/README.md).
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Version](https://img.shields.io/badge/Version-1.1.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.1.0)
+[![Version](https://img.shields.io/badge/Version-1.1.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.1.1)
 
 <details open="open">
     <summary><h2>🚀 Стек используемых технологий</h2></summary>
@@ -260,15 +256,15 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 ---
 
 > [!IMPORTANT]
-> ## **Описание приложения**
+> ## **📱 Описание приложения**
 >
 > Образовательный проект по разработке Android-приложений на Java и Kotlin от Eltex Academy.
 > Приложение представляет собой социальную сеть, которая позволит пользователям создавать посты и события, указывать места своей работы и многое другое.
 
 > [!NOTE]
-> ## **Возможности и функционал приложения**
+> ## **✨ Возможности и функционал приложения**
 >
-> ### **Посты**
+> ### **📝 Посты**
 > - Создавайте, редактируйте и удаляйте посты:
 > - - Пишите текст для нового поста.
 > - - Прикрепляйте  изображение к новому посту.
@@ -276,7 +272,7 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 > - Смотрите ленту постов от всех пользователей.
 > - Ставьте лайк посту.
 >
-> ### **События**
+> ### **📅 События**
 > - Создавайте, редактируйте и удаляйте события:
 > - - Пишите текст для нового события.
 > - - Выбирайте дату и время для проводимого события.
@@ -286,22 +282,22 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 > - Смотрите ленту событий от всех пользователей.
 > - Ставьте лайки и участвуйте в мероприятии.
 >
-> ### **Аккаунт**
+> ### **👤 Аккаунт**
 > - Регистрируете новый аккаунт:
 > - - Указывайте логин, имя и аватар для Вашего аккаунта.
 > - Управляйте своими постами, событиями и информации о работе/учебе.
 >
-> ### **Профиль**
+> ### **👥 Профиль**
 > - Просматривайте профиль других пользователей.
 > - Просматривайте всю выложенную информацию от пользователя.
 > - Смотрите список всех пользователей приложения.
 >
-> ### **Информация о местах работы**
+> ### **🏢 Информация о местах работы**
 > - Создавайте новую информацию о месте Вашей работы/учебы:
 > - - Указывайте информацию о компании: название, Ваша должность, ссылка и промежуток трудоустройства.
 > - Смотрите места работы/учебы у других пользователей.
 >
-> ### **Настройки**
+> ### **⚙️ Настройки**
 > - Выбирайте тему приложения:
 > - - Светлая.
 > - - Темная.
@@ -314,12 +310,12 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 > - Следите за размером кэша, а также очищайте его в приложении.
 > - Смотрите за всеми обновлениями приложения.
 >
-> ### **Проект находится в стадии активной разработки!**
+> ### **🚧 Проект находится в стадии активной разработки!**
 >
 > Версия приложения 1.1.0
 > На данный момент идет работа над улучшением функциональности приложения, добавления новых фишек в проект, а также решение возможных проблем и багов.
 >
-> ### Планы дальнейшего развития:
+> ### 📅 Планы дальнейшего развития:
 > - Добавить функции в приложение по работе с голосовыми постами/события и видео.
 > - Улучшить кэширование данных, загруженных с сервера.
 > - Реализовать фрагмент с отображением данных о посте/событии:
@@ -329,12 +325,12 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 > - - Отображение места/проведения события на карте;
 > - - Упоминание других пользователей при создании поста/события.
 >
-> ### Помощь в развитии проекта:
+> ### 🤝 Помощь в развитии проекта:
 > - Если Вы нашли баг или у вас есть идея для улучшения, пожалуйста, создайте [**issue**](https://github.com/LebedevSergeyVach/EltexSocialMedia/issues).
 > - Вы также можете предложить свои изменения или реализацию новых фишек/функций через [**pull request**](https://github.com/LebedevSergeyVach/EltexSocialMedia/pulls).
 
 > [!WARNING]
-> ### **Компиляция проекта**
+> ### **🔧 Компиляция проекта**
 >
 > Для того, чтобы собрать проект, необходимо создать **`secrets.properties`** в корне проект:
 >

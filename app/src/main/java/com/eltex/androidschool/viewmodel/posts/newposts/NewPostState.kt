@@ -21,4 +21,16 @@ data class NewPostState(
     val post: PostData? = null,
     val statusPost: StatusLoad = StatusLoad.Idle,
     val file: FileModel? = null,
-)
+) {
+    /**
+     * Флаг, указывающий, выполняется ли загрузка.
+     */
+    val isLoading: Boolean
+        get() = statusPost == StatusLoad.Loading
+
+    /**
+     * Флаг, указывающий, успешно ли выполнена регистрация.
+     */
+    val isSuccess: Boolean
+        get() = statusPost == StatusLoad.Success
+}

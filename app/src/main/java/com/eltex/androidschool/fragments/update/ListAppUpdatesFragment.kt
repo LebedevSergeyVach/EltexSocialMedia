@@ -47,10 +47,10 @@ class ListAppUpdatesFragment : Fragment() {
         ),
         UpdateData(
             id = 1,
-            version = "v1.1.0",
-            date = "06.03.2025",
+            version = "v1.1.1",
+            date = "07.03.2025",
             description = getString(R.string.v1_1_0_description),
-            link = "https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.1.0"
+            link = "https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.1.1"
         ),
     )
         .reversed()
