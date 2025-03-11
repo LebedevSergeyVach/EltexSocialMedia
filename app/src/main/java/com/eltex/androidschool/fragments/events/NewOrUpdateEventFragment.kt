@@ -416,7 +416,7 @@ class NewOrUpdateEventFragment : Fragment() {
                         contentResolver = requireContext().contentResolver,
                         onProgress = { progress ->
                             binding.progressBar.setProgressCompat(progress, true)
-                        }
+                        },
                     )
                 } else {
                     requireContext().vibrateWithEffect(100L)

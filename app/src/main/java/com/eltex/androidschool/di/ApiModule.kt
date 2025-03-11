@@ -103,19 +103,21 @@ class ApiModule {
     @Provides
     fun provideOkHttpClient(authInterceptor: AuthInterceptor): OkHttpClient =
         OkHttpClient.Builder()
-            .connectTimeout(30, TimeUnit.SECONDS)
+            .connectTimeout(120, TimeUnit.SECONDS)
+            .writeTimeout(120, TimeUnit.SECONDS)
+            .readTimeout(120, TimeUnit.SECONDS)
             .addInterceptor(authInterceptor)
-            .let { clientOkHttp: OkHttpClient.Builder ->
-                if (BuildConfig.DEBUG) {
-                    clientOkHttp.addInterceptor(
-                        HttpLoggingInterceptor().apply {
-                            level = HttpLoggingInterceptor.Level.BODY
-                        }
-                    )
-                } else {
-                    clientOkHttp
-                }
-            }
+//            .let { clientOkHttp: OkHttpClient.Builder ->
+//                if (BuildConfig.DEBUG) {
+//                    clientOkHttp.addInterceptor(
+//                        HttpLoggingInterceptor().apply {
+//                            level = HttpLoggingInterceptor.Level.BODY
+//                        }
+//                    )
+//                } else {
+//                    clientOkHttp
+//                }
+//            }
             .addInterceptor { chain: Interceptor.Chain ->
                 chain.proceed(
                     chain.request().newBuilder()

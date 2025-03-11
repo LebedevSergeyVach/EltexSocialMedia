@@ -1,6 +1,7 @@
 package com.eltex.androidschool.repository.events
 
 import android.content.ContentResolver
+import android.content.Context
 import com.eltex.androidschool.api.events.EventsApi
 import com.eltex.androidschool.api.media.MediaApi
 import com.eltex.androidschool.data.common.Attachment

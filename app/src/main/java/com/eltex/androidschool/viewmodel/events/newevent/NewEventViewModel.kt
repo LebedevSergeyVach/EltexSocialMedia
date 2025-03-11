@@ -1,6 +1,7 @@
 package com.eltex.androidschool.viewmodel.events.newevent
 
 import android.content.ContentResolver
+import android.content.Context
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -70,7 +71,7 @@ class NewEventViewModel @AssistedInject constructor(
         option: String,
         date: String,
         contentResolver: ContentResolver,
-        onProgress: (Int) -> Unit
+        onProgress: (Int) -> Unit,
     ) {
         _state.update { newEventState: NewEventState ->
             newEventState.copy(

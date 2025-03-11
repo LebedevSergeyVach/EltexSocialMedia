@@ -96,7 +96,7 @@ class NetworkPostRepository @Inject constructor(
                     fileModel = file,
                     contentResolver = contentResolver,
                     onProgress = onProgress,
-                    mediaApi = mediaApi
+                    mediaApi = mediaApi,
                 )
 
             PostData(
