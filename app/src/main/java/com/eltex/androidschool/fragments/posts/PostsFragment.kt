@@ -83,7 +83,6 @@ class PostsFragment : Fragment() {
         binding.list.addItemDecoration(
             OffsetDecoration(resources.getDimensionPixelSize(R.dimen.list_offset))
         )
-
         binding.list.addOnChildAttachStateChangeListener(
             object : RecyclerView.OnChildAttachStateChangeListener {
                 override fun onChildViewAttachedToWindow(view: View) {
@@ -98,6 +97,7 @@ class PostsFragment : Fragment() {
                 override fun onChildViewDetachedFromWindow(view: View) = Unit
             }
         )
+
 
         binding.retryButton.setOnClickListener {
             viewModel.accept(message = PostMessage.Refresh)

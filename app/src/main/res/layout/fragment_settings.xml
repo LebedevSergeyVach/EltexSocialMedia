@@ -1,4 +1,4 @@
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
@@ -7,43 +7,37 @@
 
     tools:context=".fragments.settings.SettingsFragment">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/text_name_customization"
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:layout_weight="1"
-
             android:padding="@dimen/padding_title_for_settings_24dp"
-
             android:text="@string/application_appearance"
             android:textSize="24sp"
-
-            android:textStyle="bold"
-
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:textStyle="bold" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_settings_language"
 
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:layout_margin="@dimen/common_spacing"
 
             app:cardCornerRadius="20dp"
-            app:cardElevation="2dp"
-
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_name_customization">
+            app:cardElevation="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="@dimen/common_spacing">
@@ -56,7 +50,6 @@
                     android:layout_weight="1"
 
                     android:text="@string/сhanging_the_application_language"
-
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -76,34 +69,29 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_settings_theme"
 
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:layout_margin="@dimen/common_spacing"
-
             app:cardCornerRadius="20dp"
-            app:cardElevation="2dp"
-
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_settings_language">
+            app:cardElevation="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="@dimen/common_spacing">
 
                 <TextView
                     android:id="@+id/data_text_1"
-
                     android:layout_width="0dp"
+
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
 
                     android:text="@string/changing_the_app_theme"
-
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -122,42 +110,27 @@
 
         <TextView
             android:id="@+id/text_name_vibration"
-
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
-            android:layout_marginTop="20dp"
-
-            android:layout_weight="1"
             android:padding="@dimen/padding_title_for_settings_24dp"
-
             android:text="@string/vibration_response_app"
             android:textSize="24sp"
-
-            android:textStyle="bold"
-
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_settings_theme" />
+            android:textStyle="bold" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_settings_vibration"
 
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:layout_margin="@dimen/common_spacing"
-
             app:cardCornerRadius="20dp"
-            app:cardElevation="2dp"
-
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_name_vibration">
+            app:cardElevation="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="@dimen/common_spacing">
@@ -170,7 +143,6 @@
                     android:layout_weight="1"
 
                     android:text="@string/vibration_on"
-
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -184,7 +156,6 @@
 
                     app:thumbTint="@drawable/switch_thumb_tint"
                     app:trackTint="@drawable/switch_track_tint"
-
                     app:useMaterialThemeColors="true" />
             </LinearLayout>
 
@@ -196,51 +167,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
-            android:layout_marginTop="20dp"
-
-            android:layout_weight="1"
             android:padding="@dimen/padding_title_for_settings_24dp"
-
             android:text="@string/data_and_cache_app"
             android:textSize="24sp"
-
-            android:textStyle="bold"
-
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/card_settings_vibration" />
+            android:textStyle="bold" />
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_settings_cache"
 
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:layout_margin="@dimen/common_spacing"
 
             app:cardCornerRadius="20dp"
-            app:cardElevation="2dp"
-
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/text_name_date_cache">
+            app:cardElevation="2dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:padding="@dimen/common_spacing">
 
                 <TextView
-                    android:id="@+id/text_settings_cache"
 
+                    android:id="@+id/text_settings_cache"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
 
                     android:text="@string/application_cache_size"
-
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -257,20 +215,63 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonOpenVersionApplication"
+        <TextView
+            android:id="@+id/text_name_info_app"
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-        android:layout_margin="20dp"
+            android:padding="@dimen/padding_title_for_settings_24dp"
+            android:text="@string/application_information"
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
-        android:backgroundTint="@color/active_element"
-        android:text="@string/application_versions"
-        android:textColor="@color/white"
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
 
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+            android:layout_margin="@dimen/common_spacing"
+            android:padding="@dimen/common_spacing"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="2dp">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="@dimen/common_spacing">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+
+                    android:text="@string/longDescriptionFunCard"
+                    android:textSize="16sp" />
+            </LinearLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+            android:id="@+id/buttonOpenVersionApplication"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="@dimen/common_spacing"
+            android:layout_marginTop="@dimen/common_spacing"
+            android:layout_marginBottom="26dp"
+
+            android:backgroundTint="@color/active_element"
+            android:text="@string/application_versions"
+            android:textColor="@color/white"
+
+            app:icon="@drawable/ic_versions_bold_24"
+            app:iconTint="@color/white" />
+
+    </LinearLayout>
+
+</ScrollView>
