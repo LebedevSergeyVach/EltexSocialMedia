@@ -35,7 +35,7 @@ class AccountViewModel @Inject constructor(
      * @see Flow
      * @sample authTokenFlow
      */
-    val authTokenFlow: Flow<String?> = userPreferences.authTokenFlow
+    private val authTokenFlow: Flow<String?> = userPreferences.authTokenFlow
 
     /**
      * [Flow], который предоставляет идентификатор пользователя.
@@ -45,7 +45,7 @@ class AccountViewModel @Inject constructor(
      * @see Flow
      * @sample userIdFlow
      */
-    val userIdFlow: Flow<String?> = userPreferences.userIdFlow
+    private val userIdFlow: Flow<String?> = userPreferences.userIdFlow
 
     /**
      * Получает токен аутентификации.

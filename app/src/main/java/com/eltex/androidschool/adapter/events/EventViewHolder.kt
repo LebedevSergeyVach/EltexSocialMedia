@@ -116,12 +116,6 @@ class EventViewHolder(
         binding.share.setOnClickListener {
             shareEvent(event)
         }
-
-        binding.cardEvent.setOnLongClickListener {
-            shareEvent(event)
-
-            true
-        }
     }
 
     /**

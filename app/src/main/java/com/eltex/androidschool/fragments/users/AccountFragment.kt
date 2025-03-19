@@ -964,7 +964,6 @@ class AccountFragment : Fragment() {
      *
      * @property callback Обработчик нажатия кнопки "Назад", который управляет поведением ViewPager2.
      */
-    @Suppress("DEPRECATION")
     private fun registerBackPressedCallback(binding: FragmentAccountBinding) {
         val callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
@@ -974,7 +973,7 @@ class AccountFragment : Fragment() {
                     binding.viewPagerPostsAndEvents.setCurrentItem(0, true)
                 } else {
                     isEnabled = false
-                    requireActivity().onBackPressed()
+                    requireActivity().onBackPressedDispatcher.onBackPressed()
                 }
             }
         }

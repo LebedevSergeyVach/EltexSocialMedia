@@ -147,7 +147,7 @@ class EventsFragment : Fragment() {
      */
     private fun createEventAdapterDifferentTypesView(
         accountViewModel: AccountViewModel,
-    ) = EventAdapterDifferentTypesView(
+    ): EventAdapterDifferentTypesView = EventAdapterDifferentTypesView(
         object : EventAdapterDifferentTypesView.EventListener {
             override fun onLikeClicked(event: EventUiModel) {
                 viewModel.accept(message = EventMessage.Like(event = event))

@@ -16,14 +16,14 @@ plugins {
 
 android {
     namespace = "com.eltex.androidschool"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.eltex.androidschool.social.media.network"
         minSdk = 24
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 1
-        versionName = "v1.1.1"
+        versionName = "v1.1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 

@@ -114,7 +114,9 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
 
+                app:tabBackground="@null"
                 app:tabIndicatorColor="@color/active_element"
+                app:tabRippleColor="@android:color/transparent"
                 app:tabSelectedTextColor="@color/active_element"
                 app:tabTextColor="@color/inversion_black_white_theme" />
 

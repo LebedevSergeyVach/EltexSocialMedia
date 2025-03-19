@@ -2,8 +2,9 @@ package com.eltex.androidschool.ui.common
 
 import android.graphics.Rect
 import android.view.View
+
 import androidx.annotation.Px
-import androidx.recyclerview.widget.LinearLayoutManager
+
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView.ItemDecoration
  */
 class OffsetDecoration(
     @Px private val offset: Int,
+    @Px private val offsetVertical: Int = (offset + 2) / 2,
     private val horizontal: Boolean = true,
 ) : ItemDecoration() {
 
@@ -33,20 +35,21 @@ class OffsetDecoration(
         parent: RecyclerView,
         state: RecyclerView.State,
     ) {
-        outRect.top += offset
+        outRect.top += offsetVertical
+        outRect.bottom += offsetVertical
 
         if (horizontal) {
             outRect.left += offset
             outRect.right += offset
         }
 
-        val lastVisibleItemPosition =
-            (parent.layoutManager as? LinearLayoutManager)?.findLastVisibleItemPosition()
-
-        val lastItemPosition = parent.adapter?.itemCount?.minus(1)
-
-        if (lastVisibleItemPosition == lastItemPosition) {
-            outRect.bottom += offset * 2
-        }
+//        val lastVisibleItemPosition =
+//            (parent.layoutManager as? LinearLayoutManager)?.findLastVisibleItemPosition()
+//
+//        val lastItemPosition = parent.adapter?.itemCount?.minus(1)
+//
+//        if (lastVisibleItemPosition == lastItemPosition) {
+//            outRect.bottom += offset * 3
+//        }
     }
 }

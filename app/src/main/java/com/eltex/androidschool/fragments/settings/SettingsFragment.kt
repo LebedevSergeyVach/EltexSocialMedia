@@ -46,6 +46,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 import java.io.File
 import java.util.Locale
+import androidx.core.content.edit
 
 /**
  * Фрагмент для настройки приложения.
@@ -360,7 +361,7 @@ class SettingsFragment : Fragment() {
         val sharedPreferences =
             requireContext().getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
 
-        sharedPreferences.edit().putString("Language", languageCode).apply()
+        sharedPreferences.edit { putString("Language", languageCode) }
 
         if (BuildConfig.DEBUG) {
             LoggerHelper.d("System locale: ${Locale.getDefault()}")
@@ -386,7 +387,7 @@ class SettingsFragment : Fragment() {
         val sharedPreferences =
             requireContext().getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
 
-        sharedPreferences.edit().putInt("Theme", themeMode).apply()
+        sharedPreferences.edit { putInt("Theme", themeMode) }
 
         updateButtonTexts(binding = binding)
 
@@ -429,7 +430,7 @@ class SettingsFragment : Fragment() {
         binding.vibrationOptionSwitch.setOnCheckedChangeListener { _, isChecked ->
             requireContext().singleVibrationWithSystemCheck(35)
 
-            sharedPreferences.edit().putBoolean("VibrationEnabled", isChecked).apply()
+            sharedPreferences.edit { putBoolean("VibrationEnabled", isChecked) }
 
             updateVibrationText(isEnabled = isChecked, binding = binding, animate = true)
         }

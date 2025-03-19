@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -18,6 +19,8 @@ import com.eltex.androidschool.R
 
 import com.eltex.androidschool.databinding.FragmentBottomNavigationBinding
 import com.eltex.androidschool.viewmodel.common.SharedViewModel
+import androidx.core.view.isVisible
+import androidx.core.view.isGone
 
 /**
  * Фрагмент, отвечающий за отображение нижней навигационной панели.
@@ -135,6 +138,8 @@ class BottomNavigationFragment : Fragment() {
             }
         }
 
+        setupBackButtonHandler(navController = navController)
+
         return binding.root
     }
 
@@ -142,7 +147,7 @@ class BottomNavigationFragment : Fragment() {
      * Показывает FloatingActionButton с анимацией.
      */
     fun showFab() {
-        if (binding.news.visibility == View.GONE) {
+        if (binding.news.isGone) {
             binding.news.visibility = View.VISIBLE
             binding.news.animate()
                 .scaleX(1F)
@@ -156,7 +161,7 @@ class BottomNavigationFragment : Fragment() {
      * Скрывает FloatingActionButton с анимацией.
      */
     fun hideFab() {
-        if (binding.news.visibility == View.VISIBLE) {
+        if (binding.news.isVisible) {
             binding.news.animate()
                 .scaleX(0F)
                 .scaleY(0F)
@@ -243,5 +248,64 @@ class BottomNavigationFragment : Fragment() {
         menu.findItem(R.id.postsFragment).setIcon(postsIconRes)
         menu.findItem(R.id.eventsFragment).setIcon(eventsIconRes)
         menu.findItem(R.id.accountFragment).setIcon(accountIconRes)
+    }
+
+    /**
+     * Настраивает пользовательское поведение кнопки "Назад" для фрагментов, управляемых нижней навигацией.
+     *
+     * - Если пользователь находится в фрагменте "События" (`eventsFragment`) или "Профиль" (`accountFragment`), при нажатии на кнопку "Назад"
+     *   он будет перенаправлен на фрагмент "Список постов" (`postsFragment`).
+     * - Если пользователь уже находится в фрагменте "Список постов", то обработка кнопки "Назад" будет передана системе
+     *   для выполнения стандартного поведения (например, выхода из приложения или перехода назад).
+     *
+     * Используется `OnBackPressedDispatcher` для управления поведением кнопки "Назад", что является предпочтительным способом
+     * вместо устаревшего метода `onBackPressed()`.
+     *
+     * @param navController Навигационный контроллер, используемый для управления переходами между фрагментами.
+     *
+     * @see OnBackPressedDispatcher
+     * @see OnBackPressedCallback
+     */
+    private fun setupBackButtonHandler(navController: NavController) {
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    when (navController.currentDestination?.id) {
+                        R.id.eventsFragment -> {
+                            navController.navigate(
+                                R.id.postsFragment,
+                                null,
+                                NavOptions.Builder()
+                                    .setEnterAnim(R.anim.slide_in_left_bottom)
+                                    .setPopEnterAnim(R.anim.slide_in_right_bottom)
+                                    .build()
+                            )
+                        }
+
+                        R.id.accountFragment -> {
+                            navController.navigate(
+                                R.id.postsFragment,
+                                null,
+                                NavOptions.Builder()
+                                    .setEnterAnim(R.anim.slide_in_left_bottom)
+                                    .setPopEnterAnim(R.anim.slide_in_right_bottom)
+                                    .build()
+                            )
+                        }
+
+                        R.id.postsFragment -> {
+                            isEnabled = false
+                            requireActivity().onBackPressedDispatcher.onBackPressed()
+                        }
+
+                        else -> {
+                            isEnabled = false
+                            requireActivity().onBackPressedDispatcher.onBackPressed()
+                        }
+                    }
+                }
+            }
+        )
     }
 }
