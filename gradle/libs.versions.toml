@@ -43,7 +43,6 @@ parcelize = "2.1.20"
 
 [libraries]
 adapter-rxjava3 = { module = "com.squareup.retrofit2:adapter-rxjava3", version.ref = "adapterRxjava3" }
-#noinspection SimilarGradleDependency
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-datastore = { module = "androidx.datastore:datastore", version.ref = "datastorePreferences" }
@@ -74,7 +73,6 @@ leakcanary-android-test = { module = "com.squareup.leakcanary:leakcanary-android
 logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-activity = { group = "androidx.activity", name = "activity-ktx", version.ref = "activity" }
-#noinspection SimilarGradleDependency
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-ui-tooling-preview-android = { group = "androidx.compose.ui", name = "ui-tooling-preview-android", version.ref = "uiToolingPreviewAndroid" }
 activity = { group = "androidx.activity", name = "activity", version.ref = "activityVersion" }
