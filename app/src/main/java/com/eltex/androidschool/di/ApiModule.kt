@@ -1,14 +1,15 @@
 package com.eltex.androidschool.di
 
 import android.app.Application
+
 import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.api.auth.AuthApi
 import com.eltex.androidschool.api.common.AuthInterceptor
-import com.eltex.androidschool.api.posts.PostsApi
 import com.eltex.androidschool.api.events.EventsApi
-import com.eltex.androidschool.api.users.UsersApi
 import com.eltex.androidschool.api.jobs.JobsApi
 import com.eltex.androidschool.api.media.MediaApi
+import com.eltex.androidschool.api.posts.PostsApi
+import com.eltex.androidschool.api.users.UsersApi
 import com.eltex.androidschool.store.UserPreferences
 import com.eltex.androidschool.utils.helper.DnsSelectorHelper
 
@@ -19,25 +20,31 @@ import dagger.hilt.components.SingletonComponent
 
 import kotlinx.serialization.json.Json
 
+import okhttp3.Cache
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
+import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import retrofit2.create
 
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
-import okhttp3.Cache
 import java.io.File
-
 import java.util.concurrent.TimeUnit
-
 import javax.inject.Singleton
 
 /**
  * Модуль Dagger Hilt для предоставления зависимостей, связанных с API и сетевыми запросами.
+ *
+ * Этот модуль отвечает за создание и предоставление экземпляров классов, необходимых для работы с сетью,
+ * включая [OkHttpClient], [Retrofit] и различные API-интерфейсы.
+ *
+ * @see [OkHttpClient]
+ * @see [Retrofit]
+ * @see [AuthInterceptor]
+ *
+ * @see [Dagger Hilt](https://dagger.dev/hilt/)
  */
 @Module
 @InstallIn(SingletonComponent::class)
@@ -59,6 +66,7 @@ class ApiModule {
     /**
      * Конфигурация JSON-сериализации.
      *
+     * Настройки для [Json], используемого для сериализации и десериализации данных.
      * - `ignoreUnknownKeys = true`: Игнорирует неизвестные ключи в JSON.
      * - `coerceInputValues = true`: Приводит значения `null` к значениям по умолчанию.
      */
@@ -84,6 +92,7 @@ class ApiModule {
      * Предоставляет экземпляр [OkHttpClient] с настроенными интерцепторами и таймаутами.
      *
      * @param authInterceptor Интерцептор для добавления заголовков аутентификации.
+     * @param application Экземпляр [Application] для получения контекста.
      * @return Экземпляр [OkHttpClient].
      *
      * @see OkHttpClient
@@ -132,11 +141,12 @@ class ApiModule {
                 }
             }
             .addInterceptor { chain: Interceptor.Chain ->
-                // Перехват запроса и добавление заголовков для управления кэшем
-                val request = chain.request().newBuilder()
-                    .header("Cache-Control", "public, max-age=60") // 1 минута
-                    .build()
-                chain.proceed(request)
+                chain.proceed(
+                    chain.request()
+                        .newBuilder()
+                        .header("Cache-Control", "public, max-age=60") // 1 минута
+                        .build()
+                )
             }
             .addInterceptor { chain: Interceptor.Chain ->
                 chain.proceed(
@@ -168,7 +178,6 @@ class ApiModule {
      * @see [OkHttpClientFactory]
      *
      * @see Retrofit Основной класс для работы с сетевыми запросами.
-     * @see RxJava3CallAdapterFactory Адаптер для интеграции RxJava3 с Retrofit.
      * @see Json Конфигурация JSON-сериализации.
      */
     @Singleton

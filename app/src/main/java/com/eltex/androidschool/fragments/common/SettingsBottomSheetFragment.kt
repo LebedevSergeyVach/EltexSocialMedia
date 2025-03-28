@@ -86,6 +86,10 @@ class SettingsBottomSheetFragment(
             )
         }
 
+        binding.buttonCloseFragmentSheet.setOnClickListener {
+            dismiss()
+        }
+
         return binding.root
     }
 

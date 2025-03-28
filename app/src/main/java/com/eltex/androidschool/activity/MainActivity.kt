@@ -3,6 +3,7 @@ package com.eltex.androidschool.activity
 import android.content.Context
 import android.content.res.Configuration
 import android.content.res.Resources
+
 import android.os.Bundle
 
 import androidx.activity.enableEdgeToEdge
@@ -31,7 +32,7 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val sharedPreferences = getSharedPreferences("AppSettings", Context.MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences("AppSettings", MODE_PRIVATE)
         val languageCode = sharedPreferences.getString("Language", null)
         setLocale(languageCode)
 

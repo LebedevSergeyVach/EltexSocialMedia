@@ -1,6 +1,7 @@
 package com.eltex.androidschool.ui.common
 
 import android.view.View
+
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 
@@ -11,6 +12,7 @@ import androidx.core.view.WindowInsetsCompat
  * @see WindowInsetsCompat Класс для работы с вставками окна.
  */
 object EdgeToEdgeHelper {
+
     /**
      * Применяет отступы для системных панелей к указанному представлению.
      *

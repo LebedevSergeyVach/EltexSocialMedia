@@ -6,12 +6,26 @@ import java.util.Properties
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+
+    /**
+     * Plugin for Kotlin Serialization
+     *
+     * https://kotlinlang.org/docs/serialization.html
+     * https://github.com/Kotlin/kotlinx.serialization
+     */
     alias(libs.plugins.serialization)
     alias(libs.plugins.protobuf)
     alias(libs.plugins.room)
     alias(libs.plugins.ksp)
     alias(libs.plugins.daggerHilt)
-    id("kotlin-parcelize")
+
+    /**
+     * Генератор программных реализаций
+     *
+     * Плагин kotlin-parcelize предоставляет генератор реализации Parcelable
+     * id("org.jetbrains.kotlin.plugin.parcelize") version "2.1.20"
+     */
+    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
@@ -124,6 +138,8 @@ dependencies {
      *
      * https://developer.android.com/jetpack/androidx/releases/constraintlayout
      * https://developer.android.com/reference/androidx/constraintlayout/widget/ConstraintLayout
+     *
+     * implementation("androidx.constraintlayout:constraintlayout:2.2.1")
      */
     implementation(libs.androidx.constraintlayout)
 
@@ -131,11 +147,13 @@ dependencies {
      * ViewModel Lifecycle
      *
      * https://developer.android.com/jetpack/androidx/releases/lifecycle
+     *
+     * implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
      */
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     /**
-     * ViewParticleEmitter ANIM
+     * ViewParticleEmitter ANIM Confetti
      *
      * https://github.com/jinatonic/confetti
      */
@@ -149,6 +167,8 @@ dependencies {
      * https://developer.android.com/develop/ui/views/launch/splash-screen
      *
      * https://github.com/patildnyaneshwar/SplashScreen
+     *
+     * implementation("androidx.core:core-splashscreen:1.0.1")
      */
     implementation(libs.androidx.core.splashscreen)
 
@@ -157,6 +177,8 @@ dependencies {
      *
      * https://github.com/Kotlin/kotlinx.serialization
      * https://kotlinlang.org/docs/serialization.html
+     *
+     * implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.0")
      */
     implementation(libs.kotlinx.serialization.json)
 
@@ -201,6 +223,10 @@ dependencies {
      *
      * https://github.com/square/okhttp
      * https://square.github.io/okhttp/
+     *
+     * implementation(platform("com.squareup.okhttp3:okhttp-bom:4.12.0"))
+     * implementation("com.squareup.okhttp3:okhttp")
+     * implementation("com.squareup.okhttp3:logging-interceptor")
      */
     // define a BOM and its version
     implementation(platform(libs.okhttp.bom))
@@ -217,9 +243,14 @@ dependencies {
      *
      * https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter
      * https://github.com/square/retrofit/tree/trunk/retrofit-converters/kotlinx-serialization
+     *
+     * implementation(libs.retrofit2.kotlinx.serialization.converter)
+     *
+     * implementation("com.squareup.retrofit2:retrofit:2.11.0")
+     * implementation("com.squareup.retrofit2:converter-kotlinx-serialization:2.11.0")
      */
     implementation(libs.retrofit)
-    implementation(libs.retrofit2.kotlinx.serialization.converter)
+    implementation(libs.converter.kotlinx.serialization)
 
     /**
      * SwipeRefreshLayout
@@ -276,6 +307,8 @@ dependencies {
      * SkeletonLayout
      *
      * https://github.com/Faltenreich/SkeletonLayout
+     *
+     * implementation("com.faltenreich:skeletonlayout:6.0.0")
      */
     implementation(libs.skeletonlayout)
 
@@ -287,6 +320,8 @@ dependencies {
      * https://github.com/wasabeef/glide-transformations
      *
      * implementation(libs.glide.transformations)
+     *
+     * implementation("com.github.bumptech.glide:glide:4.16.0")
      */
     implementation(libs.glide)
 
@@ -298,11 +333,25 @@ dependencies {
     testImplementation(libs.leakcanary.android.test)
 
     /**
-     * DI Dependency injection with Hilt
+     * DI Dependency injection with Dagger2-Hilt
      *
      * https://developer.android.com/training/dependency-injection/hilt-android#kts
      * https://blog.mindorks.com/dagger-hilt-tutorial/
      */
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
+
+    /**
+     * DI Koin
+     *
+     * https://github.com/InsertKoinIO/koin
+     * https://insert-koin.io/
+     *
+     * // Koin Core
+     * implementation("io.insert-koin:koin-core:4.0.3")
+     * // Koin для Android
+     * implementation("io.insert-koin:koin-android:4.0.3")
+     * // Koin для Jetpack (ViewModel)
+     * implementation("io.insert-koin:koin-androidx-viewmodel:4.0.3")
+     */
 }

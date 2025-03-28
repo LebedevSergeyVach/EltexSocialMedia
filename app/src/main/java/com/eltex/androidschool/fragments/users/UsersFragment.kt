@@ -92,7 +92,7 @@ class UsersFragment : Fragment() {
                     } else {
                         requireParentFragment().findNavController()
                             .navigate(
-                                R.id.action_usersFragment_to_userFragment2,
+                                R.id.action_usersFragment_to_userFragment,
                                 bundleOf(
                                     AccountFragment.USER_ID to user.id,
                                     AccountFragment.IC_PROFILE to false
