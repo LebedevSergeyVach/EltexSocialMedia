@@ -16,6 +16,13 @@ plugins {
     alias(libs.plugins.serialization)
     alias(libs.plugins.protobuf)
     alias(libs.plugins.room)
+
+    /**
+     * KSP
+     * Kotlin Symbol Processing API
+     *
+     * https://github.com/google/ksp
+     */
     alias(libs.plugins.ksp)
     alias(libs.plugins.daggerHilt)
 
@@ -146,6 +153,7 @@ dependencies {
     /**
      * ViewModel Lifecycle
      *
+     * https://developer.android.com/topic/libraries/architecture/viewmodel
      * https://developer.android.com/jetpack/androidx/releases/lifecycle
      *
      * implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
@@ -212,8 +220,12 @@ dependencies {
     /**
      * FragmentActivity
      *
+     * Android Jetpack's Navigation component
      * Navigation Component
      * https://developer.android.com/guide/navigation
+     *
+     * implementation("androidx.navigation:navigation-fragment-ktx:2.8.9")
+     * implementation("androidx.navigation:navigation-ui:2.8.9")
      */
     implementation(libs.androidx.navigation.fragment.ktx)
     implementation(libs.androidx.navigation.ui.ktx)
@@ -257,6 +269,8 @@ dependencies {
      *
      * https://developer.android.com/reference/androidx/swiperefreshlayout/widget/SwipeRefreshLayout
      * https://developer.android.com/develop/ui/views/touch-and-input/swipe/add-swipe-interface
+     *
+     * implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
      */
     implementation(libs.androidx.swiperefreshlayout)
 
@@ -346,12 +360,12 @@ dependencies {
      *
      * https://github.com/InsertKoinIO/koin
      * https://insert-koin.io/
+     * https://insert-koin.io/docs/setup/annotations/
+     * https://github.com/InsertKoinIO/koin-annotations?tab=readme-ov-file
      *
-     * // Koin Core
      * implementation("io.insert-koin:koin-core:4.0.3")
-     * // Koin для Android
      * implementation("io.insert-koin:koin-android:4.0.3")
-     * // Koin для Jetpack (ViewModel)
-     * implementation("io.insert-koin:koin-androidx-viewmodel:4.0.3")
+     * implementation("io.insert-koin:koin-annotations:2.0.0")
+     * ksp("io.insert-koin:koin-ksp-compiler:2.0.0")
      */
 }

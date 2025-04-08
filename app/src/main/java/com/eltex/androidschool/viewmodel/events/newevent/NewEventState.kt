@@ -1,7 +1,7 @@
 package com.eltex.androidschool.viewmodel.events.newevent
 
 import com.eltex.androidschool.data.events.EventData
-import com.eltex.androidschool.viewmodel.common.FileModel
+import com.eltex.androidschool.data.media.FileModel
 import com.eltex.androidschool.viewmodel.status.StatusLoad
 
 /**

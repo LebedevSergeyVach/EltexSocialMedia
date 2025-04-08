@@ -121,14 +121,13 @@ class ApiModule {
         // Директория и размер кэша
         val cacheDir = File(application.cacheDir, "http_cache")
         val cacheSize = 10L * 1024 * 1024 // 10 MB
-        val cache = Cache(cacheDir, cacheSize)
 
         return OkHttpClient.Builder()
             .connectTimeout(120, TimeUnit.SECONDS)
             .writeTimeout(120, TimeUnit.SECONDS)
             .readTimeout(120, TimeUnit.SECONDS)
             .addInterceptor(authInterceptor)
-            .cache(cache)
+            .cache(Cache(cacheDir, cacheSize))
             .let { clientOkHttp: OkHttpClient.Builder ->
                 if (BuildConfig.DEBUG) {
                     clientOkHttp.addInterceptor(
@@ -185,7 +184,7 @@ class ApiModule {
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
         Retrofit.Builder()
             .client(okHttpClient)
-            .baseUrl(BuildConfig.URL_SERVER)
+            .baseUrl(URL_SERVER)
             .addConverterFactory(json.asConverterFactory(JSON_TYPE))
             .build()
 

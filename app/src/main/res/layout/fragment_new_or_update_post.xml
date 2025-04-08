@@ -46,6 +46,7 @@
 
                     android:background="@android:color/transparent"
 
+                    android:freezesText="true"
                     android:gravity="top"
                     android:hint="@string/new_post_content_hint"
                     android:inputType="textMultiLine"

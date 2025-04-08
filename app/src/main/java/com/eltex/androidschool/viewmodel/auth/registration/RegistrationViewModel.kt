@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 
 import com.eltex.androidschool.data.auth.AuthData
 import com.eltex.androidschool.repository.auth.AuthRepository
-import com.eltex.androidschool.viewmodel.common.FileModel
+import com.eltex.androidschool.data.media.FileModel
 import com.eltex.androidschool.viewmodel.status.StatusLoad
 
 import dagger.hilt.android.lifecycle.HiltViewModel

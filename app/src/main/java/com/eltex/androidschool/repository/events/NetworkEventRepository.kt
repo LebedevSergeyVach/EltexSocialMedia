@@ -8,7 +8,7 @@ import com.eltex.androidschool.data.common.Attachment
 import com.eltex.androidschool.data.events.EventData
 import com.eltex.androidschool.data.media.MediaDto
 import com.eltex.androidschool.repository.media.uploadMedia
-import com.eltex.androidschool.viewmodel.common.FileModel
+import com.eltex.androidschool.data.media.FileModel
 
 import java.time.Instant
 

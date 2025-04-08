@@ -3,7 +3,7 @@ package com.eltex.androidschool.repository.posts
 import android.content.ContentResolver
 
 import com.eltex.androidschool.data.posts.PostData
-import com.eltex.androidschool.viewmodel.common.FileModel
+import com.eltex.androidschool.data.media.FileModel
 
 /**
  * Интерфейс репозитория для работы с постами.

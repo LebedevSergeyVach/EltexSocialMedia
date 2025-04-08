@@ -8,7 +8,7 @@ import android.graphics.BitmapFactory
 
 import com.eltex.androidschool.api.media.MediaApi
 import com.eltex.androidschool.data.media.MediaDto
-import com.eltex.androidschool.viewmodel.common.FileModel
+import com.eltex.androidschool.data.media.FileModel
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

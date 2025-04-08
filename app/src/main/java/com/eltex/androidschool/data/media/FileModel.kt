@@ -1,7 +1,6 @@
-package com.eltex.androidschool.viewmodel.common
+package com.eltex.androidschool.data.media
 
 import android.net.Uri
-
 import com.eltex.androidschool.data.common.AttachmentTypeFile
 
 /**

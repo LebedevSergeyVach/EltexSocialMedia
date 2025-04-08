@@ -12,7 +12,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 import com.eltex.androidschool.data.posts.PostData
-import com.eltex.androidschool.viewmodel.common.FileModel
+import com.eltex.androidschool.data.media.FileModel
 import com.eltex.androidschool.repository.posts.PostRepository
 import com.eltex.androidschool.viewmodel.status.StatusLoad
 

@@ -66,7 +66,7 @@ class PostsFragment : Fragment() {
      *
      * @see PostViewModel
      */
-    private val viewModel by viewModels<PostViewModel>()
+    private val viewModel: PostViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -83,6 +83,7 @@ class PostsFragment : Fragment() {
         binding.list.addItemDecoration(
             OffsetDecoration(resources.getDimensionPixelSize(R.dimen.list_offset))
         )
+
         binding.list.addOnChildAttachStateChangeListener(
             object : RecyclerView.OnChildAttachStateChangeListener {
                 override fun onChildViewAttachedToWindow(view: View) {
@@ -97,7 +98,6 @@ class PostsFragment : Fragment() {
                 override fun onChildViewDetachedFromWindow(view: View) = Unit
             }
         )
-
 
         binding.retryButton.setOnClickListener {
             viewModel.accept(message = PostMessage.Refresh)
@@ -234,7 +234,7 @@ class PostsFragment : Fragment() {
         adapter: PostAdapter,
     ) {
         viewModel.state
-            .flowWithLifecycle(viewLifecycleOwner.lifecycle)
+            .flowWithLifecycle(lifecycle = viewLifecycleOwner.lifecycle)
             .onEach { postState: PostState ->
                 binding.errorGroup.isVisible = postState.isEmptyError
 
@@ -263,7 +263,7 @@ class PostsFragment : Fragment() {
                     )
                 )
             }
-            .launchIn(viewLifecycleOwner.lifecycleScope)
+            .launchIn(scope = viewLifecycleOwner.lifecycleScope)
     }
 
     /**

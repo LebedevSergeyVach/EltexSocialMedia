@@ -5,7 +5,7 @@ import android.content.ContentResolver
 import com.eltex.androidschool.api.auth.AuthApi
 import com.eltex.androidschool.data.auth.AuthData
 import com.eltex.androidschool.store.UserPreferences
-import com.eltex.androidschool.viewmodel.common.FileModel
+import com.eltex.androidschool.data.media.FileModel
 
 import okhttp3.MediaType
 import okhttp3.MultipartBody
