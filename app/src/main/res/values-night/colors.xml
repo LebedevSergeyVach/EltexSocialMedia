@@ -3,6 +3,6 @@
     <color name="background_color_of_the_refresh_circle">#141218</color>
     <color name="inversion_black_white_theme">#FFFFFFFF</color>
     <color name="toast_custom">#2e3133</color>
-
     <color name="splash_screen">@color/black</color>
+    <color name="gray_cross">#cac4d0</color>
 </resources>

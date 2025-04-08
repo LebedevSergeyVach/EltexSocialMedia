@@ -8,7 +8,7 @@ import com.eltex.androidschool.api.posts.PostsApi
 import com.eltex.androidschool.data.common.Attachment
 import com.eltex.androidschool.data.posts.PostData
 import com.eltex.androidschool.repository.media.uploadMedia
-import com.eltex.androidschool.viewmodel.common.FileModel
+import com.eltex.androidschool.data.media.FileModel
 
 import javax.inject.Inject
 

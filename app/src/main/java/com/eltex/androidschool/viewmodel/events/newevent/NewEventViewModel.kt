@@ -13,7 +13,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 import com.eltex.androidschool.data.events.EventData
-import com.eltex.androidschool.viewmodel.common.FileModel
+import com.eltex.androidschool.data.media.FileModel
 import com.eltex.androidschool.repository.events.EventRepository
 import com.eltex.androidschool.viewmodel.status.StatusLoad
 

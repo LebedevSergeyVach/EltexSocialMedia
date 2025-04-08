@@ -147,7 +147,7 @@ class AccountFragment : Fragment() {
         val accountUserId = accountViewModel.userId
 
         val userId: Long = arguments?.getLong(USER_ID) ?: accountUserId
-        val icProfile: Boolean = arguments?.getBoolean(IC_PROFILE) ?: true
+        val icProfile: Boolean = arguments?.getBoolean(IC_PROFILE) != false
 
         /**
          * ViewModel для управления данными о пользователе.

@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
 
     android:id="@+id/root_navigation"
-
     app:startDestination="@id/BottomNavigationFragment">
 
     <fragment
@@ -72,10 +71,18 @@
 
         <action
             android:id="@+id/action_userFragment_to_newOrUpdatePostFragment"
-            app:destination="@id/newOrUpdatePostFragment" />
+            app:destination="@id/newOrUpdatePostFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_userFragment_to_newOrUpdateEventFragment"
-            app:destination="@id/newOrUpdateEventFragment" />
+            app:destination="@id/newOrUpdateEventFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -86,7 +93,11 @@
 
         <action
             android:id="@+id/action_settingsFragment_to_listAppUpdatesFragment"
-            app:destination="@id/listAppUpdatesFragment" />
+            app:destination="@id/listAppUpdatesFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
 
     </fragment>
 
@@ -107,8 +118,13 @@
         tools:layout="@layout/fragment_users">
 
         <action
-            android:id="@+id/action_usersFragment_to_userFragment2"
-            app:destination="@id/accountFragment" />
+            android:id="@+id/action_usersFragment_to_userFragment"
+            app:destination="@id/accountFragment"
+
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <action
@@ -124,12 +140,20 @@
         android:id="@+id/listAppUpdatesFragment"
         android:name="com.eltex.androidschool.fragments.update.ListAppUpdatesFragment"
         android:label="@string/update_application"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
         tools:layout="@layout/fragment_update" />
 
     <fragment
         android:id="@+id/rulesFragment"
         android:name="com.eltex.androidschool.fragments.rules.RulesFragment"
         android:label="@string/rules"
+        app:enterAnim="@anim/slide_in_right"
+        app:exitAnim="@anim/slide_out_left"
+        app:popEnterAnim="@anim/slide_in_left"
+        app:popExitAnim="@anim/slide_out_right"
         tools:layout="@layout/fragment_rules" />
 
     <action

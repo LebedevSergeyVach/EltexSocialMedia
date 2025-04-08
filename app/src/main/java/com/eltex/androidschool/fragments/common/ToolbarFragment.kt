@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.content.ContextCompat
 
 import androidx.fragment.app.Fragment
@@ -29,6 +30,7 @@ import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.extensions.toast
 import com.eltex.androidschool.viewmodel.auth.user.AuthorizationSharedViewModel
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
@@ -46,6 +48,7 @@ import java.io.File
  * @see Fragment Базовый класс для фрагментов, использующих функции библиотеки поддержки.
  * @see ToolBarViewModel ViewModel для управления состоянием панели инструментов.
  */
+@AndroidEntryPoint
 class ToolbarFragment : Fragment() {
 
     private val authorizationSharedViewModel: AuthorizationSharedViewModel by activityViewModels()
@@ -90,6 +93,22 @@ class ToolbarFragment : Fragment() {
                         } else {
                             navController.setGraph(R.navigation.main_navigation)
                             binding.toolbar.setupWithNavController(navController = navController)
+
+                            navController.addOnDestinationChangedListener { _, destination, _ ->
+                                if (destination.id != R.id.BottomNavigationFragment) {
+                                    binding.toolbar.navigationIcon = AppCompatResources.getDrawable(
+                                        requireContext(),
+                                        R.drawable.ic_arrow_back_24
+                                    )?.apply {
+                                        setTint(
+                                            ContextCompat.getColor(
+                                                requireContext(),
+                                                R.color.active_element
+                                            )
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
                 }

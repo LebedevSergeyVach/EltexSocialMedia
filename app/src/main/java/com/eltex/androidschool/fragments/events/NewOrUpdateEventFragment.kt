@@ -55,7 +55,7 @@ import com.eltex.androidschool.utils.extensions.toast
 import com.eltex.androidschool.utils.extensions.vibrateWithEffect
 import com.eltex.androidschool.utils.helper.ImageHelper
 import com.eltex.androidschool.utils.helper.LoggerHelper
-import com.eltex.androidschool.viewmodel.common.FileModel
+import com.eltex.androidschool.data.media.FileModel
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 import com.eltex.androidschool.viewmodel.events.newevent.NewEventState
 import com.eltex.androidschool.viewmodel.events.newevent.NewEventViewModel

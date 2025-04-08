@@ -1,6 +1,6 @@
 package com.eltex.androidschool.viewmodel.auth.registration
 
-import com.eltex.androidschool.viewmodel.common.FileModel
+import com.eltex.androidschool.data.media.FileModel
 import com.eltex.androidschool.viewmodel.status.StatusLoad
 
 /**

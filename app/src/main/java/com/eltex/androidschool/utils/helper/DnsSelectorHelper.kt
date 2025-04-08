@@ -22,6 +22,10 @@ class DnsSelectorHelper : Dns {
     override fun lookup(hostname: String): List<InetAddress> {
         val addresses = Dns.SYSTEM.lookup(hostname)
 
-        return addresses.filter { Inet4Address::class.java.isInstance(it) }
+        return addresses.filter { inetAddress: InetAddress ->
+            Inet4Address::class.java.isInstance(
+                inetAddress
+            )
+        }
     }
 }

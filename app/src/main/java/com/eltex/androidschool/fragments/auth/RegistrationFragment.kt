@@ -42,7 +42,7 @@ import com.eltex.androidschool.utils.extensions.ErrorUtils.getErrorTextRegistrat
 import com.eltex.androidschool.utils.extensions.toast
 import com.eltex.androidschool.viewmodel.auth.registration.RegistrationState
 import com.eltex.androidschool.viewmodel.auth.registration.RegistrationViewModel
-import com.eltex.androidschool.viewmodel.common.FileModel
+import com.eltex.androidschool.data.media.FileModel
 
 import dagger.hilt.android.AndroidEntryPoint
 

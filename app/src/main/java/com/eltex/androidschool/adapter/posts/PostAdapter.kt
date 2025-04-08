@@ -107,7 +107,7 @@ class PostAdapter(
      * @param position Позиция элемента в списке.
      */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        when (val item = getItem(position)) {
+        when (val item: PostPagingModel = getItem(position)) {
             is PagingModel.Data -> (holder as PostViewHolder).bindPost(
                 post = item.value,
                 currentUserId = currentUserId

@@ -3,7 +3,7 @@ package com.eltex.androidschool.repository.auth
 import android.content.ContentResolver
 
 import com.eltex.androidschool.data.auth.AuthData
-import com.eltex.androidschool.viewmodel.common.FileModel
+import com.eltex.androidschool.data.media.FileModel
 
 /**
  * Интерфейс репозитория для работы с аутентификацией и регистрацией.
