@@ -76,6 +76,14 @@
   <img src="../assets/media/application/skeletonProfile.jpg" alt="Loading animation" style="width: 250px; margin: 5px; border: 3px solid #000000; border-radius: 15px;" />
 </div>
 
+## Comments / Комментарии
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <img src="../assets/media/application/Comments.jpg" alt="Comments" style="width: 250px; margin: 5px; border: 3px solid #000000; border-radius: 15px;" />
+  <img src="../assets/media/application/Comments_all.jpg" alt="Comments" style="width: 250px; margin: 5px; border: 3px solid #000000; border-radius: 15px;" />
+  <img src="../assets/media/application/Comments_empty.jpg" alt="Comments" style="width: 250px; margin: 5px; border: 3px solid #000000; border-radius: 15px;" />
+</div>
+
 ---
 
 #### [README](README.md) [UP/ВВЕРХ](#up)
