@@ -89,7 +89,7 @@ class EventAdapter(
         }
 
         binding.menu.setOnClickListener { view: View ->
-            showPopupMenu(view, viewHolder.bindingAdapterPosition)
+            showPopupMenu(view = view, position = viewHolder.bindingAdapterPosition)
         }
 
         return viewHolder
