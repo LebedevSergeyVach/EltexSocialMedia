@@ -170,6 +170,18 @@
     <string name="incorrect_photo_format">Incorrect photo format</string>
     <string name="you_cant_use_admin_in_login_or_username">You cannot use admin in login or username</string>
 
+    <!-- Comments -->
+    <string name="comments">Comments</string>
+    <string name="delete_comment">Delete comment</string>
+    <string name="empty_comments">There are no comments yet</string>
+    <string name="add_comment">Add a comment…</string>
+    <string name="delete_comment_title">Deleting a comment</string>
+    <string name="delete_comment_message">Are you sure you want to delete your comment?</string>
+    <plurals name="comments_count">
+        <item quantity="one">%d comment</item>
+        <item quantity="other">%d comments</item>
+    </plurals>
+
     <string name="date">Date</string>
     <string name="version">Version</string>
     <string name="update_application">Updates</string>
@@ -177,6 +189,7 @@
     <string name="repository_on_Github">The repository on Github</string>
     <string name="v1_0_0_description">The first version of the Eltex Social Media application has been released. The application is a social network that will allow users to create posts and events, indicate their places of work.\n\nThe version has been updated to stable version 1.0.2. Fixes: animation of avatar loading, switching to the system language in the application settings.</string>
     <string name="v1_1_0_description">Updates:\n\n• Added the ability to compress the image size before sending: the image metadata is deleted, and the image resolution is optimized.\n\n• The backend application runs on its own server.\n\n• The application usage rules and the user agreement have been added.\n\n• Animations and UI components in the app have been updated.</string>
+    <string name="v2_0_0_description">A new version of the app has been released 2.0!\n\nMajor updates:\n\n• Added comments to posts. Share your opinion and information with other users of the app under the posts!\n\nAdditional changes:\n\n• Animations and some of the visual content have been redesigned.\n\n• The application has been optimized and bugs fixed.</string>
 
     <!-- Rules -->
     <string name="rules">Rules</string>

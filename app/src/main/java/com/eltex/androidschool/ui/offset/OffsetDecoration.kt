@@ -1,25 +1,23 @@
-package com.eltex.androidschool.ui.common
+package com.eltex.androidschool.ui.offset
 
 import android.graphics.Rect
 import android.view.View
 
 import androidx.annotation.Px
-
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 
 /**
  * Декорация для добавления отступов между элементами RecyclerView.
  *
  * @param offset Отступ между элементами.
  *
- * @see RecyclerView.ItemDecoration Базовый класс для декораций элементов RecyclerView.
+ * @see androidx.recyclerview.widget.RecyclerView.ItemDecoration Базовый класс для декораций элементов RecyclerView.
  */
 class OffsetDecoration(
     @Px private val offset: Int,
     @Px private val offsetVertical: Int = (offset + 2) / 2,
     private val horizontal: Boolean = true,
-) : ItemDecoration() {
+) : RecyclerView.ItemDecoration() {
 
     /**
      * Устанавливает отступы для элемента списка.

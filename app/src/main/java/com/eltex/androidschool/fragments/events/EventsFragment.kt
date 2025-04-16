@@ -25,7 +25,7 @@ import com.eltex.androidschool.R
 import com.eltex.androidschool.adapter.events.EventAdapterDifferentTypesView
 import com.eltex.androidschool.databinding.FragmentEventsBinding
 import com.eltex.androidschool.fragments.users.AccountFragment
-import com.eltex.androidschool.ui.common.OffsetDecoration
+import com.eltex.androidschool.ui.offset.OffsetDecoration
 import com.eltex.androidschool.ui.events.EventPagingMapper
 import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.utils.extensions.ErrorUtils.getErrorText

@@ -54,9 +54,61 @@
         <item name="android:popupBackground">@drawable/popup_menu_background</item>
     </style>
 
-    <!-- Анимация для SettingsBottomSheetFragment -->
-    <style name="BottomSheetAnimation" parent="ThemeOverlay.MaterialComponents.BottomSheetDialog">
-        <item name="android:windowEnterAnimation">@anim/slide_in_up</item>
-        <item name="android:windowExitAnimation">@anim/slide_out_down</item>
+    <!-- Оснвной стиль для MaterialCardView -->
+    <style name="Style.MaterialCardView.Main" parent="Widget.Material3.CardView.Outlined">
+        <item name="cardElevation">0dp</item>
+        <item name="cardCornerRadius">10dp</item>
+        <item name="strokeWidth">1dp</item>
+
+        <!-- Отключаем состояние overlay (эффект приподнятости) -->
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <!-- Дополнительный стиль для MaterialCardView -->
+    <style name="Style.MaterialCardView.Additional" parent="Widget.Material3.CardView.Outlined">
+        <item name="cardElevation">4dp</item>
+        <item name="cardCornerRadius">10dp</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <!-- Стиль авторизации для MaterialCardView -->
+    <style name="Style.MaterialCardView.Auth" parent="Widget.Material3.CardView.Outlined">
+        <item name="cardElevation">1dp</item>
+        <item name="cardCornerRadius">15dp</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <!-- Стиль изображения для MaterialCardView -->
+    <style name="Style.MaterialCardView.Image" parent="Widget.Material3.CardView.Outlined">
+        <item name="cardElevation">2dp</item>
+        <item name="cardCornerRadius">20dp</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <!-- Стиль изменяемого контента для MaterialCardView -->
+    <style name="Style.MaterialCardView.Edit.Content" parent="Widget.Material3.CardView.Outlined">
+        <item name="cardElevation">2dp</item>
+        <item name="cardCornerRadius">20dp</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <!-- Стиль настроек для MaterialCardView -->
+    <style name="Style.MaterialCardView.Settings" parent="Widget.Material3.CardView.Outlined">
+        <item name="cardElevation">2dp</item>
+        <item name="cardCornerRadius">20dp</item>
+        <item name="strokeWidth">2dp</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <!-- Стиль правил для MaterialCardView -->
+    <style name="Style.MaterialCardView.Rules" parent="Widget.Material3.CardView.Outlined">
+        <item name="cardElevation">2dp</item>
+        <item name="cardCornerRadius">20dp</item>
+        <item name="strokeWidth">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
     </style>
 </resources>

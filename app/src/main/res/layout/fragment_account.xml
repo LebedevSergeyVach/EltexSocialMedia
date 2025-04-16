@@ -66,6 +66,8 @@
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_user_name"
 
+                style="@style/Style.MaterialCardView.Main"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 
@@ -162,10 +164,10 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardErrorText"
 
+            style="@style/Style.MaterialCardView.Main"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            app:cardCornerRadius="20dp"
 
             app:layout_constraintBottom_toTopOf="@id/retryButton"
             app:layout_constraintEnd_toEndOf="parent"

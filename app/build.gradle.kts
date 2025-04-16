@@ -41,10 +41,10 @@ android {
 
     defaultConfig {
         applicationId = "com.eltex.androidschool.social.media.network"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
-        versionName = "v1.1.2"
+        versionName = "v2.0.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
