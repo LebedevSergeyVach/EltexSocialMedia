@@ -48,10 +48,11 @@ import com.eltex.androidschool.adapter.posts.PostAdapter
 import com.eltex.androidschool.adapter.users.UserPagerAdapter
 import com.eltex.androidschool.data.users.UserData
 import com.eltex.androidschool.databinding.FragmentAccountBinding
+import com.eltex.androidschool.fragments.comments.CommentsBottomSheetFragment
 import com.eltex.androidschool.fragments.events.NewOrUpdateEventFragment
 import com.eltex.androidschool.fragments.jobs.NewOrUpdateJobFragment
 import com.eltex.androidschool.fragments.posts.NewOrUpdatePostFragment
-import com.eltex.androidschool.ui.common.OffsetDecoration
+import com.eltex.androidschool.ui.offset.OffsetDecoration
 import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.ui.jobs.JobUiModel
 import com.eltex.androidschool.ui.posts.PostPagingMapper
@@ -251,7 +252,10 @@ class AccountFragment : Fragment() {
          * @see PostAdapter Адаптер для отображения постов.
          */
         val postAdapter = createPostAdapter(
-            postViewModel = postViewModel, icProfile = icProfile, accountUserId = accountUserId,
+            postViewModel = postViewModel,
+            icProfile = icProfile,
+            accountUserId = accountUserId,
+            userId = userId,
         )
 
         /**
@@ -414,6 +418,7 @@ class AccountFragment : Fragment() {
         postViewModel: PostWallViewModel,
         icProfile: Boolean,
         accountUserId: Long,
+        userId: Long,
     ) = PostAdapter(
         listener = object : PostAdapter.PostListener {
             override fun onLikeClicked(post: PostUiModel) {
@@ -449,6 +454,20 @@ class AccountFragment : Fragment() {
             }
 
             override fun onGetUserClicked(post: PostUiModel) {}
+
+            override fun onCommentsClicked(post: PostUiModel) {
+                val commentsBottomSheetFragment = CommentsBottomSheetFragment(
+                    postId = post.id,
+                    accountUserId = accountUserId,
+                    isAccount = accountUserId == userId,
+                    isProfile = true,
+                )
+
+                commentsBottomSheetFragment.show(
+                    parentFragmentManager,
+                    commentsBottomSheetFragment.tag
+                )
+            }
 
             override fun onRetryPageClicked() {
                 postViewModel.accept(PostWallMessage.Retry)

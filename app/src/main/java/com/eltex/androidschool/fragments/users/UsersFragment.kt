@@ -25,7 +25,7 @@ import com.eltex.androidschool.databinding.FragmentUsersBinding
 import com.eltex.androidschool.data.users.UserData
 import com.eltex.androidschool.adapter.users.UserAdapter
 import com.eltex.androidschool.repository.users.NetworkUserRepository
-import com.eltex.androidschool.ui.common.OffsetDecoration
+import com.eltex.androidschool.ui.offset.OffsetDecoration
 import com.eltex.androidschool.utils.extensions.ErrorUtils.getErrorText
 import com.eltex.androidschool.viewmodel.users.UsersState
 import com.eltex.androidschool.viewmodel.users.UsersViewModel
@@ -112,7 +112,7 @@ class UsersFragment : Fragment() {
         binding.list.adapter = adapter
 
         binding.list.addItemDecoration(
-            OffsetDecoration(resources.getDimensionPixelSize(R.dimen.list_offset))
+            OffsetDecoration(offset = resources.getDimensionPixelSize(R.dimen.list_offset))
         )
 
         binding.retryButton.setOnClickListener {

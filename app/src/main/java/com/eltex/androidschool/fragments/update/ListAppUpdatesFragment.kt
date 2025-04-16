@@ -12,7 +12,7 @@ import com.eltex.androidschool.R
 import com.eltex.androidschool.adapter.update.UpdateAdapter
 import com.eltex.androidschool.data.update.UpdateData
 import com.eltex.androidschool.databinding.FragmentUpdateBinding
-import com.eltex.androidschool.ui.common.OffsetDecoration
+import com.eltex.androidschool.ui.offset.OffsetDecoration
 
 class ListAppUpdatesFragment : Fragment() {
 
@@ -51,6 +51,13 @@ class ListAppUpdatesFragment : Fragment() {
             date = "19.03.2025",
             description = getString(R.string.v1_1_0_description),
             link = "https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v1.1.2"
+        ),
+        UpdateData(
+            id = 2,
+            version = "v2.0.0",
+            date = "16.04.2025",
+            description = getString(R.string.v2_0_0_description),
+            link = "https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v2.0.0"
         ),
     )
         .reversed()
