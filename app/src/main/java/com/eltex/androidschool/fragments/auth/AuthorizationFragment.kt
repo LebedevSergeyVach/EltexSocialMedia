@@ -1,6 +1,7 @@
 package com.eltex.androidschool.fragments.auth
 
 import android.os.Bundle
+import android.text.Editable
 
 import android.view.LayoutInflater
 import android.view.View
@@ -126,14 +127,14 @@ class AuthorizationFragment : Fragment() {
      * @param binding Привязка к макету фрагмента.
      */
     private fun monitoringButtonStatus(binding: FragmentAuthorizationBinding) {
-        binding.textLoginUser.doAfterTextChanged { text ->
+        binding.textLoginUser.doAfterTextChanged { text: Editable? ->
             val login = text?.toString() ?: ""
             val password = binding.textPasswordUser.text?.toString() ?: ""
 
             viewModel.updateButtonState(login = login, password = password)
         }
 
-        binding.textPasswordUser.doAfterTextChanged { text ->
+        binding.textPasswordUser.doAfterTextChanged { text: Editable? ->
             val login = binding.textLoginUser.text?.toString() ?: ""
             val password = text?.toString() ?: ""
 

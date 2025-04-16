@@ -25,8 +25,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.eltex.androidschool.R
 import com.eltex.androidschool.adapter.posts.PostAdapter
 import com.eltex.androidschool.databinding.FragmentPostsBinding
+import com.eltex.androidschool.fragments.comments.CommentsBottomSheetFragment
 import com.eltex.androidschool.fragments.users.AccountFragment
-import com.eltex.androidschool.ui.common.OffsetDecoration
+import com.eltex.androidschool.ui.offset.OffsetDecoration
 import com.eltex.androidschool.ui.posts.PostPagingMapper
 import com.eltex.androidschool.ui.posts.PostUiModel
 import com.eltex.androidschool.utils.extensions.ErrorUtils.getErrorText
@@ -207,6 +208,20 @@ class PostsFragment : Fragment() {
                                 .build()
                         )
                 }
+            }
+
+            override fun onCommentsClicked(post: PostUiModel) {
+                val commentsBottomSheetFragment = CommentsBottomSheetFragment(
+                    postId = post.id,
+                    accountUserId = accountViewModel.userId,
+                    isAccount = false,
+                    isProfile = false,
+                )
+
+                commentsBottomSheetFragment.show(
+                    parentFragmentManager,
+                    commentsBottomSheetFragment.tag
+                )
             }
 
             override fun onRetryPageClicked() {

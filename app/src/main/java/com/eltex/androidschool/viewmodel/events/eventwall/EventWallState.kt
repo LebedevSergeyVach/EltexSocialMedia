@@ -14,6 +14,7 @@ data class EventWallState(
     val events: List<EventUiModel>? = null,
     val statusEvent: StatusLoad = StatusLoad.Idle,
 ) {
+
     /**
      * Флаг, указывающий, что идет обновление списка событий.
      *

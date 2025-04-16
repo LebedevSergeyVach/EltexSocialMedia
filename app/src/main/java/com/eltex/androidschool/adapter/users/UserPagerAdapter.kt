@@ -13,7 +13,7 @@ import com.eltex.androidschool.adapter.posts.PostAdapter
 import com.eltex.androidschool.databinding.LayoutPostListBinding
 import com.eltex.androidschool.databinding.LayoutEventListBinding
 import com.eltex.androidschool.databinding.LayoutJobListBinding
-import com.eltex.androidschool.ui.common.OffsetDecoration
+import com.eltex.androidschool.ui.offset.OffsetDecoration
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallViewModel
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallMessage
 

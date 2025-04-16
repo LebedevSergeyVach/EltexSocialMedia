@@ -26,15 +26,12 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/dataEntryCard"
 
-        style="@style/CustomTextViewStyle"
+        style="@style/Style.MaterialCardView.Edit.Content"
 
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
         android:layout_margin="@dimen/common_spacing"
-
-        app:cardCornerRadius="20dp"
-        app:cardElevation="2dp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -136,13 +133,12 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardWorkingPeriod"
 
+        style="@style/Style.MaterialCardView.Edit.Content"
+
         android:layout_width="0dp"
         android:layout_height="wrap_content"
 
         android:layout_margin="@dimen/common_spacing"
-
-        app:cardCornerRadius="20dp"
-        app:cardElevation="2dp"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

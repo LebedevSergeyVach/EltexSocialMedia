@@ -74,7 +74,6 @@ class EventViewHolder(
      *
      * @param event Событие, данные которого нужно отобразить.
      */
-    @SuppressLint("SetTextI18n")
     fun bindEvent(event: EventUiModel, currentUserId: Long) {
         binding.author.text = event.author
         binding.published.text = event.published
@@ -298,7 +297,6 @@ class EventViewHolder(
      *
      * @param payload Изменения в событии.
      */
-    @SuppressLint("SetTextI18n")
     fun bind(payload: EventPayload) {
         payload.likeByMe?.let { likeByMe: Boolean ->
             updateLike(likeByMe)

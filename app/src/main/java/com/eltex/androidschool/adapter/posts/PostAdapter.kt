@@ -66,6 +66,7 @@ class PostAdapter(
         fun onDeleteClicked(post: PostUiModel)
         fun onUpdateClicked(post: PostUiModel)
         fun onGetUserClicked(post: PostUiModel)
+        fun onCommentsClicked(post: PostUiModel)
         fun onRetryPageClicked()
     }
 
@@ -191,6 +192,13 @@ class PostAdapter(
 
         binding.menu.setOnClickListener { view: View ->
             showPopupMenu(view = view, position = viewHolder.bindingAdapterPosition)
+        }
+
+        binding.comments.setOnClickListener {
+            val item: PagingModel.Data<PostUiModel>? =
+                getItem(viewHolder.bindingAdapterPosition) as? PagingModel.Data
+
+            item?.value?.let(listener::onCommentsClicked)
         }
 
         return viewHolder

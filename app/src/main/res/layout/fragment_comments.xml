@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:minHeight="500dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+
+        android:orientation="vertical"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.bottomsheet.BottomSheetDragHandleView
+            android:id="@+id/dragHandle"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            app:tint="@color/gray_cross" />
+
+        <TextView
+            android:id="@+id/textCommentsSize"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:gravity="center"
+            android:paddingBottom="10dp"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/emptyComments"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginVertical="200dp"
+
+            android:gravity="center"
+            android:text="@string/empty_comments"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/list"
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:transcriptMode="alwaysScroll"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+
+            tools:listitem="@layout/card_comment" />
+    </LinearLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardNewComment"
+
+        style="@style/Style.MaterialCardView.Additional"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/list_offset_comment"
+        android:layout_marginBottom="@dimen/list_offset_comment"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/editTextContentNewComment"
+                style="@style/CustomTextViewStyle"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:background="@android:color/transparent"
+                android:freezesText="true"
+                android:hint="@string/add_comment"
+                android:inputType="textMultiLine"
+                android:maxLines="3"
+                android:padding="16dp"
+                android:textColorLink="@color/active_element"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/buttonSendComment"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+
+                tools:text="@tools:sample/lorem[30]" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonSendComment"
+
+                style="@style/Widget.Material3.Button.IconButton"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:padding="16dp"
+                android:textColor="@color/active_element"
+                app:icon="@drawable/ic_send_24"
+                app:iconTint="@color/active_element"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardErrorText"
+
+        style="@style/Style.MaterialCardView.Main"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintBottom_toTopOf="@id/retryButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <TextView
+            android:id="@+id/errorText"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:gravity="center"
+            android:padding="10dp"
+            android:textSize="24sp"
+
+            android:textStyle="bold"
+            tools:text="ERROR NETWORK" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/retryButton"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+
+        android:background="@color/white"
+        android:backgroundTint="@color/active_element"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardErrorText"
+
+        app:srcCompat="@drawable/ic_update_24" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/errorGroup"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:constraint_referenced_ids="retryButton, cardErrorText,"
+
+        tools:visibility="gone" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

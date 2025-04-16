@@ -79,7 +79,6 @@ class PostViewHolder(
      * @param post Пост, данные которого нужно отобразить.
      * @param currentUserId ID текущего пользователя для определения прав на редактирование поста.
      */
-    @SuppressLint("SetTextI18n")
     fun bindPost(post: PostUiModel, currentUserId: Long) {
         binding.author.text = post.author
         binding.content.text = post.content
@@ -280,7 +279,6 @@ class PostViewHolder(
      *
      * @param payload Изменения в посте.
      */
-    @SuppressLint("SetTextI18n")
     fun bind(payload: PostPayload) {
         payload.likeByMe?.let { likeByMe: Boolean ->
             updateLike(likeByMe)

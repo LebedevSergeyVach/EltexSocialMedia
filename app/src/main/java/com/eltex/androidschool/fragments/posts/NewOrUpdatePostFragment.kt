@@ -117,9 +117,9 @@ class NewOrUpdatePostFragment : Fragment() {
          */
         val toolbarViewModel by activityViewModels<ToolBarViewModel>()
 
-        val postId = arguments?.getLong(POST_ID) ?: 0L
-        val content = arguments?.getString(POST_CONTENT) ?: ""
-        val isUpdate = arguments?.getBoolean(IS_UPDATE, false) ?: false
+        val postId: Long = arguments?.getLong(POST_ID) ?: 0L
+        val content: String = arguments?.getString(POST_CONTENT) ?: ""
+        val isUpdate: Boolean = arguments?.getBoolean(IS_UPDATE, false) == true
 
         binding.content.setText(content)
 

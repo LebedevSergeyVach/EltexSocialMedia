@@ -5,6 +5,8 @@
 
     android:id="@+id/card_job"
 
+    style="@style/Style.MaterialCardView.Main"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 

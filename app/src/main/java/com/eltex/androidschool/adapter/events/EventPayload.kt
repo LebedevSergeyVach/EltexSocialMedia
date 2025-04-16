@@ -16,6 +16,7 @@ data class EventPayload(
     val participateByMe: Boolean? = null,
     val participates: Int? = null,
 ) {
+
     /**
      * Проверяет, есть ли изменения в объекте.
      *

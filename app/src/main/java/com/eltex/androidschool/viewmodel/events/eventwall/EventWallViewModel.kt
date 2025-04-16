@@ -57,7 +57,7 @@ class EventWallViewModel @AssistedInject constructor(
      *
      * @see EventWallState Состояние, которое хранится в этом Flow.
      */
-    private val _state = MutableStateFlow(EventWallState())
+    private val _state: MutableStateFlow<EventWallState> = MutableStateFlow(EventWallState())
 
     /**
      * Публичный Flow, который предоставляет доступ к текущему состоянию событий.

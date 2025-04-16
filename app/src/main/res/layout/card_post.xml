@@ -5,6 +5,8 @@
 
     android:id="@+id/card_post"
 
+    style="@style/Style.MaterialCardView.Main"
+
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -126,6 +128,8 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardAttachment"
 
+            style="@style/Style.MaterialCardView.Image"
+
             android:layout_width="0dp"
             android:layout_height="match_parent"
 
@@ -208,6 +212,23 @@
             tools:text="123" />
 
         <com.google.android.material.button.MaterialButton
+            android:id="@+id/comments"
+
+            style="@style/Widget.Material3.Button.IconButton"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_marginStart="8dp"
+
+            android:textColor="@color/active_element"
+            app:icon="@drawable/ic_comments_24"
+            app:iconTint="@color/active_element"
+
+            app:layout_constraintStart_toEndOf="@id/like"
+            app:layout_constraintTop_toTopOf="@id/like" />
+
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/share"
 
             style="@style/Widget.Material3.Button.IconButton"
@@ -221,7 +242,7 @@
             app:icon="@drawable/ic_share_24"
             app:iconTint="@color/active_element"
 
-            app:layout_constraintStart_toEndOf="@id/like"
+            app:layout_constraintStart_toEndOf="@id/comments"
             app:layout_constraintTop_toTopOf="@id/like" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
