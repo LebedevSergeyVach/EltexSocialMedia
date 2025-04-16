@@ -57,16 +57,13 @@
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/cardDataEntryUser"
 
-            style="@style/CustomTextViewStyle"
+            style="@style/Style.MaterialCardView.Auth"
 
             android:layout_width="0dp"
             android:layout_height="wrap_content"
 
             android:layout_marginHorizontal="@dimen/margin_horizontal_for_InputLayout_authorization_16"
             android:layout_marginBottom="60dp"
-
-            app:cardCornerRadius="15dp"
-            app:cardElevation="2dp"
 
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

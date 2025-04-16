@@ -10,6 +10,8 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardItemErrorText"
 
+        style="@style/Style.MaterialCardView.Main"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 

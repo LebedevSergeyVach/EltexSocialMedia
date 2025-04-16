@@ -38,6 +38,7 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+
         <action
             android:id="@+id/action_BottomNavigationFragment_to_newOrUpdateJobFragment"
             app:destination="@id/newOrUpdateJobFragment"
@@ -72,13 +73,25 @@
         <action
             android:id="@+id/action_userFragment_to_newOrUpdatePostFragment"
             app:destination="@id/newOrUpdatePostFragment"
+
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+
         <action
             android:id="@+id/action_userFragment_to_newOrUpdateEventFragment"
             app:destination="@id/newOrUpdateEventFragment"
+
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_accountFragment_self"
+            app:destination="@id/accountFragment"
+
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -94,6 +107,7 @@
         <action
             android:id="@+id/action_settingsFragment_to_listAppUpdatesFragment"
             app:destination="@id/listAppUpdatesFragment"
+
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -140,6 +154,7 @@
         android:id="@+id/listAppUpdatesFragment"
         android:name="com.eltex.androidschool.fragments.update.ListAppUpdatesFragment"
         android:label="@string/update_application"
+
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"
@@ -150,6 +165,7 @@
         android:id="@+id/rulesFragment"
         android:name="com.eltex.androidschool.fragments.rules.RulesFragment"
         android:label="@string/rules"
+
         app:enterAnim="@anim/slide_in_right"
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"

@@ -7,6 +7,7 @@
     <dimen name="size_title_sp">16sp</dimen>
     <dimen name="size_text_sp">14sp</dimen>
     <dimen name="list_offset">8dp</dimen>
+    <dimen name="list_offset_comment">12dp</dimen>
     <dimen name="margin_start_4dp_contents_card">8dp</dimen>
     <dimen name="common_spacing">12dp</dimen>
     <dimen name="splash_icon_app">300dp</dimen>

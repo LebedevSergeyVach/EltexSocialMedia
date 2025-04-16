@@ -22,13 +22,13 @@
             android:textStyle="bold" />
 
         <com.google.android.material.card.MaterialCardView
+            style="@style/Style.MaterialCardView.Rules"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:layout_marginHorizontal="@dimen/common_spacing"
-            android:layout_marginTop="@dimen/common_spacing"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="2dp">
+            android:layout_marginTop="@dimen/common_spacing">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -78,13 +78,13 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            style="@style/Style.MaterialCardView.Rules"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:layout_marginHorizontal="@dimen/common_spacing"
-            android:layout_marginTop="@dimen/common_spacing"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="2dp">
+            android:layout_marginTop="@dimen/common_spacing">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -143,13 +143,13 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            style="@style/Style.MaterialCardView.Rules"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:layout_marginHorizontal="@dimen/common_spacing"
-            android:layout_marginTop="@dimen/common_spacing"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="2dp">
+            android:layout_marginTop="@dimen/common_spacing">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -208,13 +208,13 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            style="@style/Style.MaterialCardView.Rules"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:layout_marginHorizontal="@dimen/common_spacing"
-            android:layout_marginTop="@dimen/common_spacing"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="2dp">
+            android:layout_marginTop="@dimen/common_spacing">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -264,13 +264,13 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            style="@style/Style.MaterialCardView.Rules"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:layout_marginHorizontal="@dimen/common_spacing"
-            android:layout_marginTop="@dimen/common_spacing"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="2dp">
+            android:layout_marginTop="@dimen/common_spacing">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -320,13 +320,13 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            style="@style/Style.MaterialCardView.Rules"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:layout_marginHorizontal="@dimen/common_spacing"
-            android:layout_marginTop="@dimen/common_spacing"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="2dp">
+            android:layout_marginTop="@dimen/common_spacing">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -376,13 +376,13 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            style="@style/Style.MaterialCardView.Rules"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:layout_marginHorizontal="@dimen/common_spacing"
-            android:layout_marginTop="@dimen/common_spacing"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="2dp">
+            android:layout_marginTop="@dimen/common_spacing">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -432,13 +432,13 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            style="@style/Style.MaterialCardView.Rules"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:layout_marginHorizontal="@dimen/common_spacing"
-            android:layout_marginTop="@dimen/common_spacing"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="2dp">
+            android:layout_marginTop="@dimen/common_spacing">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -491,13 +491,13 @@
             android:textStyle="bold" />
 
         <com.google.android.material.card.MaterialCardView
+            style="@style/Style.MaterialCardView.Rules"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:layout_marginHorizontal="@dimen/common_spacing"
-            android:layout_marginTop="@dimen/common_spacing"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="2dp">
+            android:layout_marginTop="@dimen/common_spacing">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -538,13 +538,13 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            style="@style/Style.MaterialCardView.Rules"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:layout_marginHorizontal="@dimen/common_spacing"
-            android:layout_marginTop="@dimen/common_spacing"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="2dp">
+            android:layout_marginTop="@dimen/common_spacing">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -585,13 +585,13 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            style="@style/Style.MaterialCardView.Rules"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:layout_marginHorizontal="@dimen/common_spacing"
-            android:layout_marginTop="@dimen/common_spacing"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="2dp">
+            android:layout_marginTop="@dimen/common_spacing">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -632,13 +632,13 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            style="@style/Style.MaterialCardView.Rules"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:layout_marginHorizontal="@dimen/common_spacing"
-            android:layout_marginTop="@dimen/common_spacing"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="2dp">
+            android:layout_marginTop="@dimen/common_spacing">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -679,13 +679,14 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
+            style="@style/Style.MaterialCardView.Rules"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
             android:layout_marginHorizontal="@dimen/common_spacing"
-            android:layout_marginVertical="@dimen/common_spacing"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="2dp">
+            android:layout_marginTop="@dimen/common_spacing"
+            android:layout_marginBottom="32dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
