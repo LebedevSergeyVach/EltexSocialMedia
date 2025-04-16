@@ -4,6 +4,7 @@ import android.app.Application
 
 import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.api.auth.AuthApi
+import com.eltex.androidschool.api.comments.CommentsApi
 import com.eltex.androidschool.api.common.AuthInterceptor
 import com.eltex.androidschool.api.events.EventsApi
 import com.eltex.androidschool.api.jobs.JobsApi
@@ -253,4 +254,7 @@ class ApiModule {
      */
     @Provides
     fun provideAuthApi(retrofit: Retrofit): AuthApi = retrofit.create()
+
+    @Provides
+    fun provideCommentsApi(retrofit: Retrofit): CommentsApi = retrofit.create()
 }
