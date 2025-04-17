@@ -1,8 +1,11 @@
 package com.eltex.androidschool.utils.extensions
 
 import android.content.Context
+
 import com.eltex.androidschool.R
+
 import okio.IOException
+
 import retrofit2.HttpException
 
 /**

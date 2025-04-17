@@ -157,7 +157,7 @@ class NewOrUpdateEventFragment : Fragment() {
         val link = arguments?.getString(EVENT_LINK) ?: ""
         val date = arguments?.getString(EVENT_DATE) ?: ""
         val option = arguments?.getString(EVENT_OPTION) ?: ONLINE
-        val isUpdate = arguments?.getBoolean(IS_UPDATE, false) ?: false
+        val isUpdate = arguments?.getBoolean(IS_UPDATE, false) == true
 
         binding.content.setText(content)
         binding.link.setText(link)

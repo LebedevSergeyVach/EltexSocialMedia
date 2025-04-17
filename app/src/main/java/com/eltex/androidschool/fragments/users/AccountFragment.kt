@@ -302,7 +302,8 @@ class AccountFragment : Fragment() {
             eventAdapter = eventAdapter,
             jobAdapter = jobAdapter,
             offset = offset,
-            viewModel = postViewModel
+            viewModel = postViewModel,
+            sharedViewModel = sharedViewModel,
         )
 
         binding.viewPagerPostsAndEvents.adapter = pagerAdapter

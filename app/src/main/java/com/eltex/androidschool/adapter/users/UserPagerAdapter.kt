@@ -10,12 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.eltex.androidschool.adapter.events.EventAdapter
 import com.eltex.androidschool.adapter.job.JobAdapter
 import com.eltex.androidschool.adapter.posts.PostAdapter
-import com.eltex.androidschool.databinding.LayoutPostListBinding
 import com.eltex.androidschool.databinding.LayoutEventListBinding
 import com.eltex.androidschool.databinding.LayoutJobListBinding
+import com.eltex.androidschool.databinding.LayoutPostListBinding
 import com.eltex.androidschool.ui.offset.OffsetDecoration
-import com.eltex.androidschool.viewmodel.posts.postswall.PostWallViewModel
+import com.eltex.androidschool.viewmodel.common.SharedViewModel
 import com.eltex.androidschool.viewmodel.posts.postswall.PostWallMessage
+import com.eltex.androidschool.viewmodel.posts.postswall.PostWallViewModel
 
 /**
  * Адаптер для управления вкладками с постами, событиями и местами работы в `ViewPager2`.
@@ -34,7 +35,11 @@ class UserPagerAdapter(
     private val jobAdapter: JobAdapter,
     private val offset: Int,
     private val viewModel: PostWallViewModel,
+    private val sharedViewModel: SharedViewModel,
 ) : RecyclerView.Adapter<UserPagerAdapter.ViewHolder>() {
+
+    private var lastScrollDirection = 0 // 0 - неизвестно, 1 - вниз, 2 - вверх
+    private val scrollThreshold = 8 // Пиксели для определения направления
 
     /**
      * Внутренний класс, представляющий ViewHolder для `RecyclerView`.
@@ -60,6 +65,15 @@ class UserPagerAdapter(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
+                )
+
+                var currentTabPosition = 0 // Установите правильную позицию таба
+
+                // При создании фрагмента показываем FAB
+                sharedViewModel.setCurrentTab(position = currentTabPosition)
+                setupOptimizedScrollListener(
+                    recyclerView = binding.postsRecyclerView,
+                    currentTabPosition = currentTabPosition
                 )
 
                 binding.postsRecyclerView.adapter = postAdapter
@@ -114,6 +128,15 @@ class UserPagerAdapter(
                     false
                 )
 
+                var currentTabPosition = 0 // Установите правильную позицию таба
+
+                // При создании фрагмента показываем FAB
+                sharedViewModel.setCurrentTab(position = currentTabPosition)
+                setupOptimizedScrollListener(
+                    recyclerView = binding.eventsRecyclerView,
+                    currentTabPosition = currentTabPosition
+                )
+
                 binding.eventsRecyclerView.adapter = eventAdapter
                 binding.eventsRecyclerView.layoutManager = LinearLayoutManager(parent.context)
                 binding.eventsRecyclerView.addItemDecoration(
@@ -148,6 +171,15 @@ class UserPagerAdapter(
                     LayoutInflater.from(parent.context),
                     parent,
                     false
+                )
+
+                var currentTabPosition = 0 // Установите правильную позицию таба
+
+                // При создании фрагмента показываем FAB
+                sharedViewModel.setCurrentTab(position = currentTabPosition)
+                setupOptimizedScrollListener(
+                    recyclerView = binding.jobsRecyclerView,
+                    currentTabPosition = currentTabPosition
                 )
 
                 binding.jobsRecyclerView.adapter = jobAdapter
@@ -255,5 +287,33 @@ class UserPagerAdapter(
             2 -> 2
             else -> throw IllegalArgumentException("Invalid position: $position")
         }
+    }
+
+    private fun setupOptimizedScrollListener(recyclerView: RecyclerView, currentTabPosition: Int) {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+
+                when {
+                    // Прокрутка вниз
+                    dy > scrollThreshold && lastScrollDirection != 1 -> {
+                        lastScrollDirection = 1
+                        sharedViewModel.setFabVisibility(false, currentTabPosition)
+                    }
+
+                    // Прокрутка вверх
+                    dy < -scrollThreshold && lastScrollDirection != 2 -> {
+                        lastScrollDirection = 2
+                        sharedViewModel.setFabVisibility(true, currentTabPosition)
+                    }
+
+                    // Верх списка
+                    !recyclerView.canScrollVertically(-1) && lastScrollDirection != 0 -> {
+                        lastScrollDirection = 0
+                        sharedViewModel.setFabVisibility(true, currentTabPosition)
+                    }
+                }
+            }
+        })
     }
 }

@@ -12,6 +12,7 @@ import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 
 import androidx.lifecycle.flowWithLifecycle
@@ -35,6 +36,7 @@ import com.eltex.androidschool.utils.extensions.showMaterialDialogWithTwoButtons
 import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.extensions.toast
 import com.eltex.androidschool.viewmodel.auth.user.AccountViewModel
+import com.eltex.androidschool.viewmodel.common.SharedViewModel
 import com.eltex.androidschool.viewmodel.posts.post.PostMessage
 import com.eltex.androidschool.viewmodel.posts.post.PostState
 import com.eltex.androidschool.viewmodel.posts.post.PostViewModel
@@ -45,6 +47,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlin.getValue
 
 /**
  * Фрагмент, отображающий список постов.
@@ -61,6 +64,9 @@ import kotlinx.coroutines.flow.onEach
 class PostsFragment : Fragment() {
 
     private val accountViewModel: AccountViewModel by viewModels()
+    private val sharedViewModel: SharedViewModel by activityViewModels()
+
+    private var currentTabPosition = 0 // Установите правильную позицию таба
 
     /**
      * ViewModel для управления состоянием постов.
@@ -99,6 +105,8 @@ class PostsFragment : Fragment() {
                 override fun onChildViewDetachedFromWindow(view: View) = Unit
             }
         )
+
+        setupOptimizedScrollListener(binding.list)
 
         binding.retryButton.setOnClickListener {
             viewModel.accept(message = PostMessage.Refresh)
@@ -321,5 +329,26 @@ class PostsFragment : Fragment() {
         val bottomNavigation =
             requireActivity().findViewById<BottomNavigationView>(R.id.bottomNavigation)
         bottomNavigation.setBackgroundColor(Color.TRANSPARENT)
+    }
+
+    private fun setupOptimizedScrollListener(recyclerView: RecyclerView) {
+        var lastScrollState = 0 // 0-неизвестно, 1-вниз, 2-вверх
+        val scrollThreshold = 8
+
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                when {
+                    dy > scrollThreshold && lastScrollState != 1 -> {
+                        lastScrollState = 1
+                        sharedViewModel.setFabVisibility(false, currentTabPosition)
+                    }
+
+                    dy < -scrollThreshold && lastScrollState != 2 -> {
+                        lastScrollState = 2
+                        sharedViewModel.setFabVisibility(true, currentTabPosition)
+                    }
+                }
+            }
+        })
     }
 }

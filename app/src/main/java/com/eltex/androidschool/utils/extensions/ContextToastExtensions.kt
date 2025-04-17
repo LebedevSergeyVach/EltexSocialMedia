@@ -4,10 +4,13 @@ package com.eltex.androidschool.utils.extensions
 
 import android.annotation.SuppressLint
 import androidx.annotation.StringRes
+
 import android.content.Context
 import android.view.LayoutInflater
+
 import android.widget.TextView
 import android.widget.Toast
+
 import com.eltex.androidschool.R
 
 /**
