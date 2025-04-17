@@ -44,12 +44,10 @@
 
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-        android:layout_margin="20dp"
+        android:layout_margin="16dp"
 
         android:backgroundTint="@color/active_element"
         android:contentDescription="@string/new_job"
-        android:visibility="visible"
 
         app:layout_constraintBottom_toBottomOf="@id/container"
         app:layout_constraintEnd_toEndOf="parent"

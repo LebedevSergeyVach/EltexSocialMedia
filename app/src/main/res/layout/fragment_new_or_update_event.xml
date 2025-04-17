@@ -20,9 +20,12 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/linerLayout"
+
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 
+            android:animateLayoutChanges="true"
             android:minHeight="970dp"
             android:orientation="vertical"
             android:paddingBottom="?actionBarSize">
