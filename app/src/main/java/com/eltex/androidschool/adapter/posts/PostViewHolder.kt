@@ -78,7 +78,7 @@ class PostViewHolder(
             }
         )
 
-        binding.cardPost.setOnTouchListener { _, event ->
+        binding.cardPost.setOnTouchListener { _, event: MotionEvent ->
             gestureDetector.onTouchEvent(event)
             true
         }

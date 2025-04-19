@@ -61,6 +61,7 @@ class EventAdapterDifferentTypesView(
         fun onDeleteClicked(event: EventUiModel)
         fun onUpdateClicked(event: EventUiModel)
         fun onGetUserClicked(event: EventUiModel)
+        fun onGetEventDetailsClicked(event: EventUiModel)
         fun onRetryPageClicked()
     }
 
@@ -153,7 +154,9 @@ class EventAdapterDifferentTypesView(
 
         val viewHolder = EventViewHolder(
             binding = binding,
-            context = parent.context
+            context = parent.context,
+            listener = listener,
+            listenerWall = null,
         )
 
         binding.like.setOnClickListener {
@@ -305,4 +308,7 @@ class EventAdapterDifferentTypesView(
 
         popup.show()
     }
+
+    fun getPublicItem(position: Int): EventPagingModel? =
+        if (position in 0 until itemCount) getItem(position) else null
 }

@@ -49,6 +49,7 @@ class EventAdapter(
         fun onDeleteClicked(event: EventUiModel)
         fun onUpdateClicked(event: EventUiModel)
         fun onGetUserClicked(event: EventUiModel)
+        fun onGetEventDetailsClicked(event: EventUiModel)
     }
 
     /**
@@ -65,7 +66,9 @@ class EventAdapter(
 
         val viewHolder = EventViewHolder(
             binding = binding,
-            context = parent.context
+            context = parent.context,
+            listener = null,
+            listenerWall = listener,
         )
 
         binding.like.setOnClickListener {
@@ -86,6 +89,10 @@ class EventAdapter(
 
         binding.author.setOnClickListener {
             listener.onGetUserClicked(getItem(viewHolder.bindingAdapterPosition))
+        }
+
+        binding.cardEvent.setOnClickListener {
+            listener.onGetEventDetailsClicked(getItem(viewHolder.bindingAdapterPosition))
         }
 
         binding.menu.setOnClickListener { view: View ->
@@ -193,5 +200,9 @@ class EventAdapter(
         }
 
         popup.show()
+    }
+
+    fun getPublicItem(position: Int): EventUiModel? {
+        return if (position in 0 until itemCount) getItem(position) else null
     }
 }
