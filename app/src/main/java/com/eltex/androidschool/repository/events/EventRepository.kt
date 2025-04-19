@@ -83,4 +83,6 @@ interface EventRepository {
      * @return [List]<[EventData]> Список последних событий.
      */
     suspend fun getLatestEvents(count: Int): List<EventData>
+
+    suspend fun getEventById(eventId: Long): EventData
 }
