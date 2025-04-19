@@ -97,7 +97,7 @@ class NewOrUpdatePostFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentNewOrUpdatePostBinding.inflate(layoutInflater)
+        val binding = FragmentNewOrUpdatePostBinding.inflate(inflater, container, false)
 
         /**
          * Экземпляр класса `ImageHelper`, используемый для работы с изображениями.

@@ -56,8 +56,10 @@ import kotlinx.coroutines.flow.onEach
 class CommentsBottomSheetFragment(
     private val postId: Long,
     private val accountUserId: Long,
-    private val isAccount: Boolean,
-    private val isProfile: Boolean,
+    private val isAccount: Boolean = false,
+    private val isProfile: Boolean = false,
+    private val isPostDetails: Boolean = false,
+    private val isEventDetails: Boolean = false,
 ) : BottomSheetDialogFragment() {
 
     val viewModel: CommentsViewModel by viewModels(
@@ -119,10 +121,9 @@ class CommentsBottomSheetFragment(
             }
 
             override fun onGetUserClicked(comment: CommentUiModel) {
-                if (BuildConfig.DEBUG)
-                    LoggerHelper.i("postId = $postId, accountUserId = $accountUserId, isProfile = $isProfile")
+                if (BuildConfig.DEBUG) LoggerHelper.i("postId = $postId, accountUserId = $accountUserId, isProfile = $isProfile, isAccount = $isAccount, isPostDetails = $isPostDetails")
 
-                if (!isProfile) {
+                if (!isProfile && (!isPostDetails && !isEventDetails)) {
                     dismiss()
 
                     if (comment.authorId == accountUserId) {

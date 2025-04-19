@@ -6,6 +6,7 @@ import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.autofill.AutofillManager
 
 import androidx.activity.OnBackPressedCallback
 
@@ -43,6 +44,12 @@ class AuthorizationFragment : Fragment() {
     ): View {
         val binding = FragmentAuthorizationBinding.inflate(inflater, container, false)
 
+        // Инициализация AutofillManager
+        val autofillManager = requireContext().getSystemService(AutofillManager::class.java)
+
+        // Настройка autofill hints для полей ввода
+        setupAutofillHints(binding)
+
         monitoringButtonStatus(binding = binding)
 
         binding.buttonAuthorizationAccount.setOnClickListener {
@@ -50,6 +57,11 @@ class AuthorizationFragment : Fragment() {
             val password = binding.textPasswordUser.text?.toString().orEmpty().trimStart().trimEnd()
 
             viewModel.login(login = login, password = password)
+
+            // Сообщаем AutofillManager о завершении заполнения
+            if (autofillManager.isEnabled) {
+                autofillManager.commit()
+            }
         }
 
         binding.buttonToRegistrationAccount.setOnClickListener {
@@ -62,6 +74,7 @@ class AuthorizationFragment : Fragment() {
                 )
                 replace(R.id.container, RegistrationFragment())
                 setReorderingAllowed(true)
+                setPrimaryNavigationFragment(this@AuthorizationFragment)
                 remove(this@AuthorizationFragment)
             }
         }
@@ -156,5 +169,23 @@ class AuthorizationFragment : Fragment() {
         binding.textPasswordUser.isEnabled = !blocking
         binding.buttonAuthorizationAccount.isEnabled != blocking
         binding.buttonToRegistrationAccount.isEnabled = !blocking
+    }
+
+
+    /**
+     * Настраивает подсказки для автозаполнения полей ввода
+     */
+    private fun setupAutofillHints(binding: FragmentAuthorizationBinding) {
+        // Для поля логина
+        binding.textLoginUser.apply {
+            setAutofillHints(View.AUTOFILL_HINT_USERNAME)
+            importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_YES
+        }
+
+        // Для поля пароля
+        binding.textPasswordUser.apply {
+            setAutofillHints(View.AUTOFILL_HINT_PASSWORD)
+            importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_YES
+        }
     }
 }

@@ -51,6 +51,7 @@ import com.eltex.androidschool.databinding.FragmentAccountBinding
 import com.eltex.androidschool.fragments.comments.CommentsBottomSheetFragment
 import com.eltex.androidschool.fragments.events.NewOrUpdateEventFragment
 import com.eltex.androidschool.fragments.jobs.NewOrUpdateJobFragment
+import com.eltex.androidschool.fragments.posts.FragmentPostDetails
 import com.eltex.androidschool.fragments.posts.NewOrUpdatePostFragment
 import com.eltex.androidschool.ui.offset.OffsetDecoration
 import com.eltex.androidschool.ui.events.EventUiModel
@@ -468,6 +469,40 @@ class AccountFragment : Fragment() {
                     parentFragmentManager,
                     commentsBottomSheetFragment.tag
                 )
+            }
+
+            override fun onGetPostDetailsClicked(post: PostUiModel) {
+                if (userId == accountUserId) {
+                    requireParentFragment().requireParentFragment().findNavController()
+                        .navigate(
+                            R.id.action_BottomNavigationFragment_to_fragmentPostDetails,
+                            bundleOf(
+                                FragmentPostDetails.POST_ID to post.id,
+                                FragmentPostDetails.ACCOUNT_ID to accountUserId
+                            ),
+                            NavOptions.Builder()
+                                .setEnterAnim(R.anim.slide_in_right)
+                                .setExitAnim(R.anim.slide_out_left)
+                                .setPopEnterAnim(R.anim.slide_in_left)
+                                .setPopExitAnim(R.anim.slide_out_right)
+                                .build()
+                        )
+                } else {
+                    requireParentFragment().findNavController()
+                        .navigate(
+                            R.id.action_accountFragment_to_fragmentPostDetails,
+                            bundleOf(
+                                FragmentPostDetails.POST_ID to post.id,
+                                FragmentPostDetails.ACCOUNT_ID to accountUserId
+                            ),
+                            NavOptions.Builder()
+                                .setEnterAnim(R.anim.slide_in_right)
+                                .setExitAnim(R.anim.slide_out_left)
+                                .setPopEnterAnim(R.anim.slide_in_left)
+                                .setPopExitAnim(R.anim.slide_out_right)
+                                .build()
+                        )
+                }
             }
 
             override fun onRetryPageClicked() {

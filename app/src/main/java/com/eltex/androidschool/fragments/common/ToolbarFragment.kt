@@ -133,14 +133,14 @@ class ToolbarFragment : Fragment() {
         requireActivity().menuInflater.inflate(R.menu.menu_settings, menu)
         requireActivity().menuInflater.inflate(R.menu.menu_rules, menu)
 
-        val newPostItem = binding.toolbar.menu.findItem(R.id.save)
+        val newItem = binding.toolbar.menu.findItem(R.id.save)
         val settingsItem = binding.toolbar.menu.findItem(R.id.settings)
         val allUsersItem = binding.toolbar.menu.findItem(R.id.all_users)
         val logoutItem = binding.toolbar.menu.findItem(R.id.logout)
         val rulesItem = binding.toolbar.menu.findItem(R.id.rules)
 
         toolBarViewModel.saveVisible.onEach { display: Boolean ->
-            newPostItem.isVisible = display
+            newItem.isVisible = display
         }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
@@ -164,7 +164,7 @@ class ToolbarFragment : Fragment() {
         }
             .launchIn(viewLifecycleOwner.lifecycleScope)
 
-        newPostItem.setOnMenuItemClickListener {
+        newItem.setOnMenuItemClickListener {
             toolBarViewModel.onSaveClicked(true)
             true
         }

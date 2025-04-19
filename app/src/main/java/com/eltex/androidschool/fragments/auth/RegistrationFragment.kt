@@ -82,6 +82,9 @@ class RegistrationFragment : Fragment() {
 
         monitoringButtonStatus(binding = binding)
 
+        // Настройка autofill hints для полей ввода
+        setupAutofillHints(binding)
+
         binding.buttonRegistrationAccount.setOnClickListener {
             val login = binding.textLoginUser.text?.toString().orEmpty().trimStart().trimEnd()
             val username = binding.textNameUser.text?.toString().orEmpty().trimStart().trimEnd()
@@ -152,7 +155,9 @@ class RegistrationFragment : Fragment() {
                     }
                 }
 
-                state.statusRegistration.throwableOrNull?.getErrorTextRegistration(requireContext())
+                state.statusRegistration.throwableOrNull?.getErrorTextRegistration(
+                    requireContext()
+                )
                     ?.let { errorText: CharSequence ->
                         requireContext().toast(errorText.toString())
 
@@ -314,5 +319,28 @@ class RegistrationFragment : Fragment() {
             "${BuildConfig.APPLICATION_ID}.fileprovider",
             file
         )
+    }
+
+    /**
+     * Настраивает подсказки для автозаполнения полей ввода
+     */
+    private fun setupAutofillHints(binding: FragmentRegistrationBinding) {
+        // Для поля логина
+        binding.textLoginUser.apply {
+            setAutofillHints(View.AUTOFILL_HINT_USERNAME)
+            importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_YES
+        }
+
+        // Для поля имени пользователя
+        binding.textNameUser.apply {
+            setAutofillHints(View.AUTOFILL_HINT_NAME)
+            importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_YES
+        }
+
+        // Для поля пароля
+        binding.textPasswordUser.apply {
+            setAutofillHints(View.AUTOFILL_HINT_PASSWORD)
+            importantForAutofill = View.IMPORTANT_FOR_AUTOFILL_YES
+        }
     }
 }
