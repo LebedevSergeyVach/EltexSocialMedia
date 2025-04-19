@@ -2,6 +2,7 @@ package com.eltex.androidschool.data.events
 
 import com.eltex.androidschool.data.common.Attachment
 import com.eltex.androidschool.data.common.InstantSerializer
+import com.eltex.androidschool.data.users.UserPreview
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -37,6 +38,8 @@ data class EventData(
     val id: Long = 0L,
     @SerialName("author")
     val author: String = "",
+    @SerialName("authorJob")
+    val authorJob: String? = null,
     @SerialName("authorId")
     val authorId: Long = 0L,
     @SerialName("authorAvatar")
@@ -63,4 +66,6 @@ data class EventData(
     val participantsIds: Set<Long> = emptySet(),
     @SerialName("attachment")
     val attachment: Attachment? = null,
+    @SerialName("users")
+    val users: Map<Long, UserPreview> = emptyMap()
 )
