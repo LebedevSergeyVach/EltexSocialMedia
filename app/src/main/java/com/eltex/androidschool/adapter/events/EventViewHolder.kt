@@ -167,7 +167,6 @@ class EventViewHolder(
                     }
                 })
                 .transition(DrawableTransitionOptions.withCrossFade(500))
-                .error(R.drawable.error_placeholder)
                 .thumbnail(
                     Glide.with(binding.root)
                         .load(event.authorAvatar)
