@@ -1,5 +1,6 @@
 package com.eltex.androidschool.ui.posts
 
+import com.eltex.androidschool.data.avatars.AvatarModel
 import com.eltex.androidschool.data.common.Attachment
 
 /**
@@ -25,9 +26,11 @@ data class PostUiModel(
     val author: String = "",
     val authorId: Long = 0L,
     val authorAvatar: String? = null,
+    val authorJob: String? = null,
     val published: String = "",
     val content: String = "",
     val likedByMe: Boolean = false,
     val likes: Int = 0,
     val attachment: Attachment? = null,
+    val likesListUsers: List<AvatarModel> = emptyList()
 )
