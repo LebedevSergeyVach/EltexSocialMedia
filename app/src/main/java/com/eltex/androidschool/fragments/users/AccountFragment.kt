@@ -49,8 +49,10 @@ import com.eltex.androidschool.adapter.users.UserPagerAdapter
 import com.eltex.androidschool.data.users.UserData
 import com.eltex.androidschool.databinding.FragmentAccountBinding
 import com.eltex.androidschool.fragments.comments.CommentsBottomSheetFragment
+import com.eltex.androidschool.fragments.events.FragmentEventDetails
 import com.eltex.androidschool.fragments.events.NewOrUpdateEventFragment
 import com.eltex.androidschool.fragments.jobs.NewOrUpdateJobFragment
+import com.eltex.androidschool.fragments.posts.FragmentPostDetails
 import com.eltex.androidschool.fragments.posts.NewOrUpdatePostFragment
 import com.eltex.androidschool.ui.offset.OffsetDecoration
 import com.eltex.androidschool.ui.events.EventUiModel
@@ -268,7 +270,10 @@ class AccountFragment : Fragment() {
          * @see EventAdapter Адаптер для отображения событий.
          */
         val eventAdapter = createEventAdapter(
-            eventViewModel = eventViewModel, icProfile = icProfile, accountUserId = accountUserId,
+            eventViewModel = eventViewModel,
+            icProfile = icProfile,
+            accountUserId = accountUserId,
+            userId = userId,
         )
 
         /**
@@ -302,7 +307,8 @@ class AccountFragment : Fragment() {
             eventAdapter = eventAdapter,
             jobAdapter = jobAdapter,
             offset = offset,
-            viewModel = postViewModel
+            viewModel = postViewModel,
+            sharedViewModel = sharedViewModel,
         )
 
         binding.viewPagerPostsAndEvents.adapter = pagerAdapter
@@ -469,6 +475,40 @@ class AccountFragment : Fragment() {
                 )
             }
 
+            override fun onGetPostDetailsClicked(post: PostUiModel) {
+                if (userId == accountUserId) {
+                    requireParentFragment().requireParentFragment().findNavController()
+                        .navigate(
+                            R.id.action_BottomNavigationFragment_to_fragmentPostDetails,
+                            bundleOf(
+                                FragmentPostDetails.POST_ID to post.id,
+                                FragmentPostDetails.ACCOUNT_ID to accountUserId
+                            ),
+                            NavOptions.Builder()
+                                .setEnterAnim(R.anim.slide_in_right)
+                                .setExitAnim(R.anim.slide_out_left)
+                                .setPopEnterAnim(R.anim.slide_in_left)
+                                .setPopExitAnim(R.anim.slide_out_right)
+                                .build()
+                        )
+                } else {
+                    requireParentFragment().findNavController()
+                        .navigate(
+                            R.id.action_accountFragment_to_fragmentPostDetails,
+                            bundleOf(
+                                FragmentPostDetails.POST_ID to post.id,
+                                FragmentPostDetails.ACCOUNT_ID to accountUserId
+                            ),
+                            NavOptions.Builder()
+                                .setEnterAnim(R.anim.slide_in_right)
+                                .setExitAnim(R.anim.slide_out_left)
+                                .setPopEnterAnim(R.anim.slide_in_left)
+                                .setPopExitAnim(R.anim.slide_out_right)
+                                .build()
+                        )
+                }
+            }
+
             override fun onRetryPageClicked() {
                 postViewModel.accept(PostWallMessage.Retry)
             }
@@ -491,6 +531,7 @@ class AccountFragment : Fragment() {
         eventViewModel: EventWallViewModel,
         icProfile: Boolean,
         accountUserId: Long,
+        userId: Long,
     ) = EventAdapter(
         object : EventAdapter.EventListener {
             override fun onLikeClicked(event: EventUiModel) {
@@ -530,6 +571,40 @@ class AccountFragment : Fragment() {
             }
 
             override fun onGetUserClicked(event: EventUiModel) {}
+
+            override fun onGetEventDetailsClicked(event: EventUiModel) {
+                if (userId == accountUserId) {
+                    requireParentFragment().requireParentFragment().findNavController()
+                        .navigate(
+                            R.id.action_BottomNavigationFragment_to_fragmentEventDetails,
+                            bundleOf(
+                                FragmentEventDetails.EVENT_ID to event.id,
+                                FragmentEventDetails.ACCOUNT_ID to accountUserId
+                            ),
+                            NavOptions.Builder()
+                                .setEnterAnim(R.anim.slide_in_right)
+                                .setExitAnim(R.anim.slide_out_left)
+                                .setPopEnterAnim(R.anim.slide_in_left)
+                                .setPopExitAnim(R.anim.slide_out_right)
+                                .build()
+                        )
+                } else {
+                    requireParentFragment().findNavController()
+                        .navigate(
+                            R.id.action_accountFragment_to_fragmentEventDetails,
+                            bundleOf(
+                                FragmentEventDetails.EVENT_ID to event.id,
+                                FragmentEventDetails.ACCOUNT_ID to accountUserId
+                            ),
+                            NavOptions.Builder()
+                                .setEnterAnim(R.anim.slide_in_right)
+                                .setExitAnim(R.anim.slide_out_left)
+                                .setPopEnterAnim(R.anim.slide_in_left)
+                                .setPopExitAnim(R.anim.slide_out_right)
+                                .build()
+                        )
+                }
+            }
         },
 
         context = requireContext(),

@@ -100,7 +100,7 @@
     <style name="Style.MaterialCardView.Settings" parent="Widget.Material3.CardView.Outlined">
         <item name="cardElevation">2dp</item>
         <item name="cardCornerRadius">20dp</item>
-        <item name="strokeWidth">2dp</item>
+        <item name="strokeWidth">1dp</item>
         <item name="android:stateListAnimator">@null</item>
     </style>
 

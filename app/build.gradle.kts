@@ -1,4 +1,4 @@
-import com.google.protobuf.gradle.id
+//import com.google.protobuf.gradle.id
 
 import java.io.BufferedReader
 import java.util.Properties
@@ -14,8 +14,8 @@ plugins {
      * https://github.com/Kotlin/kotlinx.serialization
      */
     alias(libs.plugins.serialization)
-    alias(libs.plugins.protobuf)
-    alias(libs.plugins.room)
+//    alias(libs.plugins.protobuf)
+//    alias(libs.plugins.room)
 
     /**
      * KSP
@@ -24,6 +24,14 @@ plugins {
      * https://github.com/google/ksp
      */
     alias(libs.plugins.ksp)
+
+    /**
+     * Plugin for Hilt Android
+     *
+     * https://dagger.dev/hilt/gradle-setup.html
+     * https://developer.android.com/training/dependency-injection/hilt-android
+     *
+     */
     alias(libs.plugins.daggerHilt)
 
     /**
@@ -32,7 +40,7 @@ plugins {
      * Плагин kotlin-parcelize предоставляет генератор реализации Parcelable
      * id("org.jetbrains.kotlin.plugin.parcelize") version "2.1.20"
      */
-    alias(libs.plugins.kotlin.parcelize)
+//    alias(libs.plugins.kotlin.parcelize)
 }
 
 android {
@@ -44,7 +52,7 @@ android {
         minSdk = 26
         targetSdk = 36
         versionCode = 1
-        versionName = "v2.0.0"
+        versionName = "v2.1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
 
@@ -93,40 +101,40 @@ android {
         buildConfig = true
     }
 
-    // Proto DataStore
-    sourceSets {
-        getByName("main") {
-            java.srcDir("src/main/proto")
-        }
-    }
+//    // Proto DataStore
+//    sourceSets {
+//        getByName("main") {
+//            java.srcDir("src/main/proto")
+//        }
+//    }
 
-    room {
-        schemaDirectory("$projectDir/schemas")
-    }
+//    room {
+//        schemaDirectory("$projectDir/schemas")
+//    }
 }
 
-room {
-    schemaDirectory("$projectDir/schemas")
-}
+//room {
+//    schemaDirectory("$projectDir/schemas")
+//}
 
-protobuf {
-    protoc {
-        artifact = "com.google.protobuf:protoc:3.25.1"
-    }
-    generateProtoTasks {
-        all().forEach { task ->
-            task.builtins {
-                id("java") {
-                    option("lite")
-                }
-            }
-        }
-    }
-}
+//protobuf {
+//    protoc {
+//        artifact = "com.google.protobuf:protoc:3.25.1"
+//    }
+//    generateProtoTasks {
+//        all().forEach { task ->
+//            task.builtins {
+//                id("java") {
+//                    option("lite")
+//                }
+//            }
+//        }
+//    }
+//}
 
-tasks.register("generateProto") {
-    dependsOn("generateReleaseProto")
-}
+//tasks.register("generateProto") {
+//    dependsOn("generateReleaseProto")
+//}
 
 dependencies {
     implementation(libs.androidx.core.ktx)
@@ -202,10 +210,10 @@ dependencies {
      *
      * https://developer.android.com/topic/libraries/architecture/datastore?hl=ru#kts
      */
-    implementation(libs.androidx.datastore)
-    implementation(libs.androidx.datastore.core)
-    implementation(libs.protobuf.javalite)
-    implementation(libs.androidx.datastore.rxjava2)
+//    implementation(libs.androidx.datastore)
+//    implementation(libs.androidx.datastore.core)
+//    implementation(libs.protobuf.javalite)
+//    implementation(libs.androidx.datastore.rxjava2)
 
     /**
      *  Room SQLite Jetpack
@@ -213,9 +221,9 @@ dependencies {
      * https://developer.android.com/training/data-storage/room
      * https://developer.android.com/jetpack/androidx/releases/room
      */
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    ksp(libs.androidx.room.compiler)
+//    implementation(libs.androidx.room.runtime)
+//    implementation(libs.androidx.room.ktx)
+//    ksp(libs.androidx.room.compiler)
 
     /**
      * FragmentActivity
@@ -280,13 +288,13 @@ dependencies {
      * https://github.com/ReactiveX/RxJava
      * https://reactivex.io/documentation
      */
-    implementation(libs.rxjava)
-    // Функции для работы с MainThread
-    implementation(libs.rxandroid)
-    // Adapter для retrofit
-    implementation(libs.adapter.rxjava3)
-    // Полезные экстеншены для Kotlin
-    implementation(libs.rxkotlin)
+//    implementation(libs.rxjava)
+//    // Функции для работы с MainThread
+//    implementation(libs.rxandroid)
+//    // Adapter для retrofit
+//    implementation(libs.adapter.rxjava3)
+//    // Полезные экстеншены для Kotlin
+//    implementation(libs.rxkotlin)
 
     /**
      * Use Java 8 language features and APIs
@@ -302,7 +310,7 @@ dependencies {
      * https://developer.android.com/kotlin/coroutines/test
      * https://github.com/Kotlin/kotlinx.coroutines
      */
-    testImplementation(libs.kotlinx.coroutines.test)
+//    testImplementation(libs.kotlinx.coroutines.test)
 
     /**
      * The perfect companion
@@ -344,7 +352,7 @@ dependencies {
      *
      * https://github.com/square/leakcanary
      */
-    testImplementation(libs.leakcanary.android.test)
+//    testImplementation(libs.leakcanary.android.test)
 
     /**
      * DI Dependency injection with Dagger2-Hilt
@@ -367,5 +375,14 @@ dependencies {
      * implementation("io.insert-koin:koin-android:4.0.3")
      * implementation("io.insert-koin:koin-annotations:2.0.0")
      * ksp("io.insert-koin:koin-ksp-compiler:2.0.0")
+     */
+
+    /**
+     * Authorize access to Google user data
+     *
+     * https://developer.android.com/identity/authorization
+     *
+     * implementation("com.google.android.gms:play-services-auth:21.3.0")
+     * implementation("com.google.android.gms:play-services-auth-api-phone:18.2.0")
      */
 }

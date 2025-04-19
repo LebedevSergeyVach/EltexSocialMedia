@@ -2,7 +2,9 @@ package com.eltex.androidschool.utils.extensions
 
 import android.content.Context
 import android.graphics.Typeface
+
 import com.eltex.androidschool.R
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 /**

@@ -1,19 +1,26 @@
 package com.eltex.androidschool.fragments.comments
 
 import android.annotation.SuppressLint
+
 import android.os.Bundle
 import android.text.Editable
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
+
 import androidx.fragment.app.viewModels
+
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
+
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
+
 import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
 import com.eltex.androidschool.adapter.comments.CommentsAdapter
@@ -30,14 +37,18 @@ import com.eltex.androidschool.utils.extensions.vibrateWithEffect
 import com.eltex.androidschool.utils.helper.LoggerHelper
 import com.eltex.androidschool.viewmodel.comments.CommentsState
 import com.eltex.androidschool.viewmodel.comments.CommentsViewModel
+
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
+
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
+
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
@@ -45,8 +56,10 @@ import kotlinx.coroutines.flow.onEach
 class CommentsBottomSheetFragment(
     private val postId: Long,
     private val accountUserId: Long,
-    private val isAccount: Boolean,
-    private val isProfile: Boolean,
+    private val isAccount: Boolean = false,
+    private val isProfile: Boolean = false,
+    private val isPostDetails: Boolean = false,
+    private val isEventDetails: Boolean = false,
 ) : BottomSheetDialogFragment() {
 
     val viewModel: CommentsViewModel by viewModels(
@@ -108,10 +121,9 @@ class CommentsBottomSheetFragment(
             }
 
             override fun onGetUserClicked(comment: CommentUiModel) {
-                if (BuildConfig.DEBUG)
-                    LoggerHelper.i("postId = $postId, accountUserId = $accountUserId, isProfile = $isProfile")
+                if (BuildConfig.DEBUG) LoggerHelper.i("postId = $postId, accountUserId = $accountUserId, isProfile = $isProfile, isAccount = $isAccount, isPostDetails = $isPostDetails")
 
-                if (!isProfile) {
+                if (!isProfile && (!isPostDetails && !isEventDetails)) {
                     dismiss()
 
                     if (comment.authorId == accountUserId) {
@@ -203,7 +215,10 @@ class CommentsBottomSheetFragment(
                     textCommentsSize.isVisible =
                         !stateComments.isEmptySuccess && !stateComments.isEmptyError && !stateComments.isEmptyLoading
                     buttonSendComment.isEnabled = stateComments.isButtonEnabled
-                    buttonSendComment.alpha = if (stateComments.isButtonEnabled) 1f else 0.5f
+                    buttonSendComment.animate()
+                        .alpha(if (stateComments.isButtonEnabled) 1f else 0.5f)
+                        .setDuration(200)
+                        .start()
                 }
 
                 binding.textCommentsSize.text =

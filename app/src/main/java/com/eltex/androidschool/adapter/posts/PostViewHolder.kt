@@ -10,6 +10,7 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 
 import android.text.SpannableString
+import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 
@@ -30,6 +31,8 @@ import com.bumptech.glide.request.target.Target
 import com.eltex.androidschool.R
 import com.eltex.androidschool.data.common.Attachment
 import com.eltex.androidschool.databinding.CardPostBinding
+import com.eltex.androidschool.ui.common.PagingModel
+import com.eltex.androidschool.ui.posts.PostPagingModel
 import com.eltex.androidschool.ui.posts.PostUiModel
 import com.eltex.androidschool.utils.common.initialsOfUsername
 import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
@@ -52,25 +55,33 @@ import com.github.jinatonic.confetti.CommonConfetti
 @SuppressLint("ClickableViewAccessibility")
 class PostViewHolder(
     private val binding: CardPostBinding,
-    private val context: Context
+    private val context: Context,
+    private val listener: PostAdapter.PostListener,
 ) : ViewHolder(binding.root) {
-    private var lastClickTime: Long = 0
 
     init {
-        binding.cardPost.setOnTouchListener { _, post: MotionEvent ->
-            if (post.action == MotionEvent.ACTION_DOWN) {
-                val clickTime = System.currentTimeMillis()
-                if (clickTime - lastClickTime < 300) {
-                    onDoubleClick()
+        val gestureDetector = GestureDetector(
+            context,
+            object : GestureDetector.SimpleOnGestureListener() {
+                override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+                    // Одинарный клик - открываем детали
+                    val item = getItem(bindingAdapterPosition) as? PagingModel.Data<PostUiModel>
+                    item?.value?.let(listener::onGetPostDetailsClicked)
+                    return true
                 }
-                lastClickTime = clickTime
-            }
-            false
-        }
-    }
 
-    private fun onDoubleClick() {
-        binding.like.performClick()
+                override fun onDoubleTap(e: MotionEvent): Boolean {
+                    // Двойной клик - ставим лайк
+                    binding.like.performClick()
+                    return true
+                }
+            }
+        )
+
+        binding.cardPost.setOnTouchListener { _, event: MotionEvent ->
+            gestureDetector.onTouchEvent(event)
+            true
+        }
     }
 
     /**
@@ -361,4 +372,7 @@ class PostViewHolder(
         binding.skeletonLayout.showOriginal()
         binding.initial.isVisible = true
     }
+
+    private fun getItem(position: Int): PostPagingModel? =
+        (bindingAdapter as? PostAdapter)?.getPublicItem(position)
 }

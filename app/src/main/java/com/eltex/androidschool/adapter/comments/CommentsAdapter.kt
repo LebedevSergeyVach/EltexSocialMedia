@@ -1,23 +1,26 @@
 package com.eltex.androidschool.adapter.comments
 
 import android.annotation.SuppressLint
+
 import android.content.Context
 import android.graphics.drawable.InsetDrawable
 import android.os.Build
 import android.util.TypedValue
+
 import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.widget.PopupMenu
+
 import androidx.recyclerview.widget.ListAdapter
-import com.eltex.androidschool.BuildConfig
+
 import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.CardCommentBinding
 import com.eltex.androidschool.ui.comments.CommentUiModel
 import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
-import com.eltex.androidschool.utils.helper.LoggerHelper
 
 class CommentsAdapter(
     private val listener: CommentListener,

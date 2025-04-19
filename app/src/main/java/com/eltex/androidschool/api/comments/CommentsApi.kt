@@ -1,8 +1,8 @@
 package com.eltex.androidschool.api.comments
 
 import com.eltex.androidschool.data.comments.CommentData
-import retrofit2.http.Body
 
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST

@@ -2,25 +2,27 @@ package com.eltex.androidschool.viewmodel.comments
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+
 import com.eltex.androidschool.data.comments.CommentData
 import com.eltex.androidschool.repository.comments.CommentRepository
 import com.eltex.androidschool.ui.comments.CommentUiModel
 import com.eltex.androidschool.ui.comments.CommentUiModelMapper
 import com.eltex.androidschool.ui.common.DateTimeUiFormatter
-import com.eltex.androidschool.viewmodel.auth.authorizations.AuthorizationState
 import com.eltex.androidschool.viewmodel.status.StatusLoad
+
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
+
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
 import java.time.ZoneId
 
 @HiltViewModel(assistedFactory = CommentsViewModel.ViewModelFactory::class)
@@ -52,8 +54,6 @@ class CommentsViewModel @AssistedInject constructor(
         }
 
         viewModelScope.launch {
-//            delay(1_000)
-
             try {
                 val comments: List<CommentData> =
                     repository.getAllCommentsForPostById(postId = postId)

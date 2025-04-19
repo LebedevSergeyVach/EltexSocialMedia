@@ -48,6 +48,8 @@
         <TextView
             android:id="@+id/textDescriptionUpdate"
 
+            style="@style/CustomTextViewStyle"
+
             android:layout_width="0dp"
             android:layout_height="wrap_content"
 
@@ -55,6 +57,7 @@
             android:autoLink="web"
             android:textColorLink="@color/active_element"
             android:textSize="16sp"
+
             app:layout_constraintEnd_toEndOf="@id/textVersionAndDateUpdate"
             app:layout_constraintStart_toStartOf="@id/textVersionAndDateUpdate"
             app:layout_constraintTop_toBottomOf="@id/headerBarrier"

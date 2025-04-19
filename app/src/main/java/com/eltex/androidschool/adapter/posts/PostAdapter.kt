@@ -67,6 +67,7 @@ class PostAdapter(
         fun onUpdateClicked(post: PostUiModel)
         fun onGetUserClicked(post: PostUiModel)
         fun onCommentsClicked(post: PostUiModel)
+        fun onGetPostDetailsClicked(post: PostUiModel)
         fun onRetryPageClicked()
     }
 
@@ -159,7 +160,8 @@ class PostAdapter(
 
         val viewHolder = PostViewHolder(
             binding = binding,
-            context = parent.context
+            context = parent.context,
+            listener = listener,
         )
 
         binding.like.setOnClickListener {
@@ -323,4 +325,7 @@ class PostAdapter(
 
         popup.show()
     }
+
+    fun getPublicItem(position: Int): PostPagingModel? =
+        if (position in 0 until itemCount) getItem(position) else null
 }

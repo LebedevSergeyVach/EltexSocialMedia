@@ -1,5 +1,6 @@
 package com.eltex.androidschool.ui.events
 
+import com.eltex.androidschool.data.avatars.AvatarModel
 import com.eltex.androidschool.data.common.Attachment
 
 /**
@@ -28,6 +29,7 @@ data class EventUiModel(
     val author: String = "",
     val authorId: Long = 0L,
     val authorAvatar: String? = null,
+    val authorJob: String? = null,
     val published: String = "",
     val optionConducting: String = "",
     val dateEvent: String = "",
@@ -38,4 +40,6 @@ data class EventUiModel(
     val likes: Int = 0,
     val participates: Int = 0,
     val attachment: Attachment? = null,
+    val likesListUsers: List<AvatarModel> = emptyList(),
+    val participationListUsers: List<AvatarModel> = emptyList()
 )

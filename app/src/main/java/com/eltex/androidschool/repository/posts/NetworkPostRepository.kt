@@ -150,4 +150,7 @@ class NetworkPostRepository @Inject constructor(
         postsApi.getLatestPostsByAuthorId(
             authorId = authorId, count = count
         )
+
+    override suspend fun getPostById(postId: Long): PostData =
+        postsApi.getPostById(postId = postId)
 }

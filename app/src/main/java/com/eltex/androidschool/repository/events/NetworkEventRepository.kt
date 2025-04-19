@@ -149,6 +149,6 @@ class NetworkEventRepository @Inject constructor(
      * @param eventId Идентификатор события.
      * @return [EventData] Событие, соответствующее указанному идентификатору.
      */
-    suspend fun getEventById(eventId: Long) =
+    override suspend fun getEventById(eventId: Long) =
         eventsApi.getEventById(eventId = eventId)
 }

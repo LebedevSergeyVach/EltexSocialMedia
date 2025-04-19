@@ -5,22 +5,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateInterpolator
+import android.view.animation.DecelerateInterpolator
+
 import androidx.activity.OnBackPressedCallback
+import androidx.core.view.isVisible
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.NavController
 
+import androidx.navigation.NavController
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 
 import com.eltex.androidschool.R
-
 import com.eltex.androidschool.databinding.FragmentBottomNavigationBinding
 import com.eltex.androidschool.viewmodel.common.SharedViewModel
-import androidx.core.view.isVisible
-import androidx.core.view.isGone
 
 /**
  * Фрагмент, отвечающий за отображение нижней навигационной панели.
@@ -34,8 +35,9 @@ import androidx.core.view.isGone
 class BottomNavigationFragment : Fragment() {
 
     private val sharedViewModel: SharedViewModel by activityViewModels()
-
-    private lateinit var binding: FragmentBottomNavigationBinding
+    private var isFabInitialized = false
+    private var isFabHiding = false
+    private var isFabShowing = false
 
     /**
      * Создает и возвращает представление для этого фрагмента.
@@ -49,7 +51,7 @@ class BottomNavigationFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentBottomNavigationBinding.inflate(inflater, container, false)
+        val binding = FragmentBottomNavigationBinding.inflate(inflater, container, false)
 
         val navController =
             requireNotNull(childFragmentManager.findFragmentById(R.id.container)).findNavController()
@@ -111,6 +113,8 @@ class BottomNavigationFragment : Fragment() {
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
                 R.id.postsFragment -> {
+                    showFab(binding = binding)
+
                     binding.news.setOnClickListener(postsClickListener)
                     binding.news.animate()
                         .scaleX(1F)
@@ -120,6 +124,8 @@ class BottomNavigationFragment : Fragment() {
                 }
 
                 R.id.eventsFragment -> {
+                    showFab(binding = binding)
+
                     binding.news.setOnClickListener(eventsClickListener)
                     binding.news.animate()
                         .scaleX(1F)
@@ -129,6 +135,8 @@ class BottomNavigationFragment : Fragment() {
                 }
 
                 R.id.accountFragment -> {
+                    showFab(binding = binding)
+
                     binding.news.animate()
                         .scaleX(1F)
                         .scaleY(1F)
@@ -140,37 +148,66 @@ class BottomNavigationFragment : Fragment() {
 
         setupBackButtonHandler(navController = navController)
 
+        // Наблюдаем за состоянием FAB с учетом анимации
+        sharedViewModel.fabVisibility.observe(viewLifecycleOwner) { state: SharedViewModel.FabState ->
+            when (state) {
+                SharedViewModel.FabState.Visible -> showFab(binding = binding)
+                SharedViewModel.FabState.Hidden -> hideFab(binding = binding)
+            }
+        }
+
         return binding.root
     }
 
     /**
      * Показывает FloatingActionButton с анимацией.
      */
-    fun showFab() {
-        if (binding.news.isGone) {
-            binding.news.visibility = View.VISIBLE
-            binding.news.animate()
-                .scaleX(1F)
-                .scaleY(1F)
-                .setDuration(200)
-                .start()
-        }
+    private fun showFab(binding: FragmentBottomNavigationBinding) {
+        if ((binding.news.isVisible && !isFabHiding) || isFabShowing) return
+
+        isFabShowing = true
+
+        binding.news.visibility = View.VISIBLE
+        val params = binding.news.layoutParams as ViewGroup.MarginLayoutParams
+        binding.news.translationY = binding.news.height.toFloat() + params.bottomMargin
+
+        binding.news.animate()
+            .translationY(0f)
+            .setDuration(300)
+            .setInterpolator(DecelerateInterpolator())
+            .withStartAction {
+                binding.news.isClickable = true
+            }
+            .withEndAction {
+                isFabShowing = false
+            }
+            .start()
     }
 
     /**
      * Скрывает FloatingActionButton с анимацией.
      */
-    fun hideFab() {
-        if (binding.news.isVisible) {
-            binding.news.animate()
-                .scaleX(0F)
-                .scaleY(0F)
-                .setDuration(200)
-                .withEndAction {
-                    binding.news.visibility = View.GONE
-                }
-                .start()
-        }
+    private fun hideFab(binding: FragmentBottomNavigationBinding) {
+        if (binding.news.visibility != View.VISIBLE || isFabHiding) return
+
+        isFabHiding = true
+
+        val params = binding.news.layoutParams as ViewGroup.MarginLayoutParams
+        val totalOffset = binding.news.height + params.bottomMargin
+
+        binding.news.animate()
+            .translationY(totalOffset.toFloat())
+            .setDuration(300)
+            .setInterpolator(AccelerateInterpolator())
+            .withStartAction {
+                binding.news.isClickable = false
+            }
+            .withEndAction {
+                binding.news.visibility = View.INVISIBLE
+                binding.news.translationY = 0f
+                isFabHiding = false
+            }
+            .start()
     }
 
     /**
@@ -277,8 +314,6 @@ class BottomNavigationFragment : Fragment() {
                                 R.id.postsFragment,
                                 null,
                                 NavOptions.Builder()
-                                    .setEnterAnim(R.anim.slide_in_left_bottom)
-                                    .setPopEnterAnim(R.anim.slide_in_right_bottom)
                                     .build()
                             )
                         }
@@ -288,8 +323,6 @@ class BottomNavigationFragment : Fragment() {
                                 R.id.postsFragment,
                                 null,
                                 NavOptions.Builder()
-                                    .setEnterAnim(R.anim.slide_in_left_bottom)
-                                    .setPopEnterAnim(R.anim.slide_in_right_bottom)
                                     .build()
                             )
                         }

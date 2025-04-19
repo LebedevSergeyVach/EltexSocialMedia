@@ -48,7 +48,6 @@
 
                 android:gravity="center_vertical"
                 android:orientation="vertical"
-
                 android:padding="16dp">
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -57,7 +56,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
+                    android:labelFor="@id/textLoginUser"
+                    android:autofillHints="username|email"
                     android:hint="@string/login_no_transferred"
+                    android:importantForAutofill="yes"
                     app:endIconMode="clear_text">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -68,7 +70,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
 
+                        android:labelFor="@id/textLoginUser"
+                        android:autofillHints="username|email"
                         android:ellipsize="end"
+                        android:importantForAutofill="yes"
                         android:maxLines="1" />
 
                 </com.google.android.material.textfield.TextInputLayout>
@@ -81,7 +86,10 @@
 
                     android:layout_marginTop="16dp"
 
+                    android:autofillHints="password"
                     android:hint="@string/password"
+                    android:importantForAutofill="yes"
+                    android:inputType="textPassword"
                     app:endIconMode="password_toggle">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -92,7 +100,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
 
+                        android:autofillHints="password"
                         android:ellipsize="end"
+                        android:importantForAutofill="yes"
+                        android:inputType="textPassword"
                         android:maxLines="1" />
 
                 </com.google.android.material.textfield.TextInputLayout>

@@ -10,12 +10,15 @@ import android.content.Intent
 import android.graphics.drawable.Drawable
 
 import android.text.SpannableString
+
+import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 
+import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 
 import com.bumptech.glide.Glide
@@ -30,6 +33,7 @@ import com.bumptech.glide.request.target.Target
 import com.eltex.androidschool.R
 import com.eltex.androidschool.data.common.Attachment
 import com.eltex.androidschool.databinding.CardEventBinding
+import com.eltex.androidschool.ui.common.PagingModel
 import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.utils.common.initialsOfUsername
 import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
@@ -48,25 +52,33 @@ import com.github.jinatonic.confetti.CommonConfetti
 @SuppressLint("ClickableViewAccessibility")
 class EventViewHolder(
     private val binding: CardEventBinding,
-    private val context: Context
+    private val context: Context,
+    private val listener: EventAdapterDifferentTypesView.EventListener?,
+    private val listenerWall: EventAdapter.EventListener?,
 ) : ViewHolder(binding.root) {
-    private var lastClickTime: Long = 0
 
     init {
-        binding.cardEvent.setOnTouchListener { _, event: MotionEvent ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                val clickTime = System.currentTimeMillis()
-                if (clickTime - lastClickTime < 300) {
-                    onDoubleClick()
+        val gestureDetector = GestureDetector(
+            context,
+            object : GestureDetector.SimpleOnGestureListener() {
+                override fun onSingleTapConfirmed(e: MotionEvent): Boolean {
+                    // Одинарный клик - открываем детали
+                    handleSingleTap()
+                    return true
                 }
-                lastClickTime = clickTime
-            }
-            false
-        }
-    }
 
-    private fun onDoubleClick() {
-        binding.like.performClick()
+                override fun onDoubleTap(e: MotionEvent): Boolean {
+                    // Двойной клик - ставим лайк
+                    binding.like.performClick()
+                    return true
+                }
+            }
+        )
+
+        binding.cardEvent.setOnTouchListener { _, event: MotionEvent ->
+            gestureDetector.onTouchEvent(event)
+            true
+        }
     }
 
     /**
@@ -78,7 +90,7 @@ class EventViewHolder(
         binding.author.text = event.author
         binding.published.text = event.published
         binding.optionConducting.text = event.optionConducting
-        binding.dataEvent.text = event.dateEvent
+        binding.dateEvent.text = event.dateEvent
         binding.content.text = event.content
 
         if (event.link.isNotEmpty()) {
@@ -167,7 +179,6 @@ class EventViewHolder(
                     }
                 })
                 .transition(DrawableTransitionOptions.withCrossFade(500))
-                .error(R.drawable.error_placeholder)
                 .thumbnail(
                     Glide.with(binding.root)
                         .load(event.authorAvatar)
@@ -402,5 +413,49 @@ class EventViewHolder(
         binding.initial.setTextColor(ContextCompat.getColor(binding.root.context, R.color.white))
         binding.skeletonLayout.showOriginal()
         binding.initial.isVisible = true
+    }
+
+    private fun handleSingleTap() {
+        when {
+            listener != null -> {
+                getPagingModelItem()?.let {
+                    listener.onGetEventDetailsClicked(it.value)
+                }
+            }
+
+            listenerWall != null -> {
+                getEventItem()?.let {
+                    listenerWall.onGetEventDetailsClicked(it)
+                }
+            }
+        }
+    }
+
+    private fun getPagingModelItem(): PagingModel.Data<EventUiModel>? {
+        return try {
+            (binding.root.parent as? RecyclerView)?.adapter?.let { adapter ->
+                if (adapter is EventAdapterDifferentTypesView) {
+                    adapter.getPublicItem(bindingAdapterPosition) as? PagingModel.Data<EventUiModel>
+                } else {
+                    null
+                }
+            }
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    private fun getEventItem(): EventUiModel? {
+        return try {
+            (binding.root.parent as? RecyclerView)?.adapter?.let { adapter ->
+                if (adapter is EventAdapter) {
+                    adapter.getPublicItem(bindingAdapterPosition)
+                } else {
+                    null
+                }
+            }
+        } catch (e: Exception) {
+            null
+        }
     }
 }

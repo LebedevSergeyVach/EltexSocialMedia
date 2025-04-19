@@ -142,7 +142,7 @@
                 tools:text="@string/testOptionConducting" />
 
             <TextView
-                android:id="@+id/dataEvent"
+                android:id="@+id/date_event"
 
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -174,7 +174,7 @@
 
                 app:layout_constraintEnd_toEndOf="@id/optionConducting"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/dataEvent"
+                app:layout_constraintTop_toBottomOf="@id/date_event"
 
                 tools:text="@tools:sample/lorem[55]" />
 
