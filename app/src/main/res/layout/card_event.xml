@@ -191,7 +191,7 @@
             tools:text="ONLINE" />
 
         <TextView
-            android:id="@+id/dataEvent"
+            android:id="@+id/date_event"
 
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -223,7 +223,7 @@
 
             app:layout_constraintEnd_toEndOf="@id/optionConducting"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dataEvent"
+            app:layout_constraintTop_toBottomOf="@id/date_event"
 
             tools:text="@tools:sample/lorem[120]" />
 
@@ -238,7 +238,7 @@
 
             android:autoLink="web"
             android:ellipsize="end"
-            android:maxLines="2"
+            android:maxLines="1"
             android:textColorLink="@color/active_element"
             android:textSize="@dimen/size_text_sp"
 

@@ -1,6 +1,640 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+    <ScrollView
+        android:id="@+id/scrollViewPostDetails"
+
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp">
+
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/skeletonLayoutAvatar"
+
+                android:layout_width="@dimen/avatar_dp_size"
+                android:layout_height="@dimen/avatar_dp_size"
+                android:layout_marginStart="16dp"
+
+                app:layout_constraintBottom_toBottomOf="@id/loginAndJob"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/author"
+
+                app:maskColor="@color/gray"
+                app:maskCornerRadius="1000dp"
+                app:shimmerAngle="20"
+                app:shimmerColor="@color/active_element"
+                app:shimmerDurationInMillis="750">
+
+                <ImageView
+                    android:id="@+id/avatar"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/avatar_background" />
+
+                <TextView
+                    android:id="@+id/initial"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+
+                    tools:text="LS" />
+
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
+
+            <TextView
+                android:id="@+id/author"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="@dimen/size_title_sp"
+
+                app:layout_constraintBottom_toTopOf="@id/loginAndJob"
+                app:layout_constraintEnd_toStartOf="@id/buttonUpdate"
+                app:layout_constraintStart_toEndOf="@id/skeletonLayoutAvatar"
+                app:layout_constraintTop_toTopOf="parent"
+
+                tools:text="@tools:sample/lorem[20]" />
+
+            <TextView
+                android:id="@+id/loginAndJob"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="@dimen/size_text_sp"
+
+                app:layout_constraintBottom_toBottomOf="@id/skeletonLayoutAvatar"
+                app:layout_constraintEnd_toEndOf="@id/author"
+                app:layout_constraintStart_toEndOf="@id/skeletonLayoutAvatar"
+                app:layout_constraintTop_toBottomOf="@id/author"
+
+                tools:text="@tools:sample/lorem[20]" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/buttonUpdate"
+
+                style="@style/Widget.Material3.Button.IconButton"
+
+                android:layout_width="@dimen/avatar_dp_size"
+                android:layout_height="@dimen/avatar_dp_size"
+
+                android:layout_marginEnd="16dp"
+
+                android:importantForAccessibility="no"
+                android:textColor="@color/active_element"
+                app:icon="@drawable/ic_update_24"
+                app:iconTint="@color/active_element"
+
+                app:layout_constraintBottom_toBottomOf="@id/skeletonLayoutAvatar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/skeletonLayoutAvatar" />
+
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/headerBarrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="skeletonLayoutAvatar, author, loginAndJob" />
+
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/skeletonImageAttachment"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/headerBarrier"
+
+                app:maskColor="@color/gray"
+                app:maskCornerRadius="0dp"
+                app:shimmerAngle="20"
+                app:shimmerColor="@color/active_element"
+                app:shimmerDurationInMillis="750">
+
+                <ImageView
+                    android:id="@+id/imageAttachment"
+
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/image"
+
+                    tools:src="@tools:sample/backgrounds/scenic[15]" />
+
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
+
+            <TextView
+                android:id="@+id/published"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+
+                android:textSize="@dimen/size_text_sp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/skeletonImageAttachment"
+
+                tools:text="00:00 01.01.2025" />
+
+            <TextView
+                android:id="@+id/optionConducting"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="@dimen/common_spacing"
+
+                android:textSize="@dimen/size_title_sp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/published"
+
+                tools:text="ONLINE" />
+
+            <TextView
+                android:id="@+id/date_event"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="4dp"
+
+                android:textSize="@dimen/size_text_sp"
+
+                app:layout_constraintEnd_toEndOf="@id/optionConducting"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/optionConducting"
+
+                tools:text="@tools:sample/date/hhmmss" />
+
+            <TextView
+                android:id="@+id/content"
+
+                style="@style/CustomTextViewStyle"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="@dimen/common_spacing"
+
+                android:layout_marginTop="12dp"
+                android:autoLink="web"
+                android:textColorLink="@color/active_element"
+                android:textIsSelectable="true"
+                android:textSize="16sp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/date_event"
+
+                tools:text="@tools:sample/lorem[70]" />
+
+            <TextView
+                android:id="@+id/link"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginVertical="@dimen/common_spacing"
+
+                android:autoLink="web"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textColorLink="@color/active_element"
+                android:textSize="@dimen/size_text_sp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/content"
+
+                tools:text="https://github.com/LebedevSergeyVach/EltexSocialMedia" />
+
+            <TextView
+                android:id="@+id/likesText"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+
+                android:text="@string/likes"
+                android:textSize="16sp"
+                android:textStyle="bold"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/link" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/like"
+
+                style="@style/Widget.Material3.Button.TextButton"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/common_spacing"
+
+                android:textColor="@color/active_element"
+                app:icon="@drawable/like_button"
+                app:iconTint="@color/active_element"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/likesText"
+
+                tools:text="123" />
+
+            <TextView
+                android:id="@+id/participationText"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+
+                android:text="@string/participation"
+                android:textSize="16sp"
+                android:textStyle="bold"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/like" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/likesRecyclerView"
+
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="@dimen/common_spacing"
+
+                android:orientation="horizontal"
+
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+
+                app:layout_constraintBottom_toBottomOf="@id/like"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/like"
+                app:layout_constraintTop_toTopOf="@id/like"
+
+                tools:listitem="@layout/avatar_item" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/participation"
+
+                style="@style/Widget.Material3.Button.TextButton"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/common_spacing"
+
+                android:textColor="@color/active_element"
+                app:icon="@drawable/participate_button"
+                app:iconTint="@color/active_element"
+
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/participationText"
+
+                tools:text="123" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/participationRecyclerView"
+
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="@dimen/common_spacing"
+
+                android:orientation="horizontal"
+
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+
+                app:layout_constraintBottom_toBottomOf="@id/participation"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/participation"
+                app:layout_constraintTop_toTopOf="@id/participation"
+
+                tools:listitem="@layout/avatar_item" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/info"
+
+                style="@style/Widget.Material3.Button.IconButton"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="80dp"
+
+                android:textColor="@color/active_element"
+                app:icon="@drawable/ic_info_24"
+                app:iconTint="@color/active_element"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/participation"
+                app:layout_constraintTop_toBottomOf="@id/participation" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <com.faltenreich.skeletonlayout.SkeletonLayout
+        android:id="@+id/skeletonLayoutLoadDataPostDetails"
+
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:maskColor="@color/gray"
+
+        app:maskCornerRadius="30dp"
+        app:shimmerAngle="20"
+        app:shimmerColor="@color/active_element"
+        app:shimmerDurationInMillis="750"
+
+        tools:visibility="gone">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="16dp">
+
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/skeletonLayoutAvatarLoading"
+
+                android:layout_width="@dimen/avatar_dp_size"
+                android:layout_height="@dimen/avatar_dp_size"
+                android:layout_marginStart="@dimen/margin_start_4dp_contents_card"
+
+                app:layout_constraintBottom_toBottomOf="@id/loginAndJobLoading"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/authorLoading"
+
+                app:maskColor="@color/gray"
+                app:maskCornerRadius="1000dp"
+                app:shimmerAngle="20"
+                app:shimmerColor="@color/active_element"
+                app:shimmerDurationInMillis="750">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/avatar_background" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+
+                    tools:text="LS" />
+
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
+
+            <TextView
+                android:id="@+id/authorLoading"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="100dp"
+
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="@dimen/size_title_sp"
+
+                app:layout_constraintBottom_toTopOf="@id/loginAndJobLoading"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/skeletonLayoutAvatarLoading"
+                app:layout_constraintTop_toTopOf="parent"
+
+                tools:text="@tools:sample/lorem[20]" />
+
+            <TextView
+                android:id="@+id/loginAndJobLoading"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="4dp"
+                android:layout_marginEnd="60dp"
+
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="@dimen/size_text_sp"
+
+                app:layout_constraintBottom_toBottomOf="@id/skeletonLayoutAvatarLoading"
+                app:layout_constraintEnd_toEndOf="@id/authorLoading"
+                app:layout_constraintStart_toEndOf="@id/skeletonLayoutAvatarLoading"
+                app:layout_constraintTop_toBottomOf="@id/authorLoading"
+
+                tools:text="@tools:sample/lorem[20]" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/headerBarrierLoading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="skeletonLayoutAvatarLoading, authorLoading, loginAndJobLoading" />
+
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/skeletonImageAttachmentLoading"
+
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginHorizontal="@dimen/common_spacing"
+                android:layout_marginTop="16dp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/headerBarrierLoading"
+                app:maskColor="@color/gray"
+                app:maskCornerRadius="0dp"
+
+                app:shimmerAngle="20"
+                app:shimmerColor="@color/active_element"
+                app:shimmerDurationInMillis="750">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/image"
+
+                    tools:src="@tools:sample/backgrounds/scenic[15]" />
+
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
+
+            <TextView
+                android:id="@+id/publishedLoading"
+
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/common_spacing"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="200dp"
+
+                android:textSize="@dimen/size_text_sp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/skeletonImageAttachmentLoading"
+
+                tools:text="00:00 01.01.2025" />
+
+            <TextView
+                android:id="@+id/contentLoading"
+
+                android:layout_width="0dp"
+                android:layout_height="100dp"
+                android:layout_margin="@dimen/common_spacing"
+
+                android:autoLink="web"
+                android:textColorLink="@color/active_element"
+                android:textSize="16sp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/publishedLoading"
+
+                tools:text="@tools:sample/lorem[100]" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/likeLoading"
+
+                style="@style/Widget.Material3.Button.TextButton"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/common_spacing"
+                android:layout_marginTop="@dimen/common_spacing"
+                android:layout_marginBottom="32dp"
+
+                android:textColor="@color/active_element"
+                app:icon="@drawable/like_button"
+                app:iconTint="@color/active_element"
+
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/contentLoading"
+
+                tools:text="123" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginHorizontal="@dimen/common_spacing"
+
+                app:layout_constraintBottom_toBottomOf="@id/likeLoading"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/likeLoading"
+                app:layout_constraintTop_toTopOf="@id/likeLoading"
+
+                tools:text="@tools:sample/lorem[30]" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.faltenreich.skeletonlayout.SkeletonLayout>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardErrorText"
+
+        style="@style/Style.MaterialCardView.Main"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:layout_constraintBottom_toTopOf="@id/retryButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        app:layout_constraintVertical_chainStyle="packed">
+
+        <TextView
+            android:id="@+id/errorText"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:gravity="center"
+            android:padding="10dp"
+            android:textSize="24sp"
+
+            android:textStyle="bold"
+            tools:text="ERROR NETWORK" />
+
+    </com.google.android.material.card.MaterialCardView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/retryButton"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="15dp"
+
+        android:background="@color/white"
+        android:backgroundTint="@color/active_element"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cardErrorText"
+
+        app:srcCompat="@drawable/ic_update_24" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/errorGroup"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        app:constraint_referenced_ids="retryButton, cardErrorText,"
+
+        tools:visibility="gone" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

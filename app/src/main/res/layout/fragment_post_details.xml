@@ -154,7 +154,7 @@
                     android:adjustViewBounds="true"
                     android:contentDescription="@string/image"
 
-                    tools:src="@tools:sample/backgrounds/scenic[15]" />
+                    tools:src="@tools:sample/backgrounds/scenic[12]" />
 
             </com.faltenreich.skeletonlayout.SkeletonLayout>
 
@@ -188,12 +188,12 @@
                 android:autoLink="web"
                 android:textColorLink="@color/active_element"
                 android:textIsSelectable="true"
-
                 android:textSize="16sp"
+
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-
                 app:layout_constraintTop_toBottomOf="@id/published"
+
                 tools:text="@tools:sample/lorem[100]" />
 
             <TextView
