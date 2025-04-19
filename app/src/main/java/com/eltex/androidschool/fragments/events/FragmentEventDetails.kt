@@ -1,28 +1,20 @@
-package com.eltex.androidschool.fragments.posts
+package com.eltex.androidschool.fragments.events
 
 import android.graphics.drawable.Drawable
-
 import android.os.Bundle
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import android.widget.LinearLayout
-
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
-
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-
 import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
-
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
-
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.DiskCacheStrategy
@@ -30,32 +22,28 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
-
 import com.eltex.androidschool.R
 import com.eltex.androidschool.adapter.avatars.AvatarsAdapter
 import com.eltex.androidschool.data.common.Attachment
-import com.eltex.androidschool.databinding.FragmentPostDetailsBinding
-import com.eltex.androidschool.fragments.comments.CommentsBottomSheetFragment
+import com.eltex.androidschool.databinding.FragmentEventDetailsBinding
 import com.eltex.androidschool.fragments.common.TextCopyBottomSheetFragment
+import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.ui.offset.OffsetDecorationLikesAvatar
-import com.eltex.androidschool.ui.posts.PostUiModel
 import com.eltex.androidschool.utils.common.initialsOfUsername
 import com.eltex.androidschool.utils.extensions.ErrorUtils.getErrorText
 import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
-import com.eltex.androidschool.viewmodel.posts.postdetails.PostDetailsState
-import com.eltex.androidschool.viewmodel.posts.postdetails.PostDetailsViewModel
-
+import com.eltex.androidschool.viewmodel.events.eventdetails.EventDetailsState
+import com.eltex.androidschool.viewmodel.events.eventdetails.EventDetailsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.lifecycle.withCreationCallback
-
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 @AndroidEntryPoint
-class FragmentPostDetails : Fragment() {
+class FragmentEventDetails : Fragment() {
 
     companion object {
-        const val POST_ID = "POST_ID"
+        const val EVENT_ID = "EVENT_ID"
         const val ACCOUNT_ID = "ACCOUNT_ID"
     }
 
@@ -64,47 +52,54 @@ class FragmentPostDetails : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentPostDetailsBinding.inflate(inflater, container, false)
+        val binding = FragmentEventDetailsBinding.inflate(inflater, container, false)
 
-        val postId: Long = arguments?.getLong(POST_ID) ?: -1L
+        val eventId: Long = arguments?.getLong(EVENT_ID) ?: -1L
         val accountId: Long = arguments?.getLong(ACCOUNT_ID) ?: -1L
 
-        val viewModel: PostDetailsViewModel by viewModels(
+        val viewModel: EventDetailsViewModel by viewModels(
             extrasProducer = {
-                defaultViewModelCreationExtras.withCreationCallback<PostDetailsViewModel.ViewModelFactory> { factory ->
-                    factory.create(postId = postId)
+                defaultViewModelCreationExtras.withCreationCallback<EventDetailsViewModel.ViewModelFactory> { factory ->
+                    factory.create(eventId = eventId)
                 }
             }
         )
 
         binding.retryButton.setOnClickListener {
-            viewModel.loadPost(postId = postId)
+            viewModel.loadEvent(eventId = eventId)
         }
 
         val likesAdapter = AvatarsAdapter()
-        recyclerView(binding = binding, likesAdapter = likesAdapter)
+        val participationAdapter = AvatarsAdapter()
+        recyclerView(
+            likesAdapter = likesAdapter,
+            participationAdapter = participationAdapter,
+            binding = binding
+        )
 
         observationViewModelState(
             viewModel = viewModel,
             binding = binding,
             accountId = accountId,
-            postId = postId,
+            eventId = eventId,
             likesAdapter = likesAdapter,
+            participationAdapter = participationAdapter
         )
 
         return binding.root
     }
 
     private fun observationViewModelState(
-        viewModel: PostDetailsViewModel,
-        binding: FragmentPostDetailsBinding,
+        viewModel: EventDetailsViewModel,
+        binding: FragmentEventDetailsBinding,
         accountId: Long,
-        postId: Long,
-        likesAdapter: AvatarsAdapter
+        eventId: Long,
+        likesAdapter: AvatarsAdapter,
+        participationAdapter: AvatarsAdapter,
     ) {
         viewModel.state
             .flowWithLifecycle(lifecycle = viewLifecycleOwner.lifecycle)
-            .onEach { state: PostDetailsState ->
+            .onEach { state: EventDetailsState ->
                 binding.apply {
                     scrollViewPostDetails.isVisible = !state.isEmptyError && !state.isEmptyLoading
                     skeletonLayoutLoadDataPostDetails.isVisible = state.isEmptyLoading
@@ -117,41 +112,59 @@ class FragmentPostDetails : Fragment() {
                     binding.skeletonLayoutLoadDataPostDetails.showOriginal()
                 }
 
-                state.statusLoadPost.throwableOrNull?.let { error: Throwable ->
+                state.statusLoadEvent.throwableOrNull?.let { error: Throwable ->
                     binding.errorText.text = error.getErrorText(requireContext())
                 }
 
-                state.post?.let {
-                    renderingUserAvatar(post = state.post, binding = binding)
+                state.event?.let {
+                    renderingUserAvatar(event = state.event, binding = binding)
                     renderImageStateAndSkeleton(state = state, binding = binding)
-                    renderDataPost(binding = binding, post = state.post, accountId = accountId)
-                    updateLikeByMe(binding = binding, post = state.post)
+                    renderDataEvent(binding = binding, event = state.event, accountId = accountId)
+                    updateLikeByMe(binding = binding, event = state.event)
+                    updateParticipationByMe(binding = binding, event = state.event)
 
                     binding.like.setOnClickListener {
                         requireContext().singleVibrationWithSystemCheck(35L)
 
-                        viewModel.likeById(postId = postId, likedByMe = state.post.likedByMe)
-                        updateLikeByMe(binding = binding, post = state.post)
+                        viewModel.likeById(eventId = eventId, likedByMe = state.event.likedByMe)
+                        updateLikeByMe(binding = binding, event = state.event)
                     }
 
-                    onUpdatePostClicked(binding = binding, post = state.post)
+                    binding.participation.setOnClickListener {
+                        requireContext().singleVibrationWithSystemCheck(35L)
 
-                    callDisplayTextCopyBottomSheet(binding = binding, post = state.post)
-                    displayCommentBottomSheet(
-                        binding = binding,
-                        post = state.post,
-                        accountId = accountId
-                    )
+                        viewModel.participationById(
+                            eventId = eventId,
+                            participatedByMe = state.event.participatedByMe
+                        )
+                        updateParticipationByMe(binding = binding, event = state.event)
+                    }
 
-                    likesAdapter.submitList(state.post.likesListUsers)
+                    onUpdateEventClicked(binding = binding, event = state.event)
+
+                    callDisplayTextCopyBottomSheet(binding = binding, event = state.event)
+
+                    if (state.isSuccessLoad) {
+                        likesAdapter.submitList(state.event.likesListUsers)
+                        participationAdapter.submitList(state.event.participationListUsers)
+                    }
+
+                    if (state.isLikePressed) {
+                        likesAdapter.submitList(state.event.likesListUsers)
+                    }
+
+                    if (state.isParticipatePressed) {
+                        participationAdapter.submitList(state.event.participationListUsers)
+                    }
                 }
             }
             .launchIn(scope = viewLifecycleOwner.lifecycleScope)
     }
 
     private fun recyclerView(
-        binding: FragmentPostDetailsBinding,
-        likesAdapter: AvatarsAdapter
+        binding: FragmentEventDetailsBinding,
+        likesAdapter: AvatarsAdapter,
+        participationAdapter: AvatarsAdapter,
     ) {
         binding.likesRecyclerView.adapter = likesAdapter
         binding.likesRecyclerView.addItemDecoration(
@@ -160,44 +173,66 @@ class FragmentPostDetails : Fragment() {
                 orientation = LinearLayout.HORIZONTAL
             )
         )
+
+        binding.participationRecyclerView.adapter = participationAdapter
+        binding.participationRecyclerView.addItemDecoration(
+            OffsetDecorationLikesAvatar(
+                offsetLeft = -30,
+                orientation = LinearLayout.HORIZONTAL
+            )
+        )
     }
 
     private fun updateLikeByMe(
-        binding: FragmentPostDetailsBinding,
-        post: PostUiModel
+        binding: FragmentEventDetailsBinding,
+        event: EventUiModel,
     ) {
-        binding.like.isSelected = post.likedByMe
+        binding.like.isSelected = event.likedByMe
     }
 
-    private fun renderDataPost(
-        binding: FragmentPostDetailsBinding,
-        post: PostUiModel,
+    private fun updateParticipationByMe(
+        binding: FragmentEventDetailsBinding,
+        event: EventUiModel,
+    ) {
+        binding.participation.isSelected = event.participatedByMe
+    }
+
+    private fun renderDataEvent(
+        binding: FragmentEventDetailsBinding,
+        event: EventUiModel,
         accountId: Long,
     ) {
         binding.apply {
-            author.text = post.author
-            published.text = post.published
-            loginAndJob.text = post.authorJob ?: getString(R.string.user)
-            content.text = post.content
-            like.text = post.likes.toString()
-            buttonUpdate.isVisible = post.authorId == accountId
+            author.text = event.author
+            published.text = event.published
+            loginAndJob.text = event.authorJob ?: getString(R.string.user)
+            content.text = event.content
+            optionConducting.text = event.optionConducting
+            link.text = event.link
+            dateEvent.text = event.dateEvent
+            like.text = event.likes.toString()
+            participation.text = event.participates.toString()
+            buttonUpdate.isVisible = event.authorId == accountId
         }
     }
 
-    private fun onUpdatePostClicked(
-        binding: FragmentPostDetailsBinding,
-        post: PostUiModel
+    private fun onUpdateEventClicked(
+        binding: FragmentEventDetailsBinding,
+        event: EventUiModel,
     ) {
         binding.buttonUpdate.setOnClickListener {
             requireContext().singleVibrationWithSystemCheck(35L)
 
             requireParentFragment().findNavController()
                 .navigate(
-                    R.id.action_fragmentPostDetails_to_newOrUpdatePostFragment,
+                    R.id.action_fragmentEventDetails_to_newOrUpdateEventFragment,
                     bundleOf(
-                        NewOrUpdatePostFragment.POST_ID to post.id,
-                        NewOrUpdatePostFragment.POST_CONTENT to post.content,
-                        NewOrUpdatePostFragment.IS_UPDATE to true,
+                        NewOrUpdateEventFragment.EVENT_ID to event.id,
+                        NewOrUpdateEventFragment.EVENT_CONTENT to event.content,
+                        NewOrUpdateEventFragment.EVENT_LINK to event.link,
+                        NewOrUpdateEventFragment.EVENT_DATE to event.dateEvent,
+                        NewOrUpdateEventFragment.EVENT_OPTION to event.optionConducting,
+                        NewOrUpdateEventFragment.IS_UPDATE to true,
                     ),
                     NavOptions.Builder()
                         .setEnterAnim(R.anim.slide_in_right)
@@ -210,12 +245,12 @@ class FragmentPostDetails : Fragment() {
     }
 
     private fun renderImageStateAndSkeleton(
-        state: PostDetailsState,
-        binding: FragmentPostDetailsBinding
+        state: EventDetailsState,
+        binding: FragmentEventDetailsBinding,
     ) {
         binding.skeletonImageAttachment.showSkeleton()
 
-        state.post?.attachment?.let { attachment: Attachment ->
+        state.event?.attachment?.let { attachment: Attachment ->
             renderingImageAttachment(
                 binding = binding,
                 attachment = attachment,
@@ -227,7 +262,7 @@ class FragmentPostDetails : Fragment() {
     }
 
     private fun renderingImageAttachment(
-        binding: FragmentPostDetailsBinding,
+        binding: FragmentEventDetailsBinding,
         attachment: Attachment,
     ) {
         Glide.with(binding.root)
@@ -270,15 +305,15 @@ class FragmentPostDetails : Fragment() {
     }
 
     private fun renderingUserAvatar(
-        post: PostUiModel,
-        binding: FragmentPostDetailsBinding
+        binding: FragmentEventDetailsBinding,
+        event: EventUiModel,
     ) {
-        showPlaceholder(post = post, binding = binding)
+        showPlaceholder(event = event, binding = binding)
         binding.skeletonLayoutAvatar.showSkeleton()
 
-        if (!post.authorAvatar.isNullOrEmpty()) {
+        if (!event.authorAvatar.isNullOrEmpty()) {
             Glide.with(binding.root)
-                .load(post.authorAvatar)
+                .load(event.authorAvatar)
                 .circleCrop()
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .listener(object : RequestListener<Drawable> {
@@ -288,7 +323,7 @@ class FragmentPostDetails : Fragment() {
                         target: Target<Drawable>,
                         isFirstResource: Boolean
                     ): Boolean {
-                        showPlaceholder(post = post, binding = binding)
+                        showPlaceholder(event = event, binding = binding)
 
                         return false
                     }
@@ -310,20 +345,20 @@ class FragmentPostDetails : Fragment() {
                 .error(R.drawable.error_placeholder)
                 .thumbnail(
                     Glide.with(binding.root)
-                        .load(post.authorAvatar)
+                        .load(event.authorAvatar)
                         .override(50, 50)
                         .circleCrop()
                         .diskCacheStrategy(DiskCacheStrategy.ALL)
                 )
                 .into(binding.avatar)
         } else {
-            showPlaceholder(post = post, binding = binding)
+            showPlaceholder(event = event, binding = binding)
         }
     }
 
-    private fun showPlaceholder(binding: FragmentPostDetailsBinding, post: PostUiModel) {
+    private fun showPlaceholder(binding: FragmentEventDetailsBinding, event: EventUiModel) {
         binding.avatar.setImageResource(R.drawable.avatar_background)
-        binding.initial.text = initialsOfUsername(name = post.author)
+        binding.initial.text = initialsOfUsername(name = event.author)
         binding.initial.setTextColor(
             ContextCompat.getColor(
                 binding.root.context,
@@ -335,30 +370,43 @@ class FragmentPostDetails : Fragment() {
     }
 
     private fun callDisplayTextCopyBottomSheet(
-        binding: FragmentPostDetailsBinding,
-        post: PostUiModel,
+        binding: FragmentEventDetailsBinding,
+        event: EventUiModel,
     ) {
         binding.content.setOnClickListener {
-            requireContext().singleVibrationWithSystemCheck(35L)
-            displayTextCopyBottomSheet(post = post)
+            displayTextCopyBottomSheet(event = event)
+        }
+
+        binding.dateEvent.setOnClickListener {
+            displayTextCopyBottomSheet(event = event)
         }
 
         binding.published.setOnClickListener {
-            displayTextCopyBottomSheet(post = post)
+            displayTextCopyBottomSheet(event = event)
+        }
+
+        binding.optionConducting.setOnClickListener {
+            displayTextCopyBottomSheet(event = event)
         }
 
         binding.info.setOnClickListener {
             requireContext().singleVibrationWithSystemCheck(35L)
-            displayTextCopyBottomSheet(post = post)
+            displayTextCopyBottomSheet(event = event)
         }
     }
 
-    private fun displayTextCopyBottomSheet(post: PostUiModel) {
+    private fun displayTextCopyBottomSheet(event: EventUiModel) {
         val textCopyBottomSheetFragment = TextCopyBottomSheetFragment(
             textCopy = buildString {
-                append(post.author)
+                append(event.author)
                 append("\n\n")
-                append(post.content)
+                append(event.optionConducting)
+                append("\n")
+                append(event.dateEvent)
+                append("\n\n")
+                append(event.content)
+                append("\n\n")
+                append(event.link)
             }
         )
 
@@ -366,24 +414,5 @@ class FragmentPostDetails : Fragment() {
             parentFragmentManager,
             textCopyBottomSheetFragment.tag
         )
-    }
-
-    private fun displayCommentBottomSheet(
-        binding: FragmentPostDetailsBinding,
-        post: PostUiModel,
-        accountId: Long,
-    ) {
-        binding.comments.setOnClickListener {
-            val commentsBottomSheetFragment = CommentsBottomSheetFragment(
-                postId = post.id,
-                accountUserId = accountId,
-                isPostDetails = true
-            )
-
-            commentsBottomSheetFragment.show(
-                parentFragmentManager,
-                commentsBottomSheetFragment.tag
-            )
-        }
     }
 }

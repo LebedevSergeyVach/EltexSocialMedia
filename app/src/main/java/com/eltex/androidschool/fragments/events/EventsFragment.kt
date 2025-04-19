@@ -231,6 +231,23 @@ class EventsFragment : Fragment() {
                 }
             }
 
+            override fun onGetEventDetailsClicked(event: EventUiModel) {
+                requireParentFragment().requireParentFragment().findNavController()
+                    .navigate(
+                        R.id.action_BottomNavigationFragment_to_fragmentEventDetails,
+                        bundleOf(
+                            FragmentEventDetails.EVENT_ID to event.id,
+                            FragmentEventDetails.ACCOUNT_ID to accountViewModel.userId,
+                        ),
+                        NavOptions.Builder()
+                            .setEnterAnim(R.anim.slide_in_right)
+                            .setExitAnim(R.anim.slide_out_left)
+                            .setPopEnterAnim(R.anim.slide_in_left)
+                            .setPopExitAnim(R.anim.slide_out_right)
+                            .build()
+                    )
+            }
+
             override fun onRetryPageClicked() {
                 viewModel.accept(EventMessage.Retry)
             }

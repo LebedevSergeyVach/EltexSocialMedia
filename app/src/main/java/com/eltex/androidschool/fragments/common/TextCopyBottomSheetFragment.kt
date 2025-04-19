@@ -3,15 +3,20 @@ package com.eltex.androidschool.fragments.common
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Intent
+
 import android.os.Bundle
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+
 import androidx.core.content.ContextCompat
+
 import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentBottomSheetCopyTextBinding
 import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.extensions.toast
+
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
 class TextCopyBottomSheetFragment(
