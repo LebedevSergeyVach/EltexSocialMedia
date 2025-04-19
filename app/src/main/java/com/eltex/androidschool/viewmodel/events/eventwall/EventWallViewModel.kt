@@ -71,7 +71,7 @@ class EventWallViewModel @AssistedInject constructor(
      * Подписывается на изменения в Flow репозитория и обновляет состояние событий.
      */
     init {
-        loadEventsByAuthor(userId)
+        loadEventsByAuthor(authorId = userId)
     }
 
     /**
