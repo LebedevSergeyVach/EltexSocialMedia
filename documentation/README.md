@@ -84,6 +84,14 @@
   <img src="../assets/media/application/Comments_empty.jpg" alt="Comments" style="width: 250px; margin: 5px; border: 3px solid #000000; border-radius: 15px;" />
 </div>
 
+## Detailed viewing / Подробный просмотр
+
+<div style="display: flex; justify-content: space-between; align-items: center;">
+  <img src="../assets/media/application/Detailed_post.jpg" alt="Detailed viewing" style="width: 250px; margin: 5px; border: 3px solid #000000; border-radius: 15px;" />
+  <img src="../assets/media/application/Detailed_event.jpg" alt="Detailed viewing" style="width: 250px; margin: 5px; border: 3px solid #000000; border-radius: 15px;" />
+  <img src="../assets/media/application/Detailed_copy.jpg" alt="Detailed viewing" style="width: 250px; margin: 5px; border: 3px solid #000000; border-radius: 15px;" />
+</div>
+
 ---
 
 #### [README](README.md) [UP/ВВЕРХ](#up)

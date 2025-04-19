@@ -38,6 +38,7 @@ class EventUiModelMapper @Inject constructor(
                 author = author,
                 authorId = authorId,
                 authorAvatar = authorAvatar,
+                authorJob = authorJob,
                 published = dateTimeUiFormatter.format(instant = published),
                 optionConducting = optionConducting,
                 dateEvent = dateTimeUiFormatter.format(instant = dataEvent),

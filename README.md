@@ -65,7 +65,7 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 ### 🖼️ View images of the mobile app [**Eltex Social Media**](documentation/README.md).
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Version](https://img.shields.io/badge/Version-2.0.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v2.0.0)
+[![Version](https://img.shields.io/badge/Version-2.1.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v2.1.0)
 
 <details open="open">
     <summary><h2>🚀 The stack of technologies used</h2></summary>
@@ -106,6 +106,12 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 > - Watch the feed of events from all users.
 > - Please likes and participate in the event.
 >
+> ### **📱 Detailed viewing**
+> - See the detailed description of the posts and events.
+> - See who liked the event and who is participating in it.
+> - See the comments and share your comments.
+> - Please like and participate yourself.
+>
 > ### **💭 Comments**
 > - Share your opinion and information with other users of the app under the posts.
 > - - Write a new comment.
@@ -142,16 +148,16 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 >
 > ### **🚧 The project is under active development!**
 >
-> Application version 2.0.0
+> Application version 2.1.0
 > At the moment, work is underway to improve the functionality of the application, add new features to the project, as well as solve possible problems and bugs.
 >
 > ### 📅 Further development plans:
 > - Add features to the app for working with voice posts/events and videos.
 > - Improve caching of data downloaded from the server.
 > - Implement a fragment displaying data about a post/event:
-> - - Displaying information about a post/event;
-> - - Users who liked/participated;
-> - - Comments;
+> - - Displaying information about a post/event;- Completed!
+> - - Users who liked/participated;- Completed!
+> - - Comments;- Completed!
 > - - Displaying the location/event on the map;
 > - - Mentioning other users when creating a post/event.
 >
@@ -249,7 +255,7 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 ### 🖼️ Посмотреть изображения мобильного приложения [**Eltex Social Media**](documentation/README.md).
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Version](https://img.shields.io/badge/Version-2.0.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v2.0.0)
+[![Version](https://img.shields.io/badge/Version-2.1.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v2.1.0)
 
 <details open="open">
     <summary><h2>🚀 Стек используемых технологий</h2></summary>
@@ -290,6 +296,12 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 > - Смотрите ленту событий от всех пользователей.
 > - Ставьте лайки и участвуйте в мероприятии.
 > 
+> ### **📱 Подробный просмотр**
+> - Смотрите подробное описание постов и событий. 
+> - Посмотрите, кому понравилось мероприятие и кто в нем участвует.
+> - Смотрите комментарии и делитесь комментариями.
+> - Ставьте лайки и участвуйте сами.
+> 
 > ### **💭 Комментарии**
 > - Делитесь мнением и информацией с другими пользователями приложения под постами.
 > - - Пишите новый комментарий.
@@ -326,16 +338,16 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 >
 > ### **🚧 Проект находится в стадии активной разработки!**
 >
-> Версия приложения 2.0.0
+> Версия приложения 2.1.0
 > На данный момент идет работа над улучшением функциональности приложения, добавления новых фишек в проект, а также решение возможных проблем и багов.
 >
 > ### 📅 Планы дальнейшего развития:
 > - Добавить функции в приложение по работе с голосовыми постами/события и видео.
 > - Улучшить кэширование данных, загруженных с сервера.
 > - Реализовать фрагмент с отображением данных о посте/событии:
-> - - Отображение информации о посте/событии;
-> - - Пользователи, поставившие лайк/участие;
-> - - Комментарии;
+> - - Отображение информации о посте/событии; - Выполнено!
+> - - Пользователи, поставившие лайк/участие; - Выполнено!
+> - - Комментарии; - Выполнено!
 > - - Отображение места/проведения события на карте;
 > - - Упоминание других пользователей при создании поста/события.
 >
