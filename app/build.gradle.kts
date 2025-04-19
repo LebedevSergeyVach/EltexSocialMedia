@@ -376,4 +376,13 @@ dependencies {
      * implementation("io.insert-koin:koin-annotations:2.0.0")
      * ksp("io.insert-koin:koin-ksp-compiler:2.0.0")
      */
+
+    /**
+     * Authorize access to Google user data
+     *
+     * https://developer.android.com/identity/authorization
+     *
+     * implementation("com.google.android.gms:play-services-auth:21.3.0")
+     * implementation("com.google.android.gms:play-services-auth-api-phone:18.2.0")
+     */
 }
