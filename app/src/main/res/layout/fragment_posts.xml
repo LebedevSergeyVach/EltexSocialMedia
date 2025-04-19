@@ -85,7 +85,6 @@
             android:textStyle="bold"
             tools:text="ERROR NETWORK" />
 
-
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

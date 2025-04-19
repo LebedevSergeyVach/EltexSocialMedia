@@ -88,8 +88,8 @@
 
             android:layout_marginStart="16dp"
             android:layout_marginTop="4dp"
-            android:ellipsize="end"
 
+            android:ellipsize="end"
             android:maxLines="1"
             android:textSize="@dimen/size_text_sp"
 
@@ -173,6 +173,8 @@
 
         <TextView
             android:id="@+id/content"
+
+            style="@style/CustomTextViewStyle"
 
             android:layout_width="0dp"
             android:layout_height="wrap_content"

@@ -209,6 +209,8 @@
         <TextView
             android:id="@+id/content"
 
+            style="@style/CustomTextViewStyle"
+
             android:layout_width="0dp"
             android:layout_height="wrap_content"
 
@@ -235,6 +237,8 @@
             android:layout_marginTop="@dimen/indentation_between_main_objects"
 
             android:autoLink="web"
+            android:ellipsize="end"
+            android:maxLines="2"
             android:textColorLink="@color/active_element"
             android:textSize="@dimen/size_text_sp"
 

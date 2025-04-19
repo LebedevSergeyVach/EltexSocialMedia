@@ -7,6 +7,8 @@
 
     <string name="shared">Shared</string>
     <string name="save">Save</string>
+    <string name="copy">Copy</string>
+    <string name="text_is_copied">The text is copied</string>
 
     <string name="create_post">Create post</string>
     <string name="new_post_title">New Post</string>
@@ -19,6 +21,7 @@
     <string name="remove_image">Remove image</string>
     <string name="gallery">Gallery</string>
     <string name="camera">Camera</string>
+    <string name="likes">Likes</string>
 
     <string name="new_event_title">New event</string>
     <string name="save_event">Save event</string>
@@ -86,6 +89,7 @@
     <string name="compress_images_title">Image Compression</string>
     <string name="compress_images_description">Image compression practically does not degrade the quality. The image metadata is deleted and the image resolution is optimized.</string>
 
+    <!-- Error -->
     <string name="retry">Retry</string>
     <string name="network_error">Network error</string>
     <string name="unknown_error">Unknown error</string>

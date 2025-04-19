@@ -48,6 +48,14 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
 
+        <action
+            android:id="@+id/action_BottomNavigationFragment_to_fragmentPostDetails"
+            app:destination="@id/fragmentPostDetails"
+
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -91,6 +99,15 @@
         <action
             android:id="@+id/action_accountFragment_self"
             app:destination="@id/accountFragment"
+
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_accountFragment_to_fragmentPostDetails"
+            app:destination="@id/fragmentPostDetails"
 
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
@@ -170,6 +187,7 @@
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right"
+
         tools:layout="@layout/fragment_rules" />
 
     <action
@@ -180,4 +198,30 @@
         app:exitAnim="@anim/slide_out_left"
         app:popEnterAnim="@anim/slide_in_left"
         app:popExitAnim="@anim/slide_out_right" />
+
+    <fragment
+        android:id="@+id/fragmentPostDetails"
+        android:name="com.eltex.androidschool.fragments.posts.FragmentPostDetails"
+        android:label="@string/post"
+
+        tools:layout="@layout/fragment_post_details">
+
+        <action
+            android:id="@+id/action_fragmentPostDetails_to_newOrUpdatePostFragment"
+            app:destination="@id/newOrUpdatePostFragment"
+
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+        <action
+            android:id="@+id/action_fragmentPostDetails_to_accountFragment"
+            app:destination="@id/accountFragment"
+
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
 </navigation>

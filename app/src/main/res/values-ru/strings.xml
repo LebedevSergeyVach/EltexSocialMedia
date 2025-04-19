@@ -7,6 +7,8 @@
 
     <string name="shared">Поделиться</string>
     <string name="save">Сохранить</string>
+    <string name="copy">Копировать</string>
+    <string name="text_is_copied">Текст скопирован</string>
 
     <string name="create_post">Создать пост</string>
     <string name="new_post_title">Новый пост</string>
@@ -22,6 +24,8 @@
     <string name="image_compression_error">Ошибка сжатия изображения</string>
     <string name="image_compression_error_description">Не удалось сжать ваше изображение или данные изображение не найдено на устройстве. Пожалуйста, отключите сжатие изображение нажав на кнопку или в дополнительный настройках отправки изображения.</string>
     <string name="unplug">Отключить</string>
+    <string name="likes">Лайки</string>
+
     <string name="new_event_title">Новое событие</string>
     <string name="save_event">Сохранить событие</string>
     <string name="create_event">Создать событие</string>
