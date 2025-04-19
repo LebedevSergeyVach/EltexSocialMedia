@@ -2,22 +2,27 @@ package com.eltex.androidschool.viewmodel.posts.postdetails
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+
 import com.eltex.androidschool.data.posts.PostData
 import com.eltex.androidschool.repository.posts.PostRepository
 import com.eltex.androidschool.ui.common.DateTimeUiFormatter
 import com.eltex.androidschool.ui.posts.PostUiModel
 import com.eltex.androidschool.ui.posts.PostUiModelMapper
 import com.eltex.androidschool.viewmodel.status.StatusLoad
+
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.Dispatchers
+
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+
 import java.time.ZoneId
 
 @HiltViewModel(assistedFactory = PostDetailsViewModel.ViewModelFactory::class)
@@ -49,7 +54,9 @@ class PostDetailsViewModel @AssistedInject constructor(
             try {
                 val post: PostData = repository.getPostById(postId = postId)
 
-                val postUiModel: PostUiModel = mapper.map(post = post, mapListAvatarModel = true)
+                val postUiModel: PostUiModel = withContext(Dispatchers.Default) {
+                    mapper.map(post = post, mapListAvatarModel = true)
+                }
 
                 _state.update { statePostDetails: PostDetailsState ->
                     statePostDetails.copy(
@@ -82,7 +89,9 @@ class PostDetailsViewModel @AssistedInject constructor(
                     likedByMe = likedByMe,
                 )
 
-                val postUiModel: PostUiModel = mapper.map(post = post, mapListAvatarModel = true)
+                val postUiModel: PostUiModel = withContext(Dispatchers.Default) {
+                    mapper.map(post = post, mapListAvatarModel = true)
+                }
 
                 _state.update { statePostDetails: PostDetailsState ->
                     statePostDetails.copy(
@@ -97,14 +106,6 @@ class PostDetailsViewModel @AssistedInject constructor(
                     )
                 }
             }
-        }
-    }
-
-    fun consumerError() {
-        _state.update { statePostDetails: PostDetailsState ->
-            statePostDetails.copy(
-                statusLoadPost = StatusLoad.Idle,
-            )
         }
     }
 
