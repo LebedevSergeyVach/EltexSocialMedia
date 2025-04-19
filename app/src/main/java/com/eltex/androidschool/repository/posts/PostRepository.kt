@@ -95,4 +95,6 @@ interface PostRepository {
      * @return List<PostData> Список последних постов.
      */
     suspend fun getLatestPostsByAuthorId(authorId: Long, count: Int): List<PostData>
+
+    suspend fun getPostById(postId: Long): PostData
 }
