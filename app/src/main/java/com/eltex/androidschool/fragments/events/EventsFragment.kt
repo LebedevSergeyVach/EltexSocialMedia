@@ -31,8 +31,8 @@ import com.eltex.androidschool.ui.events.EventPagingMapper
 import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.utils.extensions.ErrorUtils.getErrorText
 import com.eltex.androidschool.utils.extensions.showMaterialDialogWithTwoButtons
+import com.eltex.androidschool.utils.extensions.showTopSnackbar
 import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
-import com.eltex.androidschool.utils.extensions.toast
 import com.eltex.androidschool.viewmodel.auth.user.AccountViewModel
 import com.eltex.androidschool.viewmodel.common.SharedViewModel
 import com.eltex.androidschool.viewmodel.events.events.EventMessage
@@ -290,7 +290,11 @@ class EventsFragment : Fragment() {
                     val singleErrorText: CharSequence =
                         eventState.singleError.getErrorText(requireContext())
 
-                    requireContext().toast(singleErrorText.toString())
+                    requireContext().showTopSnackbar(
+                        message = singleErrorText.toString(),
+                        iconRes = R.drawable.ic_cross_24,
+                        iconTintRes = R.color.error_color
+                    )
 
                     viewModel.accept(message = EventMessage.HandleError)
                 }

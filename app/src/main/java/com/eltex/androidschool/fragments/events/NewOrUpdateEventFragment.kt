@@ -51,11 +51,11 @@ import com.eltex.androidschool.utils.extensions.ErrorUtils.getErrorText
 import com.eltex.androidschool.utils.extensions.showMaterialDialog
 import com.eltex.androidschool.utils.extensions.showMaterialDialogWithTwoButtons
 import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
-import com.eltex.androidschool.utils.extensions.toast
 import com.eltex.androidschool.utils.extensions.vibrateWithEffect
 import com.eltex.androidschool.utils.helper.ImageHelper
 import com.eltex.androidschool.utils.helper.LoggerHelper
 import com.eltex.androidschool.data.media.FileModel
+import com.eltex.androidschool.utils.extensions.showTopSnackbar
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 import com.eltex.androidschool.viewmodel.events.newevent.NewEventState
 import com.eltex.androidschool.viewmodel.events.newevent.NewEventViewModel
@@ -420,7 +420,11 @@ class NewOrUpdateEventFragment : Fragment() {
                     )
                 } else {
                     requireContext().vibrateWithEffect(100L)
-                    requireContext().toast(R.string.error_text_event_is_empty)
+                    requireContext().showTopSnackbar(
+                        message = getString(R.string.error_text_event_is_empty),
+                        iconRes = R.drawable.ic_cross_24,
+                        iconTintRes = R.color.error_color
+                    )
                 }
 
                 toolbarViewModel.onSaveClicked(false)
@@ -502,11 +506,19 @@ class NewOrUpdateEventFragment : Fragment() {
                 newEventState.statusEvent.throwableOrNull?.getErrorText(requireContext())
                     ?.let { errorText: CharSequence? ->
                         if (errorText == getString(R.string.network_error)) {
-                            requireContext().toast(R.string.network_error)
+                            requireContext().showTopSnackbar(
+                                message = getString(R.string.network_error),
+                                iconRes = R.drawable.ic_cross_24,
+                                iconTintRes = R.color.error_color
+                            )
 
                             newEventViewModel.consumerError()
                         } else if (errorText == getString(R.string.unknown_error)) {
-                            requireContext().toast(R.string.unknown_error)
+                            requireContext().showTopSnackbar(
+                                message = getString(R.string.unknown_error),
+                                iconRes = R.drawable.ic_cross_24,
+                                iconTintRes = R.color.error_color
+                            )
 
                             newEventViewModel.consumerError()
                         }

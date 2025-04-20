@@ -338,8 +338,11 @@ class FragmentPostDetails : Fragment() {
         binding: FragmentPostDetailsBinding,
         post: PostUiModel,
     ) {
+        binding.imageAttachment.setOnClickListener {
+            displayTextCopyBottomSheet(post = post)
+        }
+
         binding.content.setOnClickListener {
-            requireContext().singleVibrationWithSystemCheck(35L)
             displayTextCopyBottomSheet(post = post)
         }
 
@@ -359,7 +362,8 @@ class FragmentPostDetails : Fragment() {
                 append(post.author)
                 append("\n\n")
                 append(post.content)
-            }
+            },
+            imageUrl = post.attachment?.url
         )
 
         textCopyBottomSheetFragment.show(

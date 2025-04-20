@@ -8,10 +8,6 @@
     <color name="gray">#545454</color>
     <color name="gray_element">#49454f</color>
 
-    <color name="background_color_of_the_refresh_circle">#f8f9fc</color>
-    <color name="inversion_black_white_theme">#000000</color>
-    <color name="toast_custom">#F1F1F1</color>
-
     <color name="soft_red">#FF4141</color>
     <color name="soft_blue">#3060FF</color>
 
@@ -20,7 +16,12 @@
     #0c5df3 #083ffe #3060FF
     <color name="active_element">@color/soft_blue</color>
 
+    <color name="background_color_of_the_refresh_circle">#f8f9fc</color>
+    <color name="inversion_black_white_theme">#000000</color>
+    <color name="toast_custom">#F1F1F1</color>
+    <color name="error_color">@color/soft_red</color>
     <color name="confetti_blue">#03A9F4</color>
     <color name="splash_screen">@color/white</color>
     <color name="gray_cross">#49454f</color>
+    <color name="snackbar_background">#E6AFA9B5</color>
 </resources>

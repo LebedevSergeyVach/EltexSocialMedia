@@ -24,7 +24,7 @@ import com.eltex.androidschool.R
 import com.eltex.androidschool.databinding.FragmentAuthorizationBinding
 import com.eltex.androidschool.fragments.common.ToolbarFragment
 import com.eltex.androidschool.utils.extensions.ErrorUtils.getErrorTextAuthorization
-import com.eltex.androidschool.utils.extensions.toast
+import com.eltex.androidschool.utils.extensions.showTopSnackbar
 import com.eltex.androidschool.viewmodel.auth.authorizations.AuthorizationState
 import com.eltex.androidschool.viewmodel.auth.authorizations.AuthorizationViewModel
 
@@ -124,7 +124,11 @@ class AuthorizationFragment : Fragment() {
 
                 state.statusAuthorization.throwableOrNull?.getErrorTextAuthorization(requireContext())
                     ?.let { errorText: CharSequence ->
-                        requireContext().toast(errorText.toString())
+                        requireContext().showTopSnackbar(
+                            message = errorText.toString(),
+                            iconRes = R.drawable.ic_cross_24,
+                            iconTintRes = R.color.error_color
+                        )
 
                         viewModel.consumerError()
                     }

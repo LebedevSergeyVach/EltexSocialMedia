@@ -65,7 +65,7 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 ### 🖼️ View images of the mobile app [**Eltex Social Media**](documentation/README.md).
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Version](https://img.shields.io/badge/Version-2.1.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v2.1.0)
+[![Version](https://img.shields.io/badge/Version-2.2.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v2.2.0)
 
 <details open="open">
     <summary><h2>🚀 The stack of technologies used</h2></summary>
@@ -111,6 +111,7 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 > - See who liked the event and who is participating in it.
 > - See the comments and share your comments.
 > - Please like and participate yourself.
+> - Download images from a post or event.
 >
 > ### **💭 Comments**
 > - Share your opinion and information with other users of the app under the posts.
@@ -148,7 +149,7 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 >
 > ### **🚧 The project is under active development!**
 >
-> Application version 2.1.0
+> Application version 2.2.0
 > At the moment, work is underway to improve the functionality of the application, add new features to the project, as well as solve possible problems and bugs.
 >
 > ### 📅 Further development plans:
@@ -255,7 +256,7 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 ### 🖼️ Посмотреть изображения мобильного приложения [**Eltex Social Media**](documentation/README.md).
 
 [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
-[![Version](https://img.shields.io/badge/Version-2.1.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v2.1.0)
+[![Version](https://img.shields.io/badge/Version-2.2.0-green.svg)](https://github.com/LebedevSergeyVach/EltexSocialMedia/releases/tag/v2.2.0)
 
 <details open="open">
     <summary><h2>🚀 Стек используемых технологий</h2></summary>
@@ -307,6 +308,7 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 > - - Пишите новый комментарий.
 > - - Удаляйте свои комментарии.
 > - Ставьте лайки другим комментариям.
+> - Скачивайте изображения из поста или мероприятия.
 >
 > ### **👤 Аккаунт**
 > - Регистрируете новый аккаунт:
@@ -338,7 +340,7 @@ The project uses [**ImageKit.io**](https://imagekit.io/) for image optimization 
 >
 > ### **🚧 Проект находится в стадии активной разработки!**
 >
-> Версия приложения 2.1.0
+> Версия приложения 2.2.0
 > На данный момент идет работа над улучшением функциональности приложения, добавления новых фишек в проект, а также решение возможных проблем и багов.
 >
 > ### 📅 Планы дальнейшего развития:

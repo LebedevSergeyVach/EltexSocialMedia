@@ -62,8 +62,8 @@ import com.eltex.androidschool.ui.posts.PostUiModel
 import com.eltex.androidschool.utils.extensions.ErrorUtils.getErrorText
 import com.eltex.androidschool.utils.common.initialsOfUsername
 import com.eltex.androidschool.utils.extensions.showMaterialDialogWithTwoButtons
+import com.eltex.androidschool.utils.extensions.showTopSnackbar
 import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
-import com.eltex.androidschool.utils.extensions.toast
 import com.eltex.androidschool.viewmodel.auth.user.AccountViewModel
 import com.eltex.androidschool.viewmodel.common.SharedViewModel
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
@@ -711,11 +711,19 @@ class AccountFragment : Fragment() {
                 binding.errorText.text = errorText
 
                 if (userState.isRefreshError && errorText == getString(R.string.network_error)) {
-                    requireContext().toast(R.string.network_error)
+                    requireContext().showTopSnackbar(
+                        message = getString(R.string.network_error),
+                        iconRes = R.drawable.ic_cross_24,
+                        iconTintRes = R.color.error_color
+                    )
 
                     userViewModel.consumerError()
                 } else if (userState.isRefreshError && errorText == getString(R.string.unknown_error)) {
-                    requireContext().toast(R.string.unknown_error)
+                    requireContext().showTopSnackbar(
+                        message = getString(R.string.unknown_error),
+                        iconRes = R.drawable.ic_cross_24,
+                        iconTintRes = R.color.error_color
+                    )
 
                     userViewModel.consumerError()
                 }

@@ -5,4 +5,5 @@
     <color name="toast_custom">#2e3133</color>
     <color name="splash_screen">@color/black</color>
     <color name="gray_cross">#cac4d0</color>
+    <color name="snackbar_background">#E6121212</color>
 </resources>

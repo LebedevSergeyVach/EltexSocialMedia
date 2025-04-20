@@ -33,8 +33,8 @@ import com.eltex.androidschool.ui.posts.PostPagingMapper
 import com.eltex.androidschool.ui.posts.PostUiModel
 import com.eltex.androidschool.utils.extensions.ErrorUtils.getErrorText
 import com.eltex.androidschool.utils.extensions.showMaterialDialogWithTwoButtons
+import com.eltex.androidschool.utils.extensions.showTopSnackbar
 import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
-import com.eltex.androidschool.utils.extensions.toast
 import com.eltex.androidschool.viewmodel.auth.user.AccountViewModel
 import com.eltex.androidschool.viewmodel.common.SharedViewModel
 import com.eltex.androidschool.viewmodel.posts.post.PostMessage
@@ -291,7 +291,11 @@ class PostsFragment : Fragment() {
                     val singleErrorText =
                         postState.singleError.getErrorText(requireContext())
 
-                    requireContext().toast(singleErrorText.toString())
+                    requireContext().showTopSnackbar(
+                        message = singleErrorText.toString(),
+                        iconRes = R.drawable.ic_cross_24,
+                        iconTintRes = R.color.error_color
+                    )
 
                     viewModel.accept(message = PostMessage.HandleError)
                 }
