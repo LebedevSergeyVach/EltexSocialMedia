@@ -48,10 +48,10 @@ import com.eltex.androidschool.fragments.common.SettingsBottomSheetFragment
 import com.eltex.androidschool.utils.extensions.ErrorUtils.getErrorText
 import com.eltex.androidschool.utils.extensions.showMaterialDialogWithTwoButtons
 import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
-import com.eltex.androidschool.utils.extensions.toast
 import com.eltex.androidschool.utils.extensions.vibrateWithEffect
 import com.eltex.androidschool.utils.helper.ImageHelper
 import com.eltex.androidschool.data.media.FileModel
+import com.eltex.androidschool.utils.extensions.showTopSnackbar
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 import com.eltex.androidschool.viewmodel.posts.newposts.NewPostState
 import com.eltex.androidschool.viewmodel.posts.newposts.NewPostViewModel
@@ -273,7 +273,11 @@ class NewOrUpdatePostFragment : Fragment() {
                     )
                 } else {
                     requireContext().vibrateWithEffect(100L)
-                    requireContext().toast(R.string.error_text_post_is_empty)
+                    requireContext().showTopSnackbar(
+                        message = getString(R.string.error_text_post_is_empty),
+                        iconRes = R.drawable.ic_cross_24,
+                        iconTintRes = R.color.error_color
+                    )
                 }
 
                 toolbarViewModel.onSaveClicked(false)
@@ -351,11 +355,19 @@ class NewOrUpdatePostFragment : Fragment() {
                 newPostState.statusPost.throwableOrNull?.getErrorText(requireContext())
                     ?.let { errorText: CharSequence? ->
                         if (errorText == getString(R.string.network_error)) {
-                            requireContext().toast(R.string.network_error)
+                            requireContext().showTopSnackbar(
+                                message = getString(R.string.network_error),
+                                iconRes = R.drawable.ic_cross_24,
+                                iconTintRes = R.color.error_color
+                            )
 
                             newPostVewModel.consumerError()
                         } else if (errorText == getString(R.string.unknown_error)) {
-                            requireContext().toast(R.string.unknown_error)
+                            requireContext().showTopSnackbar(
+                                message = getString(R.string.unknown_error),
+                                iconRes = R.drawable.ic_cross_24,
+                                iconTintRes = R.color.error_color
+                            )
 
                             newPostVewModel.consumerError()
                         }

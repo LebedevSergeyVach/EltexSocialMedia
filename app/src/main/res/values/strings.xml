@@ -1,6 +1,7 @@
 <resources>
-    <string name="app_name">Eltex Social Media</string>
+    <string name="app_name" translatable="false">Eltex Social Media</string>
     <string name="app_name_icon" translatable="false">Eltex Academy</string>
+    <string name="app_name_path" translatable="false">Eltex-Social-Media</string>
 
     <string name="app_not_found">Application not found</string>
     <string name="not_implemented">Not implemented</string>
@@ -9,6 +10,11 @@
     <string name="save">Save</string>
     <string name="copy">Copy</string>
     <string name="text_is_copied">The text is copied</string>
+    <string name="download_image">Download the image</string>
+    <string name="download_start">Download Start</string>
+    <string name="image_upload_error">Image upload error</string>
+    <string name="uploading_an_image">Uploading an image</string>
+    <string name="being_downloaded_please_wait">The file is being downloaded, please wait…</string>
 
     <string name="create_post">Create post</string>
     <string name="new_post_title">New Post</string>
@@ -194,7 +200,7 @@
     <string name="repository_on_Github">The repository on Github</string>
     <string name="v1_0_0_description">The first version of the Eltex Social Media application has been released. The application is a social network that will allow users to create posts and events, indicate their places of work.\n\nThe version has been updated to stable version 1.0.2. Fixes: animation of avatar loading, switching to the system language in the application settings.</string>
     <string name="v1_1_0_description">Updates:\n\n• Added the ability to compress the image size before sending: the image metadata is deleted, and the image resolution is optimized.\n\n• The backend application runs on its own server.\n\n• The application usage rules and the user agreement have been added.\n\n• Animations and UI components in the app have been updated.</string>
-    <string name="v2_0_0_description">A new version of the app has been released 2.0!\n\nMajor updates:\n\n• Added comments to posts. Share your opinion and information with other users of the app under the posts!\n\n• Added detailed views of the description of posts and events. See who liked the event and who is participating in it! Please like and participate yourself!\n\nAdditional changes:\n\n• Animations and some of the visual content have been redesigned.\n\n• The application has been optimized and bugs fixed.</string>
+    <string name="v2_0_0_description">A new version of the app has been released 2.2!\n\nMajor updates:\n\n• Added comments to posts. Share your opinion and information with other users of the app under the posts!\n\n• Added detailed views of the description of posts and events. See who liked the event and who is participating in it! Please like and participate yourself!\n\n• Added the ability to download images from a post or event!\n\nAdditional changes:\n\n• Animations and some of the visual content have been redesigned.\n\n• The application has been optimized and bugs fixed.</string>
 
     <!-- Rules -->
     <string name="rules">Rules</string>

@@ -384,6 +384,10 @@ class FragmentEventDetails : Fragment() {
         binding: FragmentEventDetailsBinding,
         event: EventUiModel,
     ) {
+        binding.imageAttachment.setOnClickListener {
+            displayTextCopyBottomSheet(event = event)
+        }
+
         binding.content.setOnClickListener {
             displayTextCopyBottomSheet(event = event)
         }
@@ -418,7 +422,8 @@ class FragmentEventDetails : Fragment() {
                 append(event.content)
                 append("\n\n")
                 append(event.link)
-            }
+            },
+            imageUrl = event.attachment?.url
         )
 
         textCopyBottomSheetFragment.show(

@@ -74,7 +74,7 @@
                     android:textIsSelectable="true"
                     android:textSize="16sp"
 
-                    tools:text="@tools:sample/lorem[200]" />
+                    tools:text="@tools:sample/lorem[100]" />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -125,6 +125,52 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardDownloadImage"
+
+                style="@style/Style.MaterialCardView.Additional"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="12dp"
+
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardCopyText">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="14dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+
+                        android:layout_weight="1"
+
+                        android:gravity="start"
+                        android:text="@string/download_image"
+                        android:textSize="18sp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="8dp"
+
+                        android:src="@drawable/ic_download_24"
+                        app:tint="@color/active_element" />
+
+                </LinearLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardShareText"
 
                 style="@style/Style.MaterialCardView.Additional"
@@ -133,12 +179,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="16dp"
                 android:layout_marginTop="12dp"
-                android:layout_marginBottom="80dp"
+                android:layout_marginBottom="64dp"
 
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/cardCopyText">
+                app:layout_constraintTop_toBottomOf="@id/cardDownloadImage">
 
                 <LinearLayout
                     android:layout_width="match_parent"

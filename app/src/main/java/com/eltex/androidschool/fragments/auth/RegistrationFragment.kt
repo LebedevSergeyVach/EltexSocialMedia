@@ -39,10 +39,10 @@ import com.eltex.androidschool.data.common.AttachmentTypeFile
 import com.eltex.androidschool.databinding.FragmentRegistrationBinding
 import com.eltex.androidschool.fragments.common.ToolbarFragment
 import com.eltex.androidschool.utils.extensions.ErrorUtils.getErrorTextRegistration
-import com.eltex.androidschool.utils.extensions.toast
 import com.eltex.androidschool.viewmodel.auth.registration.RegistrationState
 import com.eltex.androidschool.viewmodel.auth.registration.RegistrationViewModel
 import com.eltex.androidschool.data.media.FileModel
+import com.eltex.androidschool.utils.extensions.showTopSnackbar
 
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -91,7 +91,11 @@ class RegistrationFragment : Fragment() {
             val password = binding.textPasswordUser.text?.toString().orEmpty().trimStart().trimEnd()
 
             if (containsForbiddenWords(login) || containsForbiddenWords(username)) {
-                requireContext().toast(getString(R.string.you_cant_use_admin_in_login_or_username))
+                requireContext().showTopSnackbar(
+                    getString(R.string.you_cant_use_admin_in_login_or_username),
+                    iconRes = R.drawable.ic_cross_24,
+                    iconTintRes = R.color.error_color
+                )
             } else {
                 viewModel.register(
                     login = login,
@@ -159,7 +163,11 @@ class RegistrationFragment : Fragment() {
                     requireContext()
                 )
                     ?.let { errorText: CharSequence ->
-                        requireContext().toast(errorText.toString())
+                        requireContext().showTopSnackbar(
+                            message = errorText.toString(),
+                            iconRes = R.drawable.ic_cross_24,
+                            iconTintRes = R.color.error_color
+                        )
 
                         viewModel.consumerError()
                     }

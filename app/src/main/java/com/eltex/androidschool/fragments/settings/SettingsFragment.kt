@@ -39,7 +39,6 @@ import com.eltex.androidschool.utils.helper.LoggerHelper
 import com.eltex.androidschool.utils.extensions.showMaterialDialog
 import com.eltex.androidschool.utils.extensions.showMaterialDialogWithTwoButtons
 import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
-import com.eltex.androidschool.utils.extensions.toast
 import com.eltex.androidschool.viewmodel.common.ToolBarViewModel
 
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,6 +46,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import java.io.File
 import java.util.Locale
 import androidx.core.content.edit
+import com.eltex.androidschool.utils.extensions.showTopSnackbar
 
 /**
  * Фрагмент для настройки приложения.
@@ -670,6 +670,9 @@ class SettingsFragment : Fragment() {
         requireContext().singleVibrationWithSystemCheck(35L)
         clearCache(requireContext())
         updateCacheSize(binding = binding, anime = true)
-        requireContext().toast(R.string.cleared_cache)
+        requireContext().showTopSnackbar(
+            message = getString(R.string.cleared_cache),
+            iconRes = R.drawable.ic_check_24,
+        )
     }
 }
