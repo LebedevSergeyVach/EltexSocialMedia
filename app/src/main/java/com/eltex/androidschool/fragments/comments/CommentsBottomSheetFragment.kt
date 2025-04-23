@@ -32,7 +32,7 @@ import com.eltex.androidschool.utils.extensions.ErrorUtils.getErrorText
 import com.eltex.androidschool.utils.extensions.createSkeletonConfig
 import com.eltex.androidschool.utils.extensions.getCommentsText
 import com.eltex.androidschool.utils.extensions.showMaterialDialogWithTwoButtons
-import com.eltex.androidschool.utils.extensions.toast
+import com.eltex.androidschool.utils.extensions.showTopSnackbar
 import com.eltex.androidschool.utils.extensions.vibrateWithEffect
 import com.eltex.androidschool.utils.helper.LoggerHelper
 import com.eltex.androidschool.viewmodel.comments.CommentsState
@@ -228,7 +228,12 @@ class CommentsBottomSheetFragment(
                     binding.errorText.text = error.getErrorText(requireContext())
 
                     if (stateComments.isRefreshError) {
-                        requireContext().toast(binding.errorText.text.toString())
+                        binding.root.showTopSnackbar(
+                            message = binding.errorText.text.toString(),
+                            iconRes = R.drawable.ic_cross_24,
+                            iconTintRes = R.color.error_color,
+                        )
+
                         viewModel.consumerError()
                     }
                 }
@@ -291,7 +296,11 @@ class CommentsBottomSheetFragment(
                 }, 100)
             } else {
                 requireContext().vibrateWithEffect(100L)
-                requireContext().toast(R.string.error_text_event_is_empty)
+                binding.root.showTopSnackbar(
+                    message = getString(R.string.error_text_event_is_empty),
+                    iconRes = R.drawable.ic_cross_24,
+                    iconTintRes = R.color.error_color,
+                )
             }
         }
     }
