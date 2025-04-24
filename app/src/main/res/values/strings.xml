@@ -179,7 +179,10 @@
     <string name="back_authorization">Go back to logging in to your account</string>
     <string name="the_user_is_already_registered">The user is already registered</string>
     <string name="incorrect_photo_format">Incorrect photo format</string>
-    <string name="you_cant_use_admin_in_login_or_username">You cannot use admin in login or username</string>
+    <string name="you_cant_use_admin_in_login_or_username">You cannot use admin in login or username.</string>
+    <string name="login_length_error">Login must be between %1$d and %2$d characters.</string>
+    <string name="username_length_error">Username must be between %1$d and %2$d characters.</string>
+    <string name="password_length_error">Password must be between %1$d and %2$d characters.</string>
 
     <!-- Comments -->
     <string name="comments">Comments</string>

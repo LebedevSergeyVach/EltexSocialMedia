@@ -175,7 +175,10 @@
     <string name="back_authorization">Вернуться ко входу в аккаунт</string>
     <string name="the_user_is_already_registered">Пользователь уже зарегистрирован</string>
     <string name="incorrect_photo_format">Неправильный формат фотографии</string>
-    <string name="you_cant_use_admin_in_login_or_username">Нельзя использовать admin в login или имени</string>
+    <string name="you_cant_use_admin_in_login_or_username">Нельзя использовать admin в логине или имени пользователя.</string>
+    <string name="login_length_error">Длина логина должна составлять от %1$d до %2$d символов.</string>
+    <string name="username_length_error">Длина имени пользователя должна составлять от %1$d до %2$d символов.</string>
+    <string name="password_length_error">Пароль должен содержать от %1$d до %2$d символов.</string>
 
     <!-- Комментарии -->
     <string name="comments">Комментарии</string>

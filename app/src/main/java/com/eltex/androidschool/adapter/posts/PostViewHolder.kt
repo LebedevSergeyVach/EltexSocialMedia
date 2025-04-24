@@ -35,6 +35,7 @@ import com.eltex.androidschool.ui.common.PagingModel
 import com.eltex.androidschool.ui.posts.PostPagingModel
 import com.eltex.androidschool.ui.posts.PostUiModel
 import com.eltex.androidschool.utils.common.initialsOfUsername
+import com.eltex.androidschool.utils.extensions.showTopSnackbar
 import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.extensions.toast
 
@@ -256,7 +257,10 @@ class PostViewHolder(
      *             и содержимое поста.
      */
     private fun sharePost(post: PostUiModel) {
-        context.toast(R.string.shared)
+        context.showTopSnackbar(
+            message = context.getString(R.string.shared),
+            iconRes = R.drawable.ic_share_24
+        )
 
         val intent = Intent.createChooser(
             Intent(Intent.ACTION_SEND)

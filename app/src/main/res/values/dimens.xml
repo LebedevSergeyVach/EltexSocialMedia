@@ -16,4 +16,7 @@
     <dimen name="margin_horizontal_for_InputLayout_authorization_16">16dp</dimen>
     <dimen name="marginTopNoDataListAccount">150dp</dimen>
     <dimen name="margin_vertical_rules_6dp">6dp</dimen>
+    <dimen name="margin_bottom_keyboard_hidden">60dp</dimen>
+    <dimen name="margin_bottom_keyboard_shown_auth">280dp</dimen>
+    <dimen name="margin_bottom_keyboard_shown_register">240dp</dimen>
 </resources>

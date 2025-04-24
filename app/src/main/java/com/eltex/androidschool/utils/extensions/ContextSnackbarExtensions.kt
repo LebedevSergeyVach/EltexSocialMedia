@@ -72,7 +72,8 @@ fun Context.showTopSnackbar(
     message: String,
     short: Boolean = true,
     @DrawableRes iconRes: Int? = null,
-    @ColorRes iconTintRes: Int = R.color.active_element
+    @ColorRes iconTintRes: Int = R.color.active_element,
+    top: Boolean = false
 ) {
     // Получаем root View из Activity
     val rootView = when (this) {
@@ -91,7 +92,11 @@ fun Context.showTopSnackbar(
     snackbar.view.apply {
         setBackgroundColor(Color.TRANSPARENT)
         (layoutParams as? FrameLayout.LayoutParams)?.apply {
-            gravity = Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+            gravity = if (top) {
+                Gravity.TOP or Gravity.CENTER_HORIZONTAL
+            } else {
+                Gravity.BOTTOM or Gravity.CENTER_HORIZONTAL
+            }
             bottomMargin = 32.dpToPx(this@showTopSnackbar)// Добавляем отступ снизу
         }
     }

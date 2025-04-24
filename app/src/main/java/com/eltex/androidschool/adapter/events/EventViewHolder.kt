@@ -36,6 +36,7 @@ import com.eltex.androidschool.databinding.CardEventBinding
 import com.eltex.androidschool.ui.common.PagingModel
 import com.eltex.androidschool.ui.events.EventUiModel
 import com.eltex.androidschool.utils.common.initialsOfUsername
+import com.eltex.androidschool.utils.extensions.showTopSnackbar
 import com.eltex.androidschool.utils.extensions.singleVibrationWithSystemCheck
 import com.eltex.androidschool.utils.extensions.toast
 
@@ -270,7 +271,10 @@ class EventViewHolder(
      * @see buttonClickAnimation Выполняет анимацию кнопки с эффектом конфетти и вибрацией.
      */
     private fun shareEvent(event: EventUiModel) {
-        context.toast(R.string.shared)
+        context.showTopSnackbar(
+            message = context.getString(R.string.shared),
+            iconRes = R.drawable.ic_share_24
+        )
 
         val intent = Intent.createChooser(
             Intent(Intent.ACTION_SEND)
