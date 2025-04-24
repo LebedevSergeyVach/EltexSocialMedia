@@ -1,16 +1,23 @@
 package com.eltex.androidschool.fragments.auth
 
+import android.animation.ValueAnimator
 import android.os.Bundle
+
 import android.text.Editable
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.autofill.AutofillManager
 
 import androidx.activity.OnBackPressedCallback
 
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
+
 import androidx.core.widget.doAfterTextChanged
 
 import androidx.fragment.app.Fragment
@@ -44,6 +51,12 @@ class AuthorizationFragment : Fragment() {
     ): View {
         val binding = FragmentAuthorizationBinding.inflate(inflater, container, false)
 
+        // Инициализируем значения размерностей в пикселях
+        val marginBottomKeyboardHiddenPx: Int =
+            resources.getDimensionPixelSize(R.dimen.margin_bottom_keyboard_hidden)
+        val marginBottomKeyboardShownPx: Int =
+            resources.getDimensionPixelSize(R.dimen.margin_bottom_keyboard_shown_auth)
+
         // Инициализация AutofillManager
         val autofillManager = requireContext().getSystemService(AutofillManager::class.java)
 
@@ -72,10 +85,15 @@ class AuthorizationFragment : Fragment() {
                     R.anim.slide_in_left,
                     R.anim.slide_out_right
                 )
+//                replace(R.id.container, RegistrationFragment())
+//                setReorderingAllowed(true)
+//                setPrimaryNavigationFragment(this@AuthorizationFragment)
+//                remove(this@AuthorizationFragment)
+
                 replace(R.id.container, RegistrationFragment())
                 setReorderingAllowed(true)
-                setPrimaryNavigationFragment(this@AuthorizationFragment)
-                remove(this@AuthorizationFragment)
+                // Вместо remove, добавляем текущий фрагмент (AuthorizationFragment) в стек возврата
+                addToBackStack(null) // Использование null в качестве имени стека возврата
             }
         }
 
@@ -88,6 +106,12 @@ class AuthorizationFragment : Fragment() {
                     requireActivity().finish()
                 }
             })
+
+        keyboardTrackingLogic(
+            binding = binding,
+            marginBottomKeyboardShownPx = marginBottomKeyboardShownPx,
+            marginBottomKeyboardHiddenPx = marginBottomKeyboardHiddenPx
+        )
 
         return binding.root
     }
@@ -136,6 +160,45 @@ class AuthorizationFragment : Fragment() {
                 state.statusAuthorization
             }
             .launchIn(viewLifecycleOwner.lifecycleScope)
+    }
+
+    private fun keyboardTrackingLogic(
+        binding: FragmentAuthorizationBinding,
+        marginBottomKeyboardShownPx: Int,
+        marginBottomKeyboardHiddenPx: Int
+    ) {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
+            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            // Высота клавиатуры - учитываем системные бары, которые могут быть перекрыты клавиатурой
+            val keyboardHeight = imeInsets.bottom - systemBarsInsets.bottom
+
+            val targetMarginBottom = if (keyboardHeight > 0) {
+                marginBottomKeyboardShownPx
+            } else {
+                marginBottomKeyboardHiddenPx
+            }
+
+            val currentMarginBottom = (binding.cardDataEntryUser.layoutParams as? ViewGroup.MarginLayoutParams)?.bottomMargin ?: 0
+
+            if (currentMarginBottom != targetMarginBottom) {
+                ValueAnimator.ofInt(currentMarginBottom, targetMarginBottom).apply {
+                    addUpdateListener { animator ->
+                        val animatedValue = animator.animatedValue as Int
+                        binding.cardDataEntryUser.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                            bottomMargin = animatedValue
+                        }
+                    }
+                    duration = 300 // Adjust the duration as needed (in milliseconds)
+                    interpolator = AccelerateDecelerateInterpolator() // Optional: Add an interpolator
+                    start()
+                }
+            }
+
+            // Важно: вернуть Insets, чтобы другие View в иерархии могли их обработать
+            insets
+        }
     }
 
     /**

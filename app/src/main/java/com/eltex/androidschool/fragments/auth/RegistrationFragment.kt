@@ -1,13 +1,16 @@
 package com.eltex.androidschool.fragments.auth
 
+import android.animation.ValueAnimator
 import android.graphics.drawable.Drawable
 
 import android.net.Uri
+
 import android.os.Bundle
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
 
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.PickVisualMediaRequest
@@ -15,7 +18,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.PickVisualMedia.ImageOnly
 
 import androidx.core.content.FileProvider
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import androidx.core.widget.doAfterTextChanged
 
 import androidx.fragment.app.Fragment
@@ -36,13 +42,13 @@ import com.bumptech.glide.request.target.Target
 import com.eltex.androidschool.BuildConfig
 import com.eltex.androidschool.R
 import com.eltex.androidschool.data.common.AttachmentTypeFile
+import com.eltex.androidschool.data.media.FileModel
 import com.eltex.androidschool.databinding.FragmentRegistrationBinding
 import com.eltex.androidschool.fragments.common.ToolbarFragment
 import com.eltex.androidschool.utils.extensions.ErrorUtils.getErrorTextRegistration
+import com.eltex.androidschool.utils.extensions.showTopSnackbar
 import com.eltex.androidschool.viewmodel.auth.registration.RegistrationState
 import com.eltex.androidschool.viewmodel.auth.registration.RegistrationViewModel
-import com.eltex.androidschool.data.media.FileModel
-import com.eltex.androidschool.utils.extensions.showTopSnackbar
 
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -61,6 +67,12 @@ class RegistrationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         val binding = FragmentRegistrationBinding.inflate(inflater, container, false)
+
+        // Инициализируем значения размерностей в пикселях
+        val marginBottomKeyboardHiddenPx: Int =
+            resources.getDimensionPixelSize(R.dimen.margin_bottom_keyboard_hidden)
+        val marginBottomKeyboardShownPx: Int =
+            resources.getDimensionPixelSize(R.dimen.margin_bottom_keyboard_shown_register)
 
         val takePictureGalleryContract: ActivityResultLauncher<PickVisualMediaRequest> =
             registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri: Uri? ->
@@ -86,27 +98,7 @@ class RegistrationFragment : Fragment() {
         setupAutofillHints(binding)
 
         binding.buttonRegistrationAccount.setOnClickListener {
-            val login = binding.textLoginUser.text?.toString().orEmpty().trimStart().trimEnd()
-            val username = binding.textNameUser.text?.toString().orEmpty().trimStart().trimEnd()
-            val password = binding.textPasswordUser.text?.toString().orEmpty().trimStart().trimEnd()
-
-            if (containsForbiddenWords(login) || containsForbiddenWords(username)) {
-                requireContext().showTopSnackbar(
-                    getString(R.string.you_cant_use_admin_in_login_or_username),
-                    iconRes = R.drawable.ic_cross_24,
-                    iconTintRes = R.color.error_color
-                )
-            } else {
-                viewModel.register(
-                    login = login,
-                    username = username,
-                    password = password,
-                    contentResolver = requireContext().contentResolver,
-                    onProgress = { progress ->
-                        binding.progressBar.setProgressCompat(progress, true)
-                    }
-                )
-            }
+            clickButtonRegistrationAccount(binding = binding)
         }
 
         binding.buttonToAuthorizationAccount.setOnClickListener {
@@ -125,6 +117,12 @@ class RegistrationFragment : Fragment() {
         }
 
         viewModelStateLifecycle(binding = binding)
+
+        keyboardTrackingLogic(
+            binding = binding,
+            marginBottomKeyboardShownPx = marginBottomKeyboardShownPx,
+            marginBottomKeyboardHiddenPx = marginBottomKeyboardHiddenPx
+        )
 
         return binding.root
     }
@@ -159,18 +157,43 @@ class RegistrationFragment : Fragment() {
                     }
                 }
 
-                state.statusRegistration.throwableOrNull?.getErrorTextRegistration(
-                    requireContext()
-                )
-                    ?.let { errorText: CharSequence ->
+                // Обработка ошибок, включая ошибки валидации длины
+                state.statusRegistration.throwableOrNull?.let { throwable ->
+                    val errorText = when {
+                        throwable is IllegalArgumentException && throwable.message?.contains("Login must be between") == true ->
+                            getString(
+                                R.string.login_length_error,
+                                viewModel.getMinLengthLoginUsername(),
+                                viewModel.getMaxLengthLoginUsername()
+                            )
+
+                        throwable is IllegalArgumentException && throwable.message?.contains("Username must be between") == true ->
+                            getString(
+                                R.string.username_length_error,
+                                viewModel.getMinLengthLoginUsername(),
+                                viewModel.getMaxLengthLoginUsername()
+                            )
+
+                        throwable is IllegalArgumentException && throwable.message?.contains("Password must be between") == true ->
+                            getString(
+                                R.string.password_length_error,
+                                viewModel.getMinLengthPassword(),
+                                viewModel.getMaxLengthPassword()
+                            )
+
+                        else -> throwable.getErrorTextRegistration(requireContext()).toString()
+                    }
+
+                    if (errorText.isNotBlank()) {
                         requireContext().showTopSnackbar(
-                            message = errorText.toString(),
+                            message = errorText,
                             iconRes = R.drawable.ic_cross_24,
                             iconTintRes = R.color.error_color
                         )
-
-                        viewModel.consumerError()
                     }
+
+                    viewModel.consumerError()
+                }
 
                 when (state.file?.type) {
                     AttachmentTypeFile.IMAGE -> {
@@ -235,6 +258,100 @@ class RegistrationFragment : Fragment() {
             .launchIn(viewLifecycleOwner.lifecycleScope)
     }
 
+    private fun clickButtonRegistrationAccount(binding: FragmentRegistrationBinding) {
+        val login = binding.textLoginUser.text?.toString().orEmpty().trimStart().trimEnd()
+        val username = binding.textNameUser.text?.toString().orEmpty().trimStart().trimEnd()
+        val password = binding.textPasswordUser.text?.toString().orEmpty().trimStart().trimEnd()
+
+        // Переносим логику валидации в ViewModel и проверяем перед вызовом register
+        if (viewModel.containsForbiddenWords(login) || viewModel.containsForbiddenWords(username)) {
+            requireContext().showTopSnackbar(
+                getString(R.string.you_cant_use_admin_in_login_or_username),
+                iconRes = R.drawable.ic_cross_24,
+                iconTintRes = R.color.error_color
+            )
+        } else if (!viewModel.isLoginLengthValid(login)) {
+            requireContext().showTopSnackbar(
+                getString(
+                    R.string.login_length_error,
+                    viewModel.getMinLengthLoginUsername(),
+                    viewModel.getMaxLengthLoginUsername()
+                ),
+                iconRes = R.drawable.ic_cross_24,
+                iconTintRes = R.color.error_color
+            )
+        } else if (!viewModel.isUsernameLengthValid(username)) {
+            requireContext().showTopSnackbar(
+                getString(
+                    R.string.username_length_error,
+                    viewModel.getMinLengthLoginUsername(),
+                    viewModel.getMaxLengthLoginUsername()
+                ),
+                iconRes = R.drawable.ic_cross_24,
+                iconTintRes = R.color.error_color
+            )
+        } else if (!viewModel.isPasswordLengthValid(password)) {
+            requireContext().showTopSnackbar(
+                getString(
+                    R.string.password_length_error,
+                    viewModel.getMinLengthPassword(),
+                    viewModel.getMaxLengthPassword()
+                ),
+                iconRes = R.drawable.ic_cross_24,
+                iconTintRes = R.color.error_color
+            )
+        } else {
+            viewModel.register(
+                login = login,
+                username = username,
+                password = password,
+                contentResolver = requireContext().contentResolver,
+                onProgress = { progress ->
+                    binding.progressBar.setProgressCompat(progress, true)
+                }
+            )
+        }
+    }
+
+    private fun keyboardTrackingLogic(
+        binding: FragmentRegistrationBinding,
+        marginBottomKeyboardShownPx: Int,
+        marginBottomKeyboardHiddenPx: Int
+    ) {
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime())
+            val systemBarsInsets = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+
+            // Высота клавиатуры - учитываем системные бары, которые могут быть перекрыты клавиатурой
+            val keyboardHeight = imeInsets.bottom - systemBarsInsets.bottom
+
+            val targetMarginBottom = if (keyboardHeight > 0) {
+                marginBottomKeyboardShownPx
+            } else {
+                marginBottomKeyboardHiddenPx
+            }
+
+            val currentMarginBottom = (binding.cardDataEntryUser.layoutParams as? ViewGroup.MarginLayoutParams)?.bottomMargin ?: 0
+
+            if (currentMarginBottom != targetMarginBottom) {
+                ValueAnimator.ofInt(currentMarginBottom, targetMarginBottom).apply {
+                    addUpdateListener { animator ->
+                        val animatedValue = animator.animatedValue as Int
+                        binding.cardDataEntryUser.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                            bottomMargin = animatedValue
+                        }
+                    }
+                    duration = 300 // Adjust the duration as needed (in milliseconds)
+                    interpolator = AccelerateDecelerateInterpolator() // Optional: Add an interpolator
+                    start()
+                }
+            }
+
+            // Важно: вернуть Insets, чтобы другие View в иерархии могли их обработать
+            insets
+        }
+    }
+
     /**
      * Мониторит изменения в полях ввода и обновляет состояние кнопки.
      *
@@ -275,20 +392,6 @@ class RegistrationFragment : Fragment() {
                 username = username,
                 password = password,
             )
-        }
-    }
-
-    /**
-     * Проверяет, содержит ли строка запрещенные слова ("admin" или "админ") в любом регистре.
-     *
-     * @param input Строка для проверки.
-     * @return `true`, если строка содержит запрещенные слова, иначе `false`.
-     */
-    private fun containsForbiddenWords(input: String): Boolean {
-        val forbiddenWords = listOf("admin", "админ")
-
-        return forbiddenWords.any { word ->
-            input.contains(word, ignoreCase = true)
         }
     }
 

@@ -44,4 +44,6 @@ interface AuthRepository {
         contentResolver: ContentResolver,
         onProgress: (Int) -> Unit,
     ): AuthData
+
+    fun getProhibitedUsernamesAndNicknames(): List<String>
 }

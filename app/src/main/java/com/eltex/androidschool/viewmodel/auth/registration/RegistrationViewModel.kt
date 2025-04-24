@@ -32,6 +32,20 @@ class RegistrationViewModel @Inject constructor(
     private val repository: AuthRepository,
 ) : ViewModel() {
 
+    companion object {
+        // Константы для минимальной и максимальной длины полей
+        private const val MIN_LENGTH_LOGIN_USERNAME = 4
+        private const val MAX_LENGTH_LOGIN_USERNAME = 25
+        private const val MIN_LENGTH_PASSWORD = 12
+        private const val MAX_LENGTH_PASSWORD = 25
+    }
+
+    // Предоставляем доступ к константам длины, если они нужны в Fragment для сообщений
+    fun getMinLengthLoginUsername(): Int = MIN_LENGTH_LOGIN_USERNAME
+    fun getMaxLengthLoginUsername(): Int = MAX_LENGTH_LOGIN_USERNAME
+    fun getMinLengthPassword(): Int = MIN_LENGTH_PASSWORD
+    fun getMaxLengthPassword(): Int = MAX_LENGTH_PASSWORD
+
     /**
      * Внутренний [MutableStateFlow], хранящий состояние регистрации.
      */
@@ -58,6 +72,20 @@ class RegistrationViewModel @Inject constructor(
         contentResolver: ContentResolver,
         onProgress: (Int) -> Unit
     ) {
+        // Проверка длины перед началом регистрации
+        if (!isLoginLengthValid(login)) {
+            _state.update { it.copy(statusRegistration = StatusLoad.Error(IllegalArgumentException("Login must be between $MIN_LENGTH_LOGIN_USERNAME and $MAX_LENGTH_LOGIN_USERNAME characters."))) }
+            return
+        }
+        if (!isUsernameLengthValid(username)) {
+            _state.update { it.copy(statusRegistration = StatusLoad.Error(IllegalArgumentException("Username must be between $MIN_LENGTH_LOGIN_USERNAME and $MAX_LENGTH_LOGIN_USERNAME characters."))) }
+            return
+        }
+        if (!isPasswordLengthValid(password)) {
+            _state.update { it.copy(statusRegistration = StatusLoad.Error(IllegalArgumentException("Password must be between $MIN_LENGTH_PASSWORD and $MAX_LENGTH_PASSWORD characters."))) }
+            return
+        }
+
         _state.update { stateRegistration: RegistrationState ->
             stateRegistration.copy(
                 statusRegistration = StatusLoad.Loading,
@@ -134,6 +162,53 @@ class RegistrationViewModel @Inject constructor(
                 statusRegistration = StatusLoad.Idle,
             )
         }
+    }
+
+    private fun getProhibitedUsernamesAndNicknames(): List<String> =
+        repository.getProhibitedUsernamesAndNicknames()
+
+    /**
+     * Проверяет, содержит ли строка запрещенные слова ("admin" или "админ") в любом регистре.
+     *
+     * @param input Строка для проверки.
+     * @return `true`, если строка содержит запрещенные слова, иначе `false`.
+     */
+    fun containsForbiddenWords(input: String): Boolean {
+        val forbiddenWords = getProhibitedUsernamesAndNicknames()
+
+        return forbiddenWords.any { word: String ->
+            input.contains(word, ignoreCase = true)
+        }
+    }
+
+    /**
+     * Проверяет валидность длины логина.
+     *
+     * @param login Логин для проверки.
+     * @return `true`, если длина логина в допустимых пределах, иначе `false`.
+     */
+    fun isLoginLengthValid(login: String): Boolean {
+        return login.length in MIN_LENGTH_LOGIN_USERNAME..MAX_LENGTH_LOGIN_USERNAME
+    }
+
+    /**
+     * Проверяет валидность длины имени пользователя.
+     *
+     * @param username Имя пользователя для проверки.
+     * @return `true`, если длина имени пользователя в допустимых пределах, иначе `false`.
+     */
+    fun isUsernameLengthValid(username: String): Boolean {
+        return username.length in MIN_LENGTH_LOGIN_USERNAME..MAX_LENGTH_LOGIN_USERNAME
+    }
+
+    /**
+     * Проверяет валидность длины пароля.
+     *
+     * @param password Пароль для проверки.
+     * @return `true`, если длина пароля в допустимых пределах, иначе `false`.
+     */
+    fun isPasswordLengthValid(password: String): Boolean {
+        return password.length in MIN_LENGTH_PASSWORD..MAX_LENGTH_PASSWORD
     }
 
     /**
